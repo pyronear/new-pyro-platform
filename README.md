@@ -1,1 +1,1 @@
-# new-pyro-platform
+# New pyronear platform
