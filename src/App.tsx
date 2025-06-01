@@ -1,5 +1,7 @@
+import { Typography } from '@mui/material';
+
 function App() {
-  return <>New Pyronear Platform!</>;
+  return <Typography>New Pyronear Platform!</Typography>;
 }
 
 export default App;
