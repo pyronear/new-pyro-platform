@@ -1,7 +1,22 @@
-import { Typography } from '@mui/material';
+import { Container } from '@mui/material';
+import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
 
 function App() {
-  return <Typography>New Pyronear Platform!</Typography>;
+  return (
+    <BrowserRouter>
+      <Container maxWidth="sm">
+        <div style={{ display: 'flex', gap: 20 }}>
+          <Link to="/">Home</Link>
+          <Link to="/about">About</Link>
+        </div>
+
+        <Routes>
+          <Route path="/about" element={<>This is the about page</>}></Route>
+          <Route path="/" element={<>Welcome to pyronear 2.0</>}></Route>
+        </Routes>
+      </Container>
+    </BrowserRouter>
+  );
 }
 
 export default App;
