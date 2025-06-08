@@ -1,6 +1,5 @@
 # New pyronear platform
 
-
 ## Local setup
 
 Use `fnm` to ensure you always use the correct node version:

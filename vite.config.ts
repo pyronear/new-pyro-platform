@@ -1,6 +1,7 @@
 import react from '@vitejs/plugin-react';
-import eslint from 'vite-plugin-eslint';
 import checker from 'vite-plugin-checker';
+import eslint from 'vite-plugin-eslint';
+import { defineConfig } from 'vitest/config';
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -22,6 +23,6 @@ export default defineConfig({
     coverage: {
       reporter: ['text', 'json', 'html'],
     },
-    passWithNoTests: true // TODO: remove this when some testing is implemented
+    passWithNoTests: true,
   },
 });

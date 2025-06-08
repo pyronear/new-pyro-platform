@@ -9,7 +9,9 @@ import reactDom from 'eslint-plugin-react-dom';
 import simpleImportSort from 'eslint-plugin-simple-import-sort';
 
 export default tseslint.config(
-  { ignores: ['dist', 'node_modules/', '*.test.js'] },
+  {
+    ignores: ['dist', 'node_modules/', 'eslint.config.js', '*.md', '*.json'],
+  },
   {
     extends: [
       js.configs.recommended,
@@ -19,9 +21,10 @@ export default tseslint.config(
     files: ['**/*.{ts,tsx}'],
     ignores: [],
     languageOptions: {
-      parserOptions: {ecmaVersion: 2020,
+      parserOptions: {
+        ecmaVersion: 2020,
         sourceType: 'module',
-        project: "./tsconfig.json",
+        project: './tsconfig.json',
         tsconfigRootDir: import.meta.dirname,
       },
     },
@@ -48,8 +51,8 @@ export default tseslint.config(
       'padding-line-between-statements': [
         'error',
         { blankLine: 'always', prev: 'import', next: '*' },
-        { blankLine: 'any', prev: 'import', next: 'import' }
-      ]
+        { blankLine: 'any', prev: 'import', next: 'import' },
+      ],
     },
   }
 );
