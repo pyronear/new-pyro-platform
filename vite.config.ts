@@ -1,7 +1,7 @@
-import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import eslint from 'vite-plugin-eslint';
 import checker from 'vite-plugin-checker';
+import eslint from 'vite-plugin-eslint';
+import { defineConfig } from 'vitest/config';
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -13,6 +13,16 @@ export default defineConfig({
       failOnError: false,
       failOnWarning: false,
     }),
-    checker({ typescript: true })
+    checker({ typescript: true }),
   ],
+  // https://vitest.dev/config/
+  test: {
+    globals: true,
+    environment: 'jsdom',
+    setupFiles: './src/setupTests.ts',
+    coverage: {
+      reporter: ['text', 'json', 'html'],
+    },
+    passWithNoTests: true,
+  },
 });
