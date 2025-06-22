@@ -7,6 +7,8 @@
     "module": "ESNext",
     "skipLibCheck": true,
     "types": ["vite/client", "vitest", "vitest/globals"],
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
 
     /* Bundler mode */
     "moduleResolution": "node",
