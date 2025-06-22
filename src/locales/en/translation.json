@@ -3,6 +3,7 @@
     "button": "Login",
     "title": "Login",
     "username": "Username",
-    "password": "Password"
+    "password": "Password",
+    "error": "Login failed"
   }
 }
