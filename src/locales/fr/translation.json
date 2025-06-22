@@ -3,6 +3,7 @@
     "button": "Connexion",
     "title": "Connexion",
     "username": "Utilisateur",
-    "password": "Mot de passe"
+    "password": "Mot de passe",
+    "error": "Échec de connexion"
   }
 }

@@ -1,16 +1,28 @@
-import { Box, Button, Paper, TextField } from '@mui/material';
+import { Box, Button, Paper, TextField, Typography } from '@mui/material';
 import { type FormEvent, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-import { useTranslationPrefix } from '../../hooks/useTranslationPrefix';
+import { useAuth } from '../../context/useAuth';
+import { useTranslationPrefix } from '../../utils/useTranslationPrefix';
 
 export default function LoginForm() {
+  const { login } = useAuth();
   const { t } = useTranslationPrefix('login');
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [loginError, setLoginError] = useState(false);
 
-  const handleSubmit = (e: FormEvent) => {
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    try {
+      await login(username, password);
+      await navigate('dashboard');
+    } catch {
+      setLoginError(true);
+    }
   };
 
   return (
@@ -21,7 +33,7 @@ export default function LoginForm() {
       minHeight="100%"
     >
       <Paper sx={{ p: 4, width: 400 }}>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={(e) => void handleSubmit(e)}>
           <TextField
             label={t('username')}
             name="username"
@@ -30,6 +42,7 @@ export default function LoginForm() {
               setUsername(e.target.value);
             }}
             required
+            error={!!loginError}
           />
           <TextField
             label={t('password')}
@@ -40,7 +53,9 @@ export default function LoginForm() {
               setPassword(e.target.value);
             }}
             required
+            error={!!loginError}
           />
+          {loginError && <Typography color="error">{t('error')}</Typography>}
           <Button type="submit" variant="contained" fullWidth sx={{ mt: 2 }}>
             {t('button')}
           </Button>
