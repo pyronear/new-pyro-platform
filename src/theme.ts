@@ -6,6 +6,10 @@ export const theme = createTheme({
       main: '#054546',
       light: '#2C796E',
     },
+    error: {
+      main: '#FD5252',
+      light: '#FC816B',
+    },
     background: { default: 'white', paper: 'white' },
   },
   components: {
