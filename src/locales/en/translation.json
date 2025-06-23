@@ -4,6 +4,12 @@
     "title": "Login",
     "username": "Username",
     "password": "Password",
-    "error": "Login failed"
+    "logout": "Logout",
+    "errors": {
+      "INVALID_CREDENTIALS": "Invalid username or password.",
+      "SERVER_ERROR": "Something went wrong on our side. Please try again later.",
+      "UNKNOWN_ERROR": "An unexpected error occurred.",
+      "INVALID_API_RESPONSE": "The login response was not valid."
+    }
   }
 }

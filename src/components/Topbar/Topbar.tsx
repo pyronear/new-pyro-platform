@@ -2,6 +2,7 @@ import { AppBar, Box, Toolbar } from '@mui/material';
 
 import logo from '../../assets/logo.svg';
 import { useAuth } from '../../context/useAuth';
+import { LogoutButton } from '../Login/LogoutButton';
 import LanguageSwitcher from './LanguageSwitcher';
 
 export const Topbar = () => {
@@ -23,7 +24,10 @@ export const Topbar = () => {
               src={logo}
               alt="Logo"
             />
-            <LanguageSwitcher />
+            <div style={{ display: 'flex', gap: 15, alignItems: 'center' }}>
+              <LanguageSwitcher />
+              {token !== null && <LogoutButton />}
+            </div>
           </Box>
         </Toolbar>
       </AppBar>
