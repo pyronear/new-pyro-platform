@@ -10,7 +10,7 @@ export const Topbar = () => {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="sticky">
-        <Toolbar>
+        <Toolbar sx={{ padding: 0 }}>
           <Box
             sx={{
               flexGrow: 1,

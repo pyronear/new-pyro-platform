@@ -19,11 +19,14 @@ const LanguageSwitcher: React.FC = () => {
       <Select
         labelId="language-select-label"
         value={i18n.language}
+        variant="outlined"
         onChange={handleChange}
-        displayEmpty
+        sx={(theme) => ({
+          ...theme.typography.button,
+        })}
       >
-        <MenuItem value="en">English</MenuItem>
-        <MenuItem value="fr">Français</MenuItem>
+        <MenuItem value="en">ENGLISH</MenuItem>
+        <MenuItem value="fr">FRANÇAIS</MenuItem>
       </Select>
     </FormControl>
   );
