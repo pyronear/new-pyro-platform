@@ -4,6 +4,7 @@
     "title": "Connexion",
     "username": "Utilisateur",
     "password": "Mot de passe",
-    "error": "Échec de connexion"
+    "error": "Échec de connexion",
+    "logout": "Déconnexion"
   }
 }

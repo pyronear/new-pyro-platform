@@ -4,6 +4,7 @@
     "title": "Login",
     "username": "Username",
     "password": "Password",
-    "error": "Login failed"
+    "error": "Login failed",
+    "logout": "Logout"
   }
 }
