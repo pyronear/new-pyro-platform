@@ -7,7 +7,7 @@ export const LoginPage = () => {
   const { token } = useAuth();
 
   if (token !== null) {
-    return <Navigate to="/dashboard" replace />;
+    return <Navigate to="/alerts" replace />;
   }
 
   return <LoginForm />;
