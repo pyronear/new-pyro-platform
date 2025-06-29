@@ -12,7 +12,7 @@ export const getToken = async (
   password: string
 ): Promise<{ token: string }> => {
   const body = new URLSearchParams({ username, password });
-  const response = await fetch(`${baseUrl}/api/v1/login/creds`, {
+  const response = await fetch(`${baseUrl}/login/creds`, {
     method: 'POST',
     headers: {
       accept: 'application/json',
