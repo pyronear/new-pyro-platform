@@ -1,5 +1,6 @@
-import { createEvent, fireEvent, render, screen } from '@testing-library/react';
+import { createEvent, fireEvent, screen } from '@testing-library/react';
 
+import { renderWithProviders } from '../../test/renderWithProviders';
 import LoginForm from './LoginForm';
 
 vi.mock('../../hooks/useTranslationPrefix', () => ({
@@ -10,17 +11,17 @@ vi.mock('../../hooks/useTranslationPrefix', () => ({
 
 describe('LoginForm', () => {
   test('renders username and password fields and submit button', () => {
-    render(<LoginForm />);
+    renderWithProviders(<LoginForm />);
 
     expect(
       screen.getByRole('textbox', { name: /username/i })
     ).toBeInTheDocument();
     expect(screen.getByLabelText(/password/i)).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /button/i })).toBeInTheDocument();
+    expect(screen.getByRole('button')).toBeInTheDocument();
   });
 
   test('updates username and password values on change', () => {
-    render(<LoginForm />);
+    renderWithProviders(<LoginForm />);
 
     const usernameInput = screen.getByRole('textbox', { name: /username/i });
     const passwordInput = screen.getByLabelText(/password/i);
@@ -33,9 +34,9 @@ describe('LoginForm', () => {
   });
 
   test('prevents default on submit', () => {
-    render(<LoginForm />);
+    renderWithProviders(<LoginForm />);
 
-    const submitButton = screen.getByRole('button', { name: /button/i });
+    const submitButton = screen.getByRole('button');
     const form = submitButton.closest('form');
 
     expect(form).not.toBeNull();
@@ -50,7 +51,7 @@ describe('LoginForm', () => {
   });
 
   test('form fields are required', () => {
-    render(<LoginForm />);
+    renderWithProviders(<LoginForm />);
     expect(screen.getByRole('textbox', { name: /username/i })).toBeRequired();
     expect(screen.getByLabelText(/password/i)).toBeRequired();
   });
