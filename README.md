@@ -2,6 +2,11 @@
 
 ## Local setup
 
+You'll need a valid .env file to run this app properly. You can either
+
+- Use an existing API (staging, or prod if you're brave)
+- Run the [backend repo](github.com/pyronear/pyro-api) locally
+
 Use `fnm` to ensure you always use the correct node version:
 
 ```bash
