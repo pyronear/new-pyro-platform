@@ -11,9 +11,10 @@ import { AlertInfos } from './AlertInfos';
 
 interface AlertContainerType {
   alert: AlertType;
+  resetAlert: () => void;
 }
 
-export const AlertContainer = ({ alert }: AlertContainerType) => {
+export const AlertContainer = ({ alert, resetAlert }: AlertContainerType) => {
   const [selectedSequence, setSelectedSequence] =
     useState<SequenceWithCameraInfoType | null>();
 
@@ -28,19 +29,20 @@ export const AlertContainer = ({ alert }: AlertContainerType) => {
   return (
     <>
       {selectedSequence && (
-        <Grid container padding={3} spacing={3}>
+        <Grid container padding={{ xs: 1, sm: 2 }} spacing={{ xs: 1, sm: 2 }}>
           <Grid size={12}>
             <AlertHeader
               sequences={alert.sequences}
               selectedSequence={selectedSequence}
               setSelectedSequence={setSelectedSequence}
+              resetAlert={resetAlert}
             />
           </Grid>
-          <Grid size={{ xs: 12, sm: 9 }}>
-            <AlertImages />
+          <Grid size={{ xs: 12, md: 9 }}>
+            <AlertImages sequence={selectedSequence} />
           </Grid>
-          <Grid size={{ xs: 12, sm: 3 }}>
-            <AlertInfos />
+          <Grid size={{ xs: 12, md: 3 }}>
+            <AlertInfos sequence={selectedSequence} />
           </Grid>
         </Grid>
       )}
