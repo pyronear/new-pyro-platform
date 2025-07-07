@@ -10,7 +10,7 @@ import { AlertsPage } from './pages/AlertsPage';
 import { DashboardPage } from './pages/DashboardPage';
 import { LoginPage } from './pages/LoginPage';
 
-const DEFAULT_ROUTE = '/dashboard';
+export const DEFAULT_ROUTE = '/dashboard';
 
 const App = () => {
   return (
@@ -20,12 +20,12 @@ const App = () => {
         <Box height="calc(100vh - 64px)">
           <Routes>
             <Route index element={<Navigate to={DEFAULT_ROUTE} />} />
-            <Route path="login" element={<LoginPage />}></Route>
+            <Route path="/login" element={<LoginPage />}></Route>
 
             {/* Routes under this cannot be accessed without being logged in */}
             <Route element={<ProtectedRoute />}>
-              <Route path="alerts" element={<AlertsPage />}></Route>
-              <Route path="dashboard" element={<DashboardPage />}></Route>
+              <Route path="/alerts" element={<AlertsPage />}></Route>
+              <Route path="/dashboard" element={<DashboardPage />}></Route>
             </Route>
           </Routes>
         </Box>

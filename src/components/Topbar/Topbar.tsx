@@ -2,24 +2,26 @@ import { AppBar, Box, Grid, Toolbar } from '@mui/material';
 
 import logo from '../../assets/logo.svg';
 import { useAuth } from '../../context/useAuth';
+import { useTranslationPrefix } from '../../utils/useTranslationPrefix';
 import { LogoutButton } from '../Login/LogoutButton';
 import LanguageSwitcher from './LanguageSwitcher';
 import { NavigationLink } from './NavigationLink';
 
 export const Topbar = () => {
   const { token } = useAuth();
-  const isLogin = !!token;
+  const { t } = useTranslationPrefix('pages');
+  const isLoggedIn = !!token;
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="sticky">
         <Toolbar disableGutters>
           <Grid container justifyContent="space-between" sx={{ flexGrow: 1 }}>
-            <Grid container spacing={3}>
+            <Grid container spacing={5}>
               <img height="30px" src={logo} alt="Logo" />
-              {isLogin && (
-                <Grid container spacing={2} alignItems="center">
-                  <NavigationLink path="/dashboard" label="Dashboard" />
-                  <NavigationLink path="/alerts" label="Alerts" />
+              {isLoggedIn && (
+                <Grid container spacing={4} alignItems="center">
+                  <NavigationLink path="/dashboard" label={t('dashboard')} />
+                  <NavigationLink path="/alerts" label={t('alerts')} />
                 </Grid>
               )}
             </Grid>
@@ -31,7 +33,7 @@ export const Topbar = () => {
               paddingRight="1rem"
             >
               <LanguageSwitcher />
-              {isLogin && <LogoutButton />}
+              {isLoggedIn && <LogoutButton />}
             </Grid>
           </Grid>
         </Toolbar>

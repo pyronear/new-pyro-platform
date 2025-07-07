@@ -5,7 +5,7 @@ export const NavigationLink = (props: { path: string; label: string }) => {
   const { path, label } = props;
   return (
     <NavLink to={path} style={{ textDecoration: 'none' }}>
-      {/* Style prevent underline from <a> html default */}
+      {/* Style prevent default underline from the html tag <a> */}
       {({ isActive }) => (
         <Typography
           color="white"

@@ -11,5 +11,10 @@
       "UNKNOWN_ERROR": "Une erreur inattendue est survenue.",
       "INVALID_API_RESPONSE": "La réponse du serveur de connexion est invalide."
     }
+  },
+  "pages": {
+    "dashboard": "Tableau de bord",
+    "alerts": "Alertes"
+
   }
 }
