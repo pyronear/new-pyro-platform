@@ -2,10 +2,12 @@ import { createTheme } from '@mui/material';
 
 declare module '@mui/material/styles' {
   interface Palette {
+    secondaryText: Palette['primary'];
     customBackground: Palette['primary'];
   }
 
   interface PaletteOptions {
+    secondaryText?: PaletteOptions['primary'];
     customBackground?: PaletteOptions['primary'];
   }
 }
@@ -16,6 +18,9 @@ export const theme = createTheme({
       main: '#054546',
       light: '#2C796E',
       contrastText: 'white',
+    },
+    secondaryText: {
+      main: '#a9a7a7',
     },
     error: {
       main: '#FD5252',

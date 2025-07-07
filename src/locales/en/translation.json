@@ -32,6 +32,14 @@
     "noAlertsMessage": "No alert detected",
     "errorFetchSequencesMessage": "Something went wrong on our side. Please try again later.",
     "titleSectionCamera": "Camera",
-    "defaultCameraName": "Unknown camera"
+    "defaultCameraName": "Unknown camera",
+    "buttonImageDownload": "Download",
+    "titleDetails": "Information about the alert",
+    "titleButtonBackAlt": "Back to alerts list",
+    "subtitleDate": "Date & Hour",
+    "subtitleAzimuth": "Azimuth",
+    "subtitleLocalisation": "Localization",
+    "buttonInvestigate": "Investigate the alert",
+    "buttonTreatAlert": "Treat the alert"
   }
 }
