@@ -30,6 +30,14 @@ export const theme = createTheme({
     },
   },
   typography: {
+    h1: {
+      fontWeight: 700,
+      fontSize: '1.5rem',
+    },
+    h3: {
+      fontWeight: 500,
+      fontSize: '1.3rem',
+    },
     h4: {
       fontWeight: 500,
       fontSize: '1rem',
