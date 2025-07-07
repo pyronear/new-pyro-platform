@@ -21,5 +21,14 @@
     "errorFetchCameraMessage": "Une erreur est survenue sur le serveur. Veuillez réessayer plus tard.",
     "titleImage": "Dernière image de la camera",
     "inactiveCameraMsg": "Camera inactive"
+  },
+  "alerts": {
+    "titleListSimple": "alerte à traiter",
+    "titleListPlural": "alertes à traiter",
+    "prefixCardDetection": "Détectée par :",
+    "noAlertsMessage": "Aucune alerte détectée",
+    "errorFetchSequencesMessage": "Une erreur est survenue sur le serveur. Veuillez réessayer plus tard.",
+    "titleSectionCamera": "Camera",
+    "defaultCameraName": "Camera inconnue"
   }
 }

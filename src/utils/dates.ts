@@ -4,6 +4,8 @@ const CAMERA_INACTIVITY_THRESHOLD_MINUTES = import.meta.env
   .VITE_CAMERA_INACTIVITY_THRESHOLD_MINUTES;
 
 const FORMAT_DISPLAY_DATETIME = 'DD/MM/YYYY HH:mm:ss';
+const FORMAT_DISPLAY_DATE = 'DD/MM/YYYY';
+const FORMAT_DISPLAY_TIME = 'HH:mm:ss';
 
 const convertStrToMomentWithUserTimezone = (dateStr: string) => {
   const dateMoment = moment.utc(dateStr);
@@ -37,5 +39,23 @@ export const formatToDateTime = (dateStr: string | null) => {
 
   return convertStrToMomentWithUserTimezone(dateStr).format(
     FORMAT_DISPLAY_DATETIME
+  );
+};
+
+export const formatToDate = (dateStr: string | null) => {
+  if (!dateStr) {
+    return '';
+  }
+  return convertStrToMomentWithUserTimezone(dateStr).format(
+    FORMAT_DISPLAY_DATE
+  );
+};
+
+export const formatToTime = (dateStr: string | null) => {
+  if (!dateStr) {
+    return '';
+  }
+  return convertStrToMomentWithUserTimezone(dateStr).format(
+    FORMAT_DISPLAY_TIME
   );
 };
