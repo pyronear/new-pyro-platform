@@ -13,7 +13,7 @@
     }
   },
   "pages": {
-    "dashboard": "Tableau de bord",
-    "alerts": "Alertes"
+    "dashboard": "Panel de cámaras",
+    "alerts": "Alertas"
   }
 }
