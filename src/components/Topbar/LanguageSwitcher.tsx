@@ -49,7 +49,7 @@ const StackLanguage = (props: { icon: string; label: string }) => {
   const { icon, label } = props;
   return (
     <Stack alignItems="center" direction="row" gap={1}>
-      <img src={icon} height="15dp" /> {label}
+      <img src={icon} height="15px" /> {label}
     </Stack>
   );
 };

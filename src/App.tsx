@@ -1,4 +1,16 @@
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
 import './i18n';
+
+import { Box } from '@mui/material';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+
+import ProtectedRoute from './components/Login/ProtectedRoute';
+import { Topbar } from './components/Topbar/Topbar';
+import { AuthProvider } from './context/AuthProvider';
+import { LoginPage } from './pages/LoginPage';
 
 import { Box } from '@mui/material';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';

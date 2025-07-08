@@ -1,3 +1,4 @@
+import LogoutIcon from '@mui/icons-material/Logout';
 import { Button } from '@mui/material';
 
 import { useAuth } from '../../context/useAuth';
@@ -8,7 +9,12 @@ export const LogoutButton = () => {
   const { t } = useTranslationPrefix('login');
 
   return (
-    <Button onClick={logout} variant="contained" color="error">
+    <Button
+      onClick={logout}
+      variant="contained"
+      color="error"
+      startIcon={<LogoutIcon />}
+    >
       {t('logout')}
     </Button>
   );
