@@ -5,6 +5,7 @@ export const theme = createTheme({
     primary: {
       main: '#054546',
       light: '#2C796E',
+      contrastText: 'white',
     },
     error: {
       main: '#FD5252',
@@ -18,7 +19,6 @@ export const theme = createTheme({
         root: {
           backgroundColor: 'white',
           borderRadius: 3,
-          // height: '30px',
           boxShadow:
             '0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12)', // same as MUIButton according to ChatGPT
         },
@@ -50,7 +50,7 @@ export const theme = createTheme({
     },
     MuiButton: {
       styleOverrides: {
-        root: { height: '30px', borderRadius: 3 },
+        root: { borderRadius: 3 },
       },
     },
   },
