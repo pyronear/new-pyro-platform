@@ -11,5 +11,9 @@
       "UNKNOWN_ERROR": "Se ha producido un error inesperado.",
       "INVALID_API_RESPONSE": "La respuesta del servidor de conexión no es válida."
     }
+  },
+  "pages": {
+    "dashboard": "Panel de cámaras",
+    "alerts": "Alertas"
   }
 }

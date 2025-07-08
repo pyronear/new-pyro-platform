@@ -14,6 +14,9 @@ export const LogoutButton = () => {
       variant="contained"
       color="error"
       startIcon={<LogoutIcon />}
+      sx={{
+        height: '30px',
+      }}
     >
       {t('logout')}
     </Button>

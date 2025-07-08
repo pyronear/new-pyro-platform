@@ -11,5 +11,9 @@
       "UNKNOWN_ERROR": "An unexpected error occurred.",
       "INVALID_API_RESPONSE": "The login response was not valid."
     }
+  },
+  "pages": {
+    "dashboard": "Dashboard",
+    "alerts": "Alerts"
   }
 }
