@@ -1,13 +1,16 @@
 import { AppBar, Box, Toolbar } from '@mui/material';
 
 import logo from '../../assets/logo.svg';
+import { useAuth } from '../../context/useAuth';
+import { LogoutButton } from '../Login/LogoutButton';
 import LanguageSwitcher from './LanguageSwitcher';
 
 export const Topbar = () => {
+  const { token } = useAuth();
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="sticky">
-        <Toolbar>
+        <Toolbar sx={{ padding: 0 }}>
           <Box
             sx={{
               flexGrow: 1,
@@ -21,7 +24,10 @@ export const Topbar = () => {
               src={logo}
               alt="Logo"
             />
-            <LanguageSwitcher />
+            <div style={{ display: 'flex', gap: 15, alignItems: 'center' }}>
+              <LanguageSwitcher />
+              {token !== null && <LogoutButton />}
+            </div>
           </Box>
         </Toolbar>
       </AppBar>

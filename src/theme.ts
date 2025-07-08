@@ -6,6 +6,10 @@ export const theme = createTheme({
       main: '#054546',
       light: '#2C796E',
     },
+    error: {
+      main: '#FD5252',
+      light: '#FC816B',
+    },
     background: { default: 'white', paper: 'white' },
   },
   components: {
@@ -13,7 +17,10 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           backgroundColor: 'white',
-          borderRadius: 8,
+          borderRadius: 3,
+          // height: '30px',
+          boxShadow:
+            '0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12)', // same as MUIButton according to ChatGPT
         },
         icon: {
           color: '#444', // dropdown arrow
@@ -39,6 +46,11 @@ export const theme = createTheme({
       defaultProps: {
         margin: 'normal',
         fullWidth: true,
+      },
+    },
+    MuiButton: {
+      styleOverrides: {
+        root: { height: '30px', borderRadius: 3 },
       },
     },
   },
