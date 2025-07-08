@@ -1,5 +1,15 @@
 import { createTheme } from '@mui/material';
 
+declare module '@mui/material/styles' {
+  interface Palette {
+    customBackground: Palette['primary'];
+  }
+
+  interface PaletteOptions {
+    customBackground?: PaletteOptions['primary'];
+  }
+}
+
 export const theme = createTheme({
   palette: {
     primary: {
@@ -11,7 +21,26 @@ export const theme = createTheme({
       main: '#FD5252',
       light: '#FC816B',
     },
-    background: { default: 'white', paper: 'white' },
+    background: { default: '#eef1f0' },
+    customBackground: {
+      main: '#eef1f0',
+      light: '#f4f5f5',
+      dark: '#dce6ea',
+      contrastText: 'black',
+    },
+  },
+  typography: {
+    h4: {
+      fontWeight: 500,
+      fontSize: '1rem',
+    },
+    body2: {
+      // for user messages
+      fontSize: '1rem',
+      fontWeight: 500,
+      textAlign: 'center',
+      margin: '2rem',
+    },
   },
   components: {
     MuiSelect: {
