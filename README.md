@@ -13,7 +13,8 @@ Use `fnm` to ensure you always use the correct node version:
 curl -fsSL https://fnm.vercel.app/install | bash
 ```
 
-Reload your terminal and go back to this folder. It should prompt you to download the correct Node version. If that's not the case, simply run `fnm use`.
+Reload your terminal and go back to this folder. It should prompt you to download the correct Node version.
+If that's not the case, simply run `fnm install` (it download the version specified in the file ./.nvmrc ).
 
 Then install pnpm:
 
@@ -32,3 +33,7 @@ You should now be able to run the website locally with
 ```bash
 pnpm run dev
 ```
+
+## Contributing
+
+The code is formatted by prettier and eslint. Please download those extensions in your IDEA to enable automatic formatting on save.
