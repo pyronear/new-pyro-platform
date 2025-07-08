@@ -10,14 +10,6 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import ProtectedRoute from './components/Login/ProtectedRoute';
 import { Topbar } from './components/Topbar/Topbar';
 import { AuthProvider } from './context/AuthProvider';
-import { LoginPage } from './pages/LoginPage';
-
-import { Box } from '@mui/material';
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
-
-import ProtectedRoute from './components/Login/ProtectedRoute';
-import { Topbar } from './components/Topbar/Topbar';
-import { AuthProvider } from './context/AuthProvider';
 import { AlertsPage } from './pages/AlertsPage';
 import { DashboardPage } from './pages/DashboardPage';
 import { LoginPage } from './pages/LoginPage';
