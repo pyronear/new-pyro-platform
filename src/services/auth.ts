@@ -1,11 +1,12 @@
+import { AxiosError } from 'axios';
 import * as z from 'zod';
+
+import { instance } from './axios';
 
 const apiLoginResponseSchema = z.object({
   access_token: z.string(),
   token_type: z.literal('bearer'),
 });
-
-const baseUrl = import.meta.env.VITE_API_URL;
 
 export type LoginErrorCode =
   | 'INVALID_CREDENTIALS'
@@ -28,32 +29,37 @@ export const getToken = async (
   password: string
 ): Promise<{ token: string }> => {
   const body = new URLSearchParams({ username, password });
-  const response = await fetch(`${baseUrl}/api/v1/login/creds`, {
-    method: 'POST',
-    headers: {
-      accept: 'application/json',
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    body,
-  });
-
-  if (!response.ok) {
-    console.error('Login error:', await response.text());
-    switch (response.status) {
-      case 401:
-        throw new LoginError('INVALID_CREDENTIALS');
-      case 500:
-        throw new LoginError('SERVER_ERROR');
-      default:
-        throw new LoginError('UNKNOWN_ERROR');
-    }
-  }
-  try {
-    const loginResponseBody = apiLoginResponseSchema.parse(
-      await response.json()
-    );
-    return { token: loginResponseBody.access_token };
-  } catch {
-    throw new LoginError('INVALID_API_RESPONSE');
-  }
+  return instance
+    .post('/api/v1/login/creds', body, {
+      headers: {
+        accept: 'application/json',
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+    })
+    .then((response) => {
+      try {
+        const loginResponseBody = apiLoginResponseSchema.parse(response.data);
+        instance.defaults.headers.common.Authorization = `Bearer ${loginResponseBody.access_token}`;
+        return { token: loginResponseBody.access_token };
+      } catch {
+        throw new LoginError('INVALID_API_RESPONSE');
+      }
+    })
+    .catch((error: unknown) => {
+      console.error('Login error:', error);
+      if (error instanceof LoginError) {
+        throw error;
+      }
+      if (error instanceof AxiosError) {
+        switch (error.status) {
+          case 401:
+            throw new LoginError('INVALID_CREDENTIALS');
+          case 500:
+            throw new LoginError('SERVER_ERROR');
+          default:
+            throw new LoginError('UNKNOWN_ERROR');
+        }
+      }
+      throw new LoginError('UNKNOWN_ERROR');
+    });
 };

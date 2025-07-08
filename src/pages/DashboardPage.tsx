@@ -1,3 +1,5 @@
+import { DashboardContainer } from '../components/Dashboard/DashboardContainer';
+
 export const DashboardPage = () => {
-  return <div>DashboardPage</div>;
+  return <DashboardContainer />;
 };

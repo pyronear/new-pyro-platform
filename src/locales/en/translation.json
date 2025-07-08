@@ -15,5 +15,9 @@
   "pages": {
     "dashboard": "Dashboard",
     "alerts": "Alerts"
+  },
+  "dashboard": {
+    "noCameraMessage": "No camera is associated with your account. Please contact the administrator",
+    "errorFetchCameraMessage": "Something went wrong on our side. Please try again later."
   }
 }

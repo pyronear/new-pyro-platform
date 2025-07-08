@@ -15,5 +15,9 @@
   "pages": {
     "dashboard": "Tableau de bord",
     "alerts": "Alertes"
+  },
+  "dashboard": {
+    "noCameraMessage": "Aucune camera n'est associée avec votre organisation. Veuillez contacter l'administateur",
+    "errorFetchCameraMessage": "Une erreur est survenue sur le serveur. Veuillez réessayer plus tard."
   }
 }
