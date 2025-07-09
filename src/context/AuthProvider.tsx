@@ -13,6 +13,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   useEffect(() => {
     const existingToken = getAuthToken();
     if (existingToken) {
+      instance.defaults.headers.common.Authorization = `Bearer ${existingToken}`;
       setToken(existingToken);
     }
   }, []);
