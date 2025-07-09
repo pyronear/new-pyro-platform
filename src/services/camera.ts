@@ -19,13 +19,13 @@ const apiCameraResponseSchema = z.object({
 export type CameraType = z.infer<typeof apiCameraResponseSchema>;
 const apiCameraListResponseSchema = z.array(apiCameraResponseSchema);
 
-export const getCameraList = async (): Promise<CameraType[] | null> => {
+export const getCameraList = async (): Promise<CameraType[]> => {
   return instance
     .get('/api/v1/cameras')
     .then((response: AxiosResponse) => {
       try {
         const result = apiCameraListResponseSchema.safeParse(response.data);
-        return result.data ?? null;
+        return result.data ?? [];
       } catch {
         throw new Error('INVALID_API_RESPONSE');
       }

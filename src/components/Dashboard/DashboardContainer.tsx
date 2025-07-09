@@ -9,7 +9,12 @@ import { CameraCard } from './CameraCard';
 export const DashboardContainer = () => {
   const { t } = useTranslationPrefix('dashboard');
 
-  const { isPending, isError, data, isSuccess } = useQuery({
+  const {
+    isPending,
+    isError,
+    data: cameraList,
+    isSuccess,
+  } = useQuery({
     queryKey: ['getCameraList'],
     queryFn: getCameraList,
   });
@@ -22,18 +27,17 @@ export const DashboardContainer = () => {
       )}
       {isSuccess && (
         <>
-          {!data ||
-            (data.length == 0 && (
-              <Typography variant="body2">{t('noCameraMessage')}</Typography>
-            ))}
-          {data && data.length != 0 && (
+          {cameraList.length == 0 && (
+            <Typography variant="body2">{t('noCameraMessage')}</Typography>
+          )}
+          {cameraList.length != 0 && (
             <Grid
               container
               spacing={3}
               padding={{ xs: 2, md: 8 }}
               paddingBottom={{ xs: 2, md: 2 }}
             >
-              {data.map((camera) => (
+              {cameraList.map((camera) => (
                 <Grid key={camera.id} size={{ xs: 12, md: 4, lg: 3 }}>
                   <CameraCard camera={camera} />
                 </Grid>
