@@ -39,7 +39,6 @@ export const getToken = async (
     .then((response) => {
       try {
         const loginResponseBody = apiLoginResponseSchema.parse(response.data);
-        instance.defaults.headers.common.Authorization = `Bearer ${loginResponseBody.access_token}`;
         return { token: loginResponseBody.access_token };
       } catch {
         throw new LoginError('INVALID_API_RESPONSE');

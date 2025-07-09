@@ -32,6 +32,6 @@ export const getCameraList = async (): Promise<CameraType[] | null> => {
     })
     .catch((err: unknown) => {
       console.error(err);
-      return null;
+      throw err;
     });
 };
