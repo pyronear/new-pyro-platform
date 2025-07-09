@@ -39,9 +39,14 @@ export const DashboardContainer = () => {
             <Typography variant="body2">{t('noCameraMessage')}</Typography>
           )}
           {cameraList.length != 0 && (
-            <Grid container spacing={3} margin={8}>
+            <Grid
+              container
+              spacing={3}
+              padding={{ xs: 2, md: 8 }}
+              paddingBottom={2}
+            >
               {cameraList.map((camera) => (
-                <Grid key={camera.id} size={3}>
+                <Grid key={camera.id} size={{ xs: 12, md: 4, lg: 3 }}>
                   <CameraCard camera={camera} />
                 </Grid>
               ))}
