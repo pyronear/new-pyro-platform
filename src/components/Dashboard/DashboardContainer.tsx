@@ -15,7 +15,7 @@ export const DashboardContainer = () => {
     data: cameraList,
     isSuccess,
   } = useQuery({
-    queryKey: ['getCameraList'],
+    queryKey: ['cameras'],
     queryFn: getCameraList,
   });
 
