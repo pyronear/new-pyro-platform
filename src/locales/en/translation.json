@@ -28,7 +28,7 @@
     "prefixCardDetection": "Detected by :",
     "noAlertsMessage": "No alert detected",
     "errorFetchSequencesMessage": "Something went wrong on our side. Please try again later.",
-    "titleSectionCamera": "Camera", 
+    "titleSectionCamera": "Camera",
     "defaultCameraName": "Unknown camera"
   }
 }

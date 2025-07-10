@@ -28,7 +28,7 @@
     "prefixCardDetection": "Detectada por :",
     "noAlertsMessage": "Ninguna alerta detectada",
     "errorFetchSequencesMessage": "Se ha producido un error en el servidor. Vuelva a intentarlo más tarde.",
-    "titleSectionCamera": "Camera", 
+    "titleSectionCamera": "Camera",
     "defaultCameraName": "Camera desconocida"
   }
 }
