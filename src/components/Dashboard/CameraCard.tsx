@@ -44,7 +44,7 @@ export const CameraCard = ({ camera }: CameraCardType) => {
                   ? formatToDateTime(camera.last_active_at)
                   : t('inactiveCameraMsg')}
               </Typography>
-            )}{' '}
+            )}
           </Stack>
         </Grid>
       </CardContent>
