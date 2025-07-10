@@ -1,6 +1,13 @@
 import moment from 'moment-timezone';
+import { vi } from 'vitest';
 
 import { formatToDateTime, isDateWithinTheLastXMinutes } from './dates';
+
+vi.mock('moment-timezone', async (importOriginal) => {
+  const mod = await importOriginal<typeof moment>();
+  mod.tz.guess = () => 'Europe/Paris';
+  return mod;
+});
 
 describe('isDateWithinTheLastXMinutes', () => {
   it('should return false if date is null', () => {
@@ -25,17 +32,6 @@ describe('isDateWithinTheLastXMinutes', () => {
 });
 
 describe('formatToDateTime', () => {
-  vi.mock('moment-timezone', async (importOriginal) => {
-    // Mock timezone for test purpose
-    const original = await importOriginal<typeof moment>();
-    return {
-      ...original,
-      tz: {
-        ...original.tz,
-        guess: () => 'Europe/Paris',
-      },
-    };
-  });
   it('should return empty if date is null', () => {
     const result = formatToDateTime(null);
     expect(result).toBe('');
