@@ -18,6 +18,8 @@
   },
   "dashboard": {
     "noCameraMessage": "No hay ninguna cámara asociada a su organización. Póngase en contacto con el administrador",
-    "errorFetchCameraMessage": "Se ha producido un error en el servidor. Vuelva a intentarlo más tarde."
+    "errorFetchCameraMessage": "Se ha producido un error en el servidor. Vuelva a intentarlo más tarde.",
+    "titleImage": "Última imagen de la cámara",
+    "inactiveCameraMsg": "Cámara inactiva"
   }
 }

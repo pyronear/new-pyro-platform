@@ -14,6 +14,7 @@ const apiCameraResponseSchema = z.object({
   is_trustable: z.boolean(),
   last_active_at: z.nullable(z.iso.datetime({ local: true })),
   last_image: z.nullable(z.string()),
+  last_image_url: z.nullable(z.string()),
   created_at: z.nullable(z.iso.datetime({ local: true })),
 });
 export type CameraType = z.infer<typeof apiCameraResponseSchema>;
