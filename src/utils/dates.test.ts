@@ -1,4 +1,4 @@
-import moment from 'moment';
+import moment from 'moment-timezone';
 
 import { formatToDateTime, isDateWithinTheLastXMinutes } from './dates';
 
@@ -25,12 +25,27 @@ describe('isDateWithinTheLastXMinutes', () => {
 });
 
 describe('formatToDateTime', () => {
+  vi.mock('moment-timezone', async (importOriginal) => {
+    // Mock timezone for test purpose
+    const original = await importOriginal<typeof moment>();
+    return {
+      ...original,
+      tz: {
+        ...original.tz,
+        guess: () => 'Europe/Paris',
+      },
+    };
+  });
   it('should return empty if date is null', () => {
     const result = formatToDateTime(null);
     expect(result).toBe('');
   });
-  it('should return false if date is in the past', () => {
+  it('should return the right format and the right UTC if date is in winter time', () => {
     const result = formatToDateTime('2025-02-25T09:37:03.172325');
-    expect(result).toBe('25/02/2025 09:37:03');
+    expect(result).toBe('25/02/2025 10:37:03');
+  });
+  it('should return the right format and the right UTC if date is in summertime', () => {
+    const result = formatToDateTime('2025-07-25T09:37:03.172325');
+    expect(result).toBe('25/07/2025 11:37:03');
   });
 });
