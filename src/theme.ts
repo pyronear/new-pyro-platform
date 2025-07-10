@@ -49,6 +49,9 @@ export const theme = createTheme({
       textAlign: 'center',
       margin: '2rem',
     },
+    caption: {
+      fontSize: '0.85rem',
+    },
   },
   components: {
     MuiSelect: {

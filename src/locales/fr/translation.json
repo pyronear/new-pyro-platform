@@ -26,7 +26,9 @@
     "titleListSimple": "alerte à traiter",
     "titleListPlural": "alertes à traiter",
     "prefixCardDetection": "Détectée par :",
-    "noSequenceMessage": "Aucune alerte détectée",
-    "errorFetchSequenceMessage": "Une erreur est survenue sur le serveur. Veuillez réessayer plus tard."
+    "noAlertsMessage": "Aucune alerte détectée",
+    "errorFetchSequencesMessage": "Une erreur est survenue sur le serveur. Veuillez réessayer plus tard.",
+    "titleSectionCamera": "Camera", 
+    "defaultCameraName": "Camera inconnue"
   }
 }

@@ -1,27 +1,27 @@
 import { Divider, Grid, Typography, useTheme } from '@mui/material';
 
-import type { AlertType } from '../../../utils/alertsType';
+import type { AlertType } from '../../../utils/alerts';
 import { useTranslationPrefix } from '../../../utils/useTranslationPrefix';
 import { AlertCard } from './AlertCard';
 
 interface AlertListType {
   alerts: AlertType[];
-  selectedAlertId: number | null;
-  setSelectedAlertId: (id: number) => void;
+  selectedAlert: AlertType | null;
+  setSelectedAlert: (newAlertSelected: AlertType) => void;
 }
 
 export const AlertsList = ({
   alerts,
-  selectedAlertId,
-  setSelectedAlertId,
+  selectedAlert,
+  setSelectedAlert,
 }: AlertListType) => {
   const theme = useTheme();
   const { t } = useTranslationPrefix('alerts');
 
   return (
     <Grid direction="column" bgcolor={theme.palette.customBackground.light}>
-      <Grid height="60px">
-        <Typography variant="h3" sx={{ padding: '1rem' }}>
+      <Grid minHeight="55px" sx={{ padding: '1rem', paddingTop: '2rem' }}>
+        <Typography variant="h3">
           {`${alerts.length.toString()} ${alerts.length < 1 ? t('titleListSimple') : t('titleListPlural')}`}
         </Typography>
       </Grid>
@@ -38,9 +38,9 @@ export const AlertsList = ({
             <AlertCard
               key={alert.id}
               alert={alert}
-              isActive={selectedAlertId == alert.id}
+              isActive={alert.id == selectedAlert?.id}
               setActive={() => {
-                setSelectedAlertId(alert.id);
+                setSelectedAlert(alert);
               }}
             />
           ))}

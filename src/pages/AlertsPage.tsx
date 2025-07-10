@@ -5,48 +5,56 @@ import { useMemo } from 'react';
 import { AlertsContainer } from '../components/Alerts/AlertsContainer';
 import { Loader } from '../components/Common/Loader';
 import { getUnlabelledLatestSequences } from '../services/alerts';
-import type { AlertType } from '../utils/alertsType';
+import { getCameraList } from '../services/camera';
+import { type AlertType, convertSequencesToAlerts } from '../utils/alerts';
 import { useTranslationPrefix } from '../utils/useTranslationPrefix';
 
 export const AlertsPage = () => {
   const { t } = useTranslationPrefix('alerts');
 
   const {
-    isPending,
-    isError,
+    isPending: isPendingSequences,
+    isError: isErrorSequences,
     data: sequenceList,
-    isSuccess,
+    isSuccess: isSuccessSequences,
   } = useQuery({
     queryKey: ['unlabelledSequences'],
     queryFn: getUnlabelledLatestSequences,
   });
-  const alerts: AlertType[] = useMemo(() => {
-    return (
-      sequenceList?.map((sequence) => {
-        return {
-          id: sequence.id,
-          startedAt: sequence.started_at,
-          lastSeenAt: sequence.last_seen_at,
-          detections: [],
-        };
-      }) ?? []
-    );
-  }, [sequenceList]);
+
+  const {
+    isPending: isPendingCameras,
+    isError: isErrorCameras,
+    data: cameraList,
+    isSuccess: isSuccessCameras,
+  } = useQuery({
+    queryKey: ['cameras'],
+    queryFn: getCameraList,
+  });
+
+  const alerts: AlertType[] = useMemo(
+    () => convertSequencesToAlerts(sequenceList ?? [], cameraList ?? []),
+    [sequenceList, cameraList]
+  );
+
+  const isPending = isPendingSequences || isPendingCameras;
+  const isError = isErrorSequences || isErrorCameras;
+  const isSuccess = isSuccessSequences && isSuccessCameras;
 
   return (
     <>
       {isPending && <Loader />}
       {isError && (
         <Typography variant="body2">
-          {t('errorFetchSequenceMessage')}
+          {t('errorFetchSequencesMessage')}
         </Typography>
       )}
       {isSuccess && (
         <>
-          {sequenceList.length == 0 && (
-            <Typography variant="body2">{t('noSequenceMessage')}</Typography>
+          {alerts.length == 0 && (
+            <Typography variant="body2">{t('noAlertsMessage')}</Typography>
           )}
-          {sequenceList.length != 0 && <AlertsContainer alerts={alerts} />}
+          {alerts.length != 0 && <AlertsContainer alerts={alerts} />}
         </>
       )}
     </>

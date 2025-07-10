@@ -23,10 +23,12 @@
     "inactiveCameraMsg": "Inactive camera"
   },
   "alerts": {
-    "titleListSimple": "alerte à traiter",
-    "titleListPlural": "alertes à traiter",
-    "prefixCardDetection": "Détectée par :",
-    "noSequenceMessage": "Aucune alerte détectée",
-    "errorFetchSequenceMessage": "Une erreur est survenue sur le serveur. Veuillez réessayer plus tard."
+    "titleListSimple": "alert to treat",
+    "titleListPlural": "alerts to treat",
+    "prefixCardDetection": "Detected by :",
+    "noAlertsMessage": "No alert detected",
+    "errorFetchSequencesMessage": "Something went wrong on our side. Please try again later.",
+    "titleSectionCamera": "Camera", 
+    "defaultCameraName": "Unknown camera"
   }
 }

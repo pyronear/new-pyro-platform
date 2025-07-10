@@ -1,15 +1,18 @@
+import VideocamOutlinedIcon from '@mui/icons-material/VideocamOutlined';
 import {
   CardActionArea,
   CardContent,
   Grid,
+  Stack,
   Typography,
   useTheme,
 } from '@mui/material';
 import Card from '@mui/material/Card';
 
-import type { AlertType } from '../../../utils/alertsType';
-import { formatToDateTime } from '../../../utils/dates';
+import type { AlertType } from '../../../utils/alerts';
+import { formatToDate, formatToTime } from '../../../utils/dates';
 import { useTranslationPrefix } from '../../../utils/useTranslationPrefix';
+import { CameraName } from '../../Common/CameraName';
 
 interface AlertCardType {
   isActive: boolean;
@@ -41,21 +44,48 @@ export const AlertCard = ({ isActive, setActive, alert }: AlertCardType) => {
           <Grid container marginBottom="1rem" justifyContent="space-between">
             <Grid>
               <Typography variant="caption">
-                {formatToDateTime(alert.startedAt)}
+                {formatToDate(alert.startedAt)}
               </Typography>
             </Grid>
             <Grid>
               <Typography variant="caption">Time AGO</Typography>
             </Grid>
           </Grid>
-          <Typography variant="h4">{t('prefixCardDetection')}</Typography>
-          {alert.detections.map((detection) => (
-            <Grid container key={detection.id} justifyContent="space-between">
+          <Stack
+            direction="row"
+            alignItems="center"
+            spacing={1}
+            marginBottom={1}
+          >
+            <VideocamOutlinedIcon fontSize="small" />
+            <Typography variant="h4">{t('prefixCardDetection')}</Typography>
+          </Stack>
+          {alert.sequences.map((sequence) => (
+            <Grid
+              container
+              key={sequence.id}
+              justifyContent="space-between"
+              alignItems="center"
+            >
               <Grid>
-                <Typography variant="body1">{detection.name}</Typography>
+                {sequence.camera && (
+                  <CameraName
+                    name={sequence.camera.name}
+                    angle_of_view={sequence.camera.angle_of_view}
+                  />
+                )}
               </Grid>
               <Grid>
-                <Typography variant="caption">{detection.date}</Typography>
+                <Stack direction="row" spacing={1}>
+                  {sequence.azimuth && (
+                    <Typography variant="caption" fontWeight={500}>
+                      {sequence.azimuth}°
+                    </Typography>
+                  )}
+                  <Typography variant="caption">
+                    {formatToTime(alert.startedAt)}
+                  </Typography>
+                </Stack>
               </Grid>
             </Grid>
           ))}
