@@ -21,5 +21,14 @@
     "errorFetchCameraMessage": "Something went wrong on our side. Please try again later.",
     "titleImage": "Last image from the camera",
     "inactiveCameraMsg": "Inactive camera"
+  },
+  "alerts": {
+    "titleListSimple": "alert to treat",
+    "titleListPlural": "alerts to treat",
+    "prefixCardDetection": "Detected by :",
+    "noAlertsMessage": "No alert detected",
+    "errorFetchSequencesMessage": "Something went wrong on our side. Please try again later.",
+    "titleSectionCamera": "Camera",
+    "defaultCameraName": "Unknown camera"
   }
 }
