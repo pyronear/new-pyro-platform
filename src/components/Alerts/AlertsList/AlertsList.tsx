@@ -22,7 +22,7 @@ export const AlertsList = ({
     <Grid direction="column" bgcolor={theme.palette.customBackground.light}>
       <Grid minHeight="55px" sx={{ padding: '1rem', paddingTop: '2rem' }}>
         <Typography variant="h3">
-          {`${alerts.length.toString()} ${alerts.length < 1 ? t('titleListSimple') : t('titleListPlural')}`}
+          {`${alerts.length.toString()} ${alerts.length <= 1 ? t('titleListSimple') : t('titleListPlural')}`}
         </Typography>
       </Grid>
       <Divider orientation="horizontal" flexItem />
