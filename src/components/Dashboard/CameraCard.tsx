@@ -18,7 +18,7 @@ export const CameraCard = ({ camera }: CameraCardType) => {
   const isActive = isCameraActive(camera.last_active_at);
 
   return (
-    <Card sx={{ height: '100%', borderRadius: 2 }}>
+    <Card sx={{ borderRadius: 2 }}>
       <CardMedia
         sx={{ height: 250 }}
         image={camera.last_image_url ?? noImage}
