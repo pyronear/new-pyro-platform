@@ -21,5 +21,8 @@
     "errorFetchCameraMessage": "Something went wrong on our side. Please try again later.",
     "titleImage": "Last image from the camera",
     "inactiveCameraMsg": "Inactive camera"
+  },
+  "topbar": {
+    "menuLabel": "Menu"
   }
 }

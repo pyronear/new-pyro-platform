@@ -21,5 +21,8 @@
     "errorFetchCameraMessage": "Se ha producido un error en el servidor. Vuelva a intentarlo más tarde.",
     "titleImage": "Última imagen de la cámara",
     "inactiveCameraMsg": "Cámara inactiva"
+  },
+  "topbar": {
+    "menuLabel": "Menú"
   }
 }
