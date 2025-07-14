@@ -18,6 +18,8 @@
   },
   "dashboard": {
     "noCameraMessage": "No camera is associated with your account. Please contact the administrator",
-    "errorFetchCameraMessage": "Something went wrong on our side. Please try again later."
+    "errorFetchCameraMessage": "Something went wrong on our side. Please try again later.",
+    "titleImage": "Last image from the camera",
+    "inactiveCameraMsg": "Inactive camera"
   }
 }
