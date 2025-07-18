@@ -22,7 +22,7 @@ const apiCameraListResponseSchema = z.array(apiCameraResponseSchema);
 
 export const getCameraList = async (): Promise<CameraType[]> => {
   return instance
-    .get('/api/v1/cameras')
+    .get('/api/v1/cameras/')
     .then((response: AxiosResponse) => {
       try {
         const result = apiCameraListResponseSchema.safeParse(response.data);
