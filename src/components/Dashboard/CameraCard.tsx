@@ -20,7 +20,8 @@ export const CameraCard = ({ camera }: CameraCardType) => {
   return (
     <Card sx={{ height: '100%', borderRadius: 2 }}>
       <CardMedia
-        sx={{ height: 250 }}
+        component="img"
+        sx={{ objectFit: 'contain' }}
         image={camera.last_image_url ?? noImage}
         title={t('titleImage')}
       />
