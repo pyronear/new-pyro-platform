@@ -82,5 +82,21 @@ export const theme = createTheme({
         root: { borderRadius: 3 },
       },
     },
+    MuiDrawer: {
+      styleOverrides: {
+        paper: ({ theme }) => ({
+          // apparently Drawer does not inherit these colors, so need to set them manually
+          backgroundColor: theme.palette.primary.main,
+          color: theme.palette.primary.contrastText,
+        }),
+      },
+    },
+    MuiDivider: {
+      styleOverrides: {
+        root: {
+          margin: 0,
+        },
+      },
+    },
   },
 });
