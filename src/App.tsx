@@ -4,7 +4,7 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import './i18n';
 
-import { Box } from '@mui/material';
+import { Stack } from '@mui/material';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 
@@ -23,19 +23,21 @@ const App = () => {
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <BrowserRouter>
-          <Topbar />
-          <Box height="calc(100vh - 64px)">
-            <Routes>
-              <Route index element={<Navigate to={DEFAULT_ROUTE} />} />
-              <Route path="/login" element={<LoginPage />}></Route>
+          <Stack height={'100vh'}>
+            <Topbar />
+            <Stack overflow={'hidden'}>
+              <Routes>
+                <Route index element={<Navigate to={DEFAULT_ROUTE} />} />
+                <Route path="/login" element={<LoginPage />}></Route>
 
-              {/* Routes under this cannot be accessed without being logged in */}
-              <Route element={<ProtectedRoute />}>
-                <Route path="/alerts" element={<AlertsPage />}></Route>
-                <Route path="/dashboard" element={<DashboardPage />}></Route>
-              </Route>
-            </Routes>
-          </Box>
+                {/* Routes under this cannot be accessed without being logged in */}
+                <Route element={<ProtectedRoute />}>
+                  <Route path="/alerts" element={<AlertsPage />}></Route>
+                  <Route path="/dashboard" element={<DashboardPage />}></Route>
+                </Route>
+              </Routes>
+            </Stack>
+          </Stack>
         </BrowserRouter>
       </AuthProvider>
     </QueryClientProvider>

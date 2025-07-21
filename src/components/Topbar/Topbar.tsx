@@ -12,7 +12,7 @@ export const Topbar = () => {
   const { t } = useTranslationPrefix('pages');
   const isLoggedIn = !!token;
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ flexGrow: 0 }}>
       <AppBar position="sticky">
         <Toolbar disableGutters>
           <Grid container justifyContent="space-between" sx={{ flexGrow: 1 }}>
