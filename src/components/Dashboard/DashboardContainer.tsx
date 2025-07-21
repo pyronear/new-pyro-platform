@@ -6,6 +6,10 @@ import { useTranslationPrefix } from '../../utils/useTranslationPrefix';
 import { Loader } from '../Common/Loader';
 import { CameraCard } from './CameraCard';
 
+const VITE_CAMERAS_LIST_REFRESH_INTERVAL_MINUTES = Number(
+  import.meta.env.VITE_CAMERAS_LIST_REFRESH_INTERVAL_MINUTES
+);
+
 export const DashboardContainer = () => {
   const { t } = useTranslationPrefix('dashboard');
 
@@ -17,6 +21,8 @@ export const DashboardContainer = () => {
   } = useQuery({
     queryKey: ['cameras'],
     queryFn: getCameraList,
+    refetchInterval: VITE_CAMERAS_LIST_REFRESH_INTERVAL_MINUTES * 60 * 1000,
+    refetchOnWindowFocus: true,
   });
 
   return (
