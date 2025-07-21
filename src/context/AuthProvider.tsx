@@ -9,7 +9,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [token, setToken] = useState<string | null>(() => {
-    // Initialize token state with the value from localStorage immediately
     const existingToken = getAuthToken();
     if (existingToken) {
       instance.defaults.headers.common.Authorization = `Bearer ${existingToken}`;
