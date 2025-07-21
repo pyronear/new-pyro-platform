@@ -3,12 +3,6 @@ import { createEvent, fireEvent, screen } from '@testing-library/react';
 import { renderWithProviders } from '../../test/renderWithProviders';
 import LoginForm from './LoginForm';
 
-vi.mock('../../hooks/useTranslationPrefix', () => ({
-  useTranslationPrefix: () => ({
-    t: (key: string) => key,
-  }),
-}));
-
 describe('LoginForm', () => {
   test('renders username and password fields and submit button', () => {
     renderWithProviders(<LoginForm />);
