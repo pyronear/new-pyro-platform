@@ -19,8 +19,13 @@ export const AlertsContainer = ({ alerts }: AlertsContainerType) => {
   }, [alerts]);
 
   return (
-    <Grid container>
-      <Grid size={{ xs: 12, sm: 4, lg: 3 }}>
+    <Grid container height={'100%'} direction={'column'}>
+      <Grid
+        size={{ xs: 12, sm: 4, lg: 3 }}
+        container
+        height={'100%'}
+        direction={'column'}
+      >
         <AlertsList
           alerts={alerts}
           selectedAlert={selectedAlert}
