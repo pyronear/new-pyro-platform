@@ -16,13 +16,22 @@
     "dashboard": "Panel de cámaras",
     "alerts": "Alertas"
   },
+  "topbar": {
+    "menuLabel": "Menú"
+  },
   "dashboard": {
     "noCameraMessage": "No hay ninguna cámara asociada a su organización. Póngase en contacto con el administrador",
     "errorFetchCameraMessage": "Se ha producido un error en el servidor. Vuelva a intentarlo más tarde.",
     "titleImage": "Última imagen de la cámara",
     "inactiveCameraMsg": "Cámara inactiva"
   },
-  "topbar": {
-    "menuLabel": "Menú"
+  "alerts": {
+    "titleListSimple": "alerta a tratar",
+    "titleListPlural": "alertas a tratar",
+    "prefixCardDetection": "Detectada por :",
+    "noAlertsMessage": "Ninguna alerta detectada",
+    "errorFetchSequencesMessage": "Se ha producido un error en el servidor. Vuelva a intentarlo más tarde.",
+    "titleSectionCamera": "Camera",
+    "defaultCameraName": "Camera desconocida"
   }
 }
