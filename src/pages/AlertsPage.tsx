@@ -1,17 +1,12 @@
-import { Typography } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
 
 import { AlertsContainer } from '../components/Alerts/AlertsContainer';
-import { Loader } from '../components/Common/Loader';
 import { getUnlabelledLatestSequences } from '../services/alerts';
 import { getCameraList } from '../services/camera';
 import { type AlertType, convertSequencesToAlerts } from '../utils/alerts';
-import { useTranslationPrefix } from '../utils/useTranslationPrefix';
 
 export const AlertsPage = () => {
-  const { t } = useTranslationPrefix('alerts');
-
   const {
     isPending: isPendingSequences,
     isError: isErrorSequences,
@@ -32,7 +27,7 @@ export const AlertsPage = () => {
     queryFn: getCameraList,
   });
 
-  const alerts: AlertType[] = useMemo(
+  const alertsList: AlertType[] = useMemo(
     () => convertSequencesToAlerts(sequenceList ?? [], cameraList ?? []),
     [sequenceList, cameraList]
   );
@@ -42,21 +37,11 @@ export const AlertsPage = () => {
   const isSuccess = isSuccessSequences && isSuccessCameras;
 
   return (
-    <>
-      {isPending && <Loader />}
-      {isError && (
-        <Typography variant="body2">
-          {t('errorFetchSequencesMessage')}
-        </Typography>
-      )}
-      {isSuccess && (
-        <>
-          {alerts.length == 0 && (
-            <Typography variant="body2">{t('noAlertsMessage')}</Typography>
-          )}
-          {alerts.length != 0 && <AlertsContainer alerts={alerts} />}
-        </>
-      )}
-    </>
+    <AlertsContainer
+      isError={isError}
+      isPending={isPending}
+      isSuccess={isSuccess}
+      alertsList={alertsList}
+    />
   );
 };
