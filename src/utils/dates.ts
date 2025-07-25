@@ -63,3 +63,37 @@ export const formatToTime = (dateStr: string | null) => {
 export const convertStrToEpoch = (dateStr: string) => {
   return convertStrToMomentWithUserTimezone(dateStr).unix();
 };
+
+interface FormatTimeAgoProps {
+  pastDateString: string | null;
+  translationFunction: (key: string) => string;
+}
+
+export const formatTimeAgo = ({
+  pastDateString,
+  translationFunction: t,
+}: FormatTimeAgoProps): string => {
+  if (pastDateString === null) {
+    return '';
+  }
+
+  const now = moment.utc(moment());
+  const pastDate = moment.utc(pastDateString);
+  const differenceInMs = Math.abs(now.valueOf() - pastDate.valueOf());
+
+  const days = Math.floor(differenceInMs / (1000 * 60 * 60 * 24));
+  const hours = Math.floor(
+    (differenceInMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+  );
+  const minutes = Math.floor((differenceInMs % (1000 * 60 * 60)) / (1000 * 60));
+
+  if (days !== 0) return days === 1 ? `1 ${t('day')}` : `${days} ${t('days')}`;
+
+  if (hours !== 0)
+    return hours === 1 ? `1 ${t('hour')}` : `${hours} ${t('hours')}`;
+
+  if (minutes !== 0)
+    return minutes === 1 ? `1 ${t('minute')}` : `${minutes} ${t('minutes')}`;
+
+  return t('now');
+};
