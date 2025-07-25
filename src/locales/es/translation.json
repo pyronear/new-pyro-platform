@@ -32,6 +32,14 @@
     "noAlertsMessage": "Ninguna alerta detectada",
     "errorFetchSequencesMessage": "Se ha producido un error en el servidor. Vuelva a intentarlo más tarde.",
     "titleSectionCamera": "Camera",
-    "defaultCameraName": "Camera desconocida"
+    "defaultCameraName": "Camera desconocida",
+    "buttonImageDownload": "Descargar",
+    "titleDetails": "Detalles de la alerta",
+    "titleButtonBackAlt": "Volver a la lista",
+    "subtitleDate": "Fecha & ora",
+    "subtitleAzimuth": "Azimut",
+    "subtitleLocalisation": "Ubicación",
+    "buttonInvestigate": "Descartar la alerta",
+    "buttonTreatAlert": "Investigar la alerta"
   }
 }
