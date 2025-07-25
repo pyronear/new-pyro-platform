@@ -1,7 +1,9 @@
 import moment from 'moment-timezone';
 import { vi } from 'vitest';
 
+import { providersWrapper } from '../test/renderWithProviders';
 import {
+  formatTimeAgo,
   formatToDate,
   formatToDateTime,
   formatToTime,
@@ -94,5 +96,114 @@ describe('formatToTime', () => {
   it('should return the right format and the right UTC if date is in summertime  close to next day', () => {
     const result = formatToTime('2025-07-25T22:37:03.172325');
     expect(result).toBe('00:37:03');
+  });
+});
+
+import { renderHook } from '@testing-library/react';
+
+const getPastDateString = ({
+  minutes = 0,
+  hours = 0,
+  days = 0,
+}: {
+  minutes?: number;
+  hours?: number;
+  days?: number;
+}) => {
+  const date = new Date();
+  date.setMinutes(date.getMinutes() - minutes);
+  date.setHours(date.getHours() - hours);
+  date.setDate(date.getDate() - days);
+  return date.toISOString();
+};
+
+const translationFunction = (s: string) => s;
+
+describe('formatTimeAgo', () => {
+  it('returns empty string if input is null', () => {
+    const { result } = renderHook(
+      () => formatTimeAgo({ pastDateString: null, translationFunction }),
+      {
+        wrapper: providersWrapper,
+      }
+    );
+    expect(result.current).toBe('');
+  });
+
+  it('returns correct minutes string', () => {
+    const dateStr = getPastDateString({ minutes: 5 });
+    const { result } = renderHook(
+      () => formatTimeAgo({ pastDateString: dateStr, translationFunction }),
+      {
+        wrapper: providersWrapper,
+      }
+    );
+    expect(result.current).toEqual('5 minutes');
+  });
+
+  it('returns correct singular minute string', () => {
+    const dateStr = getPastDateString({ minutes: 1 });
+    const { result } = renderHook(
+      () => formatTimeAgo({ pastDateString: dateStr, translationFunction }),
+      {
+        wrapper: providersWrapper,
+      }
+    );
+    expect(result.current).toEqual('1 minute');
+  });
+
+  it('returns correct hours string', () => {
+    const dateStr = getPastDateString({ hours: 3 });
+    const { result } = renderHook(
+      () => formatTimeAgo({ pastDateString: dateStr, translationFunction }),
+      {
+        wrapper: providersWrapper,
+      }
+    );
+    expect(result.current).toEqual('3 hours');
+  });
+
+  it('returns correct singular hour string', () => {
+    const dateStr = getPastDateString({ hours: 1, minutes: 59 });
+    const { result } = renderHook(
+      () => formatTimeAgo({ pastDateString: dateStr, translationFunction }),
+      {
+        wrapper: providersWrapper,
+      }
+    );
+    expect(result.current).toEqual('1 hour');
+  });
+
+  it('returns correct days string', () => {
+    const dateStr = getPastDateString({ days: 2, hours: 0, minutes: 56 });
+    const { result } = renderHook(
+      () => formatTimeAgo({ pastDateString: dateStr, translationFunction }),
+      {
+        wrapper: providersWrapper,
+      }
+    );
+    expect(result.current).toEqual('2 days');
+  });
+
+  it('returns correct singular day string', () => {
+    const dateStr = getPastDateString({ days: 1 });
+    const { result } = renderHook(
+      () => formatTimeAgo({ pastDateString: dateStr, translationFunction }),
+      {
+        wrapper: providersWrapper,
+      }
+    );
+    expect(result.current).toEqual('1 day');
+  });
+
+  it('returns now if less than a minute', () => {
+    const dateStr = new Date().toISOString();
+    const { result } = renderHook(
+      () => formatTimeAgo({ pastDateString: dateStr, translationFunction }),
+      {
+        wrapper: providersWrapper,
+      }
+    );
+    expect(result.current).toEqual('now');
   });
 });
