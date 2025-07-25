@@ -38,9 +38,7 @@ export const AlertImages = ({ sequence }: AlertImagesType) => {
   });
 
   return (
-    <Paper
-      sx={{ minHeight: 500, height: '100% ', borderRadius: 6, padding: 2 }}
-    >
+    <Paper sx={{ height: '100% ', borderRadius: 6, padding: 2 }}>
       <Grid container direction="column" spacing={2}>
         <Grid
           container
@@ -63,7 +61,7 @@ export const AlertImages = ({ sequence }: AlertImagesType) => {
         {isPending && (
           <Grid container spacing={1}>
             {/* One skeleton in place of the image, one skeleton in place of the timeline */}
-            <Skeleton variant="rectangular" width="100%" height={500} />
+            <Skeleton variant="rectangular" width="100%" height={400} />
             <Skeleton variant="rectangular" width="100%" height={80} />
           </Grid>
         )}
