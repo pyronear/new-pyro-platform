@@ -40,6 +40,15 @@
     "subtitleAzimuth": "Azimuth",
     "subtitleLocalisation": "Localization",
     "buttonInvestigate": "Investigate the alert",
-    "buttonTreatAlert": "Treat the alert"
+    "buttonTreatAlert": "Treat the alert",
+    "time": {
+      "day": "day",
+      "days": "days",
+      "hour": "hour",
+      "hours": "hours",
+      "minute": "minute",
+      "minutes": "minutes",
+      "now": "Just now"
+    }
   }
 }
