@@ -62,6 +62,7 @@ export const AlertImagesPlayer = ({ detections }: AlertImagesPlayerType) => {
   }, [detections]);
 
   useEffect(() => {
+    // Set timer to change image
     let interval: number | null = null;
     if (isPlaying) {
       if (selectedDetection && detections.length > 0) {
