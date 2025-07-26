@@ -57,6 +57,10 @@ export default tseslint.config(
         'error',
         { ignoreArrowShorthand: true },
       ],
+      '@typescript-eslint/restrict-template-expressions': [
+        'error',
+        { allowNumber: true },
+      ],
     },
   }
 );
