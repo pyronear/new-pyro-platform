@@ -10,13 +10,10 @@ import {
 import Card from '@mui/material/Card';
 
 import type { AlertType } from '../../../utils/alerts';
-import {
-  formatTimeAgo,
-  formatToDate,
-  formatToTime,
-} from '../../../utils/dates';
+import { formatToDate, formatToTime } from '../../../utils/dates';
 import { useTranslationPrefix } from '../../../utils/useTranslationPrefix';
 import { CameraName } from '../../Common/CameraName';
+import { AlertStartedTimeAgo } from './AlertStartedTimeAgo';
 
 interface AlertCardType {
   isActive: boolean;
@@ -27,12 +24,6 @@ interface AlertCardType {
 export const AlertCard = ({ isActive, setActive, alert }: AlertCardType) => {
   const theme = useTheme();
   const { t } = useTranslationPrefix('alerts');
-
-  const { t: timeTranslation } = useTranslationPrefix('alerts.time');
-  const formattedTimeAgo = formatTimeAgo({
-    pastDateString: alert.startedAt,
-    translationFunction: timeTranslation,
-  });
 
   return (
     <Card sx={{ borderRadius: '2px' }}>
@@ -58,7 +49,7 @@ export const AlertCard = ({ isActive, setActive, alert }: AlertCardType) => {
               </Typography>
             </Grid>
             <Grid>
-              <Typography variant="subtitle2">{formattedTimeAgo}</Typography>
+              <AlertStartedTimeAgo alert={alert} />
             </Grid>
           </Grid>
           <Stack
