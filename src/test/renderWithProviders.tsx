@@ -3,11 +3,15 @@ import { type ReactElement } from 'react';
 
 import TestProviders from './TestProviders';
 
-const renderWithProviders = (
+export const renderWithProviders = (
   ui: ReactElement,
   options?: Omit<RenderOptions, 'wrapper'>
 ) => {
   return render(ui, { wrapper: TestProviders, ...options });
 };
 
-export { renderWithProviders };
+export const providersWrapper = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => <TestProviders>{children}</TestProviders>;
