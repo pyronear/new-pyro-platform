@@ -61,5 +61,12 @@
       "minutes": "minutos",
       "now": "Justo ahora"
     }
+  },
+  "history":{
+    "title": "Histórico",
+    "noFilterMessage": "Seleccione la fecha deseada.",
+    "noAlertsMessage": "No se han encontrado alertas para la fecha seleccionada.",
+    "errorFetchSequencesMessage": "Se ha producido un error. Vuelva a intentarlo más tarde.",
+    "dateField": "Fecha"
   }
 }

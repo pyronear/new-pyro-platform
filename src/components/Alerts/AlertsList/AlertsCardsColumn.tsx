@@ -7,12 +7,14 @@ interface AlertsCardsColumnType {
   alerts: AlertType[];
   selectedAlert: AlertType | null;
   setSelectedAlert: (newAlertSelected: AlertType) => void;
+  isModeLive: boolean;
 }
 
 export const AlertsCardsColumn = ({
   alerts,
   selectedAlert,
   setSelectedAlert,
+  isModeLive,
 }: AlertsCardsColumnType) => {
   return (
     <Stack spacing={{ xs: 1, sm: 2 }}>
@@ -20,6 +22,7 @@ export const AlertsCardsColumn = ({
         <AlertCard
           key={alert.id}
           alert={alert}
+          isModeLive={isModeLive}
           isActive={alert.id == selectedAlert?.id}
           setActive={() => {
             setSelectedAlert(alert);
