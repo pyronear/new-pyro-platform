@@ -1,32 +1,35 @@
-import { useQuery } from '@tanstack/react-query';
-import { useMemo } from 'react';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useCallback, useMemo } from 'react';
 
 import { AlertsContainer } from '../components/Alerts/AlertsContainer';
 import { getUnlabelledLatestSequences } from '../services/alerts';
+import {
+  STATUS_ERROR,
+  STATUS_LOADING,
+  STATUS_SUCCESS,
+} from '../services/axios';
 import { getCameraList } from '../services/camera';
 import { type AlertType, convertSequencesToAlerts } from '../utils/alerts';
 
+const ALERTS_LIST_REFRESH_INTERVAL_SECONDS = import.meta.env
+  .VITE_ALERTS_LIST_REFRESH_INTERVAL_SECONDS;
+
 export const AlertsPage = () => {
+  const queryClient = useQueryClient();
   const {
-    isPending: isPendingSequences,
-    isError: isErrorSequences,
+    isFetching,
+    dataUpdatedAt,
+    status: statusSequences,
     data: sequenceList,
-    isSuccess: isSuccessSequences,
   } = useQuery({
     queryKey: ['unlabelledSequences'],
     queryFn: getUnlabelledLatestSequences,
-    refetchOnWindowFocus: false,
+    refetchInterval: ALERTS_LIST_REFRESH_INTERVAL_SECONDS * 1000,
   });
 
-  const {
-    isPending: isPendingCameras,
-    isError: isErrorCameras,
-    data: cameraList,
-    isSuccess: isSuccessCameras,
-  } = useQuery({
+  const { status: statusCameras, data: cameraList } = useQuery({
     queryKey: ['cameras'],
     queryFn: getCameraList,
-    refetchOnWindowFocus: false,
   });
 
   const alertsList: AlertType[] = useMemo(
@@ -34,15 +37,26 @@ export const AlertsPage = () => {
     [sequenceList, cameraList]
   );
 
-  const isPending = isPendingSequences || isPendingCameras;
-  const isError = isErrorSequences || isErrorCameras;
-  const isSuccess = isSuccessSequences && isSuccessCameras;
+  const invalidateAndRefreshData = useCallback(() => {
+    void queryClient.invalidateQueries({ queryKey: ['unlabelledSequences'] });
+  }, [queryClient]);
+
+  const status = useMemo(() => {
+    if (statusSequences == STATUS_SUCCESS && statusCameras == STATUS_SUCCESS) {
+      return STATUS_SUCCESS;
+    }
+    if (statusSequences == STATUS_LOADING || statusCameras == STATUS_LOADING) {
+      return STATUS_LOADING;
+    }
+    return STATUS_ERROR;
+  }, [statusSequences, statusCameras]);
 
   return (
     <AlertsContainer
-      isError={isError}
-      isPending={isPending}
-      isSuccess={isSuccess}
+      status={status}
+      isRefreshing={isFetching}
+      lastUpdate={dataUpdatedAt}
+      invalidateAndRefreshData={invalidateAndRefreshData}
       alertsList={alertsList}
     />
   );

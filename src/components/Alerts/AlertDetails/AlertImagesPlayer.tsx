@@ -16,13 +16,17 @@ import { convertStrToEpoch, formatToTime } from '../../../utils/dates';
 import { useTranslationPrefix } from '../../../utils/useTranslationPrefix';
 
 interface AlertImagesPlayerType {
+  sequenceId: number;
   detections: DetectionType[]; // Sorted
 }
 
 const ALERTS_PLAY_INTERVAL_MILLISECONDS = import.meta.env
   .VITE_ALERTS_PLAY_INTERVAL_MILLISECONDS;
 
-export const AlertImagesPlayer = ({ detections }: AlertImagesPlayerType) => {
+export const AlertImagesPlayer = ({
+  sequenceId,
+  detections,
+}: AlertImagesPlayerType) => {
   const [selectedDetection, setSelectedDetection] =
     useState<DetectionType | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -52,6 +56,7 @@ export const AlertImagesPlayer = ({ detections }: AlertImagesPlayerType) => {
   }, [detections, selectedDetection]);
 
   useEffect(() => {
+    // Every time the sequence changes
     // Set the pointer on the first detection on the slider
     // And start animation
     if (detections.length > 0) {
@@ -59,7 +64,8 @@ export const AlertImagesPlayer = ({ detections }: AlertImagesPlayerType) => {
       setSelectedDetection(minDetection);
       setIsPlaying(true);
     }
-  }, [detections]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sequenceId]);
 
   useEffect(() => {
     // Set timer to change image
