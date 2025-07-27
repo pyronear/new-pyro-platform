@@ -52,6 +52,7 @@ export const AlertsList = ({
           alerts={alerts}
           selectedAlert={selectedAlert}
           setSelectedAlert={setSelectedAlert}
+          isModeLive={true}
         />
       )}
     </Stack>

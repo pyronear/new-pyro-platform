@@ -50,6 +50,32 @@ export const getUnlabelledLatestSequences = async (): Promise<
     });
 };
 
+export const getSequencesByFilters = async (
+  fromDate: string,
+  limit: number,
+  offset: number
+): Promise<SequenceType[]> => {
+  const params = {
+    from_date: fromDate,
+    limit,
+    offset,
+  };
+  return instance
+    .get('/api/v1/sequences/all/fromdate', { params })
+    .then((response: AxiosResponse) => {
+      try {
+        const result = apiSequenceListResponseSchema.safeParse(response.data);
+        return result.data ?? [];
+      } catch {
+        throw new Error('INVALID_API_RESPONSE');
+      }
+    })
+    .catch((err: unknown) => {
+      console.error(err);
+      throw err;
+    });
+};
+
 export const getDetectionsBySequence = async (
   sequenceId: number
 ): Promise<DetectionType[]> => {
