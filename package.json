@@ -19,6 +19,7 @@
     "@fontsource/open-sans-condensed": "^4.5.5",
     "@mui/icons-material": "^7.2.0",
     "@mui/material": "^7.2.0",
+    "@mui/x-date-pickers": "^8.10.0",
     "@tanstack/react-query": "^5.82.0",
     "axios": "^1.10.0",
     "i18next": "^25.3.2",

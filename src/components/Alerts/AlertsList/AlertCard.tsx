@@ -19,9 +19,15 @@ interface AlertCardType {
   isActive: boolean;
   setActive: () => void;
   alert: AlertType;
+  isModeLive: boolean;
 }
 
-export const AlertCard = ({ isActive, setActive, alert }: AlertCardType) => {
+export const AlertCard = ({
+  isActive,
+  setActive,
+  alert,
+  isModeLive,
+}: AlertCardType) => {
   const theme = useTheme();
   const { t } = useTranslationPrefix('alerts');
 
@@ -48,9 +54,11 @@ export const AlertCard = ({ isActive, setActive, alert }: AlertCardType) => {
                 {formatToDate(alert.startedAt)}
               </Typography>
             </Grid>
-            <Grid>
-              <AlertStartedTimeAgo alert={alert} />
-            </Grid>
+            {isModeLive && (
+              <Grid>
+                <AlertStartedTimeAgo alert={alert} />
+              </Grid>
+            )}
           </Grid>
           <Stack
             direction="row"
