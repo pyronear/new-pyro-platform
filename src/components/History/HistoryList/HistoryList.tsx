@@ -1,4 +1,4 @@
-import { Divider, Grid, Typography, useTheme } from '@mui/material';
+import { Button, Divider, Grid, Typography, useTheme } from '@mui/material';
 
 import type { AlertType } from '../../../utils/alerts';
 import { type FiltersType } from '../../../utils/history.ts';
@@ -13,6 +13,9 @@ interface HistoryListType {
   setSelectedAlert: (newAlertSelected: AlertType) => void;
   filters: FiltersType;
   setFilters: React.Dispatch<React.SetStateAction<FiltersType>>;
+  hasNextPage: boolean;
+  isFetchingNextPage: boolean;
+  fetchNextPage: () => void;
 }
 
 export const HistoryList = ({
@@ -22,6 +25,9 @@ export const HistoryList = ({
   setSelectedAlert,
   filters,
   setFilters,
+  hasNextPage,
+  isFetchingNextPage,
+  fetchNextPage,
 }: HistoryListType) => {
   const theme = useTheme();
   const { t } = useTranslationPrefix('history');
@@ -62,7 +68,18 @@ export const HistoryList = ({
                 selectedAlert={selectedAlert}
                 setSelectedAlert={setSelectedAlert}
                 isLiveMode={false}
-              />
+              >
+                {hasNextPage && (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    loading={isFetchingNextPage}
+                    onClick={fetchNextPage}
+                  >
+                    {t('loadMoreMessage')}
+                  </Button>
+                )}
+              </AlertsCardsColumn>
             </Grid>
           ))}
       </>

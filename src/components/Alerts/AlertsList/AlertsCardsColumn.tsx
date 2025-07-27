@@ -1,4 +1,5 @@
 import { Stack } from '@mui/material';
+import type { ReactNode } from 'react';
 
 import type { AlertType } from '../../../utils/alerts';
 import { AlertCard } from './AlertCard';
@@ -8,6 +9,7 @@ interface AlertsCardsColumnType {
   selectedAlert: AlertType | null;
   setSelectedAlert: (newAlertSelected: AlertType) => void;
   isLiveMode: boolean;
+  children?: ReactNode;
 }
 
 export const AlertsCardsColumn = ({
@@ -15,6 +17,7 @@ export const AlertsCardsColumn = ({
   selectedAlert,
   setSelectedAlert,
   isLiveMode,
+  children = null,
 }: AlertsCardsColumnType) => {
   return (
     <Stack spacing={{ xs: 1, sm: 2 }}>
@@ -29,6 +32,7 @@ export const AlertsCardsColumn = ({
           }}
         />
       ))}
+      {children}
     </Stack>
   );
 };
