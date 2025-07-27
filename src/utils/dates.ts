@@ -13,6 +13,12 @@ const convertStrToMomentWithUserTimezone = (dateStr: string) => {
   return dateMoment;
 };
 
+const convertNbToMomentWithUserTimezone = (dateNb: number) => {
+  const dateMoment = moment(dateNb);
+  dateMoment.tz(moment.tz.guess());
+  return dateMoment;
+};
+
 export const isCameraActive = (lastContactDateStr: string | null) => {
   return isDateWithinTheLastXMinutes(
     lastContactDateStr,
@@ -40,6 +46,10 @@ export const formatToDateTime = (dateStr: string | null) => {
   return convertStrToMomentWithUserTimezone(dateStr).format(
     FORMAT_DISPLAY_DATETIME
   );
+};
+
+export const formatNbToTime = (dateNb: number) => {
+  return convertNbToMomentWithUserTimezone(dateNb).format(FORMAT_DISPLAY_TIME);
 };
 
 export const formatToDate = (dateStr: string | null) => {
