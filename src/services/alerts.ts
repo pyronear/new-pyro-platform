@@ -1,6 +1,7 @@
 import type { AxiosResponse } from 'axios';
 import * as z from 'zod/v4';
 
+import { convertStrToEpoch } from '../utils/dates';
 import { instance } from './axios';
 
 const apiSequenceResponseSchema = z.object({
@@ -57,6 +58,13 @@ export const getDetectionsBySequence = async (
     .then((response: AxiosResponse) => {
       try {
         const result = apiDetectionListResponseSchema.safeParse(response.data);
+        if (result.data) {
+          result.data.sort(
+            (d1, d2) =>
+              convertStrToEpoch(d1.created_at) -
+              convertStrToEpoch(d2.created_at)
+          );
+        }
         return result.data ?? [];
       } catch {
         throw new Error('INVALID_API_RESPONSE');

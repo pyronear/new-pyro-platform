@@ -7,7 +7,7 @@
     "logout": "Desconectarse",
     "errors": {
       "INVALID_CREDENTIALS": "Nombre de usuario y/o contraseña incorrectos.",
-      "SERVER_ERROR": "Se ha producido un error en el servidor. Vuelva a intentarlo más tarde.",
+      "SERVER_ERROR": "Se ha producido un error. Vuelva a intentarlo más tarde.",
       "UNKNOWN_ERROR": "Se ha producido un error inesperado.",
       "INVALID_API_RESPONSE": "La respuesta del servidor de conexión no es válida."
     }
@@ -21,7 +21,7 @@
   },
   "dashboard": {
     "noCameraMessage": "No hay ninguna cámara asociada a su organización. Póngase en contacto con el administrador",
-    "errorFetchCameraMessage": "Se ha producido un error en el servidor. Vuelva a intentarlo más tarde.",
+    "errorFetchCameraMessage": "Se ha producido un error. Vuelva a intentarlo más tarde.",
     "titleImage": "Última imagen de la cámara",
     "inactiveCameraMsg": "Cámara inactiva"
   },
@@ -30,13 +30,13 @@
     "titleListPlural": "alertas a tratar",
     "prefixCardDetection": "Detectada por :",
     "noAlertsMessage": "Ninguna alerta detectada",
-    "errorFetchSequencesMessage": "Se ha producido un error en el servidor. Vuelva a intentarlo más tarde.",
+    "errorFetchSequencesMessage": "Se ha producido un error. Vuelva a intentarlo más tarde.",
     "titleSectionCamera": "Camera",
     "defaultCameraName": "Camera desconocida",
     "buttonImageDownload": "Descargar",
     "buttonPlay": "Play",
     "buttonPause": "Pause",
-    "errorFetchImagesMessage": "Se ha producido un error en el servidor. Vuelva a intentarlo más tarde.",
+    "errorFetchImagesMessage": "Se ha producido un error. Vuelva a intentarlo más tarde.",
     "titleDetails": "Detalles de la alerta",
     "titleButtonBackAlt": "Volver a la lista",
     "subtitleDate": "Fecha & ora",

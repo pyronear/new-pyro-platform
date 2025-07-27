@@ -20,6 +20,7 @@ export const AlertsPage = () => {
   } = useQuery({
     queryKey: ['unlabelledSequences'],
     queryFn: getUnlabelledLatestSequences,
+    refetchOnWindowFocus: false,
   });
 
   const {
@@ -30,6 +31,7 @@ export const AlertsPage = () => {
   } = useQuery({
     queryKey: ['cameras'],
     queryFn: getCameraList,
+    refetchOnWindowFocus: false,
   });
 
   const alerts: AlertType[] = useMemo(

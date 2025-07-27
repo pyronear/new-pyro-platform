@@ -9,7 +9,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import { getDetectionsBySequence } from '../../../services/alerts';
 import type { SequenceWithCameraInfoType } from '../../../utils/alerts';
-import { convertStrToEpoch, formatToTime } from '../../../utils/dates';
+import { formatToTime } from '../../../utils/dates';
 import { useTranslationPrefix } from '../../../utils/useTranslationPrefix';
 import { AlertImagesPlayer } from './AlertImagesPlayer';
 
@@ -28,13 +28,9 @@ export const AlertImages = ({ sequence }: AlertImagesType) => {
   } = useQuery({
     queryKey: ['detections', sequence.id],
     queryFn: async () => {
-      const detections = await getDetectionsBySequence(sequence.id);
-      detections.sort(
-        (d1, d2) =>
-          convertStrToEpoch(d1.created_at) - convertStrToEpoch(d2.created_at)
-      );
-      return detections;
+      return await getDetectionsBySequence(sequence.id);
     },
+    refetchOnWindowFocus: false,
   });
 
   return (

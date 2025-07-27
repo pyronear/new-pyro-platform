@@ -36,10 +36,10 @@ export const AlertContainer = ({ alert, resetAlert }: AlertContainerType) => {
               resetAlert={resetAlert}
             />
           </Grid>
-          <Grid size={{ xs: 12, md: 9 }}>
+          <Grid size={{ xs: 12, xl: 9 }}>
             <AlertImages sequence={selectedSequence} />
           </Grid>
-          <Grid size={{ xs: 12, md: 3 }}>
+          <Grid size={{ xs: 12, xl: 3 }}>
             <AlertInfos sequence={selectedSequence} />
           </Grid>
         </Grid>
