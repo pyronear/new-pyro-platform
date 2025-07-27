@@ -26,6 +26,8 @@ export const AlertContainer = ({ alert, resetAlert }: AlertContainerType) => {
 
   // TODO : fetch detections of the selected sequence
 
+  console.log('AlertContainer', alert);
+
   return (
     <>
       {selectedSequence && (
@@ -42,7 +44,10 @@ export const AlertContainer = ({ alert, resetAlert }: AlertContainerType) => {
             <AlertImages sequence={selectedSequence} />
           </Grid>
           <Grid size={{ xs: 12, md: 3 }}>
-            <AlertInfos sequence={selectedSequence} />
+            <AlertInfos
+              sequence={selectedSequence}
+              sequences={alert.sequences}
+            />
           </Grid>
         </Grid>
       )}
