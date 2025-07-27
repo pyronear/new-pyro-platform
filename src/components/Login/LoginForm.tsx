@@ -36,7 +36,7 @@ const LoginForm = () => {
       alignItems="center"
       minHeight="100%"
     >
-      <Paper sx={{ p: 4, width: 400 }}>
+      <Paper sx={{ p: 4, m: { xs: 2, md: 8 }, width: 400 }}>
         <form onSubmit={(e) => void handleSubmit(e)}>
           <TextField
             label={t('username')}

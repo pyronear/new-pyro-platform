@@ -26,7 +26,7 @@ export const AlertCard = ({ isActive, setActive, alert }: AlertCardType) => {
   const { t } = useTranslationPrefix('alerts');
 
   return (
-    <Card sx={{ borderRadius: '2px' }}>
+    <Card sx={{ borderRadius: '2px', flexShrink: 0 }}>
       <CardActionArea
         onClick={setActive}
         data-active={isActive ? '' : undefined}

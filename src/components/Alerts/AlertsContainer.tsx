@@ -87,7 +87,7 @@ export const AlertsContainer = ({
       {status == STATUS_SUCCESS && (
         <>
           {isMobile ? (
-            <Box ref={containerRef}>
+            <Box ref={containerRef} overflow="auto">
               <Slide
                 direction={'right'}
                 in={!selectedAlert}
@@ -108,8 +108,15 @@ export const AlertsContainer = ({
               </Slide>
             </Box>
           ) : (
-            <Grid container>
-              <Grid size={{ sm: 4, md: 3 }}>{AlertsListComponent}</Grid>
+            <Grid container height={'100%'} direction={'column'}>
+              <Grid
+                container
+                height={'100%'}
+                direction={'column'}
+                size={{ sm: 4, md: 3 }}
+              >
+                {AlertsListComponent}
+              </Grid>
               <Grid size={{ sm: 8, md: 9 }}>{AlertDetailsComponent}</Grid>
             </Grid>
           )}
