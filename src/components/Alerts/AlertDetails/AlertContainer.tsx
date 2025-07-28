@@ -26,8 +26,6 @@ export const AlertContainer = ({ alert, resetAlert }: AlertContainerType) => {
 
   // TODO : fetch detections of the selected sequence
 
-  console.log('AlertContainer', alert);
-
   return (
     <>
       {selectedSequence && (
