@@ -19,6 +19,11 @@ export const theme = createTheme({
       light: '#2C796E',
       contrastText: 'white',
     },
+    secondary: {
+      main: '#f6b52a',
+      light: '#fac044',
+      contrastText: 'black',
+    },
     secondaryText: {
       main: '#a9a7a7',
     },
@@ -95,7 +100,12 @@ export const theme = createTheme({
     },
     MuiButton: {
       styleOverrides: {
-        root: { borderRadius: 3 },
+        root: {
+          borderRadius: 3,
+          '&.MuiButton-colorSecondary': {
+            backgroundColor: '#ffffff26',
+          },
+        },
       },
     },
     MuiDrawer: {
