@@ -103,6 +103,7 @@ export const AlertImagesPlayer = ({ detections }: AlertImagesPlayerType) => {
           <Grid>
             <DetectionImageWithBoundingBox
               selectedDetection={selectedDetection}
+              displayBoundingBox={true}
             />
           </Grid>
           <Grid container alignItems="center" spacing={2}>

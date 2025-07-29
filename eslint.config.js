@@ -61,6 +61,7 @@ export default tseslint.config(
         'error',
         { allowNumber: true },
       ],
+       "@typescript-eslint/no-unsafe-function-type": "off"
     },
   }
 );
