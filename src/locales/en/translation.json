@@ -40,6 +40,8 @@
     "subtitleAzimuth": "Azimuth",
     "subtitleLocalisation": "Localization",
     "buttonInvestigate": "Investigate the alert",
-    "buttonTreatAlert": "Treat the alert"
+    "buttonTreatAlert": "Treat the alert",
+    "mapElevation": "Elevation",
+    "mapAngleOfView": "Angle of view"
   }
 }
