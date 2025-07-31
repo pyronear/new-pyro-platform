@@ -59,3 +59,7 @@ export const formatToTime = (dateStr: string | null) => {
     FORMAT_DISPLAY_TIME
   );
 };
+
+export const convertStrToEpoch = (dateStr: string) => {
+  return convertStrToMomentWithUserTimezone(dateStr).unix();
+};

@@ -1,6 +1,7 @@
 import type { AxiosResponse } from 'axios';
 import * as z from 'zod/v4';
 
+import { convertStrToEpoch } from '../utils/dates';
 import { instance } from './axios';
 
 const apiSequenceResponseSchema = z.object({
@@ -14,8 +15,21 @@ const apiSequenceResponseSchema = z.object({
   last_seen_at: z.nullable(z.string()),
 });
 
+const apiDetectionResponseSchema = z.object({
+  id: z.number(),
+  camera_id: z.number(),
+  azimuth: z.nullable(z.number()),
+  bucket_key: z.string(),
+  bboxes: z.string(),
+  created_at: z.iso.datetime({ local: true }),
+  url: z.string(),
+});
+
 export type SequenceType = z.infer<typeof apiSequenceResponseSchema>;
 const apiSequenceListResponseSchema = z.array(apiSequenceResponseSchema);
+
+export type DetectionType = z.infer<typeof apiDetectionResponseSchema>;
+const apiDetectionListResponseSchema = z.array(apiDetectionResponseSchema);
 
 export const getUnlabelledLatestSequences = async (): Promise<
   SequenceType[]
@@ -25,6 +39,32 @@ export const getUnlabelledLatestSequences = async (): Promise<
     .then((response: AxiosResponse) => {
       try {
         const result = apiSequenceListResponseSchema.safeParse(response.data);
+        return result.data ?? [];
+      } catch {
+        throw new Error('INVALID_API_RESPONSE');
+      }
+    })
+    .catch((err: unknown) => {
+      console.error(err);
+      throw err;
+    });
+};
+
+export const getDetectionsBySequence = async (
+  sequenceId: number
+): Promise<DetectionType[]> => {
+  return instance
+    .get(`/api/v1/sequences/${sequenceId.toString()}/detections`)
+    .then((response: AxiosResponse) => {
+      try {
+        const result = apiDetectionListResponseSchema.safeParse(response.data);
+        if (result.data) {
+          result.data.sort(
+            (d1, d2) =>
+              convertStrToEpoch(d1.created_at) -
+              convertStrToEpoch(d2.created_at)
+          );
+        }
         return result.data ?? [];
       } catch {
         throw new Error('INVALID_API_RESPONSE');

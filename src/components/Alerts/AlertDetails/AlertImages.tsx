@@ -5,20 +5,36 @@ import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Skeleton from '@mui/material/Skeleton';
 import Typography from '@mui/material/Typography';
+import { useQuery } from '@tanstack/react-query';
 
+import { getDetectionsBySequence } from '../../../services/alerts';
 import type { SequenceWithCameraInfoType } from '../../../utils/alerts';
 import { formatToTime } from '../../../utils/dates';
 import { useTranslationPrefix } from '../../../utils/useTranslationPrefix';
+import { AlertImagesPlayer } from './AlertImagesPlayer';
 
-interface AlertImageType {
+interface AlertImagesType {
   sequence: SequenceWithCameraInfoType;
 }
 
-export const AlertImages = ({ sequence }: AlertImageType) => {
+export const AlertImages = ({ sequence }: AlertImagesType) => {
   const { t } = useTranslationPrefix('alerts');
 
+  const {
+    isPending,
+    isError,
+    isSuccess,
+    data: detectionsList,
+  } = useQuery({
+    queryKey: ['detections', sequence.id],
+    queryFn: async () => {
+      return await getDetectionsBySequence(sequence.id);
+    },
+    refetchOnWindowFocus: false,
+  });
+
   return (
-    <Paper sx={{ minHeight: 500, borderRadius: 6, padding: 2 }}>
+    <Paper sx={{ height: '100% ', borderRadius: 6, padding: 2 }}>
       <Grid container direction="column" spacing={2}>
         <Grid
           container
@@ -38,10 +54,20 @@ export const AlertImages = ({ sequence }: AlertImageType) => {
           </Grid>
         </Grid>
         <Divider flexItem />
-        <Grid container spacing={1}>
-          {/* One skeleton in place of the image, one skeleton in place of the timeline */}
-          <Skeleton variant="rectangular" width="100%" height={500} />
-          <Skeleton variant="rectangular" width="100%" height={80} />
+        {isPending && (
+          <Grid container spacing={1}>
+            {/* One skeleton in place of the image, one skeleton in place of the timeline */}
+            <Skeleton variant="rectangular" width="100%" height={400} />
+            <Skeleton variant="rectangular" width="100%" height={80} />
+          </Grid>
+        )}
+        <Grid>
+          {isError && (
+            <Typography variant="body2">
+              {t('errorFetchImagesMessage')}
+            </Typography>
+          )}
+          {isSuccess && <AlertImagesPlayer detections={detectionsList} />}
         </Grid>
       </Grid>
     </Paper>

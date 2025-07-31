@@ -7,7 +7,7 @@
     "logout": "Se déconnecter",
     "errors": {
       "INVALID_CREDENTIALS": "Nom d'utilisateur ou mot de passe incorrect.",
-      "SERVER_ERROR": "Une erreur est survenue sur le serveur. Veuillez réessayer plus tard.",
+      "SERVER_ERROR": "Une erreur inattendue est survenue. Veuillez réessayer plus tard.",
       "UNKNOWN_ERROR": "Une erreur inattendue est survenue.",
       "INVALID_API_RESPONSE": "La réponse du serveur de connexion est invalide."
     }
@@ -21,7 +21,7 @@
   },
   "dashboard": {
     "noCameraMessage": "Aucune camera n'est associée avec votre organisation. Veuillez contacter l'administateur",
-    "errorFetchCameraMessage": "Une erreur est survenue sur le serveur. Veuillez réessayer plus tard.",
+    "errorFetchCameraMessage": "Une erreur inattendue est survenue. Veuillez réessayer plus tard.",
     "titleImage": "Dernière image de la camera",
     "inactiveCameraMsg": "Camera inactive"
   },
@@ -30,11 +30,14 @@
     "titleListPlural": "alertes à traiter",
     "prefixCardDetection": "Détectée par :",
     "noAlertsMessage": "Aucune alerte détectée",
-    "errorFetchSequencesMessage": "Une erreur est survenue sur le serveur. Veuillez réessayer plus tard.",
+    "errorFetchSequencesMessage": "Une erreur inattendue est survenue. Veuillez réessayer plus tard.",
     "titleSectionCamera": "Camera",
     "titleButtonBackAlt": "Retour à la liste",
     "defaultCameraName": "Camera inconnue",
     "buttonImageDownload": "Télécharger",
+    "buttonPlay": "Play",
+    "buttonPause": "Pause",
+    "errorFetchImagesMessage": "Une erreur inattendue est survenue. Veuillez réessayer plus tard.",
     "titleDetails": "Détail de l'alerte",
     "subtitleDate": "Date & Heure",
     "subtitleAzimuth": "Azimuth",
