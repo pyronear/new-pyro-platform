@@ -58,7 +58,7 @@ export const AlertCard = ({ isActive, setActive, alert }: AlertCardType) => {
             marginBottom={1}
           >
             <VideocamOutlinedIcon fontSize="small" />
-            <Typography variant="h4">{t('prefixCardDetection')}</Typography>
+            <Typography variant="h3">{t('prefixCardDetection')}</Typography>
           </Stack>
           {alert.sequences.map((sequence) => (
             <Grid

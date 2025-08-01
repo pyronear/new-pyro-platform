@@ -40,13 +40,20 @@ export const theme = createTheme({
     },
   },
   typography: {
+    fontFamily: 'Open Sans',
     h1: {
       fontWeight: 700,
       fontSize: '1.5rem',
+      fontFamily: 'Open Sans Condensed',
+    },
+    h2: {
+      fontWeight: 700,
+      fontSize: '1.3rem',
+      fontFamily: 'Open Sans Condensed',
     },
     h3: {
-      fontWeight: 500,
-      fontSize: '1.3rem',
+      fontWeight: 600,
+      fontSize: '1rem',
     },
     h4: {
       fontWeight: 500,

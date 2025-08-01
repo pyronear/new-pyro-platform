@@ -20,15 +20,15 @@ export const AlertsList = ({
 
   return (
     <Grid direction="column" bgcolor={theme.palette.customBackground.light}>
-      <Grid minHeight="55px" sx={{ padding: 1, paddingTop: 2 }}>
-        <Typography variant="h3">
+      <Grid minHeight="55px" padding={{ xs: 1, sm: 2 }} alignContent="center">
+        <Typography variant="h2">
           {`${alerts.length.toString()} ${alerts.length <= 1 ? t('titleListSimple') : t('titleListPlural')}`}
         </Typography>
       </Grid>
       <Divider orientation="horizontal" flexItem />
       <Grid
         sx={{
-          padding: '1rem',
+          padding: { xs: 1, sm: 2 },
           overflowY: 'auto',
           height: 'calc(100vh - 64px - 55px)', // To get scroll on the alert cards list only (= 100% - topbar height - title height)
         }}
