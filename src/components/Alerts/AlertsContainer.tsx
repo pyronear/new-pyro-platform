@@ -4,6 +4,12 @@ import Slide from '@mui/material/Slide';
 import Typography from '@mui/material/Typography';
 import { useEffect, useRef, useState } from 'react';
 
+import {
+  type ResponseStatus,
+  STATUS_ERROR,
+  STATUS_LOADING,
+  STATUS_SUCCESS,
+} from '../../services/axios';
 import type { AlertType } from '../../utils/alerts';
 import { useIsMobile } from '../../utils/useIsMobile';
 import { useTranslationPrefix } from '../../utils/useTranslationPrefix';
@@ -12,16 +18,18 @@ import { AlertContainer } from './AlertDetails/AlertContainer';
 import { AlertsList } from './AlertsList/AlertsList';
 
 interface AlertsContainerType {
-  isPending: boolean;
-  isError: boolean;
-  isSuccess: boolean;
+  status: ResponseStatus;
+  lastUpdate: number;
+  isRefreshing: boolean;
+  invalidateAndRefreshData: () => void;
   alertsList: AlertType[];
 }
 
 export const AlertsContainer = ({
-  isPending,
-  isError,
-  isSuccess,
+  status,
+  lastUpdate,
+  isRefreshing,
+  invalidateAndRefreshData,
   alertsList,
 }: AlertsContainerType) => {
   const [selectedAlert, setSelectedAlert] = useState<AlertType | null>(null);
@@ -30,19 +38,29 @@ export const AlertsContainer = ({
   const { t } = useTranslationPrefix('alerts');
 
   useEffect(() => {
-    // Reset selected alert when the list change
-    // TODO : reset only if selectedAlertId no longer exist
-    if (!isMobile) {
+    const selectedAlertIndex = alertsList.findIndex(
+      (a) => a.id === selectedAlert?.id
+    );
+    if (isMobile && selectedAlertIndex == -1) {
+      // In mobile mode, no alert is selected by default
+      // If the list change and the selectedAlert doesn't exist anymore, the selectedAlert is reset
+      setSelectedAlert(null);
+    }
+    if (!isMobile && (!selectedAlert || selectedAlertIndex == -1)) {
       // In computer mode, the first alert is selected by default
+      // If the list change and the selectedAlert doesn't exist anymore, the selectedAlert is reset to the first in the list
       setSelectedAlert(alertsList.length > 0 ? alertsList[0] : null);
     }
-  }, [alertsList, isMobile]);
+  }, [alertsList, isMobile, selectedAlert]);
 
   const AlertsListComponent = (
     <AlertsList
       alerts={alertsList}
       selectedAlert={selectedAlert}
       setSelectedAlert={setSelectedAlert}
+      lastUpdate={lastUpdate}
+      isRefreshing={isRefreshing}
+      invalidateAndRefreshData={invalidateAndRefreshData}
     />
   );
 
@@ -57,17 +75,17 @@ export const AlertsContainer = ({
 
   return (
     <>
-      {isPending && <Loader />}
-      {isError && (
+      {status == STATUS_LOADING && <Loader />}
+      {status == STATUS_ERROR && (
         <Typography variant="body2">
           {t('errorFetchSequencesMessage')}
         </Typography>
       )}
-      {isSuccess && alertsList.length == 0 && (
+      {status == STATUS_SUCCESS && alertsList.length == 0 && (
         <Typography variant="body2">{t('noAlertsMessage')}</Typography>
       )}
 
-      {isSuccess && alertsList.length != 0 && (
+      {status == STATUS_SUCCESS && alertsList.length != 0 && (
         <Box ref={containerRef}>
           {isMobile ? (
             <>
