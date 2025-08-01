@@ -15,6 +15,11 @@ export default defineConfig({
     }),
     checker({ typescript: true }),
   ],
+  resolve: {
+    alias: {
+      '@': '/src',
+    },
+  },
   // https://vitest.dev/config/
   test: {
     globals: true,

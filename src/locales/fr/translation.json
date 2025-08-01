@@ -43,6 +43,8 @@
     "subtitleAzimuth": "Azimuth",
     "subtitleLocalisation": "Localisation",
     "buttonInvestigate": "Activer la levée de doute",
-    "buttonTreatAlert": "Acquitter l'alerte"
+    "buttonTreatAlert": "Acquitter l'alerte",
+    "mapElevation": "Altitude",
+    "mapAngleOfView": "Angle de vue"
   }
 }

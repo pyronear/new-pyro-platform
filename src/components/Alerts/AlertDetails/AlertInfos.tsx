@@ -1,12 +1,5 @@
 import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
-import {
-  Box,
-  Button,
-  Divider,
-  Grid,
-  Skeleton,
-  Typography,
-} from '@mui/material';
+import { Button, Divider, Grid, Typography } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import { useTheme } from '@mui/material/styles';
 
@@ -14,12 +7,14 @@ import type { SequenceWithCameraInfoType } from '../../../utils/alerts';
 import { formatToDateTime } from '../../../utils/dates';
 import { useTranslationPrefix } from '../../../utils/useTranslationPrefix';
 import { AlertInfosSection } from './AlertInfosSection';
+import AlertMap from './AlertMap';
 
 interface AlertInfosType {
   sequence: SequenceWithCameraInfoType;
+  sequences?: SequenceWithCameraInfoType[];
 }
 
-export const AlertInfos = ({ sequence }: AlertInfosType) => {
+export const AlertInfos = ({ sequence, sequences }: AlertInfosType) => {
   const theme = useTheme();
   const { t } = useTranslationPrefix('alerts');
 
@@ -59,10 +54,7 @@ export const AlertInfos = ({ sequence }: AlertInfosType) => {
               {sequence.camera?.lat && `${sequence.camera.lat.toString()}, `}
               {sequence.camera?.lon.toString()}
             </AlertInfosSection>
-            <Box width="100%" height={200} bgcolor="white" borderRadius={1}>
-              {/* One Skeleton in place of the map */}
-              <Skeleton variant="rectangular" width="100%" height={200} />
-            </Box>
+            <AlertMap sequences={sequences ?? []} height={200} />
           </Grid>
           <Grid container spacing={2} direction="column">
             <Button

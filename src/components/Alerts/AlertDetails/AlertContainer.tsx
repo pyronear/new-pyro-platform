@@ -40,7 +40,10 @@ export const AlertContainer = ({ alert, resetAlert }: AlertContainerType) => {
             <AlertImages sequence={selectedSequence} />
           </Grid>
           <Grid size={{ xs: 12, xl: 3 }}>
-            <AlertInfos sequence={selectedSequence} />
+            <AlertInfos
+              sequence={selectedSequence}
+              sequences={alert.sequences}
+            />
           </Grid>
         </Grid>
       )}
