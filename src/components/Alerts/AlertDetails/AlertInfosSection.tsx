@@ -12,7 +12,9 @@ export const AlertInfosSection = ({
   const theme = useTheme();
   return (
     <Paper sx={{ padding: 1 }}>
-      <Typography fontSize="0.85rem">{title}</Typography>
+      <Typography variant="h4" fontSize="0.85rem">
+        {title}
+      </Typography>
       <Typography fontSize="0.85rem" color={theme.palette.secondaryText.main}>
         {children}
       </Typography>
