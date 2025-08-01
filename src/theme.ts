@@ -69,6 +69,14 @@ export const theme = createTheme({
     caption: {
       fontSize: '0.85rem',
     },
+    subtitle1: {
+      fontWeight: 500,
+      fontSize: '1rem',
+    },
+    subtitle2: {
+      fontSize: '0.85rem',
+      fontWeight: 400,
+    },
   },
   components: {
     MuiSelect: {
@@ -121,6 +129,13 @@ export const theme = createTheme({
           // apparently Drawer does not inherit these colors, so need to set them manually
           backgroundColor: theme.palette.primary.main,
           color: theme.palette.primary.contrastText,
+        }),
+      },
+    },
+    MuiTypography: {
+      styleOverrides: {
+        subtitle2: ({ theme }) => ({
+          color: theme.palette.secondaryText.main,
         }),
       },
     },

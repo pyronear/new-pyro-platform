@@ -45,6 +45,15 @@
     "buttonInvestigate": "Descartar la alerta",
     "buttonTreatAlert": "Investigar la alerta",
     "mapElevation": "Elevación",
-    "mapAngleOfView": "Ángulo de vista"
+    "mapAngleOfView": "Ángulo de vista",
+    "time": {
+      "day": "día",
+      "days": "días",
+      "hour": "hora",
+      "hours": "horas",
+      "minute": "minuto",
+      "minutes": "minutos",
+      "now": "Justo ahora"
+    }
   }
 }

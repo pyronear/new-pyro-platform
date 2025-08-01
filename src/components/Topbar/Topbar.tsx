@@ -1,11 +1,9 @@
-import { useMediaQuery } from '@mui/material';
-
-import { theme } from '../../theme';
+import { useIsMobile } from '../../utils/useIsMobile';
 import { DesktopTopbar } from './DesktopTopbar';
 import { MobileTopbar } from './MobileTopbar';
 
 export const Topbar = () => {
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const isMobile = useIsMobile();
 
   return isMobile ? <MobileTopbar /> : <DesktopTopbar />;
 };

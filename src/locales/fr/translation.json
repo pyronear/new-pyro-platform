@@ -45,6 +45,15 @@
     "buttonInvestigate": "Activer la levée de doute",
     "buttonTreatAlert": "Acquitter l'alerte",
     "mapElevation": "Altitude",
-    "mapAngleOfView": "Angle de vue"
+    "mapAngleOfView": "Angle de vue",
+    "time": {
+      "day": "jour",
+      "days": "jours",
+      "hour": "heure",
+      "hours": "heures",
+      "minute": "minute",
+      "minutes": "minutes",
+      "now": "À l'instant"
+    }
   }
 }

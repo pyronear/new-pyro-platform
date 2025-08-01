@@ -13,6 +13,7 @@ import type { AlertType } from '../../../utils/alerts';
 import { formatToDate, formatToTime } from '../../../utils/dates';
 import { useTranslationPrefix } from '../../../utils/useTranslationPrefix';
 import { CameraName } from '../../Common/CameraName';
+import { AlertStartedTimeAgo } from './AlertStartedTimeAgo';
 
 interface AlertCardType {
   isActive: boolean;
@@ -48,7 +49,7 @@ export const AlertCard = ({ isActive, setActive, alert }: AlertCardType) => {
               </Typography>
             </Grid>
             <Grid>
-              <Typography variant="caption">Time AGO</Typography>
+              <AlertStartedTimeAgo alert={alert} />
             </Grid>
           </Grid>
           <Stack
