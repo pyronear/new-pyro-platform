@@ -43,7 +43,7 @@ export const AlertImages = ({ sequence }: AlertImagesType) => {
           minHeight={35}
         >
           <Grid>
-            <Typography variant="h4">
+            <Typography variant="h2">
               {formatToTime(sequence.startedAt)}
             </Typography>
           </Grid>

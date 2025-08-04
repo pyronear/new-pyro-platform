@@ -13,6 +13,7 @@ import type { AlertType } from '../../../utils/alerts';
 import { formatToDate, formatToTime } from '../../../utils/dates';
 import { useTranslationPrefix } from '../../../utils/useTranslationPrefix';
 import { CameraName } from '../../Common/CameraName';
+import { AlertStartedTimeAgo } from './AlertStartedTimeAgo';
 
 interface AlertCardType {
   isActive: boolean;
@@ -48,7 +49,7 @@ export const AlertCard = ({ isActive, setActive, alert }: AlertCardType) => {
               </Typography>
             </Grid>
             <Grid>
-              <Typography variant="caption">Time AGO</Typography>
+              <AlertStartedTimeAgo alert={alert} />
             </Grid>
           </Grid>
           <Stack
@@ -58,7 +59,7 @@ export const AlertCard = ({ isActive, setActive, alert }: AlertCardType) => {
             marginBottom={1}
           >
             <VideocamOutlinedIcon fontSize="small" />
-            <Typography variant="h4">{t('prefixCardDetection')}</Typography>
+            <Typography variant="h3">{t('prefixCardDetection')}</Typography>
           </Stack>
           {alert.sequences.map((sequence) => (
             <Grid

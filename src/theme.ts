@@ -40,13 +40,20 @@ export const theme = createTheme({
     },
   },
   typography: {
+    fontFamily: 'Open Sans',
     h1: {
       fontWeight: 700,
       fontSize: '1.5rem',
+      fontFamily: 'Open Sans Condensed',
+    },
+    h2: {
+      fontWeight: 700,
+      fontSize: '1.3rem',
+      fontFamily: 'Open Sans Condensed',
     },
     h3: {
-      fontWeight: 500,
-      fontSize: '1.3rem',
+      fontWeight: 600,
+      fontSize: '1rem',
     },
     h4: {
       fontWeight: 500,
@@ -61,6 +68,14 @@ export const theme = createTheme({
     },
     caption: {
       fontSize: '0.85rem',
+    },
+    subtitle1: {
+      fontWeight: 500,
+      fontSize: '1rem',
+    },
+    subtitle2: {
+      fontSize: '0.85rem',
+      fontWeight: 400,
     },
   },
   components: {
@@ -114,6 +129,13 @@ export const theme = createTheme({
           // apparently Drawer does not inherit these colors, so need to set them manually
           backgroundColor: theme.palette.primary.main,
           color: theme.palette.primary.contrastText,
+        }),
+      },
+    },
+    MuiTypography: {
+      styleOverrides: {
+        subtitle2: ({ theme }) => ({
+          color: theme.palette.secondaryText.main,
         }),
       },
     },

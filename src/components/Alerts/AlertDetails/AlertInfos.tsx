@@ -30,7 +30,7 @@ export const AlertInfos = ({ sequence, sequences }: AlertInfosType) => {
     >
       <Grid container direction="column" spacing={2} height="100%">
         <Grid minHeight={35} container alignItems="center">
-          <Typography variant="h4">{t('titleDetails')}</Typography>
+          <Typography variant="h2">{t('titleDetails')}</Typography>
         </Grid>
 
         <Divider
