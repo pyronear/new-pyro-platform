@@ -61,8 +61,8 @@ export const buildVisionPolygon = (
   const points2: LatLng[] = [];
 
   for (let i = nSteps; i >= 1; i--) {
-    const azimuth1 = (azimuth - i / 2) % 360;
-    const azimuth2 = (azimuth + i / 2) % 360;
+    const azimuth1 = (((azimuth - i / 2) % 360) + 360) % 360;
+    const azimuth2 = (((azimuth + i / 2) % 360) + 360) % 360;
 
     const point1 = destinationPoint(siteLat, siteLon, azimuth1, distKm);
     const point2 = destinationPoint(siteLat, siteLon, azimuth2, distKm);
