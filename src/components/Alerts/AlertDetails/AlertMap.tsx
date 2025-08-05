@@ -51,7 +51,7 @@ const AlertMap = ({ sequences, height = '100%' }: AlertMap) => {
   return (
     <MapContainer
       bounds={allPolygonPoints as L.LatLngBoundsExpression}
-      key={allPolygonPoints.toString()} // map is not recentered when a new alert is shown (because bounds don't update automatically) so we use key to force a re-render
+      key={sequences.map((s) => s.id).join(',')} // map is not recentered when a new alert is shown (because bounds don't update automatically) so we use key to force a re-render
       boundsOptions={{ padding: [20, 20] }}
       style={{ height, width: '100%', borderRadius: 4 }}
     >
