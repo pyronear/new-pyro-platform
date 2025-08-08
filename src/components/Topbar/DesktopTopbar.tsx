@@ -21,8 +21,9 @@ export const DesktopTopbar = () => {
               <img height="30px" src={logo} alt="Logo" />
               {isLoggedIn && (
                 <Grid container spacing={4} alignItems="center">
-                  <NavigationLink path="/dashboard" label={t('dashboard')} />
                   <NavigationLink path="/alerts" label={t('alerts')} />
+                  <NavigationLink path="/dashboard" label={t('dashboard')} />
+                  <NavigationLink path="/history" label={t('history')} />
                 </Grid>
               )}
             </Grid>

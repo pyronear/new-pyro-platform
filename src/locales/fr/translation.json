@@ -13,8 +13,9 @@
     }
   },
   "pages": {
-    "dashboard": "Tableau de bord",
-    "alerts": "Alertes"
+    "dashboard": "Caméras",
+    "alerts": "Alertes",
+    "history": "Historique"
   },
   "topbar": {
     "menuLabel": "Menu"
