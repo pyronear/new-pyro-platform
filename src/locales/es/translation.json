@@ -14,7 +14,8 @@
   },
   "pages": {
     "dashboard": "Panel de cámaras",
-    "alerts": "Alertas"
+    "alerts": "Alertas",
+    "history": "Histórico"
   },
   "topbar": {
     "menuLabel": "Menú"

@@ -13,8 +13,9 @@
     }
   },
   "pages": {
-    "dashboard": "Dashboard",
-    "alerts": "Alerts"
+    "dashboard": "Camera dashboard",
+    "alerts": "Alerts",
+    "history": "History"
   },
   "topbar": {
     "menuLabel": "Menu"
