@@ -4,43 +4,59 @@ import Slide from '@mui/material/Slide';
 import Typography from '@mui/material/Typography';
 import { useEffect, useRef, useState } from 'react';
 
+import type { FiltersType } from '../../pages/HistoryPage.tsx';
+import {
+  type ResponseStatus,
+  STATUS_ERROR,
+  STATUS_LOADING,
+  STATUS_SUCCESS,
+} from '../../services/axios';
 import type { AlertType } from '../../utils/alerts';
 import { useIsMobile } from '../../utils/useIsMobile';
 import { useTranslationPrefix } from '../../utils/useTranslationPrefix';
+import { AlertContainer } from '../Alerts/AlertDetails/AlertContainer.tsx';
 import { Loader } from '../Common/Loader';
-import { AlertContainer } from './AlertDetails/AlertContainer';
-import { AlertsList } from './AlertsList/AlertsList';
+import { HistoryList } from './HistoryList/HistoryList.tsx';
 
-interface AlertsContainerType {
-  isPending: boolean;
-  isError: boolean;
-  isSuccess: boolean;
+interface HistoryContainerType {
+  status: ResponseStatus;
   alertsList: AlertType[];
+  filters: FiltersType;
+  setFilters: React.Dispatch<React.SetStateAction<FiltersType>>;
 }
 
-export const AlertsContainer = ({
-  isPending,
-  isError,
-  isSuccess,
+export const HistoryContainer = ({
+  status,
   alertsList,
-}: AlertsContainerType) => {
+  filters,
+  setFilters,
+}: HistoryContainerType) => {
   const [selectedAlert, setSelectedAlert] = useState<AlertType | null>(null);
   const isMobile = useIsMobile();
   const containerRef = useRef<HTMLElement>(null);
-  const { t } = useTranslationPrefix('alerts');
+  const { t } = useTranslationPrefix('history');
 
   useEffect(() => {
-    // Reset selected alert when the list change
-    // TODO : reset only if selectedAlertId no longer exist
-    if (!isMobile) {
+    const selectedAlertIndex = alertsList.findIndex(
+      (a) => a.id === selectedAlert?.id
+    );
+    if (isMobile && selectedAlertIndex == -1) {
+      // In mobile mode, no alert is selected by default
+      // If the list change and the selectedAlert doesn't exist anymore, the selectedAlert is reset
+      setSelectedAlert(null);
+    }
+    if (!isMobile && (!selectedAlert || selectedAlertIndex == -1)) {
       // In computer mode, the first alert is selected by default
+      // If the list change and the selectedAlert doesn't exist anymore, the selectedAlert is reset to the first in the list
       setSelectedAlert(alertsList.length > 0 ? alertsList[0] : null);
     }
-  }, [alertsList, isMobile]);
+  }, [alertsList, isMobile, selectedAlert]);
 
   const AlertsListComponent = (
-    <AlertsList
+    <HistoryList
       alerts={alertsList}
+      filters={filters}
+      setFilters={setFilters}
       selectedAlert={selectedAlert}
       setSelectedAlert={setSelectedAlert}
     />
@@ -57,17 +73,13 @@ export const AlertsContainer = ({
 
   return (
     <>
-      {isPending && <Loader />}
-      {isError && (
+      {status == STATUS_LOADING && <Loader />}
+      {status == STATUS_ERROR && (
         <Typography variant="body2">
           {t('errorFetchSequencesMessage')}
         </Typography>
       )}
-      {isSuccess && alertsList.length == 0 && (
-        <Typography variant="body2">{t('noAlertsMessage')}</Typography>
-      )}
-
-      {isSuccess && alertsList.length != 0 && (
+      {status == STATUS_SUCCESS && (
         <Box ref={containerRef}>
           {isMobile ? (
             <>
@@ -93,9 +105,7 @@ export const AlertsContainer = ({
           ) : (
             <Grid container>
               <Grid size={{ sm: 4, md: 3 }}>{AlertsListComponent}</Grid>
-              <Grid size={{ sm: 8, md: 9 }}>
-                {selectedAlert && AlertDetailsComponent}
-              </Grid>
+              <Grid size={{ sm: 8, md: 9 }}>{AlertDetailsComponent}</Grid>
             </Grid>
           )}
         </Box>

@@ -1,6 +1,7 @@
 import type { AxiosResponse } from 'axios';
 import * as z from 'zod/v4';
 
+import type { FiltersType } from '../pages/HistoryPage';
 import { convertStrToEpoch } from '../utils/dates';
 import { instance } from './axios';
 
@@ -34,6 +35,25 @@ const apiDetectionListResponseSchema = z.array(apiDetectionResponseSchema);
 export const getUnlabelledLatestSequences = async (): Promise<
   SequenceType[]
 > => {
+  return instance
+    .get('/api/v1/sequences/unlabeled/latest')
+    .then((response: AxiosResponse) => {
+      try {
+        const result = apiSequenceListResponseSchema.safeParse(response.data);
+        return result.data ?? [];
+      } catch {
+        throw new Error('INVALID_API_RESPONSE');
+      }
+    })
+    .catch((err: unknown) => {
+      console.error(err);
+      throw err;
+    });
+};
+
+export const getSequencesByFilters = async (
+  filters: FiltersType
+): Promise<SequenceType[]> => {
   return instance
     .get('/api/v1/sequences/unlabeled/latest')
     .then((response: AxiosResponse) => {
