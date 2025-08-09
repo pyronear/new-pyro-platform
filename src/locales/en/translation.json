@@ -97,6 +97,9 @@
     "errorCallSite": "Something went wrong when contacting the site. Please try again later.",
     "siteField": "Site",
     "buttonClose": "Fermer la levée de doute",
-    "alertMessage": "Levée de doute en cours: détection inactive depuis %s"
+    "alertMessage": "Levée de doute en cours: détection inactive depuis %s",
+    "errorNoStreaming": "Something went wrong on our side. Please try again later.",
+    "tooltipSpeed": "Camera movement speed",
+    "tooltipAzimuths": "Pre-recorded camera azimuths"
   }
 }

@@ -97,6 +97,9 @@
     "errorCallSite": "Une erreur s'est produite lors de la connexion au site. Veuillez réessayer plus tard.",
     "siteField": "Site",
     "buttonClose": "Fermer la levée de doute",
-    "alertMessage": "Levée de doute en cours: détection inactive depuis %s"
+    "alertMessage": "Levée de doute en cours: détection inactive depuis %s",
+    "errorNoStreaming": "Une erreur inattendue est survenue. Veuillez réessayer plus tard.",
+    "tooltipSpeed": "Vitesse de déplacément de la caméra",
+    "tooltipAzimuths": "Azimuths pré-enregistrés de la caméra"
   }
 }
