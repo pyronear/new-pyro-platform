@@ -25,7 +25,7 @@ export const CameraCard = ({ camera }: CameraCardType) => {
         image={camera.last_image_url ?? noImage}
         title={t('titleImage')}
       />
-      <CardContent>
+      <CardContent sx={{ padding: { xs: 1, sm: 2 } }}>
         <Grid container direction="column" spacing={2}>
           <CameraName name={camera.name} angle_of_view={camera.angle_of_view} />
           <Stack spacing={1} direction="row" alignItems="center">
