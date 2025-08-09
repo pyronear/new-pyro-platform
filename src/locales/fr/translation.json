@@ -108,6 +108,7 @@
     "buttonClose": "Fermer la levée de doute",
     "alertMessage": "Levée de doute en cours: détection inactive depuis {{timeSpent}}",
     "errorNoStreaming": "Une erreur inattendue est survenue. Veuillez réessayer plus tard.",
+    "errorMediaMtx": "Flux vidéo interrompu",
     "tooltipSpeed": "Vitesse de déplacément de la caméra",
     "tooltipAzimuths": "Azimuths pré-enregistrés de la caméra"
   }

@@ -108,6 +108,7 @@
     "buttonClose": "Cerrar la transmisión en vivo",
     "alertMessage": "Transmisión en vivo en curso: detección inactiva desde {{timeSpent}}",
     "errorNoStreaming": "Se ha producido un error. Vuelva a intentarlo más tarde.",
+    "errorMediaMtx": "Interrupción del flujo de vídeo",
     "tooltipSpeed": "Velocidad de desplazamiento de la cámara",
     "tooltipAzimuths": "Azimuts pregrabados de la cámara"
   }

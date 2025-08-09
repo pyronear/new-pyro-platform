@@ -108,6 +108,7 @@
     "buttonClose": "Close live stream",
     "alertMessage": "Live stream in progress: detection inactive since {{timeSpent}}",
     "errorNoStreaming": "Something went wrong on our side. Please try again later.",
+    "errorMediaMtx": "Video stream interrupted",
     "tooltipSpeed": "Camera movement speed",
     "tooltipAzimuths": "Pre-recorded camera azimuths"
   }
