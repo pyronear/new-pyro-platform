@@ -20,6 +20,9 @@
   "topbar": {
     "menuLabel": "Menú"
   },
+  "common": {
+    "lastUpdate": "Última actualización"
+  },
   "dashboard": {
     "noCameraMessage": "No hay ninguna cámara asociada a su organización. Póngase en contacto con el administrador",
     "errorFetchCameraMessage": "Se ha producido un error. Vuelva a intentarlo más tarde.",

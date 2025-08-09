@@ -20,6 +20,9 @@
   "topbar": {
     "menuLabel": "Menu"
   },
+  "common": {
+    "lastUpdate": "Last update"
+  },
   "dashboard": {
     "noCameraMessage": "No camera is associated with your account. Please contact the administrator",
     "errorFetchCameraMessage": "Something went wrong on our side. Please try again later.",

@@ -5,11 +5,12 @@ import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Skeleton from '@mui/material/Skeleton';
 import Typography from '@mui/material/Typography';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useCallback, useEffect, useState } from 'react';
 
 import { getDetectionsBySequence } from '../../../services/alerts';
 import type { SequenceWithCameraInfoType } from '../../../utils/alerts';
-import { formatToTime } from '../../../utils/dates';
+import { formatToTime, isStrictlyAfter } from '../../../utils/dates';
 import { useTranslationPrefix } from '../../../utils/useTranslationPrefix';
 import { AlertImagesPlayer } from './AlertImagesPlayer';
 
@@ -19,6 +20,8 @@ interface AlertImagesType {
 
 export const AlertImages = ({ sequence }: AlertImagesType) => {
   const { t } = useTranslationPrefix('alerts');
+  const [lastSeenAt, setLastSeenAt] = useState<string | null>(null);
+  const queryClient = useQueryClient();
 
   const {
     isPending,
@@ -32,6 +35,24 @@ export const AlertImages = ({ sequence }: AlertImagesType) => {
     },
     refetchOnWindowFocus: false,
   });
+
+  const invalidateAndRefreshData = useCallback(() => {
+    void queryClient.invalidateQueries({ queryKey: ['detections'] });
+  }, [queryClient]);
+
+  useEffect(() => {
+    const newLastSeenAt = sequence.lastSeenAt;
+    if (
+      lastSeenAt &&
+      newLastSeenAt &&
+      isStrictlyAfter(lastSeenAt, newLastSeenAt)
+    ) {
+      // LastSeenAt has changed since last time
+      // Detections must be refreshed
+      invalidateAndRefreshData();
+    }
+    setLastSeenAt(newLastSeenAt);
+  }, [invalidateAndRefreshData, lastSeenAt, sequence.lastSeenAt]);
 
   return (
     <Paper sx={{ height: '100% ', borderRadius: 6, padding: 2 }}>
@@ -67,7 +88,12 @@ export const AlertImages = ({ sequence }: AlertImagesType) => {
               {t('errorFetchImagesMessage')}
             </Typography>
           )}
-          {isSuccess && <AlertImagesPlayer detections={detectionsList} />}
+          {isSuccess && (
+            <AlertImagesPlayer
+              sequenceId={sequence.id}
+              detections={detectionsList}
+            />
+          )}
         </Grid>
       </Grid>
     </Paper>
