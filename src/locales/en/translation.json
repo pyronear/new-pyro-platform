@@ -50,6 +50,7 @@
     "subtitleLocalisation": "Localization",
     "buttonInvestigate": "Start live streaming",
     "buttonTreatAlert": "Treat the alert",
+    "buttonModifyAlert": "Modify the alert",
     "mapElevation": "Elevation",
     "mapAngleOfView": "Angle of view",
     "time": {

@@ -50,6 +50,7 @@
     "subtitleLocalisation": "Localisation",
     "buttonInvestigate": "Activer la levée de doute",
     "buttonTreatAlert": "Acquitter l'alerte",
+    "buttonModifyAlert": "Modifier l'alerte",
     "mapElevation": "Altitude",
     "mapAngleOfView": "Angle de vue",
     "time": {

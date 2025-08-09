@@ -70,6 +70,7 @@ export const HistoryContainer = ({
 
   const AlertDetailsComponent = selectedAlert && (
     <AlertContainer
+      isModeLive={false}
       alert={selectedAlert}
       resetAlert={() => {
         setSelectedAlert(null);

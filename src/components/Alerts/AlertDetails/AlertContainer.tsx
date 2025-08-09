@@ -10,11 +10,16 @@ import { AlertImages } from './AlertImages';
 import { AlertInfos } from './AlertInfos';
 
 interface AlertContainerType {
+  isModeLive: boolean;
   alert: AlertType;
   resetAlert: () => void;
 }
 
-export const AlertContainer = ({ alert, resetAlert }: AlertContainerType) => {
+export const AlertContainer = ({
+  isModeLive,
+  alert,
+  resetAlert,
+}: AlertContainerType) => {
   const [selectedSequence, setSelectedSequence] =
     useState<SequenceWithCameraInfoType | null>();
 
@@ -43,6 +48,7 @@ export const AlertContainer = ({ alert, resetAlert }: AlertContainerType) => {
             <AlertInfos
               sequence={selectedSequence}
               sequences={alert.sequences}
+              isModeLive={isModeLive}
             />
           </Grid>
         </Grid>
