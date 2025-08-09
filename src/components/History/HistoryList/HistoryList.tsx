@@ -1,4 +1,11 @@
-import { Divider, Grid, Typography, useTheme } from '@mui/material';
+import {
+  Button,
+  Divider,
+  Grid,
+  Stack,
+  Typography,
+  useTheme,
+} from '@mui/material';
 
 import type { AlertType } from '../../../utils/alerts';
 import { type FiltersType } from '../../../utils/history.ts';
@@ -13,6 +20,9 @@ interface HistoryListType {
   setSelectedAlert: (newAlertSelected: AlertType) => void;
   filters: FiltersType;
   setFilters: React.Dispatch<React.SetStateAction<FiltersType>>;
+  hasNextPage: boolean;
+  isFetchingNextPage: boolean;
+  fetchNextPage: () => void;
 }
 
 export const HistoryList = ({
@@ -22,6 +32,9 @@ export const HistoryList = ({
   setSelectedAlert,
   filters,
   setFilters,
+  hasNextPage,
+  isFetchingNextPage,
+  fetchNextPage,
 }: HistoryListType) => {
   const theme = useTheme();
   const { t } = useTranslationPrefix('history');
@@ -50,20 +63,34 @@ export const HistoryList = ({
           (alerts.length == 0 ? (
             <Typography variant="body2">{t('noAlertsMessage')}</Typography>
           ) : (
-            <Grid
-              sx={{
-                padding: { xs: 1, sm: 2 },
-                overflowY: 'auto',
-                height: 'calc(100vh - 64px -  155px)', // To get scroll on the alert cards list only (= 100% - topbar height - title height and filters)
-              }}
-            >
-              <AlertsCardsColumn
-                alerts={alerts}
-                selectedAlert={selectedAlert}
-                setSelectedAlert={setSelectedAlert}
-                isModeLive={false}
-              />
-            </Grid>
+            <>
+              <Grid
+                sx={{
+                  padding: { xs: 1, sm: 2 },
+                  overflowY: 'auto',
+                  height: 'calc(100vh - 64px -  155px)', // To get scroll on the alert cards list only (= 100% - topbar height - title height and filters)
+                }}
+              >
+                <AlertsCardsColumn
+                  alerts={alerts}
+                  selectedAlert={selectedAlert}
+                  setSelectedAlert={setSelectedAlert}
+                  isModeLive={false}
+                />
+              </Grid>
+              <Stack m={{ xs: 1, sm: 2 }} alignContent="center">
+                {hasNextPage && (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    loading={isFetchingNextPage}
+                    onClick={fetchNextPage}
+                  >
+                    {t('loadMoreMessage')}
+                  </Button>
+                )}
+              </Stack>
+            </>
           ))}
       </>
     </Grid>
