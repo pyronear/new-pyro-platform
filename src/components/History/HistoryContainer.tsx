@@ -4,7 +4,6 @@ import Slide from '@mui/material/Slide';
 import Typography from '@mui/material/Typography';
 import { useEffect, useRef, useState } from 'react';
 
-import type { FiltersType } from '../../pages/HistoryPage.tsx';
 import {
   type ResponseStatus,
   STATUS_ERROR,
@@ -12,6 +11,7 @@ import {
   STATUS_SUCCESS,
 } from '../../services/axios';
 import type { AlertType } from '../../utils/alerts';
+import type { FiltersType } from '../../utils/history.ts';
 import { useIsMobile } from '../../utils/useIsMobile';
 import { useTranslationPrefix } from '../../utils/useTranslationPrefix';
 import { AlertContainer } from '../Alerts/AlertDetails/AlertContainer.tsx';
@@ -19,6 +19,7 @@ import { Loader } from '../Common/Loader';
 import { HistoryList } from './HistoryList/HistoryList.tsx';
 
 interface HistoryContainerType {
+  isQuerySequencesEnabled: boolean;
   status: ResponseStatus;
   alertsList: AlertType[];
   filters: FiltersType;
@@ -26,6 +27,7 @@ interface HistoryContainerType {
 }
 
 export const HistoryContainer = ({
+  isQuerySequencesEnabled,
   status,
   alertsList,
   filters,
@@ -37,23 +39,27 @@ export const HistoryContainer = ({
   const { t } = useTranslationPrefix('history');
 
   useEffect(() => {
-    const selectedAlertIndex = alertsList.findIndex(
+    const indexSelectedAlert = alertsList.findIndex(
       (a) => a.id === selectedAlert?.id
     );
-    if (isMobile && selectedAlertIndex == -1) {
-      // In mobile mode, no alert is selected by default
-      // If the list change and the selectedAlert doesn't exist anymore, the selectedAlert is reset
-      setSelectedAlert(null);
-    }
-    if (!isMobile && (!selectedAlert || selectedAlertIndex == -1)) {
-      // In computer mode, the first alert is selected by default
-      // If the list change and the selectedAlert doesn't exist anymore, the selectedAlert is reset to the first in the list
-      setSelectedAlert(alertsList.length > 0 ? alertsList[0] : null);
+    if (!selectedAlert || indexSelectedAlert == -1) {
+      // Default : initial state or if the list changes and the alert doesn't exist anymore
+      // In mobile, nothing is selected
+      // In compoter mode, the first in the list is selected
+      if (isMobile) {
+        setSelectedAlert(null);
+      } else {
+        setSelectedAlert(alertsList.length > 0 ? alertsList[0] : null);
+      }
+    } else if (indexSelectedAlert != 1) {
+      // If the selected alert has changed, its data are updated
+      setSelectedAlert(alertsList[indexSelectedAlert]);
     }
   }, [alertsList, isMobile, selectedAlert]);
 
   const AlertsListComponent = (
     <HistoryList
+      isQuerySequencesEnabled={isQuerySequencesEnabled}
       alerts={alertsList}
       filters={filters}
       setFilters={setFilters}

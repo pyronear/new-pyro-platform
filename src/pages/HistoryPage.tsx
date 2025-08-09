@@ -10,25 +10,31 @@ import {
 } from '../services/axios';
 import { getCameraList } from '../services/camera';
 import { type AlertType, convertSequencesToAlerts } from '../utils/alerts';
+import {
+  type FiltersType,
+  INITIAL_FILTERS,
+  isFiltersEmpty,
+} from '../utils/history';
 
-export interface FiltersType {
-  date: string | null;
-}
-
-const INITIAL_FILTERS = {
-  date: null,
-};
+const HISTORY_NB_ALERTS_PER_PAGE = import.meta.env
+  .VITE_HISTORY_NB_ALERTS_PER_PAGE;
 
 export const HistoryPage = () => {
   const [filters, setFilters] = useState<FiltersType>(INITIAL_FILTERS);
+  const isQuerySequencesEnabled = useMemo(
+    () => !isFiltersEmpty(filters),
+    [filters]
+  );
   const { status: statusSequences, data: sequenceList } = useQuery({
+    enabled: isQuerySequencesEnabled,
     queryKey: ['sequenceList', filters],
     queryFn: async () => {
-      if (!filters.date) {
-        // TODO : create a method isFiltersEmpty
-        return [];
-      }
-      return await getSequencesByFilters(filters);
+      // TODO : do pagination
+      return await getSequencesByFilters(
+        filters.date?.format('YYYY-MM-DD') ?? '',
+        HISTORY_NB_ALERTS_PER_PAGE,
+        0
+      );
     },
     refetchOnWindowFocus: false,
   });
@@ -44,17 +50,24 @@ export const HistoryPage = () => {
   }, [sequenceList, cameraList]);
 
   const status = useMemo(() => {
-    if (statusSequences == STATUS_SUCCESS && statusCameras == STATUS_SUCCESS) {
+    if (
+      (statusSequences == STATUS_SUCCESS || !isQuerySequencesEnabled) &&
+      statusCameras == STATUS_SUCCESS
+    ) {
       return STATUS_SUCCESS;
     }
-    if (statusSequences == STATUS_LOADING || statusCameras == STATUS_LOADING) {
+    if (
+      (isQuerySequencesEnabled && statusSequences == STATUS_LOADING) ||
+      statusCameras == STATUS_LOADING
+    ) {
       return STATUS_LOADING;
     }
     return STATUS_ERROR;
-  }, [statusSequences, statusCameras]);
+  }, [statusSequences, statusCameras, isQuerySequencesEnabled]);
 
   return (
     <HistoryContainer
+      isQuerySequencesEnabled={isQuerySequencesEnabled}
       filters={filters}
       setFilters={setFilters}
       status={status}

@@ -1,6 +1,8 @@
-import { Grid, Typography } from '@mui/material';
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
-import type { FiltersType } from '../../../pages/HistoryPage';
+import type { FiltersType } from '../../../utils/history';
 import { useTranslationPrefix } from '../../../utils/useTranslationPrefix';
 
 interface HistoryFiltersType {
@@ -8,15 +10,16 @@ interface HistoryFiltersType {
   setFilters: React.Dispatch<React.SetStateAction<FiltersType>>;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const HistoryFilters = ({ filters, setFilters }: HistoryFiltersType) => {
   const { t } = useTranslationPrefix('history');
 
   return (
-    <Grid direction="column">
-      <Grid>
-        <Typography variant="h2">{t('dateField')}</Typography>
-      </Grid>
-    </Grid>
+    <LocalizationProvider dateAdapter={AdapterMoment}>
+      <DatePicker
+        label={t('dateField')}
+        value={filters.date}
+        onChange={(newValue) => setFilters({ ...filters, date: newValue })}
+      />
+    </LocalizationProvider>
   );
 };

@@ -1,12 +1,13 @@
-import { Box, Divider, Grid, Typography, useTheme } from '@mui/material';
+import { Divider, Grid, Typography, useTheme } from '@mui/material';
 
-import type { FiltersType } from '../../../pages/HistoryPage.tsx';
 import type { AlertType } from '../../../utils/alerts';
+import { type FiltersType } from '../../../utils/history.ts';
 import { useTranslationPrefix } from '../../../utils/useTranslationPrefix';
-import { AlertCard } from '../../Alerts/AlertsList/AlertCard.tsx';
+import { AlertsCardsColumn } from '../../Alerts/AlertsList/AlertsCardsColumn.tsx';
 import { HistoryFilters } from './HistoryFilters.tsx';
 
 interface HistoryListType {
+  isQuerySequencesEnabled: boolean;
   alerts: AlertType[];
   selectedAlert: AlertType | null;
   setSelectedAlert: (newAlertSelected: AlertType) => void;
@@ -15,6 +16,7 @@ interface HistoryListType {
 }
 
 export const HistoryList = ({
+  isQuerySequencesEnabled,
   alerts,
   selectedAlert,
   setSelectedAlert,
@@ -25,33 +27,34 @@ export const HistoryList = ({
   const { t } = useTranslationPrefix('history');
 
   return (
-    <Grid direction="column" bgcolor={theme.palette.customBackground.light}>
+    <Grid
+      container
+      direction="column"
+      bgcolor={theme.palette.customBackground.light}
+    >
       <Grid minHeight="55px" padding={{ xs: 1, sm: 2 }} alignContent="center">
         <Typography variant="h2">{t('title')}</Typography>
       </Grid>
       <Divider orientation="horizontal" flexItem />
-      <HistoryFilters filters={filters} setFilters={setFilters} />
+      <Grid padding={{ xs: 1, sm: 2 }}>
+        <HistoryFilters filters={filters} setFilters={setFilters} />
+      </Grid>
       <Divider orientation="horizontal" flexItem />
-      <Box
-        sx={{
-          padding: { xs: 1, sm: 2 },
-          overflowY: 'auto',
-          height: 'calc(100vh - 64px - 55px)', // To get scroll on the alert cards list only (= 100% - topbar height - title height)
-        }}
-      >
-        <Grid container direction="column" spacing={2}>
-          {alerts.map((alert) => (
-            <AlertCard
-              key={alert.id}
-              alert={alert}
-              isActive={alert.id == selectedAlert?.id}
-              setActive={() => {
-                setSelectedAlert(alert);
-              }}
+      <Grid>
+        {!isQuerySequencesEnabled && (
+          <Typography variant="body2">{t('noFilterMessage')}</Typography>
+        )}
+        {isQuerySequencesEnabled &&
+          (alerts.length == 0 ? (
+            <Typography variant="body2">{t('noAlertsMessage')}</Typography>
+          ) : (
+            <AlertsCardsColumn
+              alerts={alerts}
+              selectedAlert={selectedAlert}
+              setSelectedAlert={setSelectedAlert}
             />
           ))}
-        </Grid>
-      </Box>
+      </Grid>
     </Grid>
   );
 };

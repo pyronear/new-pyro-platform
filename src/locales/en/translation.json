@@ -58,9 +58,10 @@
     }
   },
   "history":{
-    "title": "Historique",
-    "noFilterMessage": "Sélectionnez la date souhaitée",
-    "noAlertsMessage": "Aucune alerte trouvée correspondant aux filtres appliqués",
-    "errorFetchSequencesMessage": "Une erreur inattendue est survenue. Veuillez réessayer plus tard."
+    "title": "History",
+    "noFilterMessage": "Select a date",
+    "noAlertsMessage": "No alert found for this day",
+    "errorFetchSequencesMessage": "Something went wrong on our side. Please try again later.",
+    "dateField": "Date"
   }
 }
