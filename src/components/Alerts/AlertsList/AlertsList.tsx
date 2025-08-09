@@ -30,6 +30,7 @@ export const AlertsList = ({
       direction="column"
       bgcolor={theme.palette.customBackground.light}
       minHeight={0}
+      height={'100%'}
     >
       <Box p={{ xs: 1, sm: 2 }} alignContent="center">
         <Typography variant="h2">
@@ -37,7 +38,7 @@ export const AlertsList = ({
         </Typography>
       </Box>
       <Divider orientation="horizontal" flexItem />
-      <Box px={{ xs: 1, sm: 2 }} py={1}>
+      <Box px={{ xs: 1, sm: 2 }} pt={1}>
         <LastUpdateButton
           lastUpdate={lastUpdate}
           onRefresh={invalidateAndRefreshData}
