@@ -8,6 +8,7 @@ import {
 } from '@mui/material';
 
 import { CamerasListSelectable } from '@/components/Common/Camera/CamerasListSelectable';
+import type { CameraFullInfosType } from '@/utils/camera';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
 import CamerasMap from '../Dashboard/CamerasMap';
@@ -17,7 +18,7 @@ interface LiveControlPanelProps {
   sites: SiteType[];
   selectedSite: SiteType | null;
   setSelectedSite: (newSite: SiteType | null) => void;
-  selectedCameraId: number | null;
+  selectedCamera: CameraFullInfosType | null;
   setSelectedCameraId: (newCameraId: number | null) => void;
 }
 
@@ -25,7 +26,7 @@ export const LiveControlPanel = ({
   sites,
   selectedSite,
   setSelectedSite,
-  selectedCameraId,
+  selectedCamera,
   setSelectedCameraId,
 }: LiveControlPanelProps) => {
   const { t } = useTranslationPrefix('live');
@@ -35,7 +36,7 @@ export const LiveControlPanel = ({
   };
 
   return (
-    <Stack direction="column" p={2} spacing={1}>
+    <Stack spacing={1} height="100%">
       <FormControl fullWidth>
         <InputLabel>{t('siteField')}</InputLabel>
         <Select
@@ -53,11 +54,16 @@ export const LiveControlPanel = ({
       <div style={{ maxHeight: '200px', overflow: 'auto' }}>
         <CamerasListSelectable
           cameras={selectedSite?.cameras ?? []}
-          selectedCameraId={selectedCameraId}
+          selectedCameraId={selectedCamera?.id ?? null}
           setSelectedCameraId={setSelectedCameraId}
         />
       </div>
-      <CamerasMap cameras={selectedSite?.cameras ?? []} height="300px" />
+      <div style={{ flexGrow: 1 }}>
+        <CamerasMap
+          cameras={selectedCamera ? [selectedCamera] : []}
+          minHeight="200px"
+        />
+      </div>
     </Stack>
   );
 };

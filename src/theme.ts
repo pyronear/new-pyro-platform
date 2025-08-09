@@ -144,6 +144,13 @@ export const theme = createTheme({
         },
       },
     },
+    MuiFab: {
+      styleOverrides: {
+        root: ({ theme }) => ({
+          '&:disabled': { backgroundColor: theme.palette.grey[600] },
+        }),
+      },
+    },
     MuiCard: {
       styleOverrides: {
         root: {

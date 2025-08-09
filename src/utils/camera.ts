@@ -44,6 +44,8 @@ const aggregateCameraData = (
   );
   return {
     ...camera,
+    ip: cameraInfosFromPi?.ip,
+    type: cameraInfosFromPi?.type,
     azimuths: cameraInfosFromPi?.azimuths ?? [],
     poses: cameraInfosFromPi?.poses ?? [],
   };

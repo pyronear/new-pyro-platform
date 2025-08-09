@@ -106,6 +106,9 @@
     "errorCallSite": "Something went wrong when contacting the site. Please try again later.",
     "siteField": "Site",
     "buttonClose": "Close live stream",
-    "alertMessage": "Live stream in progress: detection inactive since {{timeSpent}}"
+    "alertMessage": "Live stream in progress: detection inactive since {{timeSpent}}",
+    "errorNoStreaming": "Something went wrong on our side. Please try again later.",
+    "tooltipSpeed": "Camera movement speed",
+    "tooltipAzimuths": "Pre-recorded camera azimuths"
   }
 }

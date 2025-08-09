@@ -1,4 +1,4 @@
-import { Dialog, Stack } from '@mui/material';
+import { Dialog, DialogContent } from '@mui/material';
 import { type ReactNode, useState } from 'react';
 
 import { LiveContainer } from './LiveContainer';
@@ -14,22 +14,34 @@ export const ModalLiveWrapper = ({
 }: ModalLiveWrapperProps) => {
   const [openLive, setOpenLive] = useState(false);
 
-  const handleClose = () => setOpenLive(false);
+  const handleClose = (
+    _event: never,
+    reason: 'backdropClick' | 'escapeKeyDown'
+  ) => {
+    if (reason !== 'backdropClick') {
+      setOpenLive(false);
+    }
+  };
   const handleOpen = () => setOpenLive(true);
 
   return (
     <>
       {children(handleOpen)}
       <Dialog open={openLive} onClose={handleClose} maxWidth="lg" fullWidth>
-        <Stack
+        <DialogContent
           sx={{
-            minHeight: '50vh',
-            justifyContent: 'center',
-            alignItems: 'center',
+            padding: 0,
+            minHeight: '90vh',
+            '& > .MuiStack-root': {
+              minHeight: '90vh',
+            },
           }}
         >
-          <LiveContainer onClose={handleClose} targetCameraName={cameraName} />
-        </Stack>
+          <LiveContainer
+            onClose={() => setOpenLive(false)}
+            targetCameraName={cameraName}
+          />
+        </DialogContent>
       </Dialog>
     </>
   );

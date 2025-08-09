@@ -106,6 +106,9 @@
     "errorCallSite": "Se ha producido un error al conectarse al sitio. Inténtelo de nuevo más tarde.",
     "siteField": "Sitio",
     "buttonClose": "Cerrar la transmisión en vivo",
-    "alertMessage": "Transmisión en vivo en curso: detección inactiva desde {{timeSpent}}"
+    "alertMessage": "Transmisión en vivo en curso: detección inactiva desde {{timeSpent}}",
+    "errorNoStreaming": "Se ha producido un error. Vuelva a intentarlo más tarde.",
+    "tooltipSpeed": "Velocidad de desplazamiento de la cámara",
+    "tooltipAzimuths": "Azimuts pregrabados de la cámara"
   }
 }

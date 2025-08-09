@@ -5,7 +5,7 @@ export const Loader = () => {
   return (
     <Box
       sx={{
-        margin: 4,
+        padding: 4,
         width: '100%',
         display: 'flex',
         justifyContent: 'center',

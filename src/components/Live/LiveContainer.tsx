@@ -1,6 +1,6 @@
 import { Grid, Stack, Typography } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import {
   liveInstance,
@@ -36,6 +36,9 @@ export const LiveContainer = ({
   const [selectedSite, setSelectedSite] = useState<SiteType | null>(null);
   const [selectedCameraId, setSelectedCameraId] = useState<number | null>(null);
   const isLastQueryEnabled = !!selectedSite;
+  const selectedCamera = useMemo(() => {
+    return selectedSite?.cameras.find((c) => c.id === selectedCameraId) ?? null;
+  }, [selectedCameraId, selectedSite]);
 
   useEffect(() => {
     if (selectedSite == null) {
@@ -69,7 +72,7 @@ export const LiveContainer = ({
   });
 
   return (
-    <>
+    <Stack>
       {(status == STATUS_LOADING ||
         (isLastQueryEnabled && statusCameras == STATUS_LOADING)) && <Loader />}
       {status == STATUS_ERROR && (
@@ -85,24 +88,27 @@ export const LiveContainer = ({
         statusCameras == STATUS_SUCCESS &&
         sites.length != 0 &&
         selectedSite && (
-          <Stack width="100%">
+          <>
             <LiveWarningCounter onClose={onClose} />
-            <Grid container p={2}>
-              <Grid size={8}>
-                <LiveStreamPanel />
+            <Grid container p={2} spacing={2} flexGrow={1}>
+              <Grid size={9}>
+                <LiveStreamPanel
+                  siteName={selectedSite.id}
+                  camera={selectedCamera}
+                />
               </Grid>
-              <Grid size={4}>
+              <Grid size={3}>
                 <LiveControlPanel
                   sites={sites}
                   selectedSite={selectedSite}
                   setSelectedSite={setSelectedSite}
-                  selectedCameraId={selectedCameraId}
+                  selectedCamera={selectedCamera}
                   setSelectedCameraId={setSelectedCameraId}
                 />
               </Grid>
             </Grid>
-          </Stack>
+          </>
         )}
-    </>
+    </Stack>
   );
 };

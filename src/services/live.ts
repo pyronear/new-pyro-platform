@@ -36,13 +36,127 @@ export const getCamerasInfos = async (): Promise<CameraInfosFromPi[]> => {
     });
 };
 
+const startStreaming = async (cameraIp: string): Promise<void> => {
+  return liveInstance
+    .post(`/stream/start_stream/${cameraIp}`)
+    .then(() => {
+      return;
+    })
+    .catch((err: unknown) => {
+      console.error(err);
+      throw err;
+    });
+};
+
+const stopStreaming = async (): Promise<void> => {
+  return liveInstance
+    .post('/stream/stop_stream')
+    .then(() => {
+      return;
+    })
+    .catch((err: unknown) => {
+      console.error(err);
+      throw err;
+    });
+};
+const startPatrol = async (cameraIp: string): Promise<void> => {
+  return liveInstance
+    .post('/patrol/start_patrol', null, { params: { camera_ip: cameraIp } })
+    .then(() => {
+      return;
+    })
+    .catch((err: unknown) => {
+      console.error(err);
+      throw err;
+    });
+};
+
+const stopPatrol = async (cameraIp: string): Promise<void> => {
+  return liveInstance
+    .post('/patrol/stop_patrol', null, { params: { camera_ip: cameraIp } })
+    .then(() => {
+      return;
+    })
+    .catch((err: unknown) => {
+      console.error(err);
+      throw err;
+    });
+};
+
+export const stopPatrolThenStartStreaming = async (
+  cameraIp: string
+): Promise<void> => {
+  return stopPatrol(cameraIp).then(() => startStreaming(cameraIp));
+};
+
+export const stopStreamingThenStartPatrol = async (
+  cameraIp: string
+): Promise<void> => {
+  return stopStreaming().then(() => startPatrol(cameraIp));
+};
+
+export const zoomCamera = async (
+  cameraIp: string,
+  level: number
+): Promise<void> => {
+  return liveInstance
+    .post(`/control/zoom/${cameraIp}/${level}`)
+    .then(() => {
+      return;
+    })
+    .catch((err: unknown) => {
+      console.error(err);
+      throw err;
+    });
+};
+
+export type CameraDirectionType = 'Up' | 'Down' | 'Left' | 'Right';
+
+export const moveCamera = async (
+  cameraIp: string,
+  direction?: CameraDirectionType,
+  speed?: number,
+  poseId?: number,
+  degrees?: number
+): Promise<void> => {
+  return liveInstance
+    .post('/control/move', null, {
+      params: {
+        camera_ip: cameraIp,
+        direction,
+        speed,
+        pose_id: poseId,
+        degrees,
+      },
+    })
+    .then(() => {
+      return;
+    })
+    .catch((err: unknown) => {
+      console.error(err);
+      throw err;
+    });
+};
+
+export const stopCamera = async (cameraIp: string): Promise<void> => {
+  return liveInstance
+    .post(`/control/stop/${cameraIp}`)
+    .then(() => {
+      return;
+    })
+    .catch((err: unknown) => {
+      console.error(err);
+      throw err;
+    });
+};
+
 const apiSitesLiveAccessResponseSchema = z.record(
   z.string(),
   z.array(z.string())
 );
 
 export const getLiveAccess = async (username: string): Promise<string[]> => {
-  return fetch('/' + import.meta.env.VITE_FILE_SITES_LIVE_ACCESS)
+  return fetch(`/${import.meta.env.VITE_FILE_SITES_LIVE_ACCESS}`)
     .then((r) => r.json())
     .then((response) => {
       const result = apiSitesLiveAccessResponseSchema.safeParse(response);
