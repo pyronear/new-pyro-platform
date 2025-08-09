@@ -1,4 +1,12 @@
-import { Box, Divider, Grid, Stack, Typography, useTheme } from '@mui/material';
+import {
+  Box,
+  Button,
+  Divider,
+  Grid,
+  Stack,
+  Typography,
+  useTheme,
+} from '@mui/material';
 
 import type { AlertType } from '../../../utils/alerts';
 import { type FiltersType } from '../../../utils/history.ts';
@@ -13,6 +21,9 @@ interface HistoryListType {
   setSelectedAlert: (newAlertSelected: AlertType) => void;
   filters: FiltersType;
   setFilters: React.Dispatch<React.SetStateAction<FiltersType>>;
+  hasNextPage: boolean;
+  isFetchingNextPage: boolean;
+  fetchNextPage: () => void;
 }
 
 export const HistoryList = ({
@@ -22,6 +33,9 @@ export const HistoryList = ({
   setSelectedAlert,
   filters,
   setFilters,
+  hasNextPage,
+  isFetchingNextPage,
+  fetchNextPage,
 }: HistoryListType) => {
   const theme = useTheme();
   const { t } = useTranslationPrefix('history');
@@ -50,12 +64,26 @@ export const HistoryList = ({
           (alerts.length == 0 ? (
             <Typography variant="body2">{t('noAlertsMessage')}</Typography>
           ) : (
-            <AlertsCardsColumn
-              alerts={alerts}
-              selectedAlert={selectedAlert}
-              setSelectedAlert={setSelectedAlert}
-              isModeLive={false}
-            />
+            <>
+              <AlertsCardsColumn
+                alerts={alerts}
+                selectedAlert={selectedAlert}
+                setSelectedAlert={setSelectedAlert}
+                isModeLive={false}
+              />
+              <Stack m={{ xs: 1, sm: 2 }} alignContent="center">
+                {hasNextPage && (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    loading={isFetchingNextPage}
+                    onClick={fetchNextPage}
+                  >
+                    {t('loadMoreMessage')}
+                  </Button>
+                )}
+              </Stack>
+            </>
           ))}
       </>
     </Stack>

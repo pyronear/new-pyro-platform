@@ -24,6 +24,9 @@ interface HistoryContainerType {
   alertsList: AlertType[];
   filters: FiltersType;
   setFilters: React.Dispatch<React.SetStateAction<FiltersType>>;
+  hasNextPage: boolean;
+  isFetchingNextPage: boolean;
+  fetchNextPage: () => void;
 }
 
 export const HistoryContainer = ({
@@ -32,6 +35,9 @@ export const HistoryContainer = ({
   alertsList,
   filters,
   setFilters,
+  hasNextPage,
+  isFetchingNextPage,
+  fetchNextPage,
 }: HistoryContainerType) => {
   const [selectedAlert, setSelectedAlert] = useState<AlertType | null>(null);
   const isMobile = useIsMobile();
@@ -65,6 +71,9 @@ export const HistoryContainer = ({
       setFilters={setFilters}
       selectedAlert={selectedAlert}
       setSelectedAlert={setSelectedAlert}
+      hasNextPage={hasNextPage}
+      isFetchingNextPage={isFetchingNextPage}
+      fetchNextPage={fetchNextPage}
     />
   );
 
