@@ -69,6 +69,7 @@ export const AlertsContainer = ({
 
   const AlertDetailsComponent = selectedAlert && (
     <AlertContainer
+      isModeLive={true}
       alert={selectedAlert}
       resetAlert={() => {
         setSelectedAlert(null);
