@@ -113,3 +113,12 @@ export const formatTimeAgo = ({
 
   return t('now');
 };
+
+const formatDigit = (n: number) => (n < 10 ? `0${n}` : n);
+
+export const formatTimer = (nbSeconds: number) => {
+  const hours = Math.floor(nbSeconds / (60 * 60));
+  const minutes = Math.floor((nbSeconds - hours * 60 * 60) / 60);
+  const seconds = nbSeconds - hours * 60 * 60 - minutes * 60;
+  return `${formatDigit(hours)}:${formatDigit(minutes)}:${formatDigit(seconds)}`;
+};

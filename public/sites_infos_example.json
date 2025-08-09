@@ -1,0 +1,30 @@
+{
+  "nemours": {
+    "ip": "0.0.0.1",
+    "name": "Nemours"
+  },
+  "moret-sur-loing": {
+    "ip": "0.0.0.2",
+    "name": "Moret-sur-Loing"
+  },
+  "croix-augas": {
+    "ip": "0.0.0.3",
+    "name": "Croix Augas"
+  },
+  "videlles": {
+    "ip": "0.0.0.4",
+    "name": "Videlles"
+  },
+  "brison": {
+    "ip": "0.0.0.5",
+    "name": "Brison"
+  },
+  "serre-de-barre": {
+    "ip": "0.0.0.6",
+    "name": "Serre-de-Barre"
+  },
+  "st-peray": {
+    "ip": "0.0.0.0",
+    "name": "Saint-Peray"
+  }
+}
