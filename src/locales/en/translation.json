@@ -48,6 +48,7 @@
     "subtitleLocalisation": "Localization",
     "buttonInvestigate": "Investigate the alert",
     "buttonTreatAlert": "Treat the alert",
+    "buttonModifyAlert": "Modify the alert",
     "mapElevation": "Elevation",
     "mapAngleOfView": "Angle of view",
     "time": {
