@@ -12,6 +12,8 @@ export interface SequenceWithCameraInfoType {
   camera: CameraType | null;
   startedAt: string | null;
   azimuth: number | null;
+  coneAzimuth: number;
+  coneAngle: number;
 }
 
 export const convertSequencesToAlerts = (
@@ -31,6 +33,8 @@ export const convertSequencesToAlerts = (
             null,
           startedAt: sequence.started_at,
           azimuth: sequence.azimuth,
+          coneAzimuth: sequence.cone_azimuth,
+          coneAngle: sequence.cone_angle,
         },
       ],
     };
