@@ -25,7 +25,7 @@ export const LastUpdateButton = ({
         <RefreshIcon />
       </IconButton>
       <Typography variant="subtitle1">
-        {`${t('lastUpdate')}: ${formatNbToTime(lastUpdate)}`}
+        {`${t('lastUpdate')} ${formatNbToTime(lastUpdate)}`}
       </Typography>
     </Stack>
   );

@@ -9,4 +9,7 @@ export const STATUS_SUCCESS = 'success';
 export const STATUS_ERROR = 'error';
 export const STATUS_LOADING = 'pending';
 
-export type ResponseStatus = 'error' | 'success' | 'pending';
+export type ResponseStatus =
+  | typeof STATUS_SUCCESS
+  | typeof STATUS_ERROR
+  | typeof STATUS_LOADING;
