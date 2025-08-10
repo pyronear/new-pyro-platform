@@ -15,12 +15,7 @@ export const AlertsCardsColumn = ({
   setSelectedAlert,
 }: AlertsCardsColumnType) => {
   return (
-    <Stack
-      overflow={'auto'}
-      spacing={{ xs: 1, sm: 2 }}
-      px={{ xs: 1, sm: 2 }}
-      py={1}
-    >
+    <Stack spacing={{ xs: 1, sm: 2 }}>
       {alerts.map((alert) => (
         <AlertCard
           key={alert.id}

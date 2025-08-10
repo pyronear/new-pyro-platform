@@ -1,4 +1,4 @@
-import { Box, Divider, Stack, Typography, useTheme } from '@mui/material';
+import { Divider, Grid, Typography, useTheme } from '@mui/material';
 
 import type { AlertType } from '../../../utils/alerts';
 import { useTranslationPrefix } from '../../../utils/useTranslationPrefix';
@@ -26,33 +26,37 @@ export const AlertsList = ({
   const { t } = useTranslationPrefix('alerts');
 
   return (
-    <Stack
-      direction="column"
-      bgcolor={theme.palette.customBackground.light}
-      minHeight={0}
-    >
-      <Box p={{ xs: 1, sm: 2 }} alignContent="center">
+    <Grid direction="column" bgcolor={theme.palette.customBackground.light}>
+      <Grid minHeight="55px" padding={{ xs: 1, sm: 2 }} alignContent="center">
         <Typography variant="h2">
           {`${alerts.length.toString()} ${alerts.length <= 1 ? t('titleListSimple') : t('titleListPlural')}`}
         </Typography>
-      </Box>
+      </Grid>
       <Divider orientation="horizontal" flexItem />
-      <Box px={{ xs: 1, sm: 2 }} py={1}>
+      <Grid px={{ xs: 1, sm: 2 }} py={1}>
         <LastUpdateButton
           lastUpdate={lastUpdate}
           onRefresh={invalidateAndRefreshData}
           isRefreshing={isRefreshing}
         />
-      </Box>
-      {alerts.length == 0 ? (
-        <Typography variant="body2">{t('noAlertsMessage')}</Typography>
-      ) : (
-        <AlertsCardsColumn
-          alerts={alerts}
-          selectedAlert={selectedAlert}
-          setSelectedAlert={setSelectedAlert}
-        />
-      )}
-    </Stack>
+      </Grid>
+      <Grid
+        sx={{
+          padding: { xs: 1, sm: 2 },
+          overflowY: 'auto',
+          height: 'calc(100vh - 64px -  2 * 55px)', // To get scroll on the alert cards list only (= 100% - topbar height - title height and lastupdate)
+        }}
+      >
+        {alerts.length == 0 ? (
+          <Typography variant="body2">{t('noAlertsMessage')}</Typography>
+        ) : (
+          <AlertsCardsColumn
+            alerts={alerts}
+            selectedAlert={selectedAlert}
+            setSelectedAlert={setSelectedAlert}
+          />
+        )}
+      </Grid>
+    </Grid>
   );
 };
