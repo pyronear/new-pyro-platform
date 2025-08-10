@@ -57,7 +57,7 @@ export const HistoryContainer = ({
     }
   }, [alertsList, isMobile, selectedAlert]);
 
-  const AlertsListComponent = (
+  const HisotryListComponent = (
     <HistoryList
       isQuerySequencesEnabled={isQuerySequencesEnabled}
       alerts={alertsList}
@@ -89,7 +89,7 @@ export const HistoryContainer = ({
       {status == STATUS_SUCCESS && (
         <>
           {isMobile ? (
-            <Box ref={containerRef} overflow="auto">
+            <Box ref={containerRef}>
               <Slide
                 direction={'right'}
                 in={!selectedAlert}
@@ -97,7 +97,7 @@ export const HistoryContainer = ({
                 unmountOnExit
                 container={containerRef.current}
               >
-                <Box>{AlertsListComponent}</Box>
+                <Box>{HisotryListComponent}</Box>
               </Slide>
               <Slide
                 direction={'left'}
@@ -110,15 +110,8 @@ export const HistoryContainer = ({
               </Slide>
             </Box>
           ) : (
-            <Grid container height={'100%'} direction={'column'}>
-              <Grid
-                container
-                height={'100%'}
-                direction={'column'}
-                size={{ sm: 4, md: 3 }}
-              >
-                {AlertsListComponent}
-              </Grid>
+            <Grid container height="100%">
+              <Grid size={{ sm: 4, md: 3 }}>{HisotryListComponent}</Grid>
               <Grid size={{ sm: 8, md: 9 }}>{AlertDetailsComponent}</Grid>
             </Grid>
           )}
