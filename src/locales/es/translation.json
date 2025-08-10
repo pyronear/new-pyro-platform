@@ -63,7 +63,7 @@
       "now": "Justo ahora"
     }
   },
-  "history":{
+  "history": {
     "title": "Histórico",
     "noFilterMessage": "Seleccione la fecha deseada.",
     "noAlertsMessage": "No se han encontrado alertas para la fecha seleccionada.",

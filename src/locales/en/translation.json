@@ -63,7 +63,7 @@
       "now": "Just now"
     }
   },
-  "history":{
+  "history": {
     "title": "History",
     "noFilterMessage": "Select a date",
     "noAlertsMessage": "No alert found for this day",
