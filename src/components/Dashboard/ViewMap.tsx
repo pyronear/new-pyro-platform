@@ -22,7 +22,7 @@ export const ViewMap = ({ cameraList }: ViewMapProps) => {
         size={isMobile ? 12 : 3}
         p={{ xs: 1, sm: 2 }}
         sx={{
-          overflowY: 'auto',
+          overflowY: isMobile ? 'unset' : 'auto',
           height: 'calc(100vh - 64px - 81px)', // To get scroll on the cards list only (= 100% - topbar height - tabs)
         }}
         bgcolor={theme.palette.customBackground.light}
@@ -34,7 +34,7 @@ export const ViewMap = ({ cameraList }: ViewMapProps) => {
         </Stack>
       </Grid>
       <Grid size={isMobile ? 12 : 9} p={{ xs: 1, sm: 2 }}>
-        <CamerasMap cameras={cameraList} />
+        {cameraList.length > 0 && <CamerasMap cameras={cameraList} />}
       </Grid>
     </Grid>
   );
