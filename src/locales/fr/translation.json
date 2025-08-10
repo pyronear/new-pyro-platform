@@ -24,10 +24,10 @@
     "lastUpdate": "Dernière mise à jour :"
   },
   "dashboard": {
-    "noCameraMessage": "Aucune camera n'est associée avec votre organisation. Veuillez contacter l'administateur",
+    "noCameraMessage": "Aucune caméra n'est associée avec votre organisation. Veuillez contacter l'administateur",
     "errorFetchCameraMessage": "Une erreur inattendue est survenue. Veuillez réessayer plus tard.",
-    "titleImage": "Dernière image de la camera",
-    "inactiveCameraMsg": "Camera inactive"
+    "titleImage": "Dernière image de la caméra",
+    "inactiveCameraMsg": "Caméra inactive"
   },
   "alerts": {
     "titleListSimple": "alerte à traiter",
@@ -35,9 +35,9 @@
     "prefixCardDetection": "Détectée par :",
     "noAlertsMessage": "Aucune alerte détectée",
     "errorFetchSequencesMessage": "Une erreur inattendue est survenue. Veuillez réessayer plus tard.",
-    "titleSectionCamera": "Camera :",
+    "titleSectionCamera": "Caméra :",
     "titleButtonBackAlt": "Retour à la liste",
-    "defaultCameraName": "Camera inconnue",
+    "defaultCameraName": "Caméra inconnue",
     "buttonImageDownload": "Télécharger",
     "buttonPlay": "Play",
     "buttonPause": "Pause",
