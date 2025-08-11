@@ -9,7 +9,8 @@ import {
   Typography,
 } from '@mui/material';
 
-import smallLogo from '../../../assets/small-logo.png';
+import smallLogo from '@/assets/small-logo.png';
+
 import type { SequenceWithCameraInfoType } from '../../../utils/alerts';
 import { useIsMobile } from '../../../utils/useIsMobile';
 import { useTranslationPrefix } from '../../../utils/useTranslationPrefix';

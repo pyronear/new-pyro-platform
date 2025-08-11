@@ -1,6 +1,7 @@
 import { AppBar, Grid, Toolbar } from '@mui/material';
 
-import logo from '../../assets/logo.svg';
+import logo from '@/assets/logo.svg';
+
 import { useAuth } from '../../context/useAuth';
 import { useTranslationPrefix } from '../../utils/useTranslationPrefix';
 import { LogoutButton } from '../Login/LogoutButton';

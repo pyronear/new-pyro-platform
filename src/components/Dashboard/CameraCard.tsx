@@ -3,7 +3,8 @@ import WarningIcon from '@mui/icons-material/Warning';
 import { CardContent, CardMedia, Grid, Stack, Typography } from '@mui/material';
 import Card from '@mui/material/Card';
 
-import noImage from '../../assets/no-image.svg';
+import noImage from '@/assets/no-image.svg';
+
 import type { CameraType } from '../../services/camera';
 import { formatToDateTime, isCameraActive } from '../../utils/dates';
 import { useTranslationPrefix } from '../../utils/useTranslationPrefix';

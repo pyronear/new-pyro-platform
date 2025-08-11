@@ -8,9 +8,9 @@ import {
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import es from '../../assets/languages/es.svg';
-import fr from '../../assets/languages/fr.svg';
-import gb from '../../assets/languages/gb.svg';
+import es from '@/assets/languages/es.svg';
+import fr from '@/assets/languages/fr.svg';
+import gb from '@/assets/languages/gb.svg';
 
 const LanguageSwitcher: React.FC = () => {
   const { i18n } = useTranslation();
