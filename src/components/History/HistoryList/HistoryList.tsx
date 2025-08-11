@@ -56,34 +56,31 @@ export const HistoryList = ({
           (alerts.length == 0 ? (
             <Typography variant="body2">{t('noAlertsMessage')}</Typography>
           ) : (
-            <>
-              <Grid
-                sx={{
-                  padding: { xs: 1, sm: 2 },
-                  overflowY: 'auto',
-                  height: 'calc(100vh - 64px -  155px)', // To get scroll on the alert cards list only (= 100% - topbar height - title height and filters)
-                }}
+            <Grid
+              sx={{
+                padding: { xs: 1, sm: 2 },
+                overflowY: 'auto',
+                height: 'calc(100vh - 64px -  155px)', // To get scroll on the alert cards list only (= 100% - topbar height - title height and filters)
+              }}
+            >
+              <AlertsCardsColumn
+                alerts={alerts}
+                selectedAlert={selectedAlert}
+                setSelectedAlert={setSelectedAlert}
+                isModeLive={false}
               >
-                <AlertsCardsColumn
-                  alerts={alerts}
-                  selectedAlert={selectedAlert}
-                  setSelectedAlert={setSelectedAlert}
-                  isModeLive={false}
-                >
-                  {' '}
-                  {hasNextPage && (
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      loading={isFetchingNextPage}
-                      onClick={fetchNextPage}
-                    >
-                      {t('loadMoreMessage')}
-                    </Button>
-                  )}
-                </AlertsCardsColumn>
-              </Grid>
-            </>
+                {hasNextPage && (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    loading={isFetchingNextPage}
+                    onClick={fetchNextPage}
+                  >
+                    {t('loadMoreMessage')}
+                  </Button>
+                )}
+              </AlertsCardsColumn>
+            </Grid>
           ))}
       </>
     </Grid>
