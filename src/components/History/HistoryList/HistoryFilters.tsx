@@ -17,6 +17,7 @@ export const HistoryFilters = ({ filters, setFilters }: HistoryFiltersType) => {
     <LocalizationProvider dateAdapter={AdapterMoment}>
       <DatePicker
         label={t('dateField')}
+        disableFuture
         value={filters.date}
         onChange={(newValue) => setFilters({ ...filters, date: newValue })}
       />
