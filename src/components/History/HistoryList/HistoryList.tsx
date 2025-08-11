@@ -1,11 +1,4 @@
-import {
-  Button,
-  Divider,
-  Grid,
-  Stack,
-  Typography,
-  useTheme,
-} from '@mui/material';
+import { Button, Divider, Grid, Typography, useTheme } from '@mui/material';
 
 import type { AlertType } from '../../../utils/alerts';
 import { type FiltersType } from '../../../utils/history.ts';
@@ -76,20 +69,20 @@ export const HistoryList = ({
                   selectedAlert={selectedAlert}
                   setSelectedAlert={setSelectedAlert}
                   isModeLive={false}
-                />
+                >
+                  {' '}
+                  {hasNextPage && (
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      loading={isFetchingNextPage}
+                      onClick={fetchNextPage}
+                    >
+                      {t('loadMoreMessage')}
+                    </Button>
+                  )}
+                </AlertsCardsColumn>
               </Grid>
-              <Stack m={{ xs: 1, sm: 2 }} alignContent="center">
-                {hasNextPage && (
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    loading={isFetchingNextPage}
-                    onClick={fetchNextPage}
-                  >
-                    {t('loadMoreMessage')}
-                  </Button>
-                )}
-              </Stack>
             </>
           ))}
       </>
