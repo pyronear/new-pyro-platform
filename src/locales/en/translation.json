@@ -20,6 +20,9 @@
   "topbar": {
     "menuLabel": "Menu"
   },
+  "common": {
+    "lastUpdate": "Last update:"
+  },
   "dashboard": {
     "noCameraMessage": "No camera is associated with your account. Please contact the administrator",
     "errorFetchCameraMessage": "Something went wrong on our side. Please try again later.",
@@ -32,7 +35,7 @@
     "prefixCardDetection": "Detected by :",
     "noAlertsMessage": "No alert detected",
     "errorFetchSequencesMessage": "Something went wrong on our side. Please try again later.",
-    "titleSectionCamera": "Camera",
+    "titleSectionCamera": "Camera:",
     "defaultCameraName": "Unknown camera",
     "buttonImageDownload": "Download",
     "buttonPlay": "Play",

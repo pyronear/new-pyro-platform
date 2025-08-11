@@ -45,7 +45,7 @@ export const AlertHeader = ({
 
   const Title = (
     <Typography variant="h1">
-      {t('titleSectionCamera')}: {camera?.name ?? t('defaultCameraName')}
+      {t('titleSectionCamera')} {camera?.name ?? t('defaultCameraName')}
       {camera?.angle_of_view && ` (${camera.angle_of_view.toString()}°)`}
     </Typography>
   );

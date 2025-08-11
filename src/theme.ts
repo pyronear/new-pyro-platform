@@ -70,8 +70,8 @@ export const theme = createTheme({
       fontSize: '0.85rem',
     },
     subtitle1: {
-      fontWeight: 500,
-      fontSize: '1rem',
+      fontWeight: 300,
+      fontSize: '0.95rem',
     },
     subtitle2: {
       fontSize: '0.85rem',
