@@ -1,0 +1,14 @@
+{
+    "st-peray": {
+        "ip": "0.0.0.0",
+        "name": "Saint-Peray"
+    },
+    "croix-augas": {
+        "ip": "0.0.0.0",
+        "name": "Croix Augas"
+    },
+    "brison": {
+        "ip": "0.0.0.0",
+        "name": "Brison"
+    }
+}

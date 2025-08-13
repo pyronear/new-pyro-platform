@@ -59,5 +59,9 @@
       "minutes": "minutes",
       "now": "À l'instant"
     }
+  },
+  "live": {
+    "errorFetchInfos": "Une erreur inattendue est survenue. Veuillez réessayer plus tard.",
+    "errorNoAccess": "Vous n'avez accès à aucun site. Veuillez contacter votre administateur"
   }
 }

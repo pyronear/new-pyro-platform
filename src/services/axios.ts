@@ -1,9 +1,11 @@
 import axios from 'axios';
 
-export const instance = axios.create({
+export const apiInstance = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
   timeout: 1000,
 });
+
+export const liveInstance = axios.create();
 
 export const STATUS_SUCCESS = 'success';
 export const STATUS_ERROR = 'error';

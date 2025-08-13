@@ -1,4 +1,3 @@
-import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 import { Button, Divider, Grid, Typography } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import { useTheme } from '@mui/material/styles';
@@ -7,6 +6,7 @@ import type { SequenceWithCameraInfoType } from '../../../utils/alerts';
 import { formatToDateTime } from '../../../utils/dates';
 import { useTranslationPrefix } from '../../../utils/useTranslationPrefix';
 import { AlertInfosSection } from './AlertInfosSection';
+import { AlertLiveButton } from './AlertLiveButton';
 import AlertMap from './AlertMap';
 
 interface AlertInfosType {
@@ -57,20 +57,7 @@ export const AlertInfos = ({ sequence, sequences }: AlertInfosType) => {
             <AlertMap sequences={sequences ?? []} height={200} />
           </Grid>
           <Grid container spacing={2} direction="column">
-            <Button
-              color="secondary"
-              variant="outlined"
-              startIcon={<SportsEsportsIcon />}
-              sx={{
-                '&.Mui-disabled': {
-                  background: '#c6c2c2',
-                  color: '#575757',
-                },
-              }}
-              disabled
-            >
-              {t('buttonInvestigate')}
-            </Button>
+            <AlertLiveButton />
             <Button
               color="secondary"
               variant="contained"

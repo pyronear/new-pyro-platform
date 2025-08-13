@@ -59,5 +59,9 @@
       "minutes": "minutes",
       "now": "Just now"
     }
+  },
+  "live": {
+    "errorFetchInfos": "Something went wrong on our side. Please try again later.",
+    "errorNoAccess": "Nope"
   }
 }

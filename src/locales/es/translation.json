@@ -59,5 +59,9 @@
       "minutes": "minutos",
       "now": "Justo ahora"
     }
+  },
+  "live": {
+    "errorFetchInfos": "Se ha producido un error. Vuelva a intentarlo más tarde.",
+    "errorNoAccess": "Nope"
   }
 }
