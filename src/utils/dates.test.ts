@@ -3,11 +3,13 @@ import { vi } from 'vitest';
 
 import { providersWrapper } from '../test/renderWithProviders';
 import {
+  formatNbToTime,
   formatTimeAgo,
   formatToDate,
   formatToDateTime,
   formatToTime,
   isDateWithinTheLastXMinutes,
+  isStrictlyAfter,
 } from './dates';
 
 vi.mock('moment-timezone', async (importOriginal) => {
@@ -96,6 +98,49 @@ describe('formatToTime', () => {
   it('should return the right format and the right UTC if date is in summertime  close to next day', () => {
     const result = formatToTime('2025-07-25T22:37:03.172325');
     expect(result).toBe('00:37:03');
+  });
+});
+
+describe('formatNbToTime', () => {
+  it('should return the right format and the right UTC if date is in winter time', () => {
+    const result = formatNbToTime(1740476223000); //2025-02-25T09:37:03
+    expect(result).toBe('10:37:03');
+  });
+  it('should return the right format and the right UTC if date is in summertime', () => {
+    const result = formatNbToTime(1753436223000); //2025-07-25T09:37:03
+    expect(result).toBe('11:37:03');
+  });
+  it('should return the right format and the right UTC if date is in winter time close to next day', () => {
+    const result = formatNbToTime(1740526623000); //2025-02-25T23:37:03
+    expect(result).toBe('00:37:03');
+  });
+  it('should return the right format and the right UTC if date is in summertime  close to next day', () => {
+    const result = formatNbToTime(1753483023000); //2025-07-25T22:37:03
+    expect(result).toBe('00:37:03');
+  });
+});
+
+describe('isStrictlyAfter', () => {
+  it('should return false if dates are equals', () => {
+    const result = isStrictlyAfter(
+      '2025-02-25T09:37:03.172325',
+      '2025-02-25T09:37:03.172325'
+    );
+    expect(result).toBeFalsy();
+  });
+  it('should return true if date2 is 30s after', () => {
+    const result = isStrictlyAfter(
+      '2025-02-25T09:37:03.172325',
+      '2025-02-25T09:37:33.172325'
+    );
+    expect(result).toBeTruthy();
+  });
+  it('should return true if date2 is 30s before', () => {
+    const result = isStrictlyAfter(
+      '2025-02-25T23:36:33.172325',
+      '2025-02-25T09:37:03.172325'
+    );
+    expect(result).toBeFalsy();
   });
 });
 

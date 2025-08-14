@@ -13,11 +13,15 @@
     }
   },
   "pages": {
-    "dashboard": "Dashboard",
-    "alerts": "Alerts"
+    "dashboard": "Camera dashboard",
+    "alerts": "Alerts",
+    "history": "History"
   },
   "topbar": {
     "menuLabel": "Menu"
+  },
+  "common": {
+    "lastUpdate": "Last update:"
   },
   "dashboard": {
     "noCameraMessage": "No camera is associated with your account. Please contact the administrator",
@@ -31,7 +35,7 @@
     "prefixCardDetection": "Detected by :",
     "noAlertsMessage": "No alert detected",
     "errorFetchSequencesMessage": "Something went wrong on our side. Please try again later.",
-    "titleSectionCamera": "Camera",
+    "titleSectionCamera": "Camera:",
     "defaultCameraName": "Unknown camera",
     "buttonImageDownload": "Download",
     "buttonPlay": "Play",

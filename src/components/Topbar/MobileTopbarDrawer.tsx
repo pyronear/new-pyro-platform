@@ -1,6 +1,7 @@
 import { Box, Divider, Drawer, List, ListItem } from '@mui/material';
 
-import logo from '../../assets/logo.svg';
+import logo from '@/assets/logo.svg';
+
 import { useTranslationPrefix } from '../../utils/useTranslationPrefix';
 import LanguageSwitcher from './LanguageSwitcher';
 import { NavigationLink } from './NavigationLink';
@@ -30,10 +31,13 @@ export const MobileTopbarDrawer = ({
           <Divider sx={{ margin: 0 }} />
           <List>
             <ListItem>
+              <NavigationLink path="/alerts" label={t('alerts')} />
+            </ListItem>
+            <ListItem>
               <NavigationLink path="/dashboard" label={t('dashboard')} />
             </ListItem>
             <ListItem>
-              <NavigationLink path="/alerts" label={t('alerts')} />
+              <NavigationLink path="/history" label={t('history')} />
             </ListItem>
           </List>
         </Box>

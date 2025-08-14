@@ -14,9 +14,10 @@ import { Topbar } from './components/Topbar/Topbar';
 import { AuthProvider } from './context/AuthProvider';
 import { AlertsPage } from './pages/AlertsPage';
 import { DashboardPage } from './pages/DashboardPage';
+import { HistoryPage } from './pages/HistoryPage';
 import { LoginPage } from './pages/LoginPage';
 
-export const DEFAULT_ROUTE = '/dashboard';
+export const DEFAULT_ROUTE = '/alerts';
 const queryClient = new QueryClient();
 
 const App = () => {
@@ -34,6 +35,7 @@ const App = () => {
               <Route element={<ProtectedRoute />}>
                 <Route path="/alerts" element={<AlertsPage />}></Route>
                 <Route path="/dashboard" element={<DashboardPage />}></Route>
+                <Route path="/history" element={<HistoryPage />}></Route>
               </Route>
             </Routes>
           </Box>

@@ -1,18 +1,18 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useCallback } from 'react';
 
 import { DashboardContainer } from '../components/Dashboard/DashboardContainer';
 import { getCameraList } from '../services/camera';
 
-const VITE_CAMERAS_LIST_REFRESH_INTERVAL_MINUTES = Number(
-  import.meta.env.VITE_CAMERAS_LIST_REFRESH_INTERVAL_MINUTES
-);
+const VITE_CAMERAS_LIST_REFRESH_INTERVAL_MINUTES = import.meta.env
+  .VITE_CAMERAS_LIST_REFRESH_INTERVAL_MINUTES;
 
 export const DashboardPage = () => {
   const {
-    isPending,
-    isError,
+    status,
+    isFetching,
     data: cameraList,
-    isSuccess,
+    dataUpdatedAt,
   } = useQuery({
     queryKey: ['cameras'],
     queryFn: getCameraList,
@@ -20,11 +20,18 @@ export const DashboardPage = () => {
     refetchOnWindowFocus: true,
   });
 
+  const queryClient = useQueryClient();
+
+  const invalidateAndRefreshData = useCallback(() => {
+    void queryClient.invalidateQueries({ queryKey: ['cameras'] });
+  }, [queryClient]);
+
   return (
     <DashboardContainer
-      isError={isError}
-      isPending={isPending}
-      isSuccess={isSuccess}
+      status={status}
+      isRefreshing={isFetching}
+      lastUpdate={dataUpdatedAt}
+      invalidateAndRefreshData={invalidateAndRefreshData}
       cameraList={cameraList}
     />
   );

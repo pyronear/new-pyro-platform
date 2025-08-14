@@ -13,6 +13,12 @@ const convertStrToMomentWithUserTimezone = (dateStr: string) => {
   return dateMoment;
 };
 
+const convertNbToMomentWithUserTimezone = (dateNb: number) => {
+  const dateMoment = moment(dateNb);
+  dateMoment.tz(moment.tz.guess());
+  return dateMoment;
+};
+
 export const isCameraActive = (lastContactDateStr: string | null) => {
   return isDateWithinTheLastXMinutes(
     lastContactDateStr,
@@ -42,6 +48,10 @@ export const formatToDateTime = (dateStr: string | null) => {
   );
 };
 
+export const formatNbToTime = (dateNb: number) => {
+  return convertNbToMomentWithUserTimezone(dateNb).format(FORMAT_DISPLAY_TIME);
+};
+
 export const formatToDate = (dateStr: string | null) => {
   if (!dateStr) {
     return '';
@@ -62,6 +72,12 @@ export const formatToTime = (dateStr: string | null) => {
 
 export const convertStrToEpoch = (dateStr: string) => {
   return convertStrToMomentWithUserTimezone(dateStr).unix();
+};
+
+export const isStrictlyAfter = (date1: string, date2: string) => {
+  const moment1 = convertStrToMomentWithUserTimezone(date1);
+  const moment2 = convertStrToMomentWithUserTimezone(date2);
+  return moment1.isBefore(moment2);
 };
 
 interface FormatTimeAgoProps {

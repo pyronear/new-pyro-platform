@@ -2,18 +2,25 @@ import { Divider, Grid, Typography, useTheme } from '@mui/material';
 
 import type { AlertType } from '../../../utils/alerts';
 import { useTranslationPrefix } from '../../../utils/useTranslationPrefix';
-import { AlertCard } from './AlertCard';
+import { LastUpdateButton } from '../../Common/LastUpdateButton';
+import { AlertsCardsColumn } from './AlertsCardsColumn';
 
 interface AlertListType {
   alerts: AlertType[];
   selectedAlert: AlertType | null;
   setSelectedAlert: (newAlertSelected: AlertType) => void;
+  lastUpdate: number;
+  isRefreshing: boolean;
+  invalidateAndRefreshData: () => void;
 }
 
 export const AlertsList = ({
   alerts,
   selectedAlert,
   setSelectedAlert,
+  lastUpdate,
+  isRefreshing,
+  invalidateAndRefreshData,
 }: AlertListType) => {
   const theme = useTheme();
   const { t } = useTranslationPrefix('alerts');
@@ -26,25 +33,29 @@ export const AlertsList = ({
         </Typography>
       </Grid>
       <Divider orientation="horizontal" flexItem />
+      <Grid px={{ xs: 1, sm: 2 }} py={1}>
+        <LastUpdateButton
+          lastUpdate={lastUpdate}
+          onRefresh={invalidateAndRefreshData}
+          isRefreshing={isRefreshing}
+        />
+      </Grid>
       <Grid
         sx={{
           padding: { xs: 1, sm: 2 },
           overflowY: 'auto',
-          height: 'calc(100vh - 64px - 55px)', // To get scroll on the alert cards list only (= 100% - topbar height - title height)
+          height: 'calc(100vh - 64px -  2 * 55px)', // To get scroll on the alert cards list only (= 100% - topbar height - title height and lastupdate)
         }}
       >
-        <Grid container direction="column" spacing={2}>
-          {alerts.map((alert) => (
-            <AlertCard
-              key={alert.id}
-              alert={alert}
-              isActive={alert.id == selectedAlert?.id}
-              setActive={() => {
-                setSelectedAlert(alert);
-              }}
-            />
-          ))}
-        </Grid>
+        {alerts.length == 0 ? (
+          <Typography variant="body2">{t('noAlertsMessage')}</Typography>
+        ) : (
+          <AlertsCardsColumn
+            alerts={alerts}
+            selectedAlert={selectedAlert}
+            setSelectedAlert={setSelectedAlert}
+          />
+        )}
       </Grid>
     </Grid>
   );
