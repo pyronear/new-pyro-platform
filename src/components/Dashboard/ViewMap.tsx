@@ -1,4 +1,4 @@
-import { Grid, Stack, useTheme } from '@mui/material';
+import { Grid, Stack } from '@mui/material';
 
 import type { CameraType } from '../../services/camera';
 import { useIsMobile } from '../../utils/useIsMobile';
@@ -13,7 +13,6 @@ interface ViewMapProps {
 }
 
 export const ViewMap = ({ cameraList }: ViewMapProps) => {
-  const theme = useTheme();
   const isMobile = useIsMobile();
 
   return (
@@ -25,7 +24,6 @@ export const ViewMap = ({ cameraList }: ViewMapProps) => {
           overflowY: isMobile ? 'unset' : 'auto',
           height: 'calc(100vh - 64px - 81px)', // To get scroll on the cards list only (= 100% - topbar height - tabs)
         }}
-        bgcolor={theme.palette.customBackground.light}
       >
         <Stack spacing={{ xs: 1, sm: 2 }}>
           {cameraList.map((camera) => (

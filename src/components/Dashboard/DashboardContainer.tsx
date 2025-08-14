@@ -70,22 +70,26 @@ export const DashboardContainer = ({
                   isRefreshing={isRefreshing}
                 />
               </Stack>
-              <Box hidden={indexTab !== 0}>
-                <ViewCards
-                  lastUpdate={lastUpdate}
-                  isRefreshing={isRefreshing}
-                  invalidateAndRefreshData={invalidateAndRefreshData}
-                  cameraList={cameraList}
-                />
-              </Box>
-              <Box hidden={indexTab !== 1}>
-                <ViewMap
-                  lastUpdate={lastUpdate}
-                  isRefreshing={isRefreshing}
-                  invalidateAndRefreshData={invalidateAndRefreshData}
-                  cameraList={cameraList}
-                />
-              </Box>
+              {indexTab === 0 && (
+                <Box>
+                  <ViewCards
+                    lastUpdate={lastUpdate}
+                    isRefreshing={isRefreshing}
+                    invalidateAndRefreshData={invalidateAndRefreshData}
+                    cameraList={cameraList}
+                  />
+                </Box>
+              )}
+              {indexTab === 1 && (
+                <Box>
+                  <ViewMap
+                    lastUpdate={lastUpdate}
+                    isRefreshing={isRefreshing}
+                    invalidateAndRefreshData={invalidateAndRefreshData}
+                    cameraList={cameraList}
+                  />
+                </Box>
+              )}
             </Box>
           )}
         </>
