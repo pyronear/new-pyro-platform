@@ -1,5 +1,5 @@
 import L from 'leaflet';
-import { MapContainer, Marker, Popup, TileLayer, useMap } from 'react-leaflet';
+import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
 
 import siteIcon from '@/assets/site-icon.png';
 
@@ -18,15 +18,15 @@ interface AlertMap {
 }
 
 //TODO : fix the partial loading of the map to remove this patch component
-const ComponentResize = () => {
-  const map = useMap();
+// const ComponentResize = () => {
+//   const map = useMap();
 
-  setTimeout(() => {
-    map.invalidateSize();
-  }, 0);
+//   setTimeout(() => {
+//     map.invalidateSize();
+//   }, 0);
 
-  return null;
-};
+//   return null;
+// };
 
 const AlertMap = ({ cameras }: AlertMap) => {
   const bounds = L.latLngBounds(cameras.map((c) => [c.lat, c.lon]));
@@ -42,7 +42,7 @@ const AlertMap = ({ cameras }: AlertMap) => {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <ComponentResize />
+        {/* <ComponentResize /> */}
         {cameras.map((camera) => {
           return (
             <Marker
