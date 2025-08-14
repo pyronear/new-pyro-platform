@@ -27,11 +27,8 @@ importers:
         specifier: ^7.3.1
         version: 7.3.1(@emotion/react@11.14.0(@types/react@19.1.9)(react@19.1.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.1.9)(react@19.1.1))(@types/react@19.1.9)(react@19.1.1))(@types/react@19.1.9)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
       '@tanstack/react-query':
-        specifier: ^5.82.0
-        version: 5.82.0(react@19.1.0)
-      '@types/leaflet':
-        specifier: ^1.9.20
-        version: 1.9.20
+        specifier: ^5.84.2
+        version: 5.84.2(react@19.1.1)
       axios:
         specifier: ^1.11.0
         version: 1.11.0
