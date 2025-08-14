@@ -5,7 +5,9 @@ export const apiInstance = axios.create({
   timeout: 1000,
 });
 
-export const liveInstance = axios.create();
+export const liveInstance = axios.create({
+  headers: { Origin: 'https://platformdev.pyronear.org/' },
+});
 
 export const STATUS_SUCCESS = 'success';
 export const STATUS_ERROR = 'error';

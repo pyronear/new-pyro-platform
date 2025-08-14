@@ -62,6 +62,9 @@
   },
   "live": {
     "errorFetchInfos": "Une erreur inattendue est survenue. Veuillez réessayer plus tard.",
-    "errorNoAccess": "Vous n'avez accès à aucun site. Veuillez contacter votre administateur"
+    "errorNoAccess": "Vous n'avez accès à aucun site. Veuillez contacter votre administateur",
+    "siteField": "Site",
+    "buttonClose": "Fermer la levée de doute",
+    "alertMessage": "Levée de doute en cours: détection inactive depuis %s"
   }
 }

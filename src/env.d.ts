@@ -6,6 +6,8 @@ interface ImportMetaEnv {
   readonly VITE_ALERTS_LIST_REFRESH_INTERVAL_SECONDS: number;
   readonly VITE_FILE_SITES_INFOS: string;
   readonly VITE_FILE_SITES_LIVE_ACCESS: string;
+  readonly VITE_SITES_LIVE_PORT: number;
+  readonly VITE_SITES_LIVE_TIMEOUT_SECONDS: number;
 }
 
 interface ImportMeta {

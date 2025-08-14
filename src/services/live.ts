@@ -4,18 +4,25 @@ import * as z from 'zod/v4';
 import { liveInstance } from './axios';
 
 const apiCameraInfosResponseSchema = z.object({
-  id: z.number(),
+  ip: z.string(),
+  name: z.string(),
+  azimuth: z.array(z.number()),
+  poses: z.array(z.number()),
+  id: z.string(),
+  type: z.string(),
+  brand: z.string(),
 });
 
-export type CameraInfo = z.infer<typeof apiCameraInfosResponseSchema>;
+const apiCamerasInfosResponseSchema = z.array(apiCameraInfosResponseSchema);
+export type CameraInfosLive = z.infer<typeof apiCameraInfosResponseSchema>;
 
-export const getInfosCamera = async (): Promise<CameraInfo | null> => {
+export const getCamerasInfos = async (): Promise<CameraInfosLive[]> => {
   return liveInstance
     .get('/info/camera_infos')
     .then((response: AxiosResponse) => {
       try {
-        const result = apiCameraInfosResponseSchema.safeParse(response.data);
-        return result.data ?? null;
+        const result = apiCamerasInfosResponseSchema.safeParse(response.data);
+        return result.data ?? [];
       } catch {
         throw new Error('INVALID_API_RESPONSE');
       }
@@ -36,9 +43,7 @@ export const getLiveAccess = async (username: string): Promise<string[]> => {
     .then((r) => r.json())
     .then((response) => {
       const result = apiSitesLiveAccessResponseSchema.safeParse(response);
-      console.log(result);
       if (result.success) {
-        console.log(username);
         return result.data[username] ?? [];
       }
       return [];

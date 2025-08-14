@@ -62,6 +62,9 @@
   },
   "live": {
     "errorFetchInfos": "Se ha producido un error. Vuelva a intentarlo más tarde.",
-    "errorNoAccess": "Nope"
+    "errorNoAccess": "Nope",
+    "siteField": "Sitio",
+    "buttonClose": "Fermer la levée de doute",
+    "alertMessage": "Levée de doute en cours: détection inactive depuis %s"
   }
 }
