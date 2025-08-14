@@ -17,17 +17,6 @@ interface AlertMap {
   cameras: CameraType[];
 }
 
-//TODO : fix the partial loading of the map to remove this patch component
-// const ComponentResize = () => {
-//   const map = useMap();
-
-//   setTimeout(() => {
-//     map.invalidateSize();
-//   }, 0);
-
-//   return null;
-// };
-
 const AlertMap = ({ cameras }: AlertMap) => {
   const bounds = L.latLngBounds(cameras.map((c) => [c.lat, c.lon]));
   return (
@@ -42,7 +31,6 @@ const AlertMap = ({ cameras }: AlertMap) => {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        {/* <ComponentResize /> */}
         {cameras.map((camera) => {
           return (
             <Marker
