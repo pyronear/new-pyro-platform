@@ -5,7 +5,6 @@ import {
   CardContent,
   CardMedia,
   IconButton,
-  Popover,
   Stack,
   Typography,
 } from '@mui/material';
@@ -30,18 +29,14 @@ export const CameraCard = ({
 }: CameraCardType) => {
   const { t } = useTranslationPrefix('dashboard');
   const isActive = isCameraActive(camera.last_active_at);
-  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
-
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
-
   const handleClose = () => {
     setAnchorEl(null);
   };
-
-  const open = Boolean(anchorEl);
-  const id = open ? 'simple-popover' : undefined;
 
   return (
     <Card sx={{ height: '100%', borderRadius: 2 }}>
@@ -66,21 +61,22 @@ export const CameraCard = ({
                 name={camera.name}
                 angle_of_view={camera.angle_of_view}
               />
-              <IconButton onClick={handleClick}>
-                <MoreVertIcon />
-                <Popover
-                  id={id}
-                  open={open}
-                  anchorEl={anchorEl}
-                  onClose={handleClose}
-                  anchorOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'left',
-                  }}
+              <div>
+                <IconButton
+                  id="basic-button"
+                  onClick={handleClick}
+                  aria-controls={open ? 'basic-menu' : undefined}
+                  aria-haspopup="true"
+                  aria-expanded={open ? 'true' : undefined}
                 >
-                  <CameraCardActionsMenu />
-                </Popover>
-              </IconButton>
+                  <MoreVertIcon />
+                </IconButton>
+                <CameraCardActionsMenu
+                  anchorEl={anchorEl}
+                  open={open}
+                  handleClose={handleClose}
+                />
+              </div>
             </Stack>
             <Stack spacing={1} direction="row" alignItems="center">
               {isActive ? (

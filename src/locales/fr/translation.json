@@ -27,7 +27,9 @@
     "noCameraMessage": "Aucune caméra n'est associée avec votre organisation. Veuillez contacter l'administateur",
     "errorFetchCameraMessage": "Une erreur inattendue est survenue. Veuillez réessayer plus tard.",
     "titleImage": "Dernière image de la caméra",
-    "inactiveCameraMsg": "Caméra inactive"
+    "inactiveCameraMsg": "Caméra inactive",
+    "liveButton": "Activer la levée de doute",
+    "maskButton": "Gérer les masques d'occlusion"
   },
   "alerts": {
     "titleListSimple": "alerte à traiter",
