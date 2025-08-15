@@ -1,4 +1,4 @@
-import { Grid, Stack } from '@mui/material';
+import { Grid } from '@mui/material';
 
 import type { CameraType } from '../../services/camera';
 import { useIsMobile } from '../../utils/useIsMobile';
@@ -25,11 +25,13 @@ export const ViewMap = ({ cameraList }: ViewMapProps) => {
           height: 'calc(100vh - 64px - 81px)', // To get scroll on the cards list only (= 100% - topbar height - tabs)
         }}
       >
-        <Stack spacing={{ xs: 1, sm: 2 }}>
+        <Grid container spacing={{ xs: 1, sm: 2 }}>
           {cameraList.map((camera) => (
-            <CameraCard key={camera.id} camera={camera} />
+            <Grid size={12} key={camera.id}>
+              <CameraCard camera={camera} isHorizontal />
+            </Grid>
           ))}
-        </Stack>
+        </Grid>
       </Grid>
       <Grid size={isMobile ? 12 : 9} p={{ xs: 1, sm: 2 }}>
         {cameraList.length > 0 && <CamerasMap cameras={cameraList} />}
