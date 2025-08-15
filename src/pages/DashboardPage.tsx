@@ -18,7 +18,7 @@ export const DashboardPage = () => {
     queryKey: ['cameras'],
     queryFn: getCameraList,
     refetchInterval: VITE_CAMERAS_LIST_REFRESH_INTERVAL_MINUTES * 60 * 1000,
-    refetchOnWindowFocus: false,
+    refetchOnWindowFocus: true,
   });
 
   const queryClient = useQueryClient();
