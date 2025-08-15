@@ -9,7 +9,6 @@ import {
 } from '../../services/axios';
 import { type CameraType, getCameraList } from '../../services/camera';
 import { getLiveAccess, getSitesInfos } from '../../services/live';
-import { LiveContainer } from './LiveContainer';
 
 export interface SiteType {
   id: string;
@@ -21,7 +20,7 @@ export interface SiteType {
   })[];
 }
 
-export const ControlAccessLiveContainer = () => {
+export const useDataLive = () => {
   const auth = useAuth();
   const { status: statusLiveAccess, data: liveAccess } = useQuery({
     queryKey: ['liveAccess'],
@@ -64,5 +63,5 @@ export const ControlAccessLiveContainer = () => {
     return STATUS_ERROR;
   }, [statusLiveAccess, statusSitesInfos, statusCameras]);
 
-  return <LiveContainer sites={sites} status={status} />;
+  return { sites, status };
 };

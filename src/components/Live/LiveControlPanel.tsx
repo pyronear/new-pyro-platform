@@ -10,13 +10,14 @@ import {
   MenuItem,
   Select,
   type SelectChangeEvent,
+  Skeleton,
   Stack,
 } from '@mui/material';
 
 import type { CameraType } from '../../services/camera';
 import { useTranslationPrefix } from '../../utils/useTranslationPrefix';
 import { CameraName } from '../Common/CameraName';
-import type { SiteType } from './ControlAccessLiveContainer';
+import type { SiteType } from './useDataLive';
 
 interface LiveControlPanelProps {
   sites: SiteType[];
@@ -37,10 +38,9 @@ export const LiveControlPanel = ({
   const handleChange = (event: SelectChangeEvent) => {
     setSelectedSite(sites.find((s) => s.id == event.target.value) ?? null);
   };
-  console.log(selectedSite);
 
   return (
-    <Stack direction="column" p={2} spacing={1} alignItems="center">
+    <Stack direction="column" p={2} spacing={1}>
       <FormControl fullWidth>
         <InputLabel>{t('siteField')}</InputLabel>
         <Select
@@ -75,6 +75,7 @@ export const LiveControlPanel = ({
           </ListItem>
         ))}
       </List>
+      <Skeleton variant="rectangular" width="100%" height={200} />
     </Stack>
   );
 };

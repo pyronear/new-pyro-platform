@@ -1,10 +1,9 @@
-import { Box, Grid, Typography } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 
 import {
   liveInstance,
-  type ResponseStatus,
   STATUS_ERROR,
   STATUS_LOADING,
   STATUS_SUCCESS,
@@ -14,14 +13,9 @@ import { type CameraInfosLive, getCamerasInfos } from '../../services/live';
 import { useTranslationPrefix } from '../../utils/useTranslationPrefix';
 import { Loader } from '../Common/Loader';
 import { AlertLive } from './AlertLive';
-import type { SiteType } from './ControlAccessLiveContainer';
 import { LiveControlPanel } from './LiveControlPanel';
 import { LiveStreamPanel } from './LiveStreamPanel';
-
-interface LiveContainerProps {
-  status: ResponseStatus;
-  sites: SiteType[];
-}
+import { type SiteType, useDataLive } from './useDataLive';
 
 const addDatasFromSite = (
   cameras: CameraType[],
@@ -39,11 +33,17 @@ const addDatasFromSite = (
   });
 };
 
-export const LiveContainer = ({ status, sites }: LiveContainerProps) => {
+interface LiveContainerProps {
+  onClose: () => void;
+}
+
+export const LiveContainer = ({ onClose }: LiveContainerProps) => {
   const { t } = useTranslationPrefix('live');
+  const { status, sites } = useDataLive();
   const [selectedSite, setSelectedSite] = useState<SiteType | null>(null);
   const [selectedCamera, setSelectedCamera] = useState<CameraType | null>(null);
 
+  // TODO : retrieve these data from backend api
   const { status: statusCameras } = useQuery({
     enabled: !!selectedSite,
     queryKey: ['camerasLive'],
@@ -75,18 +75,7 @@ export const LiveContainer = ({ status, sites }: LiveContainerProps) => {
   }, [sites]);
 
   return (
-    <Box
-      minHeight={200}
-      minWidth={'80%'}
-      sx={{
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        bgcolor: 'background.paper',
-        boxShadow: 24,
-      }}
-    >
+    <>
       {status == STATUS_ERROR && ( //|| statusCameras == STATUS_ERROR) && (
         <Typography variant="body2">{t('errorFetchInfos')}</Typography>
       )}
@@ -103,7 +92,7 @@ export const LiveContainer = ({ status, sites }: LiveContainerProps) => {
         sites.length != 0 &&
         selectedSite && (
           <>
-            <AlertLive />
+            <AlertLive onClose={onClose} />
             <Grid container p={2}>
               <Grid size={8}>
                 <LiveStreamPanel />
@@ -120,6 +109,6 @@ export const LiveContainer = ({ status, sites }: LiveContainerProps) => {
             </Grid>
           </>
         )}
-    </Box>
+    </>
   );
 };

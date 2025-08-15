@@ -4,7 +4,11 @@ import { useEffect, useState } from 'react';
 import { formatTimer } from '../../utils/dates';
 import { useTranslationPrefix } from '../../utils/useTranslationPrefix';
 
-export const AlertLive = () => {
+interface AlertLiveProps {
+  onClose: () => void;
+}
+
+export const AlertLive = ({ onClose }: AlertLiveProps) => {
   const { t } = useTranslationPrefix('live');
   const [spentTimeInSeconds, setSpentTimeInS] = useState(0);
   useEffect(() => {
@@ -21,7 +25,7 @@ export const AlertLive = () => {
       severity="warning"
       sx={{ margin: 0 }}
       action={
-        <Button variant="outlined" color="primary">
+        <Button variant="outlined" color="primary" onClick={onClose}>
           {t('buttonClose')}
         </Button>
       }

@@ -1,10 +1,11 @@
 import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
+import { Box } from '@mui/material';
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import { useState } from 'react';
 
 import { useTranslationPrefix } from '../../../utils/useTranslationPrefix';
-import { ControlAccessLiveContainer } from '../../Live/ControlAccessLiveContainer';
+import { LiveContainer } from '../../Live/LiveContainer';
 
 export const AlertLiveButton = () => {
   const { t } = useTranslationPrefix('alerts');
@@ -26,7 +27,20 @@ export const AlertLiveButton = () => {
         {t('buttonInvestigate')}
       </Button>
       <Modal open={open} onClose={() => setOpen(false)}>
-        <ControlAccessLiveContainer />
+        <Box
+          minHeight={300}
+          minWidth={'80%'}
+          sx={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            bgcolor: 'background.paper',
+            boxShadow: 24,
+          }}
+        >
+          <LiveContainer onClose={() => setOpen(false)} />
+        </Box>
       </Modal>
     </>
   );
