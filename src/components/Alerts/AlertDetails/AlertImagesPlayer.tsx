@@ -14,6 +14,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { DetectionType } from '../../../services/alerts';
 import { convertStrToEpoch, formatToTime } from '../../../utils/dates';
 import { useTranslationPrefix } from '../../../utils/useTranslationPrefix';
+import { DetectionImageWithBoundingBox } from './DetectionImageWithBoundingBox';
 
 interface AlertImagesPlayerType {
   sequenceId: number;
@@ -107,7 +108,10 @@ export const AlertImagesPlayer = ({
       {selectedDetection && (
         <>
           <Grid>
-            <img src={selectedDetection.url} style={{ maxWidth: '100%' }} />
+            <DetectionImageWithBoundingBox
+              sequenceId={sequenceId}
+              selectedDetection={selectedDetection}
+            />
           </Grid>
           <Grid container alignItems="center" spacing={2}>
             <Grid>
