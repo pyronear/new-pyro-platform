@@ -1,5 +1,3 @@
-import 'leaflet/dist/leaflet.css';
-
 import { Typography } from '@mui/material';
 import L from 'leaflet';
 import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
