@@ -32,7 +32,9 @@ export const ViewMap = ({ cameraList }: ViewMapProps) => {
         </Stack>
       </Grid>
       <Grid size={!isMobile && 9} p={{ xs: 1, sm: 2 }}>
-        {cameraList.length > 0 && <CamerasMap cameras={cameraList} />}
+        {cameraList.length > 0 && (
+          <CamerasMap cameras={cameraList} height="80vh" />
+        )}
       </Grid>
     </Grid>
   );

@@ -1,23 +1,15 @@
 import L from 'leaflet';
-import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
-
-import siteIcon from '@/assets/site-icon.png';
+import { MapContainer, TileLayer } from 'react-leaflet';
 
 import type { CameraType } from '../../services/camera';
-import { TooltipCameraMap } from '../Common/TooltipCameraMap';
+import CameraMarkerMap from '../Common/Map/CameraMarkerMap';
 
-const customIcon = new L.Icon({
-  iconUrl: siteIcon,
-  iconSize: [32, 32],
-  iconAnchor: [16, 32],
-  popupAnchor: [0, -32],
-});
-
-interface AlertMap {
+interface CameraMapProps {
   cameras: CameraType[];
+  height?: string;
 }
 
-const AlertMap = ({ cameras }: AlertMap) => {
+export const CameraMap = ({ cameras, height = '100%' }: CameraMapProps) => {
   const bounds = L.latLngBounds(cameras.map((c) => [c.lat, c.lon]));
   return (
     <div>
@@ -25,28 +17,18 @@ const AlertMap = ({ cameras }: AlertMap) => {
         bounds={bounds}
         key={bounds.toBBoxString()}
         boundsOptions={{ padding: [20, 20] }}
-        style={{ height: '80vh', width: '100%', borderRadius: 4 }}
+        style={{ height, width: '100%', borderRadius: 4 }}
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        {cameras.map((camera) => {
-          return (
-            <Marker
-              key={camera.id}
-              position={[camera.lat, camera.lon]}
-              icon={customIcon}
-            >
-              <Popup>
-                <TooltipCameraMap camera={camera} />
-              </Popup>
-            </Marker>
-          );
-        })}
+        {cameras.map((camera) => (
+          <CameraMarkerMap camera={camera} key={camera.id} />
+        ))}
       </MapContainer>
     </div>
   );
 };
 
-export default AlertMap;
+export default CameraMap;
