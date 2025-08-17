@@ -27,7 +27,9 @@
     "noCameraMessage": "No camera is associated with your account. Please contact the administrator",
     "errorFetchCameraMessage": "Something went wrong on our side. Please try again later.",
     "titleImage": "Last image from the camera",
-    "inactiveCameraMsg": "Inactive camera"
+    "inactiveCameraMsg": "Inactive camera",
+    "liveButton": "Start live streaming",
+    "maskButton": "Manage occlusion masks"
   },
   "alerts": {
     "titleListSimple": "alert to treat",
@@ -46,7 +48,7 @@
     "subtitleDate": "Date & Hour",
     "subtitleAzimuth": "Azimuth",
     "subtitleLocalisation": "Localization",
-    "buttonInvestigate": "Investigate the alert",
+    "buttonInvestigate": "Start live streaming",
     "buttonTreatAlert": "Treat the alert",
     "mapElevation": "Elevation",
     "mapAngleOfView": "Angle of view",
