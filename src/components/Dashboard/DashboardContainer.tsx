@@ -24,6 +24,10 @@ interface DashboardContainerProps {
   invalidateAndRefreshData: () => void;
   cameraList: CameraType[] | undefined;
 }
+
+const TAB_CARDS = 0;
+const TAB_MAP = 1;
+
 export const DashboardContainer = ({
   status,
   lastUpdate,
@@ -70,7 +74,7 @@ export const DashboardContainer = ({
                   isRefreshing={isRefreshing}
                 />
               </Stack>
-              {indexTab === 0 && (
+              {indexTab === TAB_CARDS && (
                 <Box>
                   <ViewCards
                     lastUpdate={lastUpdate}
@@ -80,7 +84,7 @@ export const DashboardContainer = ({
                   />
                 </Box>
               )}
-              {indexTab === 1 && (
+              {indexTab === TAB_MAP && (
                 <Box>
                   <ViewMap
                     lastUpdate={lastUpdate}
