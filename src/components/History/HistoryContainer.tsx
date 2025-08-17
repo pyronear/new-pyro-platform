@@ -57,7 +57,7 @@ export const HistoryContainer = ({
     }
   }, [alertsList, isMobile, selectedAlert]);
 
-  const HisotryListComponent = (
+  const HistoryListComponent = (
     <HistoryList
       isQuerySequencesEnabled={isQuerySequencesEnabled}
       alerts={alertsList}
@@ -97,7 +97,7 @@ export const HistoryContainer = ({
                 unmountOnExit
                 container={containerRef.current}
               >
-                <Box>{HisotryListComponent}</Box>
+                <Box>{HistoryListComponent}</Box>
               </Slide>
               <Slide
                 direction={'left'}
@@ -111,7 +111,7 @@ export const HistoryContainer = ({
             </Box>
           ) : (
             <Grid container height="100%">
-              <Grid size={{ sm: 4, md: 3 }}>{HisotryListComponent}</Grid>
+              <Grid size={{ sm: 4, md: 3 }}>{HistoryListComponent}</Grid>
               <Grid size={{ sm: 8, md: 9 }}>{AlertDetailsComponent}</Grid>
             </Grid>
           )}
