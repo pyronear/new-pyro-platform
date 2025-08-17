@@ -45,14 +45,14 @@ export const HistoryContainer = ({
     if (!selectedAlert || indexSelectedAlert == -1) {
       // Default : initial state or if the list changes and the alert doesn't exist anymore
       // In mobile, nothing is selected
-      // In compoter mode, the first in the list is selected
+      // In computer mode, the first in the list is selected
       if (isMobile) {
         setSelectedAlert(null);
       } else {
         setSelectedAlert(alertsList.length > 0 ? alertsList[0] : null);
       }
     } else if (indexSelectedAlert != 1) {
-      // If the selected alert has changed, its data are updated
+      // If the selected alert has changed, its data is updated
       setSelectedAlert(alertsList[indexSelectedAlert]);
     }
   }, [alertsList, isMobile, selectedAlert]);
@@ -70,7 +70,7 @@ export const HistoryContainer = ({
 
   const AlertDetailsComponent = selectedAlert && (
     <AlertContainer
-      isModeLive={false}
+      isLiveMode={false}
       alert={selectedAlert}
       resetAlert={() => {
         setSelectedAlert(null);

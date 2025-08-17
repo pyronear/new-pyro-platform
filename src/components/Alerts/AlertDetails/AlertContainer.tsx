@@ -10,13 +10,13 @@ import { AlertImages } from './AlertImages';
 import { AlertInfos } from './AlertInfos';
 
 interface AlertContainerType {
-  isModeLive: boolean;
+  isLiveMode: boolean;
   alert: AlertType;
   resetAlert: () => void;
 }
 
 export const AlertContainer = ({
-  isModeLive,
+  isLiveMode,
   alert,
   resetAlert,
 }: AlertContainerType) => {
@@ -48,7 +48,7 @@ export const AlertContainer = ({
             <AlertInfos
               sequence={selectedSequence}
               sequences={alert.sequences}
-              isModeLive={isModeLive}
+              isLiveMode={isLiveMode}
             />
           </Grid>
         </Grid>

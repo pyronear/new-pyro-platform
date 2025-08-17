@@ -61,7 +61,7 @@ export const HistoryList = ({
                 alerts={alerts}
                 selectedAlert={selectedAlert}
                 setSelectedAlert={setSelectedAlert}
-                isModeLive={false}
+                isLiveMode={false}
               />
             </Grid>
           ))}

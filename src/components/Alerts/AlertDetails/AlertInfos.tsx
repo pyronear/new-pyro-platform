@@ -10,13 +10,13 @@ import { AlertInfosSection } from './AlertInfosSection';
 import AlertMap from './AlertMap';
 
 interface AlertInfosType {
-  isModeLive: boolean;
+  isLiveMode: boolean;
   sequence: SequenceWithCameraInfoType;
   sequences?: SequenceWithCameraInfoType[];
 }
 
 export const AlertInfos = ({
-  isModeLive,
+  isLiveMode,
   sequence,
   sequences,
 }: AlertInfosType) => {
@@ -62,7 +62,7 @@ export const AlertInfos = ({
             <AlertMap sequences={sequences ?? []} height={200} />
           </Grid>
           <Grid container spacing={2} direction="column">
-            {isModeLive && (
+            {isLiveMode && (
               <Button
                 color="secondary"
                 variant="outlined"
@@ -89,7 +89,7 @@ export const AlertInfos = ({
                 },
               }}
             >
-              {t(isModeLive ? 'buttonTreatAlert' : 'buttonModifyAlert')}
+              {t(isLiveMode ? 'buttonTreatAlert' : 'buttonModifyAlert')}
             </Button>
           </Grid>
         </Grid>
