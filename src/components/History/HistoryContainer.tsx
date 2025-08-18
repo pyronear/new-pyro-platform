@@ -111,7 +111,7 @@ export const HistoryContainer = ({
             </Box>
           ) : (
             <Grid container height="100%">
-              <Grid size={{ sm: 4, md: 3 }} height="100%" id="history-list">
+              <Grid size={{ sm: 4, md: 3 }} height="100%">
                 {HistoryListComponent}
               </Grid>
               <Grid size={{ sm: 8, md: 9 }} height={'100%'} overflow={'auto'}>
