@@ -11,12 +11,14 @@ import { AlertInfos } from './AlertInfos/AlertInfos';
 
 interface AlertContainerType {
   isLiveMode: boolean;
+  invalidateAndRefreshData: () => void;
   alert: AlertType;
   resetAlert: () => void;
 }
 
 export const AlertContainer = ({
   isLiveMode,
+  invalidateAndRefreshData,
   alert,
   resetAlert,
 }: AlertContainerType) => {
@@ -39,6 +41,8 @@ export const AlertContainer = ({
               selectedSequence={selectedSequence}
               setSelectedSequence={setSelectedSequence}
               resetAlert={resetAlert}
+              isLiveMode={isLiveMode}
+              invalidateAndRefreshData={invalidateAndRefreshData}
             />
           </Grid>
           <Grid size={{ xs: 12, lg: 3 }}>
@@ -52,6 +56,7 @@ export const AlertContainer = ({
               sequence={selectedSequence}
               sequences={alert.sequences}
               isLiveMode={isLiveMode}
+              invalidateAndRefreshData={invalidateAndRefreshData}
             />
           </Grid>
         </Grid>

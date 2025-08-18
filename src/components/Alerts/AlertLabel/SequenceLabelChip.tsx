@@ -6,14 +6,18 @@ import Chip from '@mui/material/Chip';
 
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
-interface SequenceLabelProps {
-  isSmall?: boolean;
+interface SequenceLabelChipProps {
   isWildfire: boolean | null;
+  isSmall?: boolean;
+  clickable?: boolean;
+  onClick?: () => void;
 }
-export const SequenceLabel = ({
+export const SequenceLabelChip = ({
   isSmall = false,
+  clickable = false,
+  onClick = undefined,
   isWildfire,
-}: SequenceLabelProps) => {
+}: SequenceLabelChipProps) => {
   const { t } = useTranslationPrefix('alerts.label');
   const theme = useTheme();
 
@@ -56,6 +60,8 @@ export const SequenceLabel = ({
       color={getColor()}
       variant="filled"
       size={isSmall ? 'small' : 'medium'}
+      clickable={clickable}
+      onClick={clickable ? onClick : undefined}
       sx={{
         '& .MuiChip-label': {
           font: theme.typography.body1,

@@ -44,3 +44,7 @@ export const convertSequencesToAlerts = (
     };
   });
 };
+
+export const countUnlabelledSequences = (
+  sequences: SequenceWithCameraInfoType[]
+) => sequences.filter((sequence) => sequence.isWildfire === null).length;

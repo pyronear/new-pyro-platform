@@ -3,21 +3,27 @@ import { Button, Divider, Grid, Typography } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import { useTheme } from '@mui/material/styles';
 
-import type { SequenceWithCameraInfoType } from '@/utils/alerts';
+import {
+  countUnlabelledSequences,
+  type SequenceWithCameraInfoType,
+} from '@/utils/alerts';
 import { formatToDateTime } from '@/utils/dates';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
+import { SequenceLabelContainer } from '../../AlertLabel/SequenceLabelContainer';
 import { AlertInfosSection } from './AlertInfosSection';
 import AlertMap from './AlertMap';
 
 interface AlertInfosType {
   isLiveMode: boolean;
+  invalidateAndRefreshData: () => void;
   sequence: SequenceWithCameraInfoType;
-  sequences?: SequenceWithCameraInfoType[];
+  sequences: SequenceWithCameraInfoType[];
 }
 
 export const AlertInfos = ({
   isLiveMode,
+  invalidateAndRefreshData,
   sequence,
   sequences,
 }: AlertInfosType) => {
@@ -62,7 +68,7 @@ export const AlertInfos = ({
             </AlertInfosSection>
           </Grid>
           <Grid container flexGrow={1} minHeight={200}>
-            <AlertMap sequences={sequences ?? []} />
+            <AlertMap sequences={sequences} />
           </Grid>
           <Grid container spacing={2} direction="column">
             {isLiveMode && (
@@ -70,30 +76,28 @@ export const AlertInfos = ({
                 color="secondary"
                 variant="outlined"
                 startIcon={<SportsEsportsIcon />}
+                disabled
                 sx={{
                   '&.Mui-disabled': {
                     background: '#c6c2c2',
                     color: '#575757',
                   },
                 }}
-                disabled
               >
                 {t('buttonInvestigate')}
               </Button>
             )}
-            <Button
-              color="secondary"
-              variant="contained"
-              disabled
-              sx={{
-                '&.Mui-disabled': {
-                  background: '#c6c2c2',
-                  color: '#575757',
-                },
-              }}
-            >
-              {t(isLiveMode ? 'buttonTreatAlert' : 'buttonModifyAlert')}
-            </Button>
+            <SequenceLabelContainer
+              sequence={sequence}
+              isLiveMode={isLiveMode}
+              invalidateAndRefreshData={invalidateAndRefreshData}
+              nbSequencesToBeLabelled={countUnlabelledSequences(sequences)}
+              renderCustomButton={(onClick) => (
+                <Button color="secondary" variant="contained" onClick={onClick}>
+                  {t(isLiveMode ? 'buttonTreatAlert' : 'buttonModifyAlert')}
+                </Button>
+              )}
+            ></SequenceLabelContainer>
           </Grid>
         </Grid>
       </Grid>
