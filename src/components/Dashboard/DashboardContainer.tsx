@@ -1,4 +1,7 @@
-import { Grid, Typography } from '@mui/material';
+import GridViewIcon from '@mui/icons-material/GridView';
+import MapIcon from '@mui/icons-material/Map';
+import { Box, Stack, Tab, Tabs, Typography, useTheme } from '@mui/material';
+import { useState } from 'react';
 
 import {
   type ResponseStatus,
@@ -7,10 +10,12 @@ import {
   STATUS_SUCCESS,
 } from '../../services/axios';
 import { type CameraType } from '../../services/camera';
+import { useIsMobile } from '../../utils/useIsMobile';
 import { useTranslationPrefix } from '../../utils/useTranslationPrefix';
 import { LastUpdateButton } from '../Common/LastUpdateButton';
 import { Loader } from '../Common/Loader';
-import { CameraCard } from './CameraCard';
+import { ViewCards } from './ViewCards';
+import { ViewMap } from './ViewMap';
 
 interface DashboardContainerProps {
   status: ResponseStatus;
@@ -19,6 +24,10 @@ interface DashboardContainerProps {
   invalidateAndRefreshData: () => void;
   cameraList: CameraType[] | undefined;
 }
+
+const TAB_CARDS = 0;
+const TAB_MAP = 1;
+
 export const DashboardContainer = ({
   status,
   lastUpdate,
@@ -27,6 +36,13 @@ export const DashboardContainer = ({
   cameraList,
 }: DashboardContainerProps) => {
   const { t } = useTranslationPrefix('dashboard');
+  const theme = useTheme();
+  const isMobile = useIsMobile();
+  const [indexTab, setIndexTab] = useState(0);
+
+  const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
+    setIndexTab(newValue);
+  };
 
   return (
     <>
@@ -40,28 +56,45 @@ export const DashboardContainer = ({
             <Typography variant="body2">{t('noCameraMessage')}</Typography>
           )}
           {cameraList.length != 0 && (
-            <Grid
-              container
-              direction="column"
-              spacing={2}
-              padding={{ xs: 2, md: 7 }}
-              paddingBottom={{ xs: 2, md: 2 }}
-            >
-              <Grid>
+            <Box>
+              <Stack
+                justifyContent="space-between"
+                flexDirection={isMobile ? 'column-reverse' : 'row'}
+                bgcolor={theme.palette.customBackground.light}
+                borderBottom={`1px solid ${theme.palette.divider}`}
+                p={2}
+              >
+                <Tabs value={indexTab} onChange={handleChange}>
+                  <Tab icon={<GridViewIcon />} aria-label="gridViewIcon" />
+                  <Tab icon={<MapIcon />} aria-label="mapIcon" />
+                </Tabs>
                 <LastUpdateButton
                   lastUpdate={lastUpdate}
                   onRefresh={invalidateAndRefreshData}
                   isRefreshing={isRefreshing}
                 />
-              </Grid>
-              <Grid container spacing={3}>
-                {cameraList.map((camera) => (
-                  <Grid key={camera.id} size={{ xs: 12, md: 4, lg: 3 }}>
-                    <CameraCard camera={camera} />
-                  </Grid>
-                ))}
-              </Grid>
-            </Grid>
+              </Stack>
+              {indexTab === TAB_CARDS && (
+                <Box>
+                  <ViewCards
+                    lastUpdate={lastUpdate}
+                    isRefreshing={isRefreshing}
+                    invalidateAndRefreshData={invalidateAndRefreshData}
+                    cameraList={cameraList}
+                  />
+                </Box>
+              )}
+              {indexTab === TAB_MAP && (
+                <Box>
+                  <ViewMap
+                    lastUpdate={lastUpdate}
+                    isRefreshing={isRefreshing}
+                    invalidateAndRefreshData={invalidateAndRefreshData}
+                    cameraList={cameraList}
+                  />
+                </Box>
+              )}
+            </Box>
           )}
         </>
       )}

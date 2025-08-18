@@ -10,11 +10,16 @@ import { AlertInfosSection } from './AlertInfosSection';
 import AlertMap from './AlertMap';
 
 interface AlertInfosType {
+  isLiveMode: boolean;
   sequence: SequenceWithCameraInfoType;
   sequences?: SequenceWithCameraInfoType[];
 }
 
-export const AlertInfos = ({ sequence, sequences }: AlertInfosType) => {
+export const AlertInfos = ({
+  isLiveMode,
+  sequence,
+  sequences,
+}: AlertInfosType) => {
   const theme = useTheme();
   const { t } = useTranslationPrefix('alerts');
 
@@ -59,20 +64,22 @@ export const AlertInfos = ({ sequence, sequences }: AlertInfosType) => {
             <AlertMap sequences={sequences ?? []} />
           </Grid>
           <Grid container spacing={2} direction="column">
-            <Button
-              color="secondary"
-              variant="outlined"
-              startIcon={<SportsEsportsIcon />}
-              sx={{
-                '&.Mui-disabled': {
-                  background: '#c6c2c2',
-                  color: '#575757',
-                },
-              }}
-              disabled
-            >
-              {t('buttonInvestigate')}
-            </Button>
+            {isLiveMode && (
+              <Button
+                color="secondary"
+                variant="outlined"
+                startIcon={<SportsEsportsIcon />}
+                sx={{
+                  '&.Mui-disabled': {
+                    background: '#c6c2c2',
+                    color: '#575757',
+                  },
+                }}
+                disabled
+              >
+                {t('buttonInvestigate')}
+              </Button>
+            )}
             <Button
               color="secondary"
               variant="contained"
@@ -84,7 +91,7 @@ export const AlertInfos = ({ sequence, sequences }: AlertInfosType) => {
                 },
               }}
             >
-              {t('buttonTreatAlert')}
+              {t(isLiveMode ? 'buttonTreatAlert' : 'buttonModifyAlert')}
             </Button>
           </Grid>
         </Grid>

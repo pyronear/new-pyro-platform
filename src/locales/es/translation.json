@@ -27,7 +27,9 @@
     "noCameraMessage": "No hay ninguna cámara asociada a su organización. Póngase en contacto con el administrador",
     "errorFetchCameraMessage": "Se ha producido un error. Vuelva a intentarlo más tarde.",
     "titleImage": "Última imagen de la cámara",
-    "inactiveCameraMsg": "Cámara inactiva"
+    "inactiveCameraMsg": "Cámara inactiva",
+    "liveButton": "Iniciar transmisión en directo",
+    "maskButton": "Gestionar máscaras de oclusión "
   },
   "alerts": {
     "titleListSimple": "alerta a tratar",
@@ -46,8 +48,9 @@
     "subtitleDate": "Fecha & ora",
     "subtitleAzimuth": "Azimut",
     "subtitleLocalisation": "Ubicación",
-    "buttonInvestigate": "Descartar la alerta",
-    "buttonTreatAlert": "Investigar la alerta",
+    "buttonInvestigate": "Investigar la alerta",
+    "buttonTreatAlert": "Descartar la alerta",
+    "buttonModifyAlert": "Modificar la alerta",
     "mapElevation": "Elevación",
     "mapAngleOfView": "Ángulo de vista",
     "time": {
@@ -59,5 +62,12 @@
       "minutes": "minutos",
       "now": "Justo ahora"
     }
+  },
+  "history": {
+    "title": "Histórico",
+    "noFilterMessage": "Seleccione la fecha deseada.",
+    "noAlertsMessage": "No se han encontrado alertas para la fecha seleccionada.",
+    "errorFetchSequencesMessage": "Se ha producido un error. Vuelva a intentarlo más tarde.",
+    "dateField": "Fecha"
   }
 }

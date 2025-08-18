@@ -4,6 +4,7 @@ import '@fontsource/open-sans/500.css';
 import '@fontsource/open-sans/700.css';
 import '@fontsource/open-sans-condensed/700.css';
 import './i18n';
+import 'leaflet/dist/leaflet.css';
 
 import { Box } from '@mui/material';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';

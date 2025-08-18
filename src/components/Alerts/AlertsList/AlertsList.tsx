@@ -51,6 +51,7 @@ export const AlertsList = ({
           <Typography variant="body2">{t('noAlertsMessage')}</Typography>
         ) : (
           <AlertsCardsColumn
+            isLiveMode={true}
             alerts={alerts}
             selectedAlert={selectedAlert}
             setSelectedAlert={setSelectedAlert}
