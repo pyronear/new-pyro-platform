@@ -8,7 +8,6 @@ import {
 import { AlertHeader } from './AlertHeader';
 import { AlertImages } from './AlertImages';
 import { AlertInfos } from './AlertInfos';
-import { AlertShare } from './AlertShare';
 
 interface AlertContainerType {
   isLiveMode: boolean;
@@ -34,7 +33,7 @@ export const AlertContainer = ({
     <>
       {selectedSequence && (
         <Grid container padding={{ xs: 1, sm: 2 }} spacing={{ xs: 1, sm: 2 }}>
-          <Grid size={{ xs: 12, lg: 9, xl: 9 }}>
+          <Grid size={{ xs: 12, lg: 9 }}>
             <AlertHeader
               sequences={alert.sequences}
               selectedSequence={selectedSequence}
@@ -42,13 +41,13 @@ export const AlertContainer = ({
               resetAlert={resetAlert}
             />
           </Grid>
-          <Grid size={{ xs: 12, lg: 3, xl: 3 }}>
-            <AlertShare />
+          <Grid size={{ xs: 12, lg: 3 }}>
+            <></> {/** TODO : share alerts */}
           </Grid>
-          <Grid size={{ xs: 12, lg: 9, xl: 9 }}>
+          <Grid size={{ xs: 12, lg: 9 }}>
             <AlertImages sequence={selectedSequence} />
           </Grid>
-          <Grid size={{ xs: 12, lg: 3, xl: 3 }}>
+          <Grid size={{ xs: 12, lg: 3 }}>
             <AlertInfos
               sequence={selectedSequence}
               sequences={alert.sequences}

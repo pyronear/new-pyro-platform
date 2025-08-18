@@ -22,7 +22,7 @@
   },
   "common": {
     "lastUpdate": "Dernière mise à jour :",
-        "statusAlert": {
+    "statusAlert": {
       "wildfire": "Départ de feu",
       "notWildfire": "Faux positif",
       "unset": "À labelliser"
@@ -50,7 +50,6 @@
     "buttonPause": "Pause",
     "errorFetchImagesMessage": "Une erreur inattendue est survenue. Veuillez réessayer plus tard.",
     "titleDetails": "Détail de l'alerte",
-    "buttonShare": "Partager",
     "subtitleDate": "Date & Heure",
     "subtitleAzimuth": "Azimuth",
     "subtitleLocalisation": "Localisation",

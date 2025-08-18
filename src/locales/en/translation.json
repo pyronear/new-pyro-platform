@@ -23,7 +23,7 @@
   "common": {
     "lastUpdate": "Last update:",
     "statusAlert": {
-      "wildfire": "wildfire",
+      "wildfire": "Fire outbreak",
       "notWildfire": "False positive",
       "unset": "To label"
     }
@@ -50,7 +50,6 @@
     "errorFetchImagesMessage": "Something went wrong on our side. Please try again later.",
     "titleDetails": "Information about the alert",
     "titleButtonBackAlt": "Back to alerts list",
-    "buttonShare": "Share",
     "subtitleDate": "Date & Hour",
     "subtitleAzimuth": "Azimuth",
     "subtitleLocalisation": "Localization",
