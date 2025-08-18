@@ -16,25 +16,29 @@ export const ViewMap = ({ cameraList }: ViewMapProps) => {
   const isMobile = useIsMobile();
 
   return (
-    <Grid container direction={isMobile ? 'column-reverse' : 'row'}>
-      <Grid
-        size={!isMobile && 3}
-        p={{ xs: 1, sm: 2 }}
-        sx={{
-          overflowY: isMobile ? 'unset' : 'auto',
-          height: 'calc(100vh - 64px - 81px)', // To get scroll on the cards list only (= 100% - topbar height - tabs)
-        }}
-      >
-        <Stack spacing={{ xs: 1, sm: 2 }}>
-          {cameraList.map((camera) => (
-            <CameraCard key={camera.id} camera={camera} isHorizontal />
-          ))}
-        </Stack>
-      </Grid>
+    <Grid
+      container
+      direction={isMobile ? 'column-reverse' : 'row'}
+      height={'100%'}
+    >
+      {!isMobile && (
+        <Grid
+          size={3}
+          p={{ xs: 1, sm: 2 }}
+          sx={{
+            overflowY: 'auto',
+            height: '100%',
+          }}
+        >
+          <Stack spacing={{ xs: 1, sm: 2 }} height={'100%'}>
+            {cameraList.map((camera) => (
+              <CameraCard key={camera.id} camera={camera} isHorizontal />
+            ))}
+          </Stack>
+        </Grid>
+      )}
       <Grid size={!isMobile && 9} p={{ xs: 1, sm: 2 }}>
-        {cameraList.length > 0 && (
-          <CamerasMap cameras={cameraList} height="80vh" />
-        )}
+        {cameraList.length > 0 && <CamerasMap cameras={cameraList} />}
       </Grid>
     </Grid>
   );

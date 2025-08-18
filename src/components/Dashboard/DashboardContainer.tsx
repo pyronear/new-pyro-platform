@@ -56,7 +56,7 @@ export const DashboardContainer = ({
             <Typography variant="body2">{t('noCameraMessage')}</Typography>
           )}
           {cameraList.length != 0 && (
-            <Box>
+            <Stack height="100%">
               <Stack
                 justifyContent="space-between"
                 flexDirection={isMobile ? 'column-reverse' : 'row'}
@@ -75,7 +75,7 @@ export const DashboardContainer = ({
                 />
               </Stack>
               {indexTab === TAB_CARDS && (
-                <Box>
+                <Box height={'100%'}>
                   <ViewCards
                     lastUpdate={lastUpdate}
                     isRefreshing={isRefreshing}
@@ -85,7 +85,7 @@ export const DashboardContainer = ({
                 </Box>
               )}
               {indexTab === TAB_MAP && (
-                <Box>
+                <Box height={'100%'}>
                   <ViewMap
                     lastUpdate={lastUpdate}
                     isRefreshing={isRefreshing}
@@ -94,7 +94,7 @@ export const DashboardContainer = ({
                   />
                 </Box>
               )}
-            </Box>
+            </Stack>
           )}
         </>
       )}
