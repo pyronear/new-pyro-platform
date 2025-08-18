@@ -12,6 +12,7 @@ import Card from '@mui/material/Card';
 import type { AlertType } from '../../../utils/alerts';
 import { formatToDate, formatToTime } from '../../../utils/dates';
 import { useTranslationPrefix } from '../../../utils/useTranslationPrefix';
+import { StatusAlert } from '../../Common/Alert/StatusAlert';
 import { CameraName } from '../../Common/CameraName';
 import { AlertStartedTimeAgo } from './AlertStartedTimeAgo';
 
@@ -77,12 +78,15 @@ export const AlertCard = ({
               alignItems="center"
             >
               <Grid>
-                {sequence.camera && (
-                  <CameraName
-                    name={sequence.camera.name}
-                    angle_of_view={sequence.camera.angle_of_view}
-                  />
-                )}
+                <Stack direction="row" spacing={1}>
+                  <StatusAlert isSmall isWildfire={sequence.isWildfire} />
+                  {sequence.camera && (
+                    <CameraName
+                      name={sequence.camera.name}
+                      angle_of_view={sequence.camera.angle_of_view}
+                    />
+                  )}
+                </Stack>
               </Grid>
               <Grid flexGrow={1}>
                 <Stack direction="row" spacing={1} justifyContent="end">

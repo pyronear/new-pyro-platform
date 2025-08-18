@@ -21,7 +21,12 @@
     "menuLabel": "Menú"
   },
   "common": {
-    "lastUpdate": "Última actualización:"
+    "lastUpdate": "Última actualización:",
+            "statusAlert": {
+      "wildfire": "Départ de feu",
+      "notWildfire": "Faux positif",
+      "unset": "À labelliser"
+    }
   },
   "dashboard": {
     "noCameraMessage": "No hay ninguna cámara asociada a su organización. Póngase en contacto con el administrador",
@@ -45,6 +50,7 @@
     "errorFetchImagesMessage": "Se ha producido un error. Vuelva a intentarlo más tarde.",
     "titleDetails": "Detalles de la alerta",
     "titleButtonBackAlt": "Volver a la lista",
+    "buttonShare": "Compartir",
     "subtitleDate": "Fecha & ora",
     "subtitleAzimuth": "Azimut",
     "subtitleLocalisation": "Ubicación",

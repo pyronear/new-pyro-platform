@@ -15,6 +15,7 @@ export interface SequenceWithCameraInfoType {
   azimuth: number | null;
   coneAzimuth: number;
   coneAngle: number;
+  isWildfire: boolean | null;
 }
 
 export const convertSequencesToAlerts = (
@@ -37,6 +38,7 @@ export const convertSequencesToAlerts = (
           azimuth: sequence.azimuth,
           coneAzimuth: sequence.cone_azimuth,
           coneAngle: sequence.cone_angle,
+          isWildfire: sequence.is_wildfire,
         },
       ],
     };
