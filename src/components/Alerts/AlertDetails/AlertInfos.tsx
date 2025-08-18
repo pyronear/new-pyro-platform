@@ -59,7 +59,9 @@ export const AlertInfos = ({
               {sequence.camera?.lat && `${sequence.camera.lat.toString()}, `}
               {sequence.camera?.lon.toString()}
             </AlertInfosSection>
-            <AlertMap sequences={sequences ?? []} height={200} />
+          </Grid>
+          <Grid container flexGrow={1} minHeight={200}>
+            <AlertMap sequences={sequences ?? []} />
           </Grid>
           <Grid container spacing={2} direction="column">
             {isLiveMode && (
