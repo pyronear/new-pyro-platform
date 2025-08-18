@@ -12,7 +12,7 @@ import Card from '@mui/material/Card';
 import type { AlertType } from '../../../utils/alerts';
 import { formatToDate, formatToTime } from '../../../utils/dates';
 import { useTranslationPrefix } from '../../../utils/useTranslationPrefix';
-import { StatusAlert } from '../../Common/Alert/StatusAlert';
+import { LabelSequence } from '../../Common/Alert/LabelSequence';
 import { CameraName } from '../../Common/CameraName';
 import { AlertStartedTimeAgo } from './AlertStartedTimeAgo';
 
@@ -79,7 +79,7 @@ export const AlertCard = ({
             >
               <Grid>
                 <Stack direction="row" spacing={1}>
-                  <StatusAlert isSmall isWildfire={sequence.isWildfire} />
+                  <LabelSequence isSmall isWildfire={sequence.isWildfire} />
                   {sequence.camera && (
                     <CameraName
                       name={sequence.camera.name}

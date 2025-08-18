@@ -6,15 +6,14 @@ import Chip from '@mui/material/Chip';
 
 import { useTranslationPrefix } from '../../../utils/useTranslationPrefix';
 
-interface StatusAlertsProps {
+interface LabelSequenceProps {
   isSmall?: boolean;
   isWildfire: boolean | null;
 }
-
-export const StatusAlert = ({
+export const LabelSequence = ({
   isSmall = false,
   isWildfire,
-}: StatusAlertsProps) => {
+}: LabelSequenceProps) => {
   const { t } = useTranslationPrefix('common.statusAlert');
   const theme = useTheme();
 

@@ -14,7 +14,7 @@ import smallLogo from '@/assets/small-logo.png';
 import type { SequenceWithCameraInfoType } from '../../../utils/alerts';
 import { useIsMobile } from '../../../utils/useIsMobile';
 import { useTranslationPrefix } from '../../../utils/useTranslationPrefix';
-import { StatusAlert } from '../../Common/Alert/StatusAlert';
+import { LabelSequence } from '../../Common/Alert/LabelSequence';
 
 interface AlertHeaderType {
   sequences: SequenceWithCameraInfoType[];
@@ -95,7 +95,7 @@ export const AlertHeader = ({
           <Stack direction="row" spacing={1} alignItems="center">
             <img src={smallLogo} height="26px" width="26px" />
             {Title}
-            <StatusAlert isWildfire={selectedSequence.isWildfire} />
+            <LabelSequence isWildfire={selectedSequence.isWildfire} />
           </Stack>
           {SequenceSelector}
         </Stack>
