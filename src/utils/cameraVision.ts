@@ -77,4 +77,4 @@ export const buildVisionPolygon = (
 };
 
 export const DEFAULT_CAM_RANGE_KM =
-  Number(import.meta.env.VITE_DEFAULT_CAM_RANGE_KM) || 30;
+  import.meta.env.VITE_DEFAULT_CAM_RANGE_KM || 30;
