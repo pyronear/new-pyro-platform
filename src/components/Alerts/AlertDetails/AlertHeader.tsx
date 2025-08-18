@@ -14,9 +14,11 @@ import smallLogo from '@/assets/small-logo.png';
 import type { SequenceWithCameraInfoType } from '../../../utils/alerts';
 import { useIsMobile } from '../../../utils/useIsMobile';
 import { useTranslationPrefix } from '../../../utils/useTranslationPrefix';
-import { SequenceLabel } from '../AlertLabel/SequenceLabel';
+import { SequenceLabelContainer } from '../AlertLabel/SequenceLabelContainer';
 
 interface AlertHeaderType {
+  isLiveMode: boolean;
+  invalidateAndRefreshData: () => void;
   sequences: SequenceWithCameraInfoType[];
   selectedSequence: SequenceWithCameraInfoType;
   setSelectedSequence: (
@@ -26,6 +28,8 @@ interface AlertHeaderType {
 }
 
 export const AlertHeader = ({
+  isLiveMode,
+  invalidateAndRefreshData,
   sequences,
   selectedSequence,
   setSelectedSequence,
@@ -66,6 +70,14 @@ export const AlertHeader = ({
     </Select>
   );
 
+  const SequenceLabel = (
+    <SequenceLabelContainer
+      sequence={selectedSequence}
+      isLiveMode={isLiveMode}
+      invalidateAndRefreshData={invalidateAndRefreshData}
+    />
+  );
+
   return (
     <>
       {isMobile ? (
@@ -81,7 +93,7 @@ export const AlertHeader = ({
           <Grid size="grow">
             <Stack direction="column" spacing={1} alignItems="start">
               {Title}
-              <SequenceLabel isWildfire={selectedSequence.isWildfire} />
+              {SequenceLabel}
               {SequenceSelector}
             </Stack>
           </Grid>
@@ -96,7 +108,7 @@ export const AlertHeader = ({
           <Stack direction="row" spacing={1} alignItems="center">
             <img src={smallLogo} height="26px" width="26px" />
             {Title}
-            <SequenceLabel isWildfire={selectedSequence.isWildfire} />
+            {SequenceLabel}
           </Stack>
           {SequenceSelector}
         </Stack>

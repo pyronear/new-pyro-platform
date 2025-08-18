@@ -65,7 +65,13 @@
     "label": {
       "wildfire": "Départ de feu",
       "notWildfire": "Faux positif",
-      "unset": "À labelliser"
+      "unset": "À labelliser",
+      "titleModal": "Sélectionnez le label de l'alerte depuis ",
+      "buttonCancelModal": "Annuler",
+      "buttonValidateModal": "Valider",
+      "titleRadioButtonsModal": "Label",
+      "lastSequenceMessageModal": "Une fois le label validé, l'alerte sera automatiquement acquittée.",
+      "multipleSequencesMessageModal": "Il vous reste à labeliser %s détections pour acquitter complètement l'alerte."
     }
   },
   "history": {

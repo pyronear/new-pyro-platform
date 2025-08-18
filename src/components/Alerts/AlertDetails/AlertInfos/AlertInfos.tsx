@@ -7,17 +7,20 @@ import type { SequenceWithCameraInfoType } from '@/utils/alerts';
 import { formatToDateTime } from '@/utils/dates';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
+import { SequenceLabelContainer } from '../../AlertLabel/SequenceLabelContainer';
 import { AlertInfosSection } from './AlertInfosSection';
 import AlertMap from './AlertMap';
 
 interface AlertInfosType {
   isLiveMode: boolean;
+  invalidateAndRefreshData: () => void;
   sequence: SequenceWithCameraInfoType;
   sequences?: SequenceWithCameraInfoType[];
 }
 
 export const AlertInfos = ({
   isLiveMode,
+  invalidateAndRefreshData,
   sequence,
   sequences,
 }: AlertInfosType) => {
@@ -70,30 +73,27 @@ export const AlertInfos = ({
                 color="secondary"
                 variant="outlined"
                 startIcon={<SportsEsportsIcon />}
+                disabled
                 sx={{
                   '&.Mui-disabled': {
                     background: '#c6c2c2',
                     color: '#575757',
                   },
                 }}
-                disabled
               >
                 {t('buttonInvestigate')}
               </Button>
             )}
-            <Button
-              color="secondary"
-              variant="contained"
-              disabled
-              sx={{
-                '&.Mui-disabled': {
-                  background: '#c6c2c2',
-                  color: '#575757',
-                },
-              }}
-            >
-              {t(isLiveMode ? 'buttonTreatAlert' : 'buttonModifyAlert')}
-            </Button>
+            <SequenceLabelContainer
+              sequence={sequence}
+              isLiveMode={isLiveMode}
+              invalidateAndRefreshData={invalidateAndRefreshData}
+              renderCustomButton={(onClick) => (
+                <Button color="secondary" variant="contained" onClick={onClick}>
+                  {t(isLiveMode ? 'buttonTreatAlert' : 'buttonModifyAlert')}
+                </Button>
+              )}
+            ></SequenceLabelContainer>
           </Grid>
         </Grid>
       </Grid>

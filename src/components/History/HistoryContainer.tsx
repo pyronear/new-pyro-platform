@@ -27,6 +27,7 @@ interface HistoryContainerType {
   hasNextPage: boolean;
   isFetchingNextPage: boolean;
   fetchNextPage: () => void;
+  invalidateAndRefreshData: () => void;
 }
 
 export const HistoryContainer = ({
@@ -38,6 +39,7 @@ export const HistoryContainer = ({
   hasNextPage,
   isFetchingNextPage,
   fetchNextPage,
+  invalidateAndRefreshData,
 }: HistoryContainerType) => {
   const [selectedAlert, setSelectedAlert] = useState<AlertType | null>(null);
   const isMobile = useIsMobile();
@@ -84,6 +86,7 @@ export const HistoryContainer = ({
       resetAlert={() => {
         setSelectedAlert(null);
       }}
+      invalidateAndRefreshData={invalidateAndRefreshData}
     />
   );
 
