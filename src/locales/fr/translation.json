@@ -50,6 +50,7 @@
     "subtitleLocalisation": "Localisation",
     "buttonInvestigate": "Activer la levée de doute",
     "buttonTreatAlert": "Acquitter l'alerte",
+    "buttonModifyAlert": "Modifier l'alerte",
     "mapElevation": "Altitude",
     "mapAngleOfView": "Angle de vue",
     "time": {
@@ -61,5 +62,12 @@
       "minutes": "minutes",
       "now": "À l'instant"
     }
+  },
+  "history": {
+    "title": "Historique",
+    "noFilterMessage": "Sélectionnez la date souhaitée",
+    "noAlertsMessage": "Aucune alerte trouvée correspondant à la date sélectionnée",
+    "errorFetchSequencesMessage": "Une erreur inattendue est survenue. Veuillez réessayer plus tard.",
+    "dateField": "Date"
   }
 }

@@ -11,31 +11,32 @@ import {
   STATUS_SUCCESS,
 } from '../../services/axios';
 import type { AlertType } from '../../utils/alerts';
+import type { FiltersType } from '../../utils/history.ts';
 import { useIsMobile } from '../../utils/useIsMobile';
 import { useTranslationPrefix } from '../../utils/useTranslationPrefix';
+import { AlertContainer } from '../Alerts/AlertDetails/AlertContainer.tsx';
 import { Loader } from '../Common/Loader';
-import { AlertContainer } from './AlertDetails/AlertContainer';
-import { AlertsList } from './AlertsList/AlertsList';
+import { HistoryList } from './HistoryList/HistoryList.tsx';
 
-interface AlertsContainerType {
+interface HistoryContainerType {
+  isQuerySequencesEnabled: boolean;
   status: ResponseStatus;
-  lastUpdate: number;
-  isRefreshing: boolean;
-  invalidateAndRefreshData: () => void;
   alertsList: AlertType[];
+  filters: FiltersType;
+  setFilters: React.Dispatch<React.SetStateAction<FiltersType>>;
 }
 
-export const AlertsContainer = ({
+export const HistoryContainer = ({
+  isQuerySequencesEnabled,
   status,
-  lastUpdate,
-  isRefreshing,
-  invalidateAndRefreshData,
   alertsList,
-}: AlertsContainerType) => {
+  filters,
+  setFilters,
+}: HistoryContainerType) => {
   const [selectedAlert, setSelectedAlert] = useState<AlertType | null>(null);
   const isMobile = useIsMobile();
   const containerRef = useRef<HTMLElement>(null);
-  const { t } = useTranslationPrefix('alerts');
+  const { t } = useTranslationPrefix('history');
 
   useEffect(() => {
     const indexSelectedAlert = alertsList.findIndex(
@@ -56,20 +57,20 @@ export const AlertsContainer = ({
     }
   }, [alertsList, isMobile, selectedAlert]);
 
-  const AlertsListComponent = (
-    <AlertsList
+  const HistoryListComponent = (
+    <HistoryList
+      isQuerySequencesEnabled={isQuerySequencesEnabled}
       alerts={alertsList}
+      filters={filters}
+      setFilters={setFilters}
       selectedAlert={selectedAlert}
       setSelectedAlert={setSelectedAlert}
-      lastUpdate={lastUpdate}
-      isRefreshing={isRefreshing}
-      invalidateAndRefreshData={invalidateAndRefreshData}
     />
   );
 
   const AlertDetailsComponent = selectedAlert && (
     <AlertContainer
-      isLiveMode={true}
+      isLiveMode={false}
       alert={selectedAlert}
       resetAlert={() => {
         setSelectedAlert(null);
@@ -96,7 +97,7 @@ export const AlertsContainer = ({
                 unmountOnExit
                 container={containerRef.current}
               >
-                <Box>{AlertsListComponent}</Box>
+                <Box>{HistoryListComponent}</Box>
               </Slide>
               <Slide
                 direction={'left'}
@@ -109,8 +110,8 @@ export const AlertsContainer = ({
               </Slide>
             </Box>
           ) : (
-            <Grid container>
-              <Grid size={{ sm: 4, md: 3 }}>{AlertsListComponent}</Grid>
+            <Grid container height="100%">
+              <Grid size={{ sm: 4, md: 3 }}>{HistoryListComponent}</Grid>
               <Grid size={{ sm: 8, md: 9 }}>{AlertDetailsComponent}</Grid>
             </Grid>
           )}

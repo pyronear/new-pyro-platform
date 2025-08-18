@@ -50,6 +50,7 @@
     "subtitleLocalisation": "Localization",
     "buttonInvestigate": "Start live streaming",
     "buttonTreatAlert": "Treat the alert",
+    "buttonModifyAlert": "Modify the alert",
     "mapElevation": "Elevation",
     "mapAngleOfView": "Angle of view",
     "time": {
@@ -61,5 +62,12 @@
       "minutes": "minutes",
       "now": "Just now"
     }
+  },
+  "history": {
+    "title": "History",
+    "noFilterMessage": "Select a date",
+    "noAlertsMessage": "No alert found for this day",
+    "errorFetchSequencesMessage": "Something went wrong on our side. Please try again later.",
+    "dateField": "Date"
   }
 }

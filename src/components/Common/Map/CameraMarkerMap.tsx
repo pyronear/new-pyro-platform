@@ -7,13 +7,12 @@ import { cameraIcon } from './Icons';
 
 interface CameraMarkerMapType {
   camera: CameraType;
-  key?: string | number;
 }
 
-const CameraMarkerMap = ({ camera, key }: CameraMarkerMapType) => {
+const CameraMarkerMap = ({ camera }: CameraMarkerMapType) => {
   const { t } = useTranslationPrefix('alerts');
   return (
-    <Marker key={key} position={[camera.lat, camera.lon]} icon={cameraIcon}>
+    <Marker position={[camera.lat, camera.lon]} icon={cameraIcon}>
       <Popup>
         <div>
           <div>
