@@ -6,8 +6,8 @@ import {
   type SequenceWithCameraInfoType,
 } from '../../../utils/alerts';
 import { AlertHeader } from './AlertHeader';
-import { AlertImages } from './AlertImages';
-import { AlertInfos } from './AlertInfos';
+import { AlertImages } from './AlertImages/AlertImages';
+import { AlertInfos } from './AlertInfos/AlertInfos';
 
 interface AlertContainerType {
   isLiveMode: boolean;

@@ -3,9 +3,10 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import { Box, IconButton, Slider, Stack, useTheme } from '@mui/material';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import type { DetectionType } from '../../../services/alerts';
-import { convertStrToEpoch, formatToTime } from '../../../utils/dates';
-import { useTranslationPrefix } from '../../../utils/useTranslationPrefix';
+import type { DetectionType } from '@/services/alerts';
+import { convertStrToEpoch, formatToTime } from '@/utils/dates';
+import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
+
 import { DetectionImageWithBoundingBox } from './DetectionImageWithBoundingBox';
 
 interface AlertImagesPlayerType {
