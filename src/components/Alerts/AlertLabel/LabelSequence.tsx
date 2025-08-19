@@ -4,7 +4,7 @@ import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import { useTheme } from '@mui/material';
 import Chip from '@mui/material/Chip';
 
-import { useTranslationPrefix } from '../../../utils/useTranslationPrefix';
+import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
 interface LabelSequenceProps {
   isSmall?: boolean;
@@ -14,7 +14,7 @@ export const LabelSequence = ({
   isSmall = false,
   isWildfire,
 }: LabelSequenceProps) => {
-  const { t } = useTranslationPrefix('common.statusAlert');
+  const { t } = useTranslationPrefix('alerts.label');
   const theme = useTheme();
 
   const getLabel = () => {

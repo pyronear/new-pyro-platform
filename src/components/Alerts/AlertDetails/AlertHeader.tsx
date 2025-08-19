@@ -14,7 +14,7 @@ import smallLogo from '@/assets/small-logo.png';
 import type { SequenceWithCameraInfoType } from '../../../utils/alerts';
 import { useIsMobile } from '../../../utils/useIsMobile';
 import { useTranslationPrefix } from '../../../utils/useTranslationPrefix';
-import { LabelSequence } from '../../Common/Alert/LabelSequence';
+import { LabelSequence } from '../AlertLabel/LabelSequence';
 
 interface AlertHeaderType {
   sequences: SequenceWithCameraInfoType[];

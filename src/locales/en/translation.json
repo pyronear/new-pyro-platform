@@ -21,12 +21,7 @@
     "menuLabel": "Menu"
   },
   "common": {
-    "lastUpdate": "Last update:",
-    "statusAlert": {
-      "wildfire": "Fire outbreak",
-      "notWildfire": "False positive",
-      "unset": "To label"
-    }
+    "lastUpdate": "Last update:"
   },
   "dashboard": {
     "noCameraMessage": "No camera is associated with your account. Please contact the administrator",
@@ -66,6 +61,11 @@
       "minute": "minute",
       "minutes": "minutes",
       "now": "Just now"
+    },
+    "label": {
+      "wildfire": "Fire outbreak",
+      "notWildfire": "False positive",
+      "unset": "To label"
     }
   },
   "history": {

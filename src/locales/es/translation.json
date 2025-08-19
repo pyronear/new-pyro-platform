@@ -21,12 +21,7 @@
     "menuLabel": "Menú"
   },
   "common": {
-    "lastUpdate": "Última actualización:",
-    "statusAlert": {
-      "wildfire": "Inicio del incendio",
-      "notWildfire": "Falso positivo",
-      "unset": "A etiquetar"
-    }
+    "lastUpdate": "Última actualización:"
   },
   "dashboard": {
     "noCameraMessage": "No hay ninguna cámara asociada a su organización. Póngase en contacto con el administrador",
@@ -67,6 +62,11 @@
       "minute": "minuto",
       "minutes": "minutos",
       "now": "Justo ahora"
+    },
+    "label": {
+      "wildfire": "Inicio del incendio",
+      "notWildfire": "Falso positivo",
+      "unset": "A etiquetar"
     }
   },
   "history": {

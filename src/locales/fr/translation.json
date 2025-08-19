@@ -21,12 +21,7 @@
     "menuLabel": "Menu"
   },
   "common": {
-    "lastUpdate": "Dernière mise à jour :",
-    "statusAlert": {
-      "wildfire": "Départ de feu",
-      "notWildfire": "Faux positif",
-      "unset": "À labelliser"
-    }
+    "lastUpdate": "Dernière mise à jour :"
   },
   "dashboard": {
     "noCameraMessage": "Aucune caméra n'est associée avec votre organisation. Veuillez contacter l'administateur",
@@ -66,6 +61,11 @@
       "minute": "minute",
       "minutes": "minutes",
       "now": "À l'instant"
+    },
+    "label": {
+      "wildfire": "Départ de feu",
+      "notWildfire": "Faux positif",
+      "unset": "À labelliser"
     }
   },
   "history": {

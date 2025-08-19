@@ -12,8 +12,8 @@ import Card from '@mui/material/Card';
 import type { AlertType } from '../../../utils/alerts';
 import { formatToDate, formatToTime } from '../../../utils/dates';
 import { useTranslationPrefix } from '../../../utils/useTranslationPrefix';
-import { LabelSequence } from '../../Common/Alert/LabelSequence';
 import { CameraName } from '../../Common/CameraName';
+import { LabelSequence } from '../AlertLabel/LabelSequence';
 import { AlertStartedTimeAgo } from './AlertStartedTimeAgo';
 
 interface AlertCardType {
