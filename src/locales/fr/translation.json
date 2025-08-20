@@ -68,6 +68,7 @@
     "noFilterMessage": "Sélectionnez la date souhaitée",
     "noAlertsMessage": "Aucune alerte trouvée correspondant à la date sélectionnée",
     "errorFetchSequencesMessage": "Une erreur inattendue est survenue. Veuillez réessayer plus tard.",
-    "dateField": "Date"
+    "dateField": "Date",
+    "loadMoreMessage": "Afficher plus d'alertes"
   }
 }
