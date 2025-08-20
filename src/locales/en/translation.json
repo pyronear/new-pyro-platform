@@ -65,7 +65,7 @@
     "label": {
       "wildfire": "Fire outbreak",
       "notWildfire": "False positive",
-      "unset": "To label"
+      "unset": "To be labeled"
     }
   },
   "history": {

@@ -6,14 +6,14 @@ import Chip from '@mui/material/Chip';
 
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
-interface LabelSequenceProps {
+interface SequenceLabelProps {
   isSmall?: boolean;
   isWildfire: boolean | null;
 }
-export const LabelSequence = ({
+export const SequenceLabel = ({
   isSmall = false,
   isWildfire,
-}: LabelSequenceProps) => {
+}: SequenceLabelProps) => {
   const { t } = useTranslationPrefix('alerts.label');
   const theme = useTheme();
 
