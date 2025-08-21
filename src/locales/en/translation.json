@@ -68,6 +68,7 @@
     "noFilterMessage": "Select a date",
     "noAlertsMessage": "No alert found for this day",
     "errorFetchSequencesMessage": "Something went wrong on our side. Please try again later.",
-    "dateField": "Date"
+    "dateField": "Date",
+    "loadMoreMessage": "Load more alerts"
   }
 }

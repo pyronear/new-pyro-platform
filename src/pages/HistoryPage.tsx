@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { useMemo, useState } from 'react';
 
 import { HistoryContainer } from '../components/History/HistoryContainer';
@@ -25,18 +25,30 @@ export const HistoryPage = () => {
     () => !isFiltersEmpty(filters),
     [filters]
   );
-  const { status: statusSequences, data: sequenceList } = useQuery({
+  const {
+    status: statusSequences,
+    data: sequenceList,
+    hasNextPage,
+    fetchNextPage,
+    isFetchingNextPage,
+  } = useInfiniteQuery({
     enabled: isQuerySequencesEnabled,
     queryKey: ['sequenceList', filters],
-    queryFn: async () => {
-      // TODO : do pagination
+    queryFn: async ({ pageParam }) => {
       return await getSequencesByFilters(
         filters.date?.format('YYYY-MM-DD') ?? '',
         HISTORY_NB_ALERTS_PER_PAGE,
-        0
+        pageParam * HISTORY_NB_ALERTS_PER_PAGE
       );
     },
     refetchOnWindowFocus: false,
+    initialPageParam: 0,
+    getNextPageParam: (lastPage, _allPages, lastPageParam) => {
+      if (lastPage.length === 0) {
+        return undefined;
+      }
+      return lastPageParam + 1;
+    },
   });
 
   const { status: statusCameras, data: cameraList } = useQuery({
@@ -46,7 +58,10 @@ export const HistoryPage = () => {
   });
 
   const alertsList: AlertType[] = useMemo(() => {
-    return convertSequencesToAlerts(sequenceList ?? [], cameraList ?? []);
+    return convertSequencesToAlerts(
+      sequenceList?.pages.flat() ?? [],
+      cameraList ?? []
+    );
   }, [sequenceList, cameraList]);
 
   const status = useMemo(() => {
@@ -72,6 +87,9 @@ export const HistoryPage = () => {
       setFilters={setFilters}
       status={status}
       alertsList={alertsList}
+      hasNextPage={hasNextPage}
+      isFetchingNextPage={isFetchingNextPage}
+      fetchNextPage={() => void fetchNextPage()}
     />
   );
 };
