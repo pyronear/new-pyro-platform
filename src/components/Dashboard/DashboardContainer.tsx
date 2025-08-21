@@ -56,7 +56,7 @@ export const DashboardContainer = ({
             <Typography variant="body2">{t('noCameraMessage')}</Typography>
           )}
           {cameraList.length != 0 && (
-            <Stack height="100%" id="yo">
+            <Stack height="100%">
               <Stack
                 justifyContent="space-between"
                 flexDirection={isMobile ? 'column-reverse' : 'row'}
