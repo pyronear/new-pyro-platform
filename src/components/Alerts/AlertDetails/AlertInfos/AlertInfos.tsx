@@ -3,9 +3,10 @@ import { Button, Divider, Grid, Typography } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import { useTheme } from '@mui/material/styles';
 
-import type { SequenceWithCameraInfoType } from '../../../utils/alerts';
-import { formatToDateTime } from '../../../utils/dates';
-import { useTranslationPrefix } from '../../../utils/useTranslationPrefix';
+import type { SequenceWithCameraInfoType } from '@/utils/alerts';
+import { formatToDateTime } from '@/utils/dates';
+import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
+
 import { AlertInfosSection } from './AlertInfosSection';
 import AlertMap from './AlertMap';
 

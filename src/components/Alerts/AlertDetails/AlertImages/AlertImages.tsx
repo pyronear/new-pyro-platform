@@ -8,10 +8,11 @@ import Typography from '@mui/material/Typography';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useCallback, useEffect, useState } from 'react';
 
-import { getDetectionsBySequence } from '../../../services/alerts';
-import type { SequenceWithCameraInfoType } from '../../../utils/alerts';
-import { formatToTime, isStrictlyAfter } from '../../../utils/dates';
-import { useTranslationPrefix } from '../../../utils/useTranslationPrefix';
+import { getDetectionsBySequence } from '@/services/alerts';
+import type { SequenceWithCameraInfoType } from '@/utils/alerts';
+import { formatToTime, isStrictlyAfter } from '@/utils/dates';
+import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
+
 import { AlertImagesPlayer } from './AlertImagesPlayer';
 
 interface AlertImagesType {
