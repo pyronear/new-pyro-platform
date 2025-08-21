@@ -88,7 +88,7 @@ export const AlertsContainer = ({
       {status == STATUS_SUCCESS && (
         <>
           {isMobile ? (
-            <Box ref={containerRef}>
+            <Box ref={containerRef} height={'100%'}>
               <Slide
                 direction={'right'}
                 in={!selectedAlert}
@@ -96,7 +96,7 @@ export const AlertsContainer = ({
                 unmountOnExit
                 container={containerRef.current}
               >
-                <Box>{AlertsListComponent}</Box>
+                <Box height={'100%'}>{AlertsListComponent}</Box>
               </Slide>
               <Slide
                 direction={'left'}
@@ -105,7 +105,9 @@ export const AlertsContainer = ({
                 unmountOnExit
                 container={containerRef.current}
               >
-                <Box>{AlertDetailsComponent}</Box>
+                <Box height={'100%'} overflow={'auto'}>
+                  {AlertDetailsComponent}
+                </Box>
               </Slide>
             </Box>
           ) : (
