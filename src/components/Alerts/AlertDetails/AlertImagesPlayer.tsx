@@ -11,6 +11,7 @@ import { DetectionImageWithBoundingBox } from './DetectionImageWithBoundingBox';
 interface AlertImagesPlayerType {
   sequenceId: number;
   detections: DetectionType[]; // Sorted
+  onSelectedDetectionChange?: (detection: DetectionType | null) => void;
 }
 
 const ALERTS_PLAY_INTERVAL_MILLISECONDS = import.meta.env
@@ -19,6 +20,7 @@ const ALERTS_PLAY_INTERVAL_MILLISECONDS = import.meta.env
 export const AlertImagesPlayer = ({
   sequenceId,
   detections,
+  onSelectedDetectionChange,
 }: AlertImagesPlayerType) => {
   const [selectedDetection, setSelectedDetection] =
     useState<DetectionType | null>(null);
@@ -48,7 +50,8 @@ export const AlertImagesPlayer = ({
       newSelectedDetection = detections[indexSelectedDetection + 1];
     }
     setSelectedDetection(newSelectedDetection);
-  }, [detections, selectedDetection]);
+    onSelectedDetectionChange?.(newSelectedDetection);
+  }, [detections, selectedDetection, onSelectedDetectionChange]);
 
   useEffect(() => {
     // Every time the sequence changes
@@ -57,10 +60,11 @@ export const AlertImagesPlayer = ({
     if (detections.length > 0) {
       const minDetection = detections[0];
       setSelectedDetection(minDetection);
+      onSelectedDetectionChange?.(minDetection);
       setIsPlaying(true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sequenceId]);
+  }, [sequenceId, onSelectedDetectionChange]);
 
   useEffect(() => {
     // Set timer to change image
@@ -89,6 +93,7 @@ export const AlertImagesPlayer = ({
       );
       if (newSelectedDetection) {
         setSelectedDetection(newSelectedDetection);
+        onSelectedDetectionChange?.(newSelectedDetection);
       }
     }
   };

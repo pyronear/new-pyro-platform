@@ -40,6 +40,7 @@
     "titleSectionCamera": "Camera:",
     "defaultCameraName": "Unknown camera",
     "buttonImageDownload": "Download",
+    "buttonImageDownloadAll": "Download all images",
     "buttonPlay": "Play",
     "buttonPause": "Pause",
     "errorFetchImagesMessage": "Something went wrong on our side. Please try again later.",
