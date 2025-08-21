@@ -98,7 +98,7 @@ export const HistoryContainer = ({
       {status == STATUS_SUCCESS && (
         <>
           {isMobile ? (
-            <Box ref={containerRef}>
+            <Box ref={containerRef} height={'100%'}>
               <Slide
                 direction={'right'}
                 in={!selectedAlert}
@@ -106,7 +106,7 @@ export const HistoryContainer = ({
                 unmountOnExit
                 container={containerRef.current}
               >
-                <Box>{HistoryListComponent}</Box>
+                <Box height={'100%'}>{HistoryListComponent}</Box>
               </Slide>
               <Slide
                 direction={'left'}
@@ -115,13 +115,19 @@ export const HistoryContainer = ({
                 unmountOnExit
                 container={containerRef.current}
               >
-                <Box>{AlertDetailsComponent}</Box>
+                <Box height={'100%'} overflow={'auto'}>
+                  {AlertDetailsComponent}
+                </Box>
               </Slide>
             </Box>
           ) : (
             <Grid container height="100%">
-              <Grid size={{ sm: 4, md: 3 }}>{HistoryListComponent}</Grid>
-              <Grid size={{ sm: 8, md: 9 }}>{AlertDetailsComponent}</Grid>
+              <Grid size={{ sm: 4, md: 3 }} height="100%">
+                {HistoryListComponent}
+              </Grid>
+              <Grid size={{ sm: 8, md: 9 }} height={'100%'} overflow={'auto'}>
+                {AlertDetailsComponent}
+              </Grid>
             </Grid>
           )}
         </>

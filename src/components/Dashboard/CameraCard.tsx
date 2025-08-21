@@ -40,7 +40,7 @@ export const CameraCard = ({
   };
 
   return (
-    <Card sx={{ height: '100%', borderRadius: 2 }}>
+    <Card sx={{ borderRadius: 2, flexShrink: 0 }}>
       <Stack direction={isHorizontal ? 'row-reverse' : 'column'}>
         <CardMedia
           component="img"
