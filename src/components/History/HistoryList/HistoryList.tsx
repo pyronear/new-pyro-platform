@@ -3,14 +3,13 @@ import { Divider, Grid, Typography, useTheme } from '@mui/material';
 import type { AlertType } from '../../../utils/alerts';
 import { type FiltersType } from '../../../utils/history.ts';
 import { useTranslationPrefix } from '../../../utils/useTranslationPrefix';
-import { AlertsCardsColumn } from '../../Alerts/AlertsList/AlertsCardsColumn.tsx';
+import { HistoryAlertsCardsColumn } from './HistoryAlertsCardsColumn.tsx';
 import { HistoryFilters } from './HistoryFilters.tsx';
 
 interface HistoryListType {
   isQuerySequencesEnabled: boolean;
   alerts: AlertType[];
   selectedAlert: AlertType | null;
-  setSelectedAlert: (newAlertSelected: AlertType) => void;
   filters: FiltersType;
   setFilters: React.Dispatch<React.SetStateAction<FiltersType>>;
 }
@@ -19,7 +18,6 @@ export const HistoryList = ({
   isQuerySequencesEnabled,
   alerts,
   selectedAlert,
-  setSelectedAlert,
   filters,
   setFilters,
 }: HistoryListType) => {
@@ -57,11 +55,10 @@ export const HistoryList = ({
                 height: 'calc(100vh - 64px -  155px)', // To get scroll on the alert cards list only (= 100% - topbar height - title height and filters)
               }}
             >
-              <AlertsCardsColumn
+              <HistoryAlertsCardsColumn
                 alerts={alerts}
                 selectedAlert={selectedAlert}
-                setSelectedAlert={setSelectedAlert}
-                isLiveMode={false}
+                date={filters.date?.format('YYYY-MM-DD') ?? ''}
               />
             </Grid>
           ))}

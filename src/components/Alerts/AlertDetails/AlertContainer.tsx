@@ -39,6 +39,7 @@ export const AlertContainer = ({
               selectedSequence={selectedSequence}
               setSelectedSequence={setSelectedSequence}
               resetAlert={resetAlert}
+              alert={alert}
             />
           </Grid>
           <Grid size={{ xs: 12, xl: 9 }}>

@@ -1,5 +1,7 @@
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import {
+  Button,
   Grid,
   IconButton,
   MenuItem,
@@ -8,10 +10,14 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
+import moment from 'moment-timezone';
 
 import smallLogo from '@/assets/small-logo.png';
 
-import type { SequenceWithCameraInfoType } from '../../../utils/alerts';
+import type {
+  AlertType,
+  SequenceWithCameraInfoType,
+} from '../../../utils/alerts';
 import { useIsMobile } from '../../../utils/useIsMobile';
 import { useTranslationPrefix } from '../../../utils/useTranslationPrefix';
 
@@ -22,6 +28,7 @@ interface AlertHeaderType {
     newSelectedSequence: SequenceWithCameraInfoType
   ) => void;
   resetAlert: () => void;
+  alert: AlertType;
 }
 
 export const AlertHeader = ({
@@ -29,11 +36,31 @@ export const AlertHeader = ({
   selectedSequence,
   setSelectedSequence,
   resetAlert,
+  alert,
 }: AlertHeaderType) => {
   const isMobile = useIsMobile();
   const { t } = useTranslationPrefix('alerts');
 
   const camera = selectedSequence.camera;
+
+  const handleCopyUrl = async () => {
+    let url = '';
+    if (alert.startedAt) {
+      // Always create a historic link using alert's date
+      const dateStr = moment(alert.startedAt).format('YYYY-MM-DD');
+      url = `${window.location.origin}/history/${dateStr}/${alert.id}`;
+    } else {
+      // Fallback if no startedAt date is available
+      url = window.location.href;
+    }
+
+    try {
+      await navigator.clipboard.writeText(url);
+      // You might want to show a toast notification here
+    } catch (error) {
+      console.error('Failed to copy URL:', error);
+    }
+  };
 
   const handleChange = (event: SelectChangeEvent) => {
     const newSelectedSequence = sequences.find(
@@ -85,11 +112,26 @@ export const AlertHeader = ({
           </Grid>
         </Grid>
       ) : (
-        <Stack direction="row" spacing={2} alignItems="center">
-          <img src={smallLogo} height="26px" width="26px" />
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+        >
+          <Stack direction="row" spacing={2} alignItems="center">
+            <img src={smallLogo} height="26px" width="26px" />
 
-          {Title}
-          {SequenceSelector}
+            {Title}
+            {SequenceSelector}
+          </Stack>
+          <Button
+            aria-label={t('buttonImageDownloadAll')}
+            size="small"
+            sx={{ fontSize: '0.875rem', color: 'text.secondary' }}
+            onClick={() => void handleCopyUrl()}
+          >
+            <ContentCopyIcon sx={{ marginRight: 0.5, fontSize: '1rem' }} />
+            <span style={{ fontWeight: 500, textTransform: 'none' }}>Copy</span>
+          </Button>
         </Stack>
       )}
     </>

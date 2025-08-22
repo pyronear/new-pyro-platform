@@ -3,6 +3,7 @@ import Grid from '@mui/material/Grid';
 import Slide from '@mui/material/Slide';
 import Typography from '@mui/material/Typography';
 import { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import {
   type ResponseStatus,
@@ -24,6 +25,7 @@ interface HistoryContainerType {
   alertsList: AlertType[];
   filters: FiltersType;
   setFilters: React.Dispatch<React.SetStateAction<FiltersType>>;
+  selectedAlertId?: number;
 }
 
 export const HistoryContainer = ({
@@ -32,13 +34,24 @@ export const HistoryContainer = ({
   alertsList,
   filters,
   setFilters,
+  selectedAlertId,
 }: HistoryContainerType) => {
   const [selectedAlert, setSelectedAlert] = useState<AlertType | null>(null);
   const isMobile = useIsMobile();
   const containerRef = useRef<HTMLElement>(null);
   const { t } = useTranslationPrefix('history');
+  const navigate = useNavigate();
 
   useEffect(() => {
+    // If there's a selectedAlertId from URL, try to find and select that alert
+    if (selectedAlertId) {
+      const alertFromUrl = alertsList.find((a) => a.id === selectedAlertId);
+      if (alertFromUrl) {
+        setSelectedAlert(alertFromUrl);
+        return;
+      }
+    }
+
     const indexSelectedAlert = alertsList.findIndex(
       (a) => a.id === selectedAlert?.id
     );
@@ -55,7 +68,7 @@ export const HistoryContainer = ({
       // If the selected alert has changed, its data is updated
       setSelectedAlert(alertsList[indexSelectedAlert]);
     }
-  }, [alertsList, isMobile, selectedAlert]);
+  }, [alertsList, isMobile, selectedAlert, selectedAlertId]);
 
   const HistoryListComponent = (
     <HistoryList
@@ -64,7 +77,6 @@ export const HistoryContainer = ({
       filters={filters}
       setFilters={setFilters}
       selectedAlert={selectedAlert}
-      setSelectedAlert={setSelectedAlert}
     />
   );
 
@@ -74,6 +86,13 @@ export const HistoryContainer = ({
       alert={selectedAlert}
       resetAlert={() => {
         setSelectedAlert(null);
+        // Navigate back to the date URL without the alert parameter
+        if (filters.date) {
+          const dateStr = filters.date.format('YYYY-MM-DD');
+          void navigate(`/history/${dateStr}`, { replace: true });
+        } else {
+          void navigate('/history', { replace: true });
+        }
       }}
     />
   );

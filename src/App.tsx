@@ -37,6 +37,11 @@ const App = () => {
                 <Route path="/alerts" element={<AlertsPage />}></Route>
                 <Route path="/dashboard" element={<DashboardPage />}></Route>
                 <Route path="/history" element={<HistoryPage />}></Route>
+                <Route path="/history/:date" element={<HistoryPage />}></Route>
+                <Route
+                  path="/history/:date/:alert"
+                  element={<HistoryPage />}
+                ></Route>
               </Route>
             </Routes>
           </Box>

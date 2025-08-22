@@ -1,5 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
-import { useMemo, useState } from 'react';
+import moment from 'moment-timezone';
+import { useEffect, useMemo, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import { HistoryContainer } from '../components/History/HistoryContainer';
 import { getSequencesByFilters } from '../services/alerts';
@@ -20,7 +22,55 @@ const HISTORY_NB_ALERTS_PER_PAGE = import.meta.env
   .VITE_HISTORY_NB_ALERTS_PER_PAGE;
 
 export const HistoryPage = () => {
-  const [filters, setFilters] = useState<FiltersType>(INITIAL_FILTERS);
+  const { date: dateParam, alert: alertParam } = useParams<{
+    date: string;
+    alert: string;
+  }>();
+  const navigate = useNavigate();
+
+  // Initialize filters based on URL parameter
+  const initialFilters = useMemo(() => {
+    if (dateParam && moment(dateParam, 'YYYY-MM-DD', true).isValid()) {
+      return {
+        date: moment(dateParam, 'YYYY-MM-DD'),
+      };
+    }
+    return INITIAL_FILTERS;
+  }, [dateParam]);
+
+  const [filters, setFilters] = useState<FiltersType>(initialFilters);
+
+  // Update filters when URL parameter changes
+  useEffect(() => {
+    if (dateParam && moment(dateParam, 'YYYY-MM-DD', true).isValid()) {
+      const newDate = moment(dateParam, 'YYYY-MM-DD');
+      setFilters((prev) => ({ ...prev, date: newDate }));
+    } else if (!dateParam) {
+      setFilters(INITIAL_FILTERS);
+    }
+  }, [dateParam]);
+
+  // Custom setFilters that also updates the URL
+  const handleSetFilters = (
+    newFilters: FiltersType | ((prev: FiltersType) => FiltersType)
+  ) => {
+    const updatedFilters =
+      typeof newFilters === 'function' ? newFilters(filters) : newFilters;
+    setFilters(updatedFilters);
+
+    // Update URL based on the new date (preserve alert if it exists)
+    if (updatedFilters.date) {
+      const dateStr = updatedFilters.date.format('YYYY-MM-DD');
+      if (alertParam) {
+        void navigate(`/history/${dateStr}/${alertParam}`, { replace: true });
+      } else {
+        void navigate(`/history/${dateStr}`, { replace: true });
+      }
+    } else {
+      void navigate('/history', { replace: true });
+    }
+  };
+
   const isQuerySequencesEnabled = useMemo(
     () => !isFiltersEmpty(filters),
     [filters]
@@ -69,9 +119,10 @@ export const HistoryPage = () => {
     <HistoryContainer
       isQuerySequencesEnabled={isQuerySequencesEnabled}
       filters={filters}
-      setFilters={setFilters}
+      setFilters={handleSetFilters}
       status={status}
       alertsList={alertsList}
+      selectedAlertId={alertParam ? parseInt(alertParam, 10) : undefined}
     />
   );
 };
