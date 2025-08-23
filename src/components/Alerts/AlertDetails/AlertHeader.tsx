@@ -2,8 +2,6 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {
   Grid,
   IconButton,
-  MenuItem,
-  Select,
   type SelectChangeEvent,
   Stack,
   Typography,
@@ -15,6 +13,7 @@ import type { SequenceWithCameraInfoType } from '../../../utils/alerts';
 import { useIsMobile } from '../../../utils/useIsMobile';
 import { useTranslationPrefix } from '../../../utils/useTranslationPrefix';
 import { SequenceLabel } from '../AlertLabel/SequenceLabel';
+import { SequenceSelector } from './SequenceSelector';
 
 interface AlertHeaderType {
   sequences: SequenceWithCameraInfoType[];
@@ -52,20 +51,6 @@ export const AlertHeader = ({
     </Typography>
   );
 
-  const SequenceSelector = (
-    <Select
-      value={selectedSequence.id.toString()}
-      onChange={handleChange}
-      sx={{ height: 24, minWidth: isMobile ? 200 : 50 }}
-    >
-      {sequences.map((sequence) => (
-        <MenuItem key={sequence.id} value={sequence.id}>
-          {sequence.camera?.name}
-        </MenuItem>
-      ))}
-    </Select>
-  );
-
   return (
     <>
       {isMobile ? (
@@ -82,7 +67,11 @@ export const AlertHeader = ({
             <Stack direction="column" spacing={1} alignItems="start">
               {Title}
               <SequenceLabel isWildfire={selectedSequence.isWildfire} />
-              {SequenceSelector}
+              <SequenceSelector
+                sequences={sequences}
+                selectedSequence={selectedSequence}
+                handleChange={handleChange}
+              />
             </Stack>
           </Grid>
         </Grid>
@@ -98,7 +87,11 @@ export const AlertHeader = ({
             {Title}
             <SequenceLabel isWildfire={selectedSequence.isWildfire} />
           </Stack>
-          {SequenceSelector}
+          <SequenceSelector
+            sequences={sequences}
+            selectedSequence={selectedSequence}
+            handleChange={handleChange}
+          />
         </Stack>
       )}
     </>
