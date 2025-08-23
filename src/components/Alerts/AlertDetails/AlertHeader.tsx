@@ -14,6 +14,7 @@ import smallLogo from '@/assets/small-logo.png';
 import type { SequenceWithCameraInfoType } from '../../../utils/alerts';
 import { useIsMobile } from '../../../utils/useIsMobile';
 import { useTranslationPrefix } from '../../../utils/useTranslationPrefix';
+import { SequenceLabel } from '../AlertLabel/SequenceLabel';
 
 interface AlertHeaderType {
   sequences: SequenceWithCameraInfoType[];
@@ -80,15 +81,23 @@ export const AlertHeader = ({
           <Grid size="grow">
             <Stack direction="column" spacing={1} alignItems="start">
               {Title}
+              <SequenceLabel isWildfire={selectedSequence.isWildfire} />
               {SequenceSelector}
             </Stack>
           </Grid>
         </Grid>
       ) : (
-        <Stack direction="row" spacing={2} alignItems="center">
-          <img src={smallLogo} height="26px" width="26px" />
-
-          {Title}
+        <Stack
+          direction="row"
+          spacing={2}
+          justifyContent="space-between"
+          alignItems="center"
+        >
+          <Stack direction="row" spacing={1} alignItems="center">
+            <img src={smallLogo} height="26px" width="26px" />
+            {Title}
+            <SequenceLabel isWildfire={selectedSequence.isWildfire} />
+          </Stack>
           {SequenceSelector}
         </Stack>
       )}

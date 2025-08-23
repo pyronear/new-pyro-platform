@@ -17,13 +17,13 @@ export const theme = createTheme({
     primary: {
       main: '#054546',
       light: '#2C796E',
-      contrastText: 'white',
+      contrastText: '#fff',
     },
     secondary: {
       main: '#f6b52a',
       light: '#fac044',
       dark: '#c99523',
-      contrastText: 'black',
+      contrastText: '#000',
     },
     secondaryText: {
       main: '#a9a7a7',
@@ -37,7 +37,7 @@ export const theme = createTheme({
       main: '#eef1f0',
       light: '#f4f5f5',
       dark: '#dce6ea',
-      contrastText: 'black',
+      contrastText: '#000',
     },
   },
   typography: {
@@ -138,6 +138,13 @@ export const theme = createTheme({
         subtitle2: ({ theme }) => ({
           color: theme.palette.secondaryText.main,
         }),
+      },
+    },
+    MuiChip: {
+      styleOverrides: {
+        root: {
+          '& .MuiChip-label:empty': { paddingLeft: 0 },
+        },
       },
     },
   },

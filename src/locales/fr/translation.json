@@ -61,6 +61,11 @@
       "minute": "minute",
       "minutes": "minutes",
       "now": "À l'instant"
+    },
+    "label": {
+      "wildfire": "Départ de feu",
+      "notWildfire": "Faux positif",
+      "unset": "À labelliser"
     }
   },
   "history": {

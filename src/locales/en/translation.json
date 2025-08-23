@@ -61,6 +61,11 @@
       "minute": "minute",
       "minutes": "minutes",
       "now": "Just now"
+    },
+    "label": {
+      "wildfire": "Fire outbreak",
+      "notWildfire": "False positive",
+      "unset": "To be labeled"
     }
   },
   "history": {
