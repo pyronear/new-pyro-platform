@@ -12,6 +12,8 @@ dist
 dist-ssr
 *.local
 .env
+sites_infos_prod.json
+sites_live_access_prod.json
 
 # Editor directories and files
 !.vscode/extensions.json

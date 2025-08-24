@@ -1,7 +1,7 @@
 import type { AxiosResponse } from 'axios';
 import * as z from 'zod/v4';
 
-import { instance } from './axios';
+import { apiInstance } from './axios';
 
 const apiCameraResponseSchema = z.object({
   id: z.number(),
@@ -21,7 +21,7 @@ export type CameraType = z.infer<typeof apiCameraResponseSchema>;
 const apiCameraListResponseSchema = z.array(apiCameraResponseSchema);
 
 export const getCameraList = async (): Promise<CameraType[]> => {
-  return instance
+  return apiInstance
     .get('/api/v1/cameras/')
     .then((response: AxiosResponse) => {
       try {

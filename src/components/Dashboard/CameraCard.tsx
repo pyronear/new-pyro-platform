@@ -73,6 +73,7 @@ export const CameraCard = ({
                   <MoreVertIcon />
                 </IconButton>
                 <CameraCardActionsMenu
+                  cameraName={camera.name}
                   anchorEl={anchorEl}
                   open={open}
                   handleClose={handleClose}
