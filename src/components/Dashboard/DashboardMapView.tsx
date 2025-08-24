@@ -29,12 +29,16 @@ export const DashboardMapView = ({ cameraList }: ViewMapProps) => {
     const selectedCamera = cameraList.find(({ id }) => id === selectedCameraId);
     if (mapRef === null || selectedCamera === undefined) return;
 
+    // flyTo center of the map
     const coords: LatLngTuple = [selectedCamera.lat, selectedCamera.lon];
     const options = { duration: 0.4 };
     mapRef.flyTo(coords, mapRef.getZoom(), options);
 
+    // Open marker of selected camera inside the map
     const marker = markerRefs.current.get(selectedCamera.id);
     if (marker !== undefined) marker.openPopup();
+
+    // Scroll to selected camera card in the left pane
     const el = cardRefs.current.get(selectedCamera.id);
     if (el) {
       el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
