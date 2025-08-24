@@ -10,7 +10,7 @@ interface ViewCardsProps {
   cameraList: CameraType[];
 }
 
-export const ViewCards = ({ cameraList }: ViewCardsProps) => {
+export const DashboardCardsView = ({ cameraList }: ViewCardsProps) => {
   return (
     <Grid
       container
