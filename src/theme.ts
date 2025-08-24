@@ -118,9 +118,6 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: 3,
-          '&.MuiButton-colorSecondary': {
-            backgroundColor: '#ffffff26',
-          },
         },
       },
     },

@@ -74,6 +74,7 @@ export const AlertsContainer = ({
       resetAlert={() => {
         setSelectedAlert(null);
       }}
+      invalidateAndRefreshData={invalidateAndRefreshData}
     />
   );
 

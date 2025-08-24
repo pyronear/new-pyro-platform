@@ -1,5 +1,9 @@
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
-import { useMemo, useState } from 'react';
+import {
+  useInfiniteQuery,
+  useQuery,
+  useQueryClient,
+} from '@tanstack/react-query';
+import { useCallback, useMemo, useState } from 'react';
 
 import { HistoryContainer } from '../components/History/HistoryContainer';
 import { getSequencesByFilters } from '../services/alerts';
@@ -20,6 +24,7 @@ const HISTORY_NB_ALERTS_PER_PAGE = import.meta.env
   .VITE_HISTORY_NB_ALERTS_PER_PAGE;
 
 export const HistoryPage = () => {
+  const queryClient = useQueryClient();
   const [filters, setFilters] = useState<FiltersType>(INITIAL_FILTERS);
   const isQuerySequencesEnabled = useMemo(
     () => !isFiltersEmpty(filters),
@@ -57,6 +62,10 @@ export const HistoryPage = () => {
     refetchOnWindowFocus: false,
   });
 
+  const invalidateAndRefreshData = useCallback(() => {
+    void queryClient.invalidateQueries({ queryKey: ['sequenceList'] });
+  }, [queryClient]);
+
   const alertsList: AlertType[] = useMemo(() => {
     return convertSequencesToAlerts(
       sequenceList?.pages.flat() ?? [],
@@ -90,6 +99,7 @@ export const HistoryPage = () => {
       hasNextPage={hasNextPage}
       isFetchingNextPage={isFetchingNextPage}
       fetchNextPage={() => void fetchNextPage()}
+      invalidateAndRefreshData={invalidateAndRefreshData}
     />
   );
 };

@@ -65,7 +65,13 @@
     "label": {
       "wildfire": "Fire outbreak",
       "notWildfire": "False positive",
-      "unset": "To be labeled"
+      "unset": "To be labeled",
+      "titleModal": "Select the label for the alert from ",
+      "buttonCancelModal": "Cancel",
+      "buttonValidateModal": "Validate",
+      "titleRadioButtonsModal": "Label",
+      "lastSequenceMessageModal": "Once the label has been registered, the alert is automatically acknowledged.",
+      "multipleSequenceMessageModal": "You still need to label %s detections to completely acknowledge the alert."
     }
   },
   "history": {

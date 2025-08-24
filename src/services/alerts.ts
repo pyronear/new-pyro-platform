@@ -101,3 +101,25 @@ export const getDetectionsBySequence = async (
       throw err;
     });
 };
+
+export const labelBySequenceId = async (
+  sequenceId: number,
+  isWildfire: boolean | null
+) => {
+  return instance
+    .patch(`/api/v1/sequences/${sequenceId.toString()}/label`, {
+      is_wildfire: isWildfire,
+    })
+    .then((response: AxiosResponse) => {
+      try {
+        const result = apiSequenceResponseSchema.safeParse(response.data);
+        return result.success;
+      } catch {
+        throw new Error('INVALID_API_RESPONSE');
+      }
+    })
+    .catch((err: unknown) => {
+      console.error(err);
+      throw err;
+    });
+};

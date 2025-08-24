@@ -45,7 +45,6 @@
     "errorFetchImagesMessage": "Se ha producido un error. Vuelva a intentarlo más tarde.",
     "titleDetails": "Detalles de la alerta",
     "titleButtonBackAlt": "Volver a la lista",
-
     "subtitleDate": "Fecha & ora",
     "subtitleAzimuth": "Azimut",
     "subtitleLocalisation": "Ubicación",
@@ -66,7 +65,13 @@
     "label": {
       "wildfire": "Inicio del incendio",
       "notWildfire": "Falso positivo",
-      "unset": "A etiquetar"
+      "unset": "A etiquetar",
+      "titleModal": "Seleccione la etiqueta para la alerta de ",
+      "buttonCancelModal": "Cancelar",
+      "buttonValidateModal": "Confirmar",
+      "titleRadioButtonsModal": "Etiqueta",
+      "lastSequenceMessageModal": "Una vez registrado el etiquetado, la alerta se confirma automáticamente.",
+      "multipleSequencesMessageModal": "Solo le queda etiquetar %s detecciones para confirmar completamente la alerta."
     }
   },
   "history": {
