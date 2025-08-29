@@ -76,6 +76,7 @@
         "multipleSequences": "Solo le queda etiquetar %s detecciones para confirmar completamente la alerta."
       },
       "saveSuccessMessage": {
+        "history": "La alerta se ha etiquetado correctamente.",
         "lastSequence": "La alerta se ha reconocido correctamente.",
         "multipleSequences": "La detección está etiquetada, procese las demás detecciones para reconocer la alerta."
       },

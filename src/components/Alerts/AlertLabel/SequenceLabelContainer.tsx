@@ -60,13 +60,17 @@ export const SequenceLabelContainer = ({
 
   const messageSnackbar = useMemo(() => {
     if (isCallSuccessful) {
-      return nbSequencesToBeLabelled > 1
-        ? t('saveSuccessMessage.multipleSequences')
-        : t('saveSuccessMessage.lastSequence');
+      if (isLiveMode) {
+        return nbSequencesToBeLabelled > 1
+          ? t('saveSuccessMessage.multipleSequences')
+          : t('saveSuccessMessage.lastSequence');
+      } else {
+        return t('saveSuccessMessage.history');
+      }
     } else {
       return t('saveErrorMessage');
     }
-  }, [isCallSuccessful, nbSequencesToBeLabelled, t]);
+  }, [isCallSuccessful, isLiveMode, nbSequencesToBeLabelled, t]);
 
   return (
     <>

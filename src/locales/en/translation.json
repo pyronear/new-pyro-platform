@@ -76,6 +76,7 @@
         "multipleSequences": "You still need to label %s detections to completely acknowledge the alert."
       },
       "saveSuccessMessage": {
+        "history": "The alert was successfully labelled",
         "lastSequence": "The alert was successfully acknowledged.",
         "multipleSequences": "The detection is labelled, process the other detections to acknowledge the alert."
       },

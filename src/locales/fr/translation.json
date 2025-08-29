@@ -73,11 +73,12 @@
       "titleRadioButtonsModal": "Label",
       "modalMessage": {
         "lastSequence": "Une fois le label validé, l'alerte sera automatiquement acquittée.",
-        "multipleSequences": "Il vous reste à labeliser %s détections pour acquitter complètement l'alerte."
+        "multipleSequences": "Il vous reste à labéliser %s détections pour acquitter complètement l'alerte."
       },
       "saveSuccessMessage": {
+        "history": "L'alerte a été labélisée avec succès",
         "lastSequence": "L'alerte a été acquittée avec succès",
-        "multipleSequences": "La détection est labellisée, traitez les autres détections pour acquitter l'alerte"
+        "multipleSequences": "La détection est labélisée, traitez les autres détections pour acquitter l'alerte"
       },
       "saveErrorMessage": "Une erreur s'est produite, veuillez réessayer"
     }

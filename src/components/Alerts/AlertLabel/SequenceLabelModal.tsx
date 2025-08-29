@@ -42,9 +42,11 @@ export const SequenceLabelModal = ({
   const [selectedLabel, setSelectedLabel] = useState<LabelWildfireValues>(null);
 
   useEffect(() => {
-    // Initialize default value
-    setSelectedLabel(sequence.labelWildfire);
-  }, [sequence]);
+    // Initialize default value when open the modal or change the sequence
+    if (open) {
+      setSelectedLabel(sequence.labelWildfire);
+    }
+  }, [open, sequence]);
 
   const handleChangeRadioButton = (
     event: React.ChangeEvent<HTMLInputElement>
