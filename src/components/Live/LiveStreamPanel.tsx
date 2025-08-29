@@ -1,8 +1,10 @@
 import Skeleton from '@mui/material/Skeleton';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
+import { useMutation } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 
+import { STATUS_ERROR, STATUS_LOADING, STATUS_SUCCESS } from '@/services/axios';
 import {
   stopPatrolThenStartStreaming,
   stopStreamingThenStartPatrol,
@@ -33,33 +35,39 @@ const HEIGHT_VIDEO = 500;
 
 export const LiveStreamPanel = ({ siteName, camera }: LiveStreamPanelProps) => {
   const [speedIndex, setSpeedIndex] = useState(1);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<boolean>(false);
   const { t } = useTranslationPrefix('live');
 
   const urlStreaming = `${import.meta.env.VITE_LIVE_STREAMING_URL}/${siteName}/?controls=false`;
   const cameraIp = camera?.ip;
 
+  const { mutate: start, status: statusStart } = useMutation({
+    mutationFn: (ip: string) => stopPatrolThenStartStreaming(ip),
+  });
+
+  const { mutate: stop } = useMutation({
+    mutationFn: (ip: string) => stopStreamingThenStartPatrol(ip),
+  });
+
   useEffect(() => {
     if (cameraIp) {
-      setLoading(true);
-      setError(false);
-      stopPatrolThenStartStreaming(cameraIp)
-        .catch(() => setError(true))
-        .finally(() => setLoading(false));
-      return () => void stopStreamingThenStartPatrol(cameraIp);
+      start(cameraIp);
+      return () => {
+        if (cameraIp) {
+          stop(cameraIp);
+        }
+      };
     }
-  }, [cameraIp]);
+  }, [cameraIp, start, stop]);
 
   return (
     <>
-      {error && (
+      {statusStart === STATUS_ERROR && (
         <Typography variant="body2">{t('errorNoStreaming')}</Typography>
       )}
-      {(loading || cameraIp == undefined) && (
+      {(statusStart === STATUS_LOADING || cameraIp == undefined) && (
         <Skeleton variant="rectangular" width="100%" height={HEIGHT_VIDEO} />
       )}
-      {!loading && !error && cameraIp && (
+      {statusStart === STATUS_SUCCESS && cameraIp && (
         <Stack spacing={1}>
           <div style={{ position: 'relative', height: HEIGHT_VIDEO }}>
             <iframe
