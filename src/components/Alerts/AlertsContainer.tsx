@@ -50,7 +50,7 @@ export const AlertsContainer = ({
       } else {
         setSelectedAlert(alertsList.length > 0 ? alertsList[0] : null);
       }
-    } else if (indexSelectedAlert != 1) {
+    } else if (indexSelectedAlert != -1) {
       // If the selected alert has changed, its data is updated
       setSelectedAlert(alertsList[indexSelectedAlert]);
     }
@@ -74,6 +74,7 @@ export const AlertsContainer = ({
       resetAlert={() => {
         setSelectedAlert(null);
       }}
+      invalidateAndRefreshData={invalidateAndRefreshData}
     />
   );
 

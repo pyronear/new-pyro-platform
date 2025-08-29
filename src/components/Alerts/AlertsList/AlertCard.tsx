@@ -13,7 +13,7 @@ import type { AlertType } from '../../../utils/alerts';
 import { formatToDate, formatToTime } from '../../../utils/dates';
 import { useTranslationPrefix } from '../../../utils/useTranslationPrefix';
 import { CameraName } from '../../Common/CameraName';
-import { SequenceLabel } from '../AlertLabel/SequenceLabel';
+import { SequenceLabelChip } from '../AlertLabel/SequenceLabelChip';
 import { AlertStartedTimeAgo } from './AlertStartedTimeAgo';
 
 interface AlertCardType {
@@ -79,7 +79,10 @@ export const AlertCard = ({
             >
               <Grid>
                 <Stack direction="row" spacing={1} alignItems="center">
-                  <SequenceLabel isSmall isWildfire={sequence.isWildfire} />
+                  <SequenceLabelChip
+                    isSmall
+                    labelWildfire={sequence.labelWildfire}
+                  />
                   {sequence.camera && (
                     <CameraName
                       name={sequence.camera.name}

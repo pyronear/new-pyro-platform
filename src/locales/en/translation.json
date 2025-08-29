@@ -64,8 +64,23 @@
     },
     "label": {
       "wildfire": "Fire outbreak",
-      "notWildfire": "False positive",
-      "unset": "To be labeled"
+      "otherSmoke": "Other smoke",
+      "other": "Other",
+      "unset": "To be labeled",
+      "titleModal": "Select the label for the alert from ",
+      "buttonCancelModal": "Cancel",
+      "buttonValidateModal": "Validate",
+      "titleRadioButtonsModal": "Label",
+      "modalMessage": {
+        "lastSequence": "Once the label has been registered, the alert is automatically acknowledged.",
+        "multipleSequences": "You still need to label %s detections to completely acknowledge the alert."
+      },
+      "saveSuccessMessage": {
+        "history": "The alert was successfully labelled",
+        "lastSequence": "The alert was successfully acknowledged.",
+        "multipleSequences": "The detection is labelled, process the other detections to acknowledge the alert."
+      },
+      "saveErrorMessage": "An error has occurred, please try again"
     }
   },
   "history": {

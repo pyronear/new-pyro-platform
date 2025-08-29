@@ -1,50 +1,61 @@
 import ClearIcon from '@mui/icons-material/Clear';
+import FactoryIcon from '@mui/icons-material/Factory';
 import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import { useTheme } from '@mui/material';
 import Chip from '@mui/material/Chip';
 
+import type { LabelWildfireValues } from '@/utils/alerts';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
-interface SequenceLabelProps {
+interface SequenceLabelChipProps {
+  labelWildfire: LabelWildfireValues;
   isSmall?: boolean;
-  isWildfire: boolean | null;
+  clickable?: boolean;
+  onClick?: () => void;
 }
-export const SequenceLabel = ({
+export const SequenceLabelChip = ({
   isSmall = false,
-  isWildfire,
-}: SequenceLabelProps) => {
+  clickable = false,
+  onClick = undefined,
+  labelWildfire,
+}: SequenceLabelChipProps) => {
   const { t } = useTranslationPrefix('alerts.label');
   const theme = useTheme();
 
   const getLabel = () => {
-    switch (isWildfire) {
+    switch (labelWildfire) {
       case null:
         return 'unset';
-      case true:
+      case 'wildfire_smoke':
         return 'wildfire';
-      case false:
-        return 'notWildfire';
+      case 'other_smoke':
+        return 'otherSmoke';
+      case 'other':
+        return 'other';
     }
   };
   const getIcon = () => {
-    switch (isWildfire) {
+    switch (labelWildfire) {
       case null:
         return <QuestionMarkIcon />;
-      case true:
+      case 'wildfire_smoke':
         return <LocalFireDepartmentIcon />;
-      case false:
+      case 'other_smoke':
+        return <FactoryIcon />;
+      case 'other':
         return <ClearIcon />;
     }
   };
 
   const getColor = () => {
-    switch (isWildfire) {
+    switch (labelWildfire) {
       case null:
         return 'default';
-      case true:
+      case 'wildfire_smoke':
         return 'error';
-      case false:
+      case 'other':
+      case 'other_smoke':
         return 'secondary';
     }
   };
@@ -56,6 +67,8 @@ export const SequenceLabel = ({
       color={getColor()}
       variant="filled"
       size={isSmall ? 'small' : 'medium'}
+      clickable={clickable}
+      onClick={clickable ? onClick : undefined}
       sx={{
         '& .MuiChip-label': {
           font: theme.typography.body1,

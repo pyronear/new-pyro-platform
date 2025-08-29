@@ -10,7 +10,7 @@ const apiSequenceResponseSchema = z.object({
   azimuth: z.nullable(z.number()),
   cone_azimuth: z.number(),
   cone_angle: z.number(),
-  is_wildfire: z.nullable(z.boolean()),
+  is_wildfire: z.nullable(z.string()),
   started_at: z.nullable(z.iso.datetime({ local: true })),
   last_seen_at: z.nullable(z.string()),
 });
@@ -92,6 +92,28 @@ export const getDetectionsBySequence = async (
           );
         }
         return result.data ?? [];
+      } catch {
+        throw new Error('INVALID_API_RESPONSE');
+      }
+    })
+    .catch((err: unknown) => {
+      console.error(err);
+      throw err;
+    });
+};
+
+export const labelBySequenceId = async (
+  sequenceId: number,
+  label: string | null
+) => {
+  return instance
+    .patch(`/api/v1/sequences/${sequenceId.toString()}/label`, {
+      is_wildfire: label,
+    })
+    .then((response: AxiosResponse) => {
+      try {
+        const result = apiSequenceResponseSchema.safeParse(response.data);
+        return result.success;
       } catch {
         throw new Error('INVALID_API_RESPONSE');
       }

@@ -64,8 +64,23 @@
     },
     "label": {
       "wildfire": "Départ de feu",
-      "notWildfire": "Faux positif",
-      "unset": "À labelliser"
+      "otherSmoke": "Autre fumée",
+      "other": "Autre",
+      "unset": "À labelliser",
+      "titleModal": "Sélectionnez le label de l'alerte depuis ",
+      "buttonCancelModal": "Annuler",
+      "buttonValidateModal": "Valider",
+      "titleRadioButtonsModal": "Label",
+      "modalMessage": {
+        "lastSequence": "Une fois le label validé, l'alerte sera automatiquement acquittée.",
+        "multipleSequences": "Il vous reste à labéliser %s détections pour acquitter complètement l'alerte."
+      },
+      "saveSuccessMessage": {
+        "history": "L'alerte a été labélisée avec succès",
+        "lastSequence": "L'alerte a été acquittée avec succès",
+        "multipleSequences": "La détection est labélisée, traitez les autres détections pour acquitter l'alerte"
+      },
+      "saveErrorMessage": "Une erreur s'est produite, veuillez réessayer"
     }
   },
   "history": {
