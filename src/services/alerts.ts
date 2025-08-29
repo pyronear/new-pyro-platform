@@ -106,7 +106,7 @@ export const labelBySequenceId = async (
   sequenceId: number,
   label: string | null
 ) => {
-  return instance
+  return apiInstance
     .patch(`/api/v1/sequences/${sequenceId.toString()}/label`, {
       is_wildfire: label,
     })

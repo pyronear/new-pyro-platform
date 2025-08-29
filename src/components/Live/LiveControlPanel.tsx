@@ -17,7 +17,7 @@ import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
 import { CameraName } from '../Common/CameraName';
 import CamerasMap from '../Dashboard/CamerasMap';
-import type { SiteType } from './useDataLive';
+import type { SiteType } from './useDataSitesLive';
 
 interface LiveControlPanelProps {
   sites: SiteType[];
@@ -35,6 +35,7 @@ export const LiveControlPanel = ({
   setSelectedCameraId,
 }: LiveControlPanelProps) => {
   const { t } = useTranslationPrefix('live');
+
   const handleChange = (event: SelectChangeEvent) => {
     setSelectedSite(sites.find((s) => s.id == event.target.value) ?? null);
   };
@@ -55,7 +56,6 @@ export const LiveControlPanel = ({
           ))}
         </Select>
       </FormControl>
-
       <List sx={{ maxHeight: '200px', overflow: 'auto' }}>
         {selectedSite?.cameras.map((camera) => (
           <ListItem disablePadding key={camera.id}>

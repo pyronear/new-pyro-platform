@@ -4,11 +4,11 @@ import { useEffect, useState } from 'react';
 import { formatTimer } from '@/utils/dates';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
-interface WarningCounterProps {
+interface LiveWarningCounterProps {
   onClose: () => void;
 }
 
-export const WarningCounter = ({ onClose }: WarningCounterProps) => {
+export const LiveWarningCounter = ({ onClose }: LiveWarningCounterProps) => {
   const { t } = useTranslationPrefix('live');
   const [spentTimeInSeconds, setSpentTimeInS] = useState(0);
   useEffect(() => {
