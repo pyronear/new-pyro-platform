@@ -79,7 +79,10 @@ export const AlertCard = ({
             >
               <Grid>
                 <Stack direction="row" spacing={1} alignItems="center">
-                  <SequenceLabelChip isSmall isWildfire={sequence.isWildfire} />
+                  <SequenceLabelChip
+                    isSmall
+                    labelWildfire={sequence.labelWildfire}
+                  />
                   {sequence.camera && (
                     <CameraName
                       name={sequence.camera.name}

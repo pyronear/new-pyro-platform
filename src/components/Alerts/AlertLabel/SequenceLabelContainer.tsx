@@ -31,7 +31,7 @@ export const SequenceLabelContainer = ({
 
   const handleCancel = () => setOpenModal(false);
 
-  const handleValidate = (isWildfire: boolean | null) => {
+  const handleValidate = (isWildfire: string | null) => {
     void labelBySequenceId(sequence.id, isWildfire)
       .then(() => {
         setCallSuccessful(true);
@@ -74,7 +74,7 @@ export const SequenceLabelContainer = ({
         renderCustomButton(handleOpen)
       ) : (
         <SequenceLabelChip
-          isWildfire={sequence.isWildfire}
+          labelWildfire={sequence.labelWildfire}
           clickable={true}
           onClick={handleOpen}
         />

@@ -10,7 +10,7 @@ const apiSequenceResponseSchema = z.object({
   azimuth: z.nullable(z.number()),
   cone_azimuth: z.number(),
   cone_angle: z.number(),
-  is_wildfire: z.nullable(z.boolean()),
+  is_wildfire: z.nullable(z.string()),
   started_at: z.nullable(z.iso.datetime({ local: true })),
   last_seen_at: z.nullable(z.string()),
 });
@@ -104,11 +104,11 @@ export const getDetectionsBySequence = async (
 
 export const labelBySequenceId = async (
   sequenceId: number,
-  isWildfire: boolean | null
+  label: string | null
 ) => {
   return instance
     .patch(`/api/v1/sequences/${sequenceId.toString()}/label`, {
-      is_wildfire: isWildfire,
+      is_wildfire: label,
     })
     .then((response: AxiosResponse) => {
       try {

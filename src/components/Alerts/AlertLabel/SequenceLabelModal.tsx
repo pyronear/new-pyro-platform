@@ -15,7 +15,10 @@ import {
 } from '@mui/material';
 import { useEffect, useState } from 'react';
 
-import type { SequenceWithCameraInfoType } from '@/utils/alerts';
+import type {
+  LabelWildfireValues,
+  SequenceWithCameraInfoType,
+} from '@/utils/alerts';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
 import { SequenceLabelChip } from './SequenceLabelChip';
@@ -23,32 +26,10 @@ import { SequenceLabelChip } from './SequenceLabelChip';
 interface SequenceLabelProps {
   open: boolean;
   handleCancel: () => void;
-  handleValidate: (isWildfire: boolean | null) => void;
+  handleValidate: (newLabel: LabelWildfireValues) => void;
   sequence: SequenceWithCameraInfoType;
   message: string | null;
 }
-
-type LabelType = 'fire' | 'nofire';
-
-const toLabelType = (isWildfire: boolean | null): LabelType | null => {
-  if (isWildfire === null) {
-    return null;
-  } else if (isWildfire) {
-    return 'fire';
-  } else {
-    return 'nofire';
-  }
-};
-
-const toIsWildfire = (labelType: LabelType | null): boolean | null => {
-  if (labelType === null) {
-    return null;
-  } else if (labelType === 'fire') {
-    return true;
-  } else {
-    return false;
-  }
-};
 
 export const SequenceLabelModal = ({
   open,
@@ -58,18 +39,18 @@ export const SequenceLabelModal = ({
   sequence,
 }: SequenceLabelProps) => {
   const { t } = useTranslationPrefix('alerts');
-  const [selectedLabel, setSelectedLabel] = useState<LabelType | null>(null);
+  const [selectedLabel, setSelectedLabel] = useState<LabelWildfireValues>(null);
 
   useEffect(() => {
     // Initialize default value
-    setSelectedLabel(toLabelType(sequence.isWildfire));
+    setSelectedLabel(sequence.labelWildfire);
   }, [sequence]);
 
   const handleChangeRadioButton = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     const newValue = (event.target as HTMLInputElement).value;
-    setSelectedLabel(newValue as LabelType);
+    setSelectedLabel(newValue as LabelWildfireValues);
   };
 
   return (
@@ -88,12 +69,18 @@ export const SequenceLabelModal = ({
               value={selectedLabel}
               onChange={handleChangeRadioButton}
             >
-              {(['fire', 'nofire'] as LabelType[]).map((value) => (
+              {(
+                [
+                  'wildfire_smoke',
+                  'other_smoke',
+                  'other',
+                ] as LabelWildfireValues[]
+              ).map((value) => (
                 <FormControlLabel
                   key={value}
                   value={value}
                   control={<Radio />}
-                  label={<SequenceLabelChip isWildfire={toIsWildfire(value)} />}
+                  label={<SequenceLabelChip labelWildfire={value} />}
                 />
               ))}
             </RadioGroup>
@@ -110,7 +97,7 @@ export const SequenceLabelModal = ({
           {t('label.buttonCancelModal')}
         </Button>
         <Button
-          onClick={() => handleValidate(toIsWildfire(selectedLabel))}
+          onClick={() => handleValidate(selectedLabel)}
           variant="contained"
           disabled={selectedLabel === null}
         >

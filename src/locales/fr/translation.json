@@ -64,7 +64,8 @@
     },
     "label": {
       "wildfire": "Départ de feu",
-      "notWildfire": "Faux positif",
+      "otherSmoke": "Autre fumée",
+      "other": "Autre",
       "unset": "À labelliser",
       "titleModal": "Sélectionnez le label de l'alerte depuis ",
       "buttonCancelModal": "Annuler",

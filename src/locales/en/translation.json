@@ -64,7 +64,8 @@
     },
     "label": {
       "wildfire": "Fire outbreak",
-      "notWildfire": "False positive",
+      "otherSmoke": "Other smoke",
+      "other": "Other",
       "unset": "To be labeled",
       "titleModal": "Select the label for the alert from ",
       "buttonCancelModal": "Cancel",

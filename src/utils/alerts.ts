@@ -7,6 +7,12 @@ export interface AlertType {
   sequences: SequenceWithCameraInfoType[]; // List of grouped sequences
 }
 
+export type LabelWildfireValues =
+  | 'wildfire_smoke'
+  | 'other_smoke'
+  | 'other'
+  | null;
+
 export interface SequenceWithCameraInfoType {
   id: number;
   camera: CameraType | null;
@@ -15,7 +21,7 @@ export interface SequenceWithCameraInfoType {
   azimuth: number | null;
   coneAzimuth: number;
   coneAngle: number;
-  isWildfire: boolean | null;
+  labelWildfire: LabelWildfireValues;
 }
 
 export const convertSequencesToAlerts = (
@@ -38,7 +44,7 @@ export const convertSequencesToAlerts = (
           azimuth: sequence.azimuth,
           coneAzimuth: sequence.cone_azimuth,
           coneAngle: sequence.cone_angle,
-          isWildfire: sequence.is_wildfire,
+          labelWildfire: (sequence.is_wildfire as LabelWildfireValues) ?? null,
         },
       ],
     };
@@ -47,4 +53,4 @@ export const convertSequencesToAlerts = (
 
 export const countUnlabelledSequences = (
   sequences: SequenceWithCameraInfoType[]
-) => sequences.filter((sequence) => sequence.isWildfire === null).length;
+) => sequences.filter((sequence) => sequence.labelWildfire === null).length;
