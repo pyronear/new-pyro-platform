@@ -3,22 +3,18 @@ import { useMemo } from 'react';
 
 import { useAuth } from '@/context/useAuth';
 import { STATUS_ERROR, STATUS_LOADING, STATUS_SUCCESS } from '@/services/axios';
-import { type CameraType, getCameraList } from '@/services/camera';
+import { getCameraList } from '@/services/camera';
 import { getLiveAccess, getSitesInfos } from '@/services/live';
-
-export interface CameraWithPositionType extends CameraType {
-  azimuths?: number[];
-  poses?: number[];
-}
+import type { CameraFullInfosType } from '@/utils/camera';
 
 export interface SiteType {
   id: string;
   ip: string;
   label: string;
-  cameras: CameraWithPositionType[];
+  cameras: CameraFullInfosType[];
 }
 
-export const useDataLive = () => {
+export const useDataSitesLive = () => {
   const auth = useAuth();
   const { status: statusLiveAccess, data: liveAccess } = useQuery({
     queryKey: ['liveAccess'],

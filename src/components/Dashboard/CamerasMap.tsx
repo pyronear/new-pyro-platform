@@ -4,20 +4,39 @@ import { useMemo } from 'react';
 import { Fragment } from 'react/jsx-runtime';
 import { MapContainer, TileLayer } from 'react-leaflet';
 
+import type { CameraFullInfosType } from '@/utils/camera';
 import { buildVisionPolygon, DEFAULT_CAM_RANGE_KM } from '@/utils/cameraVision';
 
 import type { CameraType } from '../../services/camera';
 import CameraMarkerMap from '../Common/Map/CameraMarkerMap';
 import { CameraViewPolygon } from '../Common/Map/CameraViewPolygon';
-import type { CameraWithPositionType } from '../Live/useDataLive';
 
 interface CameraMapProps {
-  cameras: (CameraType | CameraWithPositionType)[];
+  cameras: (CameraType | CameraFullInfosType)[];
   height?: string;
   setMapRef: (map: LeafletMap) => void;
   markerRefs: RefObject<Map<number, LeafletMarker>>;
   setSelectedCameraId: Dispatch<SetStateAction<number | null>>;
 }
+
+const DEFAULT_ANGLE_OF_VIEW = 1;
+
+const buildPolygonsFromCamera = (
+  camera: CameraType | CameraFullInfosType
+): { azimuth: number; visionPolygon: L.LatLng[] }[] => {
+  const angleOfView = camera.angle_of_view ?? DEFAULT_ANGLE_OF_VIEW;
+  const azimuths = (camera as CameraFullInfosType).azimuths ?? [];
+  return azimuths.map((azimuth) => ({
+    azimuth,
+    visionPolygon: buildVisionPolygon(
+      camera.lat,
+      camera.lon,
+      azimuth,
+      angleOfView,
+      DEFAULT_CAM_RANGE_KM
+    ),
+  }));
+};
 
 export const CameraMap = ({
   cameras,
@@ -27,29 +46,10 @@ export const CameraMap = ({
   setSelectedCameraId,
 }: CameraMapProps) => {
   const camerasWithPolygons = useMemo(() => {
-    return cameras.map((camera) => {
-      let polygons: { visionPolygon: L.LatLng[]; azimuth: number }[] = [];
-      if (camera.angle_of_view != null) {
-        const angleOfView = camera.angle_of_view;
-        const azimuths = (camera as CameraWithPositionType).azimuths ?? [];
-        polygons = azimuths.map((azimuth) => {
-          return {
-            azimuth,
-            visionPolygon: buildVisionPolygon(
-              camera.lat,
-              camera.lon,
-              azimuth,
-              angleOfView,
-              DEFAULT_CAM_RANGE_KM
-            ),
-          };
-        });
-      }
-      return {
-        ...camera,
-        polygons,
-      };
-    });
+    return cameras.map((camera) => ({
+      ...camera,
+      polygons: buildPolygonsFromCamera(camera),
+    }));
   }, [cameras]);
 
   const bounds = useMemo(() => {

@@ -17,9 +17,9 @@ const apiCamerasInfosResponseSchema = z.object({
   cameras: z.array(apiCameraInfosResponseSchema),
 });
 
-export type CameraInfosLive = z.infer<typeof apiCameraInfosResponseSchema>;
+export type CameraInfosFromPi = z.infer<typeof apiCameraInfosResponseSchema>;
 
-export const getCamerasInfos = async (): Promise<CameraInfosLive[]> => {
+export const getCamerasInfos = async (): Promise<CameraInfosFromPi[]> => {
   return liveInstance
     .get('/info/camera_infos')
     .then((response: AxiosResponse) => {
