@@ -1,0 +1,60 @@
+import type { SiteType } from '@/components/Live/useDataSitesLive';
+import type { CameraType } from '@/services/camera';
+import type { CameraInfosFromPi } from '@/services/live';
+
+export interface CameraFullInfosType extends CameraType {
+  ip?: string;
+  type?: string;
+  azimuths?: number[];
+  poses?: number[];
+}
+
+export const getSiteByCameraName = (
+  sites: SiteType[],
+  cameraName: string
+): SiteType | null => {
+  return (sites.find((site) =>
+    site.cameras.map((camera) => camera.name).includes(cameraName)
+  ) ?? sites.length > 0)
+    ? sites[0]
+    : null;
+};
+
+export const getCameraIdByCameraName = (
+  site: SiteType | null,
+  cameraName: string
+): number | null => {
+  if (site === null) {
+    return null;
+  }
+  return (
+    site.cameras.find((c) => c.name == cameraName)?.id ??
+    (site.cameras.length > 0 ? site.cameras[0].id : null)
+  );
+};
+
+const aggregateCameraData = (
+  camera: CameraType,
+  extraData: CameraInfosFromPi[]
+): CameraFullInfosType => {
+  const cameraInfosFromPi = extraData.find(
+    (cFromSite) => cFromSite.name == camera.name
+  );
+  return {
+    ...camera,
+    azimuths: cameraInfosFromPi?.azimuths ?? [],
+    poses: cameraInfosFromPi?.poses ?? [],
+  };
+};
+
+export const aggregateSiteData = (
+  site: SiteType,
+  extraData: CameraInfosFromPi[]
+) => {
+  return {
+    ...site,
+    cameras: site.cameras.map((camera) =>
+      aggregateCameraData(camera, extraData)
+    ),
+  };
+};
