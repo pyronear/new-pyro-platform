@@ -14,7 +14,14 @@ export const ModalLiveWrapper = ({
 }: ModalLiveWrapperProps) => {
   const [openLive, setOpenLive] = useState(false);
 
-  const handleClose = () => setOpenLive(false);
+  const handleClose = (
+    _event: never,
+    reason: 'backdropClick' | 'escapeKeyDown'
+  ) => {
+    if (reason !== 'backdropClick') {
+      setOpenLive(false);
+    }
+  };
   const handleOpen = () => setOpenLive(true);
 
   return (
@@ -28,7 +35,10 @@ export const ModalLiveWrapper = ({
             alignItems: 'center',
           }}
         >
-          <LiveContainer onClose={handleClose} targetCameraName={cameraName} />
+          <LiveContainer
+            onClose={() => setOpenLive(false)}
+            targetCameraName={cameraName}
+          />
         </Stack>
       </Dialog>
     </>
