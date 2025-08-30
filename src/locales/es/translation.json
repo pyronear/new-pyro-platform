@@ -4,6 +4,8 @@
     "title": "Conexión",
     "username": "Nombre de usuario",
     "password": "Contraseña",
+    "showPassword": "Mostrar contraseña",
+    "hidePassword": "Ocultar contraseña",
     "logout": "Desconectarse",
     "errors": {
       "INVALID_CREDENTIALS": "Nombre de usuario y/o contraseña incorrectos.",

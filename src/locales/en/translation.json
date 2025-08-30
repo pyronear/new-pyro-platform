@@ -4,6 +4,8 @@
     "title": "Login",
     "username": "Username",
     "password": "Password",
+    "showPassword": "Show password",
+    "hidePassword": "Hide password",
     "logout": "Logout",
     "errors": {
       "INVALID_CREDENTIALS": "Invalid username or password.",
