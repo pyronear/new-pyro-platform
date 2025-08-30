@@ -102,7 +102,7 @@ export const LiveContainer = ({
                   sites={sites}
                   selectedSite={selectedSite}
                   setSelectedSite={setSelectedSite}
-                  selectedCameraId={selectedCameraId}
+                  selectedCamera={selectedCamera}
                   setSelectedCameraId={setSelectedCameraId}
                 />
               </Grid>
