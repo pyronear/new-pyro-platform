@@ -13,6 +13,7 @@ import {
   Stack,
 } from '@mui/material';
 
+import type { CameraFullInfosType } from '@/utils/camera';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
 import { CameraName } from '../Common/CameraName';
@@ -23,7 +24,7 @@ interface LiveControlPanelProps {
   sites: SiteType[];
   selectedSite: SiteType | null;
   setSelectedSite: (newSite: SiteType | null) => void;
-  selectedCameraId: number | null;
+  selectedCamera: CameraFullInfosType | null;
   setSelectedCameraId: (newCameraId: number | null) => void;
 }
 
@@ -31,7 +32,7 @@ export const LiveControlPanel = ({
   sites,
   selectedSite,
   setSelectedSite,
-  selectedCameraId,
+  selectedCamera,
   setSelectedCameraId,
 }: LiveControlPanelProps) => {
   const { t } = useTranslationPrefix('live');
@@ -60,15 +61,15 @@ export const LiveControlPanel = ({
         {selectedSite?.cameras.map((camera) => (
           <ListItem disablePadding key={camera.id}>
             <ListItemButton
-              selected={camera.id == selectedCameraId}
+              selected={camera.id == selectedCamera?.id}
               onClick={() => setSelectedCameraId(camera.id)}
             >
-              {camera.id == selectedCameraId && (
+              {camera.id == selectedCamera?.id && (
                 <ListItemIcon>
                   <VideocamIcon fontSize="small" />
                 </ListItemIcon>
               )}
-              <ListItemText inset={camera.id != selectedCameraId}>
+              <ListItemText inset={camera.id != selectedCamera?.id}>
                 <CameraName
                   name={camera.name}
                   angle_of_view={camera.angle_of_view}
@@ -78,7 +79,10 @@ export const LiveControlPanel = ({
           </ListItem>
         ))}
       </List>
-      <CamerasMap cameras={selectedSite?.cameras ?? []} height="300px" />
+      <CamerasMap
+        cameras={selectedCamera ? [selectedCamera] : []}
+        height="300px"
+      />
     </Stack>
   );
 };

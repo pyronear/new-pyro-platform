@@ -1,6 +1,6 @@
 import { Grid, Stack, Typography } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import {
   liveInstance,
@@ -36,6 +36,9 @@ export const LiveContainer = ({
   const [selectedSite, setSelectedSite] = useState<SiteType | null>(null);
   const [selectedCameraId, setSelectedCameraId] = useState<number | null>(null);
   const isLastQueryEnabled = !!selectedSite;
+  const selectedCamera = useMemo(() => {
+    return selectedSite?.cameras.find((c) => c.id === selectedCameraId) ?? null;
+  }, [selectedCameraId, selectedSite]);
 
   useEffect(() => {
     if (selectedSite == null) {
@@ -89,14 +92,17 @@ export const LiveContainer = ({
             <LiveWarningCounter onClose={onClose} />
             <Grid container p={2}>
               <Grid size={8}>
-                <LiveStreamPanel />
+                <LiveStreamPanel
+                  siteName={selectedSite.id}
+                  camera={selectedCamera}
+                />
               </Grid>
               <Grid size={4}>
                 <LiveControlPanel
                   sites={sites}
                   selectedSite={selectedSite}
                   setSelectedSite={setSelectedSite}
-                  selectedCameraId={selectedCameraId}
+                  selectedCamera={selectedCamera}
                   setSelectedCameraId={setSelectedCameraId}
                 />
               </Grid>
