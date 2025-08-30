@@ -51,15 +51,19 @@ export const CameraCard = ({
       <CardActionArea
         data-active={isSelected ? '' : undefined}
         onClick={setSelected}
-        sx={{
+        sx={(theme) => ({
           height: '100%',
+          '&:hover': {
+            backgroundColor: theme.palette.customBackground.dark,
+          },
           '&[data-active]': {
-            backgroundColor: 'action.selected',
+            backgroundColor: theme.palette.primary.light,
+            color: theme.palette.primary.contrastText,
             '&:hover': {
               backgroundColor: 'action.selectedHover',
             },
           },
-        }}
+        })}
       >
         <Stack direction={isHorizontal ? 'row-reverse' : 'column'}>
           <CardMedia
