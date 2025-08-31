@@ -1,4 +1,13 @@
-import { Box, Button, Paper, TextField, Typography } from '@mui/material';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+import {
+  Box,
+  Button,
+  IconButton,
+  InputAdornment,
+  Paper,
+  TextField,
+  Typography,
+} from '@mui/material';
 import { type FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -13,6 +22,20 @@ const LoginForm = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loginError, setLoginError] = useState<string>('');
+
+  const [showPassword, setShowPassword] = useState(false);
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+  const PasswordVisibilityToggle = (
+    <IconButton
+      aria-label={showPassword ? t('hidePassword') : t('showPassword')}
+      onClick={handleClickShowPassword}
+      onMouseDown={(e) => e.preventDefault()}
+      onMouseUp={(e) => e.preventDefault()}
+      edge="end"
+    >
+      {showPassword ? <VisibilityOff /> : <Visibility />}
+    </IconButton>
+  );
 
   const navigate = useNavigate();
 
@@ -51,16 +74,31 @@ const LoginForm = () => {
           <TextField
             label={t('password')}
             name="password"
-            type="password"
+            type={showPassword ? 'text' : 'password'}
             value={password}
             onChange={(e) => {
               setPassword(e.target.value);
             }}
             required
             error={!!loginError}
+            slotProps={{
+              input: {
+                endAdornment: (
+                  <InputAdornment position="end">
+                    {PasswordVisibilityToggle}
+                  </InputAdornment>
+                ),
+              },
+            }}
           />
           {loginError && <Typography color="error">{t(loginError)}</Typography>}
-          <Button type="submit" variant="contained" fullWidth sx={{ mt: 2 }}>
+          <Button
+            type="submit"
+            variant="contained"
+            fullWidth
+            sx={{ mt: 2 }}
+            aria-label={t('button')}
+          >
             {t('button')}
           </Button>
         </form>
