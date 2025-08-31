@@ -28,9 +28,13 @@ const CameraMarkerMap = ({
         if (m) markerRefs.current.set(camera.id, m);
         else markerRefs.current.delete(camera.id);
       }}
-      eventHandlers={{
-        click: onClick,
-      }}
+      eventHandlers={
+        onClick
+          ? {
+              click: onClick,
+            }
+          : undefined
+      }
     >
       <Popup>
         <div>

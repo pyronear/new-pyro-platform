@@ -2,6 +2,8 @@ import type { SiteType } from '@/components/Live/useDataSitesLive';
 import type { CameraType } from '@/services/camera';
 import type { CameraInfosFromPi } from '@/services/live';
 
+import { buildVisionPolygon, DEFAULT_CAM_RANGE_KM } from './cameraVision';
+
 export interface CameraFullInfosType extends CameraType {
   ip?: string;
   type?: string;
@@ -57,4 +59,23 @@ export const aggregateSiteData = (
       aggregateCameraData(camera, extraData)
     ),
   };
+};
+
+const DEFAULT_ANGLE_OF_VIEW = 1;
+
+export const buildPolygonsFromCamera = (
+  camera: CameraType | CameraFullInfosType
+): { azimuth: number; visionPolygon: L.LatLng[] }[] => {
+  const angleOfView = camera.angle_of_view ?? DEFAULT_ANGLE_OF_VIEW;
+  const azimuths = (camera as CameraFullInfosType).azimuths ?? [];
+  return azimuths.map((azimuth) => ({
+    azimuth,
+    visionPolygon: buildVisionPolygon(
+      camera.lat,
+      camera.lon,
+      azimuth,
+      angleOfView,
+      DEFAULT_CAM_RANGE_KM
+    ),
+  }));
 };

@@ -1,11 +1,13 @@
 import L, { Map as LeafletMap, Marker as LeafletMarker } from 'leaflet';
-import type { Dispatch, RefObject, SetStateAction } from 'react';
+import type { RefObject } from 'react';
 import { useMemo } from 'react';
 import { Fragment } from 'react/jsx-runtime';
 import { MapContainer, TileLayer } from 'react-leaflet';
 
-import type { CameraFullInfosType } from '@/utils/camera';
-import { buildVisionPolygon, DEFAULT_CAM_RANGE_KM } from '@/utils/cameraVision';
+import {
+  buildPolygonsFromCamera,
+  type CameraFullInfosType,
+} from '@/utils/camera';
 
 import type { CameraType } from '../../services/camera';
 import CameraMarkerMap from '../Common/Map/CameraMarkerMap';
@@ -14,36 +16,17 @@ import { CameraViewPolygon } from '../Common/Map/CameraViewPolygon';
 interface CameraMapProps {
   cameras: (CameraType | CameraFullInfosType)[];
   height?: string;
-  setMapRef: (map: LeafletMap) => void;
-  markerRefs: RefObject<Map<number, LeafletMarker>>;
-  setSelectedCameraId: Dispatch<SetStateAction<number | null>>;
+  setMapRef?: (map: LeafletMap) => void;
+  markerRefs?: RefObject<Map<number, LeafletMarker>>;
+  onClickOnMarker?: (cameraId: number) => void;
 }
-
-const DEFAULT_ANGLE_OF_VIEW = 1;
-
-const buildPolygonsFromCamera = (
-  camera: CameraType | CameraFullInfosType
-): { azimuth: number; visionPolygon: L.LatLng[] }[] => {
-  const angleOfView = camera.angle_of_view ?? DEFAULT_ANGLE_OF_VIEW;
-  const azimuths = (camera as CameraFullInfosType).azimuths ?? [];
-  return azimuths.map((azimuth) => ({
-    azimuth,
-    visionPolygon: buildVisionPolygon(
-      camera.lat,
-      camera.lon,
-      azimuth,
-      angleOfView,
-      DEFAULT_CAM_RANGE_KM
-    ),
-  }));
-};
 
 export const CameraMap = ({
   cameras,
   height = '100%',
   setMapRef,
   markerRefs,
-  setSelectedCameraId,
+  onClickOnMarker,
 }: CameraMapProps) => {
   const camerasWithPolygons = useMemo(() => {
     return cameras.map((camera) => ({
@@ -71,7 +54,11 @@ export const CameraMap = ({
       key={bounds.toBBoxString()}
       boundsOptions={{ padding: [20, 20] }}
       style={{ height, width: '100%', borderRadius: 4 }}
-      ref={(m: LeafletMap) => setMapRef(m)} // give map ref to parent component
+      ref={
+        (m: LeafletMap) => {
+          if (setMapRef) setMapRef(m);
+        } // give map ref to parent component
+      }
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
@@ -82,7 +69,9 @@ export const CameraMap = ({
           <CameraMarkerMap
             camera={camera}
             markerRefs={markerRefs}
-            onClick={() => setSelectedCameraId(camera.id)}
+            onClick={
+              onClickOnMarker ? () => onClickOnMarker(camera.id) : undefined
+            }
           />
           {camera.polygons.map((polygon) => (
             <CameraViewPolygon
