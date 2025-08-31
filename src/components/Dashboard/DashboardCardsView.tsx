@@ -1,7 +1,7 @@
 import { Grid } from '@mui/material';
 
 import type { CameraType } from '../../services/camera';
-import { CameraCard } from './CameraCard';
+import { CameraCard } from './CameraCard/CameraCard';
 
 interface ViewCardsProps {
   lastUpdate: number;
