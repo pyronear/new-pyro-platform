@@ -14,8 +14,8 @@ import { useIsMobile } from '../../utils/useIsMobile';
 import { useTranslationPrefix } from '../../utils/useTranslationPrefix';
 import { LastUpdateButton } from '../Common/LastUpdateButton';
 import { Loader } from '../Common/Loader';
-import { ViewCards } from './ViewCards';
-import { ViewMap } from './ViewMap';
+import { DashboardCardsView } from './DashboardCardsView';
+import { DashboardMapView } from './DashboardMapView';
 
 interface DashboardContainerProps {
   status: ResponseStatus;
@@ -76,7 +76,7 @@ export const DashboardContainer = ({
               </Stack>
               {indexTab === TAB_CARDS && (
                 <Box flexGrow={1} overflow="hidden">
-                  <ViewCards
+                  <DashboardCardsView
                     lastUpdate={lastUpdate}
                     isRefreshing={isRefreshing}
                     invalidateAndRefreshData={invalidateAndRefreshData}
@@ -86,7 +86,7 @@ export const DashboardContainer = ({
               )}
               {indexTab === TAB_MAP && (
                 <Box flexGrow={1} overflow="hidden">
-                  <ViewMap
+                  <DashboardMapView
                     lastUpdate={lastUpdate}
                     isRefreshing={isRefreshing}
                     invalidateAndRefreshData={invalidateAndRefreshData}
