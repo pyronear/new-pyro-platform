@@ -144,5 +144,12 @@ export const theme = createTheme({
         },
       },
     },
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          borderRadius: '2px',
+        },
+      },
+    },
   },
 });
