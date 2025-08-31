@@ -47,18 +47,18 @@ export const CameraCard = ({
   };
 
   return (
-    <Card sx={{ borderRadius: 2, flexShrink: 0 }} ref={ref}>
+    <Card
+      sx={{ flexShrink: 0, borderRadius: isHorizontal ? undefined : '8px' }}
+      ref={ref}
+    >
       <CardActionArea
         data-active={isSelected ? '' : undefined}
         onClick={setSelected}
         sx={(theme) => ({
           height: '100%',
-          '&:hover': {
-            backgroundColor: theme.palette.customBackground.dark,
-          },
           '&[data-active]': {
-            backgroundColor: theme.palette.primary.light,
-            color: theme.palette.primary.contrastText,
+            backgroundColor: 'action.selected',
+            borderLeft: `3px solid ${theme.palette.primary.light}`,
             '&:hover': {
               backgroundColor: 'action.selectedHover',
             },
