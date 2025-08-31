@@ -30,7 +30,7 @@ export const LiveWarningCounter = ({ onClose }: LiveWarningCounterProps) => {
         </Button>
       }
     >
-      {t('alertMessage').replace('%s', formatTimer(spentTimeInSeconds))}
+      {t('alertMessage', { timeSpent: formatTimer(spentTimeInSeconds) })}
     </Alert>
   );
 };

@@ -96,7 +96,7 @@
     "errorNoAccess": "No site was found with this account. Please contact your administrator",
     "errorCallSite": "Something went wrong when contacting the site. Please try again later.",
     "siteField": "Site",
-    "buttonClose": "Fermer la levée de doute",
-    "alertMessage": "Levée de doute en cours: détection inactive depuis %s"
+    "buttonClose": "Close live stream",
+    "alertMessage": "Live stream in progress: detection inactive since {{timeSpent}}"
   }
 }

@@ -13,11 +13,11 @@ export const getSiteByCameraName = (
   sites: SiteType[],
   cameraName: string
 ): SiteType | null => {
-  return (sites.find((site) =>
-    site.cameras.map((camera) => camera.name).includes(cameraName)
-  ) ?? sites.length > 0)
-    ? sites[0]
-    : null;
+  return (
+    sites.find((site) =>
+      site.cameras.map((camera) => camera.name).includes(cameraName)
+    ) ?? (sites.length > 0 ? sites[0] : null)
+  );
 };
 
 export const getCameraIdByCameraName = (
@@ -38,7 +38,7 @@ const aggregateCameraData = (
   extraData: CameraInfosFromPi[]
 ): CameraFullInfosType => {
   const cameraInfosFromPi = extraData.find(
-    (cFromSite) => cFromSite.name == camera.name
+    (cameraFromPi) => cameraFromPi.name == camera.name
   );
   return {
     ...camera,

@@ -96,7 +96,7 @@
     "errorNoAccess": "No se encontró ningún sitio con esta cuenta. Póngase en contacto con su administrador.",
     "errorCallSite": "Se ha producido un error al conectarse al sitio. Inténtelo de nuevo más tarde.",
     "siteField": "Sitio",
-    "buttonClose": "Fermer la levée de doute",
-    "alertMessage": "Levée de doute en cours: détection inactive depuis %s"
+    "buttonClose": "Cerrar la transmisión en vivo",
+    "alertMessage": "Transmisión en vivo en curso: detección inactiva desde {{timeSpent}}"
   }
 }

@@ -97,6 +97,6 @@
     "errorCallSite": "Une erreur s'est produite lors de la connexion au site. Veuillez réessayer plus tard.",
     "siteField": "Site",
     "buttonClose": "Fermer la levée de doute",
-    "alertMessage": "Levée de doute en cours: détection inactive depuis %s"
+    "alertMessage": "Levée de doute en cours : détection inactive depuis {{timeSpent}}"
   }
 }
