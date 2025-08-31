@@ -16,7 +16,7 @@ export const getSiteByCameraName = (
   return (
     sites.find((site) =>
       site.cameras.map((camera) => camera.name).includes(cameraName)
-    ) ?? (sites.length > 0 ? sites[0] : null)
+    ) ?? null
   );
 };
 
