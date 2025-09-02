@@ -77,7 +77,7 @@ export const DashboardMapView = ({ cameraList }: ViewMapProps) => {
             cameras={cameraList}
             setMapRef={setMapRef}
             markerRefs={markerRefs}
-            setSelectedCameraId={setSelectedCameraId}
+            onClickOnMarker={setSelectedCameraId}
           />
         )}
       </Grid>

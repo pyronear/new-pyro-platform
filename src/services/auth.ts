@@ -1,7 +1,7 @@
 import { AxiosError } from 'axios';
 import * as z from 'zod';
 
-import { instance } from './axios';
+import { apiInstance } from './axios';
 
 const apiLoginResponseSchema = z.object({
   access_token: z.string(),
@@ -29,7 +29,7 @@ export const getToken = async (
   password: string
 ): Promise<{ token: string }> => {
   const body = new URLSearchParams({ username, password });
-  return instance
+  return apiInstance
     .post('/api/v1/login/creds', body, {
       headers: {
         accept: 'application/json',

@@ -92,5 +92,13 @@
     "errorFetchSequencesMessage": "Se ha producido un error. Vuelva a intentarlo más tarde.",
     "dateField": "Fecha",
     "loadMoreMessage": "Mostrar más alertas"
+  },
+  "live": {
+    "errorFetchInfos": "Se ha producido un error. Vuelva a intentarlo más tarde.",
+    "errorNoAccess": "No se encontró ningún sitio con esta cuenta. Póngase en contacto con su administrador.",
+    "errorCallSite": "Se ha producido un error al conectarse al sitio. Inténtelo de nuevo más tarde.",
+    "siteField": "Sitio",
+    "buttonClose": "Cerrar la transmisión en vivo",
+    "alertMessage": "Transmisión en vivo en curso: detección inactiva desde {{timeSpent}}"
   }
 }

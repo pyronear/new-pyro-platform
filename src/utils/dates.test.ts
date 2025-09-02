@@ -5,6 +5,7 @@ import { providersWrapper } from '../test/renderWithProviders';
 import {
   formatNbToTime,
   formatTimeAgo,
+  formatTimer,
   formatToDate,
   formatToDateTime,
   formatToTime,
@@ -250,5 +251,28 @@ describe('formatTimeAgo', () => {
       }
     );
     expect(result.current).toEqual('now');
+  });
+});
+
+describe('formatTimer', () => {
+  it('should return 00:00:00 if 0 secondes', () => {
+    const result = formatTimer(0);
+    expect(result).toEqual('00:00:00');
+  });
+  it('should return 00:00:XX if less than a minute', () => {
+    const result = formatTimer(45);
+    expect(result).toEqual('00:00:45');
+  });
+  it('should return 00:XX:XX if less than a hour', () => {
+    const result = formatTimer(126);
+    expect(result).toEqual('00:02:06');
+  });
+  it('should return 00:XX:XX if less than a hour', () => {
+    const result = formatTimer(120);
+    expect(result).toEqual('00:02:00');
+  });
+  it('should return XX:XX:XX if more than a hour', () => {
+    const result = formatTimer(3740);
+    expect(result).toEqual('01:02:20');
   });
 });

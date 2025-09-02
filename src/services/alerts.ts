@@ -2,7 +2,7 @@ import type { AxiosResponse } from 'axios';
 import * as z from 'zod/v4';
 
 import { convertStrToEpoch } from '../utils/dates';
-import { instance } from './axios';
+import { apiInstance } from './axios';
 
 const apiSequenceResponseSchema = z.object({
   id: z.number(),
@@ -34,7 +34,7 @@ const apiDetectionListResponseSchema = z.array(apiDetectionResponseSchema);
 export const getUnlabelledLatestSequences = async (): Promise<
   SequenceType[]
 > => {
-  return instance
+  return apiInstance
     .get('/api/v1/sequences/unlabeled/latest')
     .then((response: AxiosResponse) => {
       try {
@@ -60,7 +60,7 @@ export const getSequencesByFilters = async (
     limit,
     offset,
   };
-  return instance
+  return apiInstance
     .get('/api/v1/sequences/all/fromdate', { params })
     .then((response: AxiosResponse) => {
       try {
@@ -79,7 +79,7 @@ export const getSequencesByFilters = async (
 export const getDetectionsBySequence = async (
   sequenceId: number
 ): Promise<DetectionType[]> => {
-  return instance
+  return apiInstance
     .get(`/api/v1/sequences/${sequenceId.toString()}/detections`)
     .then((response: AxiosResponse) => {
       try {
@@ -106,7 +106,7 @@ export const labelBySequenceId = async (
   sequenceId: number,
   label: string | null
 ) => {
-  return instance
+  return apiInstance
     .patch(`/api/v1/sequences/${sequenceId.toString()}/label`, {
       is_wildfire: label,
     })
