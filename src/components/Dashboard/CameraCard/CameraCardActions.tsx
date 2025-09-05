@@ -7,6 +7,7 @@ import {
   ListItemText,
   Menu,
   MenuItem,
+  Stack,
   Tooltip,
 } from '@mui/material';
 import { useState } from 'react';
@@ -78,7 +79,7 @@ export const CameraCardActions = ({
           </Menu>
         </>
       ) : (
-        <>
+        <Stack spacing={1}>
           <ModalLiveWrapper cameraName={cameraName}>
             {(onClick) => (
               <Tooltip title={t('liveButton')}>
@@ -93,7 +94,7 @@ export const CameraCardActions = ({
               <PictureInPictureAltIcon />
             </IconButton>
           </Tooltip>
-        </>
+        </Stack>
       )}
     </>
   );

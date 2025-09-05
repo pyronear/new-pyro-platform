@@ -3,7 +3,6 @@ import {
   CardActions,
   CardContent,
   CardMedia,
-  Collapse,
   Stack,
 } from '@mui/material';
 import Card from '@mui/material/Card';
@@ -36,12 +35,11 @@ export const CameraCard = ({
 
   return isSelectable ? (
     <Card sx={{ flexShrink: 0 }} ref={ref}>
-      <div>
+      <Stack direction="row" height="100%">
         <CardActionArea
           data-active={isSelected ? '' : undefined}
           onClick={setSelected}
           sx={(theme) => ({
-            height: '100%',
             '&[data-active]': {
               backgroundColor: 'action.selected',
               borderLeft: `3px solid ${theme.palette.primary.light}`,
@@ -72,12 +70,10 @@ export const CameraCard = ({
             />
           </Stack>
         </CardActionArea>
-        <Collapse in={isSelected} timeout="auto" unmountOnExit>
-          <CardActions>
-            <CameraCardActions isOneIcon={false} cameraName={camera.name} />
-          </CardActions>
-        </Collapse>
-      </div>
+        <CardActions>
+          <CameraCardActions isOneIcon={false} cameraName={camera.name} />
+        </CardActions>
+      </Stack>
     </Card>
   ) : (
     <Card sx={{ flexShrink: 0, borderRadius: '8px' }} ref={ref}>
