@@ -23,7 +23,7 @@ export const AlertContainer = ({
   resetAlert,
 }: AlertContainerType) => {
   const [selectedSequence, setSelectedSequence] =
-    useState<SequenceWithCameraInfoType | null>();
+    useState<SequenceWithCameraInfoType | null>(null);
 
   useEffect(() => {
     if (alert.sequences.length > 0) {
