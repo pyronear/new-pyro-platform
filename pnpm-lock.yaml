@@ -41,9 +41,6 @@ importers:
       i18next-browser-languagedetector:
         specifier: ^8.2.0
         version: 8.2.0
-      jszip:
-        specifier: ^3.10.1
-        version: 3.10.1
       leaflet:
         specifier: ^1.9.4
         version: 1.9.4
