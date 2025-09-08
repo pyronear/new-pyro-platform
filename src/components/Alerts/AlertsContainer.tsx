@@ -50,7 +50,7 @@ export const AlertsContainer = ({
       } else {
         setSelectedAlert(alertsList.length > 0 ? alertsList[0] : null);
       }
-    } else if (indexSelectedAlert != 1) {
+    } else if (indexSelectedAlert != -1) {
       // If the selected alert has changed, its data is updated
       setSelectedAlert(alertsList[indexSelectedAlert]);
     }
@@ -74,6 +74,7 @@ export const AlertsContainer = ({
       resetAlert={() => {
         setSelectedAlert(null);
       }}
+      invalidateAndRefreshData={invalidateAndRefreshData}
     />
   );
 
@@ -88,7 +89,7 @@ export const AlertsContainer = ({
       {status == STATUS_SUCCESS && (
         <>
           {isMobile ? (
-            <Box ref={containerRef}>
+            <Box ref={containerRef} height={'100%'}>
               <Slide
                 direction={'right'}
                 in={!selectedAlert}
@@ -96,7 +97,7 @@ export const AlertsContainer = ({
                 unmountOnExit
                 container={containerRef.current}
               >
-                <Box>{AlertsListComponent}</Box>
+                <Box height={'100%'}>{AlertsListComponent}</Box>
               </Slide>
               <Slide
                 direction={'left'}
@@ -105,13 +106,19 @@ export const AlertsContainer = ({
                 unmountOnExit
                 container={containerRef.current}
               >
-                <Box>{AlertDetailsComponent}</Box>
+                <Box height={'100%'} overflow={'auto'}>
+                  {AlertDetailsComponent}
+                </Box>
               </Slide>
             </Box>
           ) : (
-            <Grid container>
-              <Grid size={{ sm: 4, md: 3 }}>{AlertsListComponent}</Grid>
-              <Grid size={{ sm: 8, md: 9 }}>{AlertDetailsComponent}</Grid>
+            <Grid container height="100%">
+              <Grid size={{ sm: 4, md: 3 }} height="100%" overflow={'auto'}>
+                {AlertsListComponent}
+              </Grid>
+              <Grid size={{ sm: 8, md: 9 }} height={'100%'} overflow={'auto'}>
+                {AlertDetailsComponent}
+              </Grid>
             </Grid>
           )}
         </>

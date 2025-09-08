@@ -1,0 +1,81 @@
+import type { SiteType } from '@/components/Live/useDataSitesLive';
+import type { CameraType } from '@/services/camera';
+import type { CameraInfosFromPi } from '@/services/live';
+
+import { buildVisionPolygon, DEFAULT_CAM_RANGE_KM } from './cameraVision';
+
+export interface CameraFullInfosType extends CameraType {
+  ip?: string;
+  type?: string;
+  azimuths?: number[];
+  poses?: number[];
+}
+
+export const getSiteByCameraName = (
+  sites: SiteType[],
+  cameraName: string
+): SiteType | null => {
+  return (
+    sites.find((site) =>
+      site.cameras.map((camera) => camera.name).includes(cameraName)
+    ) ?? null
+  );
+};
+
+export const getCameraIdByCameraName = (
+  site: SiteType | null,
+  cameraName: string
+): number | null => {
+  if (site === null) {
+    return null;
+  }
+  return (
+    site.cameras.find((c) => c.name == cameraName)?.id ??
+    (site.cameras.length > 0 ? site.cameras[0].id : null)
+  );
+};
+
+const aggregateCameraData = (
+  camera: CameraType,
+  extraData: CameraInfosFromPi[]
+): CameraFullInfosType => {
+  const cameraInfosFromPi = extraData.find(
+    (cameraFromPi) => cameraFromPi.name == camera.name
+  );
+  return {
+    ...camera,
+    azimuths: cameraInfosFromPi?.azimuths ?? [],
+    poses: cameraInfosFromPi?.poses ?? [],
+  };
+};
+
+export const aggregateSiteData = (
+  site: SiteType,
+  extraData: CameraInfosFromPi[]
+) => {
+  return {
+    ...site,
+    cameras: site.cameras.map((camera) =>
+      aggregateCameraData(camera, extraData)
+    ),
+  };
+};
+
+const DEFAULT_ANGLE_OF_VIEW = 1;
+
+export const buildPolygonsFromCamera = (
+  camera: CameraType | CameraFullInfosType
+): { azimuth: number; visionPolygon: L.LatLng[] }[] => {
+  const angleOfView = camera.angle_of_view ?? DEFAULT_ANGLE_OF_VIEW;
+  const azimuths = (camera as CameraFullInfosType).azimuths ?? [];
+  return azimuths.map((azimuth) => ({
+    azimuth,
+    visionPolygon: buildVisionPolygon(
+      camera.lat,
+      camera.lon,
+      azimuth,
+      angleOfView,
+      DEFAULT_CAM_RANGE_KM
+    ),
+  }));
+};

@@ -6,17 +6,19 @@ import {
   type SequenceWithCameraInfoType,
 } from '../../../utils/alerts';
 import { AlertHeader } from './AlertHeader';
-import { AlertImages } from './AlertImages';
-import { AlertInfos } from './AlertInfos';
+import { AlertImages } from './AlertImages/AlertImages';
+import { AlertInfos } from './AlertInfos/AlertInfos';
 
 interface AlertContainerType {
   isLiveMode: boolean;
+  invalidateAndRefreshData: () => void;
   alert: AlertType;
   resetAlert: () => void;
 }
 
 export const AlertContainer = ({
   isLiveMode,
+  invalidateAndRefreshData,
   alert,
   resetAlert,
 }: AlertContainerType) => {
@@ -33,22 +35,28 @@ export const AlertContainer = ({
     <>
       {selectedSequence && (
         <Grid container padding={{ xs: 1, sm: 2 }} spacing={{ xs: 1, sm: 2 }}>
-          <Grid size={12}>
+          <Grid size={{ xs: 12, lg: 9 }}>
             <AlertHeader
               sequences={alert.sequences}
               selectedSequence={selectedSequence}
               setSelectedSequence={setSelectedSequence}
               resetAlert={resetAlert}
+              isLiveMode={isLiveMode}
+              invalidateAndRefreshData={invalidateAndRefreshData}
             />
           </Grid>
-          <Grid size={{ xs: 12, xl: 9 }}>
+          <Grid size={{ xs: 12, lg: 3 }}>
+            <></> {/** TODO : share alerts */}
+          </Grid>
+          <Grid size={{ xs: 12, lg: 9 }}>
             <AlertImages sequence={selectedSequence} />
           </Grid>
-          <Grid size={{ xs: 12, xl: 3 }}>
+          <Grid size={{ xs: 12, lg: 3 }}>
             <AlertInfos
               sequence={selectedSequence}
               sequences={alert.sequences}
               isLiveMode={isLiveMode}
+              invalidateAndRefreshData={invalidateAndRefreshData}
             />
           </Grid>
         </Grid>

@@ -1,4 +1,11 @@
-import { Divider, Grid, Typography, useTheme } from '@mui/material';
+import {
+  Button,
+  Divider,
+  Grid,
+  Stack,
+  Typography,
+  useTheme,
+} from '@mui/material';
 
 import type { AlertType } from '../../../utils/alerts';
 import { type FiltersType } from '../../../utils/history.ts';
@@ -13,6 +20,9 @@ interface HistoryListType {
   setSelectedAlert: (newAlertSelected: AlertType) => void;
   filters: FiltersType;
   setFilters: React.Dispatch<React.SetStateAction<FiltersType>>;
+  hasNextPage: boolean;
+  isFetchingNextPage: boolean;
+  fetchNextPage: () => void;
 }
 
 export const HistoryList = ({
@@ -22,16 +32,15 @@ export const HistoryList = ({
   setSelectedAlert,
   filters,
   setFilters,
+  hasNextPage,
+  isFetchingNextPage,
+  fetchNextPage,
 }: HistoryListType) => {
   const theme = useTheme();
   const { t } = useTranslationPrefix('history');
 
   return (
-    <Grid
-      direction="column"
-      bgcolor={theme.palette.customBackground.light}
-      height="100%"
-    >
+    <Stack bgcolor={theme.palette.customBackground.light} height="100%">
       <Grid minHeight="55px" padding={{ xs: 1, sm: 2 }} alignContent="center">
         <Typography variant="h2">{t('title')}</Typography>
       </Grid>
@@ -54,7 +63,7 @@ export const HistoryList = ({
               sx={{
                 padding: { xs: 1, sm: 2 },
                 overflowY: 'auto',
-                height: 'calc(100vh - 64px -  155px)', // To get scroll on the alert cards list only (= 100% - topbar height - title height and filters)
+                height: '100%',
               }}
             >
               <AlertsCardsColumn
@@ -62,10 +71,21 @@ export const HistoryList = ({
                 selectedAlert={selectedAlert}
                 setSelectedAlert={setSelectedAlert}
                 isLiveMode={false}
-              />
+              >
+                {hasNextPage && (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    loading={isFetchingNextPage}
+                    onClick={fetchNextPage}
+                  >
+                    {t('loadMoreMessage')}
+                  </Button>
+                )}
+              </AlertsCardsColumn>
             </Grid>
           ))}
       </>
-    </Grid>
+    </Stack>
   );
 };

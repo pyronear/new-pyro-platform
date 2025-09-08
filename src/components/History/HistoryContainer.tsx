@@ -24,6 +24,10 @@ interface HistoryContainerType {
   alertsList: AlertType[];
   filters: FiltersType;
   setFilters: React.Dispatch<React.SetStateAction<FiltersType>>;
+  hasNextPage: boolean;
+  isFetchingNextPage: boolean;
+  fetchNextPage: () => void;
+  invalidateAndRefreshData: () => void;
 }
 
 export const HistoryContainer = ({
@@ -32,6 +36,10 @@ export const HistoryContainer = ({
   alertsList,
   filters,
   setFilters,
+  hasNextPage,
+  isFetchingNextPage,
+  fetchNextPage,
+  invalidateAndRefreshData,
 }: HistoryContainerType) => {
   const [selectedAlert, setSelectedAlert] = useState<AlertType | null>(null);
   const isMobile = useIsMobile();
@@ -51,7 +59,7 @@ export const HistoryContainer = ({
       } else {
         setSelectedAlert(alertsList.length > 0 ? alertsList[0] : null);
       }
-    } else if (indexSelectedAlert != 1) {
+    } else if (indexSelectedAlert != -1) {
       // If the selected alert has changed, its data is updated
       setSelectedAlert(alertsList[indexSelectedAlert]);
     }
@@ -65,6 +73,9 @@ export const HistoryContainer = ({
       setFilters={setFilters}
       selectedAlert={selectedAlert}
       setSelectedAlert={setSelectedAlert}
+      hasNextPage={hasNextPage}
+      isFetchingNextPage={isFetchingNextPage}
+      fetchNextPage={fetchNextPage}
     />
   );
 
@@ -75,6 +86,7 @@ export const HistoryContainer = ({
       resetAlert={() => {
         setSelectedAlert(null);
       }}
+      invalidateAndRefreshData={invalidateAndRefreshData}
     />
   );
 
@@ -89,7 +101,7 @@ export const HistoryContainer = ({
       {status == STATUS_SUCCESS && (
         <>
           {isMobile ? (
-            <Box ref={containerRef}>
+            <Box ref={containerRef} height={'100%'}>
               <Slide
                 direction={'right'}
                 in={!selectedAlert}
@@ -97,7 +109,7 @@ export const HistoryContainer = ({
                 unmountOnExit
                 container={containerRef.current}
               >
-                <Box>{HistoryListComponent}</Box>
+                <Box height={'100%'}>{HistoryListComponent}</Box>
               </Slide>
               <Slide
                 direction={'left'}
@@ -106,13 +118,19 @@ export const HistoryContainer = ({
                 unmountOnExit
                 container={containerRef.current}
               >
-                <Box>{AlertDetailsComponent}</Box>
+                <Box height={'100%'} overflow={'auto'}>
+                  {AlertDetailsComponent}
+                </Box>
               </Slide>
             </Box>
           ) : (
             <Grid container height="100%">
-              <Grid size={{ sm: 4, md: 3 }}>{HistoryListComponent}</Grid>
-              <Grid size={{ sm: 8, md: 9 }}>{AlertDetailsComponent}</Grid>
+              <Grid size={{ sm: 4, md: 3 }} height="100%">
+                {HistoryListComponent}
+              </Grid>
+              <Grid size={{ sm: 8, md: 9 }} height={'100%'} overflow={'auto'}>
+                {AlertDetailsComponent}
+              </Grid>
             </Grid>
           )}
         </>

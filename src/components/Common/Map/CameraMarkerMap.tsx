@@ -1,4 +1,6 @@
 import Typography from '@mui/material/Typography';
+import { Marker as LeafletMarker } from 'leaflet';
+import type { RefObject } from 'react';
 import { Marker, Popup } from 'react-leaflet';
 
 import type { CameraType } from '../../../services/camera';
@@ -7,12 +9,33 @@ import { cameraIcon } from './Icons';
 
 interface CameraMarkerMapType {
   camera: CameraType;
+  markerRefs?: RefObject<Map<number, LeafletMarker>>;
+  onClick?: () => void;
 }
 
-const CameraMarkerMap = ({ camera }: CameraMarkerMapType) => {
+const CameraMarkerMap = ({
+  camera,
+  markerRefs,
+  onClick,
+}: CameraMarkerMapType) => {
   const { t } = useTranslationPrefix('alerts');
   return (
-    <Marker position={[camera.lat, camera.lon]} icon={cameraIcon}>
+    <Marker
+      position={[camera.lat, camera.lon]}
+      icon={cameraIcon}
+      ref={(m) => {
+        if (markerRefs === undefined) return;
+        if (m) markerRefs.current.set(camera.id, m);
+        else markerRefs.current.delete(camera.id);
+      }}
+      eventHandlers={
+        onClick
+          ? {
+              click: onClick,
+            }
+          : undefined
+      }
+    >
       <Popup>
         <div>
           <div>

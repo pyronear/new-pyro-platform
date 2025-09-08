@@ -7,7 +7,7 @@ import {
   TransformWrapper,
 } from 'react-zoom-pan-pinch';
 
-import type { DetectionType } from '../../../services/alerts';
+import type { DetectionType } from '@//services/alerts';
 
 const MINIMUM_ZOOM_AMOUNT_TO_DISPLAY_MINIMAP = 1.4;
 

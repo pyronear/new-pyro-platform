@@ -13,6 +13,7 @@ import type { AlertType } from '../../../utils/alerts';
 import { formatToDate, formatToTime } from '../../../utils/dates';
 import { useTranslationPrefix } from '../../../utils/useTranslationPrefix';
 import { CameraName } from '../../Common/CameraName';
+import { SequenceLabelChip } from '../AlertLabel/SequenceLabelChip';
 import { AlertStartedTimeAgo } from './AlertStartedTimeAgo';
 
 interface AlertCardType {
@@ -32,7 +33,7 @@ export const AlertCard = ({
   const { t } = useTranslationPrefix('alerts');
 
   return (
-    <Card sx={{ borderRadius: '2px' }}>
+    <Card>
       <CardActionArea
         onClick={setActive}
         data-active={isActive ? '' : undefined}
@@ -77,12 +78,18 @@ export const AlertCard = ({
               alignItems="center"
             >
               <Grid>
-                {sequence.camera && (
-                  <CameraName
-                    name={sequence.camera.name}
-                    angle_of_view={sequence.camera.angle_of_view}
+                <Stack direction="row" spacing={1} alignItems="center">
+                  <SequenceLabelChip
+                    isSmall
+                    labelWildfire={sequence.labelWildfire}
                   />
-                )}
+                  {sequence.camera && (
+                    <CameraName
+                      name={sequence.camera.name}
+                      angle_of_view={sequence.camera.angle_of_view}
+                    />
+                  )}
+                </Stack>
               </Grid>
               <Grid flexGrow={1}>
                 <Stack direction="row" spacing={1} justifyContent="end">

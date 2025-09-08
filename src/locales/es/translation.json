@@ -4,6 +4,8 @@
     "title": "Conexión",
     "username": "Nombre de usuario",
     "password": "Contraseña",
+    "showPassword": "Mostrar contraseña",
+    "hidePassword": "Ocultar contraseña",
     "logout": "Desconectarse",
     "errors": {
       "INVALID_CREDENTIALS": "Nombre de usuario y/o contraseña incorrectos.",
@@ -62,6 +64,26 @@
       "minute": "minuto",
       "minutes": "minutos",
       "now": "Justo ahora"
+    },
+    "label": {
+      "wildfire": "Inicio del incendio",
+      "otherSmoke": "Otro humo",
+      "other": "Otro",
+      "unset": "A etiquetar",
+      "titleModal": "Seleccione la etiqueta para la alerta de ",
+      "buttonCancelModal": "Cancelar",
+      "buttonValidateModal": "Confirmar",
+      "titleRadioButtonsModal": "Etiqueta",
+      "modalMessage": {
+        "lastSequence": "Una vez registrado el etiquetado, la alerta se confirma automáticamente.",
+        "multipleSequences": "Solo le queda etiquetar %s detecciones para confirmar completamente la alerta."
+      },
+      "saveSuccessMessage": {
+        "history": "La alerta se ha etiquetado correctamente.",
+        "lastSequence": "La alerta se ha reconocido correctamente.",
+        "multipleSequences": "La detección está etiquetada, procese las demás detecciones para reconocer la alerta."
+      },
+      "saveErrorMessage": "Se ha producido un error, por favor, inténtelo de nuevo"
     }
   },
   "history": {
@@ -69,6 +91,15 @@
     "noFilterMessage": "Seleccione la fecha deseada.",
     "noAlertsMessage": "No se han encontrado alertas para la fecha seleccionada.",
     "errorFetchSequencesMessage": "Se ha producido un error. Vuelva a intentarlo más tarde.",
-    "dateField": "Fecha"
+    "dateField": "Fecha",
+    "loadMoreMessage": "Mostrar más alertas"
+  },
+  "live": {
+    "errorFetchInfos": "Se ha producido un error. Vuelva a intentarlo más tarde.",
+    "errorNoAccess": "No se encontró ningún sitio con esta cuenta. Póngase en contacto con su administrador.",
+    "errorCallSite": "Se ha producido un error al conectarse al sitio. Inténtelo de nuevo más tarde.",
+    "siteField": "Sitio",
+    "buttonClose": "Cerrar la transmisión en vivo",
+    "alertMessage": "Transmisión en vivo en curso: detección inactiva desde {{timeSpent}}"
   }
 }

@@ -8,13 +8,11 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import JSZip from 'jszip';
 import { useCallback, useEffect, useState } from 'react';
 
-import {
-  type DetectionType,
-  getDetectionsBySequence,
-} from '../../../services/alerts';
-import type { SequenceWithCameraInfoType } from '../../../utils/alerts';
-import { formatToTime, isStrictlyAfter } from '../../../utils/dates';
-import { useTranslationPrefix } from '../../../utils/useTranslationPrefix';
+import { type DetectionType, getDetectionsBySequence } from '@/services/alerts';
+import type { SequenceWithCameraInfoType } from '@/utils/alerts';
+import { formatToTime, isStrictlyAfter } from '@/utils/dates';
+import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
+
 import { SplitButton, type SplitButtonOption } from '../../Common/SplitButton';
 import { AlertImagesPlayer } from './AlertImagesPlayer';
 

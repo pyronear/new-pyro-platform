@@ -14,8 +14,8 @@ import { useIsMobile } from '../../utils/useIsMobile';
 import { useTranslationPrefix } from '../../utils/useTranslationPrefix';
 import { LastUpdateButton } from '../Common/LastUpdateButton';
 import { Loader } from '../Common/Loader';
-import { ViewCards } from './ViewCards';
-import { ViewMap } from './ViewMap';
+import { DashboardCardsView } from './DashboardCardsView';
+import { DashboardMapView } from './DashboardMapView';
 
 interface DashboardContainerProps {
   status: ResponseStatus;
@@ -56,7 +56,7 @@ export const DashboardContainer = ({
             <Typography variant="body2">{t('noCameraMessage')}</Typography>
           )}
           {cameraList.length != 0 && (
-            <Box>
+            <Stack height="100%">
               <Stack
                 justifyContent="space-between"
                 flexDirection={isMobile ? 'column-reverse' : 'row'}
@@ -75,8 +75,8 @@ export const DashboardContainer = ({
                 />
               </Stack>
               {indexTab === TAB_CARDS && (
-                <Box>
-                  <ViewCards
+                <Box flexGrow={1} overflow="hidden">
+                  <DashboardCardsView
                     lastUpdate={lastUpdate}
                     isRefreshing={isRefreshing}
                     invalidateAndRefreshData={invalidateAndRefreshData}
@@ -85,8 +85,8 @@ export const DashboardContainer = ({
                 </Box>
               )}
               {indexTab === TAB_MAP && (
-                <Box>
-                  <ViewMap
+                <Box flexGrow={1} overflow="hidden">
+                  <DashboardMapView
                     lastUpdate={lastUpdate}
                     isRefreshing={isRefreshing}
                     invalidateAndRefreshData={invalidateAndRefreshData}
@@ -94,7 +94,7 @@ export const DashboardContainer = ({
                   />
                 </Box>
               )}
-            </Box>
+            </Stack>
           )}
         </>
       )}

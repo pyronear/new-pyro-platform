@@ -2,7 +2,7 @@ import type { AxiosResponse } from 'axios';
 import * as z from 'zod/v4';
 
 import { convertStrToEpoch } from '../utils/dates';
-import { instance } from './axios';
+import { apiInstance } from './axios';
 
 const apiSequenceResponseSchema = z.object({
   id: z.number(),
@@ -10,7 +10,7 @@ const apiSequenceResponseSchema = z.object({
   azimuth: z.nullable(z.number()),
   cone_azimuth: z.number(),
   cone_angle: z.number(),
-  is_wildfire: z.nullable(z.boolean()),
+  is_wildfire: z.nullable(z.string()),
   started_at: z.nullable(z.iso.datetime({ local: true })),
   last_seen_at: z.nullable(z.string()),
 });
@@ -34,7 +34,7 @@ const apiDetectionListResponseSchema = z.array(apiDetectionResponseSchema);
 export const getUnlabelledLatestSequences = async (): Promise<
   SequenceType[]
 > => {
-  return instance
+  return apiInstance
     .get('/api/v1/sequences/unlabeled/latest')
     .then((response: AxiosResponse) => {
       try {
@@ -60,7 +60,7 @@ export const getSequencesByFilters = async (
     limit,
     offset,
   };
-  return instance
+  return apiInstance
     .get('/api/v1/sequences/all/fromdate', { params })
     .then((response: AxiosResponse) => {
       try {
@@ -79,7 +79,7 @@ export const getSequencesByFilters = async (
 export const getDetectionsBySequence = async (
   sequenceId: number
 ): Promise<DetectionType[]> => {
-  return instance
+  return apiInstance
     .get(`/api/v1/sequences/${sequenceId.toString()}/detections`)
     .then((response: AxiosResponse) => {
       try {
@@ -92,6 +92,28 @@ export const getDetectionsBySequence = async (
           );
         }
         return result.data ?? [];
+      } catch {
+        throw new Error('INVALID_API_RESPONSE');
+      }
+    })
+    .catch((err: unknown) => {
+      console.error(err);
+      throw err;
+    });
+};
+
+export const labelBySequenceId = async (
+  sequenceId: number,
+  label: string | null
+) => {
+  return apiInstance
+    .patch(`/api/v1/sequences/${sequenceId.toString()}/label`, {
+      is_wildfire: label,
+    })
+    .then((response: AxiosResponse) => {
+      try {
+        const result = apiSequenceResponseSchema.safeParse(response.data);
+        return result.success;
       } catch {
         throw new Error('INVALID_API_RESPONSE');
       }

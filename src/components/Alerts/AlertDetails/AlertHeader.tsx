@@ -10,12 +10,18 @@ import {
 } from '@mui/material';
 
 import smallLogo from '@/assets/small-logo.png';
+import {
+  countUnlabelledSequences,
+  type SequenceWithCameraInfoType,
+} from '@/utils/alerts';
+import { useIsMobile } from '@/utils/useIsMobile';
+import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
-import type { SequenceWithCameraInfoType } from '../../../utils/alerts';
-import { useIsMobile } from '../../../utils/useIsMobile';
-import { useTranslationPrefix } from '../../../utils/useTranslationPrefix';
+import { SequenceLabelContainer } from '../AlertLabel/SequenceLabelContainer';
 
 interface AlertHeaderType {
+  isLiveMode: boolean;
+  invalidateAndRefreshData: () => void;
   sequences: SequenceWithCameraInfoType[];
   selectedSequence: SequenceWithCameraInfoType;
   setSelectedSequence: (
@@ -25,6 +31,8 @@ interface AlertHeaderType {
 }
 
 export const AlertHeader = ({
+  isLiveMode,
+  invalidateAndRefreshData,
   sequences,
   selectedSequence,
   setSelectedSequence,
@@ -65,6 +73,15 @@ export const AlertHeader = ({
     </Select>
   );
 
+  const SequenceLabel = (
+    <SequenceLabelContainer
+      sequence={selectedSequence}
+      isLiveMode={isLiveMode}
+      invalidateAndRefreshData={invalidateAndRefreshData}
+      nbSequencesToBeLabelled={countUnlabelledSequences(sequences)}
+    />
+  );
+
   return (
     <>
       {isMobile ? (
@@ -80,15 +97,23 @@ export const AlertHeader = ({
           <Grid size="grow">
             <Stack direction="column" spacing={1} alignItems="start">
               {Title}
+              {SequenceLabel}
               {SequenceSelector}
             </Stack>
           </Grid>
         </Grid>
       ) : (
-        <Stack direction="row" spacing={2} alignItems="center">
-          <img src={smallLogo} height="26px" width="26px" />
-
-          {Title}
+        <Stack
+          direction="row"
+          spacing={2}
+          justifyContent="space-between"
+          alignItems="center"
+        >
+          <Stack direction="row" spacing={1} alignItems="center">
+            <img src={smallLogo} height="26px" width="26px" />
+            {Title}
+            {SequenceLabel}
+          </Stack>
           {SequenceSelector}
         </Stack>
       )}

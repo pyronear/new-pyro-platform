@@ -4,6 +4,8 @@
     "title": "Login",
     "username": "Username",
     "password": "Password",
+    "showPassword": "Show password",
+    "hidePassword": "Hide password",
     "logout": "Logout",
     "errors": {
       "INVALID_CREDENTIALS": "Invalid username or password.",
@@ -62,6 +64,26 @@
       "minute": "minute",
       "minutes": "minutes",
       "now": "Just now"
+    },
+    "label": {
+      "wildfire": "Fire outbreak",
+      "otherSmoke": "Other smoke",
+      "other": "Other",
+      "unset": "To be labeled",
+      "titleModal": "Select the label for the alert from ",
+      "buttonCancelModal": "Cancel",
+      "buttonValidateModal": "Validate",
+      "titleRadioButtonsModal": "Label",
+      "modalMessage": {
+        "lastSequence": "Once the label has been registered, the alert is automatically acknowledged.",
+        "multipleSequences": "You still need to label %s detections to completely acknowledge the alert."
+      },
+      "saveSuccessMessage": {
+        "history": "The alert was successfully labelled",
+        "lastSequence": "The alert was successfully acknowledged.",
+        "multipleSequences": "The detection is labelled, process the other detections to acknowledge the alert."
+      },
+      "saveErrorMessage": "An error has occurred, please try again"
     }
   },
   "history": {
@@ -69,6 +91,15 @@
     "noFilterMessage": "Select a date",
     "noAlertsMessage": "No alert found for this day",
     "errorFetchSequencesMessage": "Something went wrong on our side. Please try again later.",
-    "dateField": "Date"
+    "dateField": "Date",
+    "loadMoreMessage": "Load more alerts"
+  },
+  "live": {
+    "errorFetchInfos": "Something went wrong on our side. Please try again later.",
+    "errorNoAccess": "No site was found with this account. Please contact your administrator",
+    "errorCallSite": "Something went wrong when contacting the site. Please try again later.",
+    "siteField": "Site",
+    "buttonClose": "Close live stream",
+    "alertMessage": "Live stream in progress: detection inactive since {{timeSpent}}"
   }
 }

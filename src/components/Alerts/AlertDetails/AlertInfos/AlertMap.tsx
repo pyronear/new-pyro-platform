@@ -1,19 +1,11 @@
-import { Typography } from '@mui/material';
 import L from 'leaflet';
 import { useMemo } from 'react';
-import { MapContainer, Marker, Polygon, Popup, TileLayer } from 'react-leaflet';
+import { MapContainer, TileLayer } from 'react-leaflet';
 
-import siteIcon from '@/assets/site-icon.png';
+import CameraMarkerMap from '@/components/Common/Map/CameraMarkerMap';
+import { CameraViewPolygon } from '@/components/Common/Map/CameraViewPolygon';
 import type { SequenceWithCameraInfoType } from '@/utils/alerts';
 import { buildVisionPolygon, DEFAULT_CAM_RANGE_KM } from '@/utils/cameraVision';
-import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
-
-const customIcon = new L.Icon({
-  iconUrl: siteIcon,
-  iconSize: [32, 32],
-  iconAnchor: [16, 32],
-  popupAnchor: [0, -32],
-});
 
 interface AlertMap {
   sequences: SequenceWithCameraInfoType[];
@@ -25,8 +17,6 @@ type SequenceWithCamera = SequenceWithCameraInfoType & {
 };
 
 const AlertMap = ({ sequences, height = '100%' }: AlertMap) => {
-  const { t } = useTranslationPrefix('alerts');
-
   const sequencesWithPolygons = useMemo(() => {
     return sequences
       .filter((seq): seq is SequenceWithCamera => seq.camera !== null)
@@ -60,45 +50,10 @@ const AlertMap = ({ sequences, height = '100%' }: AlertMap) => {
       {sequencesWithPolygons.map((sequence) => {
         return (
           <div key={sequence.id}>
-            {/* Vision cone polygon */}
-            <Polygon
-              positions={sequence.visionPolygonPoints}
-              pathOptions={{
-                color: '#ff7800',
-                opacity: 0.5,
-                fillColor: '#ff7800',
-                fillOpacity: 0.2,
-                weight: 2,
-              }}
+            <CameraViewPolygon
+              visionPolygonPoints={sequence.visionPolygonPoints}
             />
-            {/* Camera marker */}
-            <Marker
-              position={[sequence.camera.lat, sequence.camera.lon]}
-              icon={customIcon}
-            >
-              <Popup>
-                <div>
-                  <div>
-                    <Typography
-                      variant="caption"
-                      sx={{ fontWeight: 'bold', mb: 1 }}
-                    >
-                      {sequence.camera.name}
-                    </Typography>
-                  </div>
-                  <div>
-                    <Typography variant="caption" sx={{ mb: 0.5 }}>
-                      {t('mapElevation')}: {sequence.camera.elevation}m
-                    </Typography>
-                  </div>
-                  <div>
-                    <Typography variant="caption" sx={{ mb: 0.5 }}>
-                      {t('mapAngleOfView')}: {sequence.camera.angle_of_view}°
-                    </Typography>
-                  </div>
-                </div>
-              </Popup>
-            </Marker>
+            <CameraMarkerMap camera={sequence.camera} />
           </div>
         );
       })}
