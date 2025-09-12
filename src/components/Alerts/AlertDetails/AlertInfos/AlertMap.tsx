@@ -1,5 +1,8 @@
+import CloseFullscreenIcon from '@mui/icons-material/CloseFullscreen';
+import FullscreenIcon from '@mui/icons-material/Fullscreen';
+import { Box } from '@mui/material';
 import L from 'leaflet';
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { MapContainer, TileLayer } from 'react-leaflet';
 
 import CameraMarkerMap from '@/components/Common/Map/CameraMarkerMap';
@@ -17,6 +20,24 @@ type SequenceWithCamera = SequenceWithCameraInfoType & {
 };
 
 const AlertMap = ({ sequences, height = '100%' }: AlertMap) => {
+  const [fullScreen, setFullScreen] = useState(false);
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && fullScreen) {
+        setFullScreen(false);
+      }
+    };
+
+    if (fullScreen) {
+      document.addEventListener('keydown', handleKeyDown);
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [fullScreen]);
+
   const sequencesWithPolygons = useMemo(() => {
     return sequences
       .filter((seq): seq is SequenceWithCamera => seq.camera !== null)
@@ -37,27 +58,75 @@ const AlertMap = ({ sequences, height = '100%' }: AlertMap) => {
   );
 
   return (
-    <MapContainer
-      bounds={allPolygonPoints as L.LatLngBoundsExpression}
-      key={sequences.map((s) => s.id).join(',')} // map is not recentered when a new alert is shown (because bounds don't update automatically) so we use key to force a re-render
-      boundsOptions={{ padding: [20, 20] }}
-      style={{ height, width: '100%', borderRadius: 4 }}
+    <div
+      key={fullScreen.toString()}
+      style={
+        fullScreen
+          ? {
+              position: 'fixed',
+              zIndex: 1101,
+              top: 0,
+              left: 0,
+              height: '100vh',
+              width: '100vw',
+              borderRadius: 0,
+            }
+          : { position: 'relative', height, width: '100%' }
+      }
     >
-      <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
-      {sequencesWithPolygons.map((sequence) => {
-        return (
-          <div key={sequence.id}>
-            <CameraViewPolygon
-              visionPolygonPoints={sequence.visionPolygonPoints}
-            />
-            <CameraMarkerMap camera={sequence.camera} />
-          </div>
-        );
-      })}
-    </MapContainer>
+      <MapContainer
+        bounds={allPolygonPoints as L.LatLngBoundsExpression}
+        key={sequences.map((s) => s.id).join(',')} // map is not recentered when a new alert is shown (because bounds don't update automatically) so we use key to force a re-render
+        boundsOptions={{ padding: [20, 20] }}
+        style={{ height: '100%', width: '100%', borderRadius: 4 }}
+      >
+        <TileLayer
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+        {sequencesWithPolygons.map((sequence) => {
+          return (
+            <div key={sequence.id}>
+              <CameraViewPolygon
+                visionPolygonPoints={sequence.visionPolygonPoints}
+              />
+              <CameraMarkerMap camera={sequence.camera} />
+            </div>
+          );
+        })}
+      </MapContainer>
+      <Box
+        sx={{
+          position: 'absolute',
+          top: 10,
+          right: 10,
+          zIndex: 1000,
+          backgroundColor: 'white',
+          borderRadius: 1,
+          p: 0.5,
+          boxShadow: '0 2px 4px rgba(0,0,0,0.2)',
+          cursor: 'pointer',
+          color: 'black',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        {fullScreen ? (
+          <CloseFullscreenIcon
+            onClick={() => {
+              setFullScreen(false);
+            }}
+          />
+        ) : (
+          <FullscreenIcon
+            onClick={() => {
+              setFullScreen(true);
+            }}
+          />
+        )}
+      </Box>
+    </div>
   );
 };
 
