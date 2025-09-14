@@ -1,4 +1,4 @@
-import { AppBar, Grid, Toolbar } from '@mui/material';
+import { AppBar, Stack, Toolbar } from '@mui/material';
 
 import logo from '@/assets/logo.svg';
 
@@ -17,28 +17,33 @@ export const DesktopTopbar = () => {
     <>
       <AppBar>
         <Toolbar disableGutters>
-          <Grid container justifyContent="space-between" sx={{ flexGrow: 1 }}>
-            <Grid container spacing={5} sx={{ paddingLeft: '12px' }}>
+          <Stack
+            direction="row"
+            justifyContent="space-between"
+            flexGrow={1}
+            alignItems="center"
+            px={2}
+          >
+            <Stack direction="row" spacing={5} alignItems="center">
               <img height="30px" src={logo} alt="Logo" />
               {isLoggedIn && (
-                <Grid container spacing={4} alignItems="center">
+                <Stack direction="row" spacing={2}>
                   <NavigationLink path="/alerts" label={t('alerts')} />
                   <NavigationLink path="/dashboard" label={t('dashboard')} />
                   <NavigationLink path="/history" label={t('history')} />
-                </Grid>
+                </Stack>
               )}
-            </Grid>
-            <Grid
-              container
+            </Stack>
+            <Stack
+              direction="row"
               spacing={2}
               alignItems="center"
               justifyContent="space-around"
-              paddingRight="1rem"
             >
               <LanguageSwitcher />
               {isLoggedIn && <LogoutButton />}
-            </Grid>
-          </Grid>
+            </Stack>
+          </Stack>
         </Toolbar>
       </AppBar>
       {/* Empty toolbar to account for the above one with fixed position */}

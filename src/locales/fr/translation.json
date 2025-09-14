@@ -16,14 +16,20 @@
   },
   "pages": {
     "dashboard": "Caméras",
-    "alerts": "Alertes",
-    "history": "Historique"
+    "alerts": "Alertes en cours",
+    "history": "Historique des alertes"
   },
   "topbar": {
     "menuLabel": "Menu"
   },
   "common": {
     "lastUpdate": "Dernière mise à jour :"
+  },
+  "errorPages": {
+    "title": "Oups !",
+    "notFoundMessage": "Nous n'avons pas trouvé la page que vous recherchez...",
+    "errorMessage": "Une erreur inattendue est survenue. Veuillez réessayer plus tard.",
+    "button": "Revenir à la page principale"
   },
   "dashboard": {
     "noCameraMessage": "Aucune caméra n'est associée avec votre organisation. Veuillez contacter l'administateur",
