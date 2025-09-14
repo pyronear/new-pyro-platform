@@ -4,70 +4,84 @@ import Typography from '@mui/material/Typography';
 import { useMutation } from '@tanstack/react-query';
 import { useEffect, useMemo, useState } from 'react';
 
-import { STATUS_ERROR, STATUS_LOADING, STATUS_SUCCESS } from '@/services/axios';
 import {
+  STATUS_ERROR,
+  STATUS_IDLE,
+  STATUS_LOADING,
+  STATUS_SUCCESS,
+} from '@/services/axios';
+import {
+  startStreaming,
   stopPatrolThenStartStreaming,
+  stopStreaming,
   stopStreamingThenStartPatrol,
 } from '@/services/live';
 import type { CameraFullInfosType } from '@/utils/camera';
-import { hasRotation } from '@/utils/live';
+import { calculateHasRotation, SPEEDS } from '@/utils/live';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
 import { FloatingActions } from './StreamActions/FloatingActions';
 import { QuickActions } from './StreamActions/QuickActions';
-
-interface SpeedCameraMove {
-  speed: number;
-  name: number;
-}
 
 interface LiveStreamPanelProps {
   siteName: string;
   camera: CameraFullInfosType | null;
 }
 
-const SPEEDS: SpeedCameraMove[] = [
-  { name: 0.5, speed: 1 },
-  { name: 1, speed: 5 },
-  { name: 2, speed: 10 },
-];
 const HEIGHT_VIDEO = 450;
 
 export const LiveStreamPanel = ({ siteName, camera }: LiveStreamPanelProps) => {
   const [speedIndex, setSpeedIndex] = useState(1);
   const { t } = useTranslationPrefix('live');
+  const ip = useMemo(() => camera?.ip ?? '', [camera]);
+  const hasRotation: boolean = useMemo(
+    () => calculateHasRotation(camera?.type),
+    [camera]
+  );
 
   const urlStreaming = `${import.meta.env.VITE_LIVE_STREAMING_URL}/${siteName}/?controls=false`;
-  const cameraIp = useMemo(() => camera?.ip, [camera]);
 
   const { mutate: start, status: statusStart } = useMutation({
-    mutationFn: (ip: string) => stopPatrolThenStartStreaming(ip),
+    mutationFn: (params: { ip: string; hasRotation: boolean }) =>
+      params.hasRotation
+        ? stopPatrolThenStartStreaming(params.ip)
+        : startStreaming(params.ip),
   });
 
   const { mutate: stop } = useMutation({
-    mutationFn: (ip: string) => stopStreamingThenStartPatrol(ip),
+    mutationFn: (params: { ip: string; hasRotation: boolean }) =>
+      params.hasRotation
+        ? stopStreamingThenStartPatrol(params.ip)
+        : stopStreaming(),
   });
 
   useEffect(() => {
-    if (cameraIp) {
-      start(cameraIp);
-      return () => {
-        if (cameraIp) {
-          stop(cameraIp);
-        }
-      };
+    if (ip) {
+      start({ ip, hasRotation });
     }
-  }, [cameraIp, start, stop]);
+    return () => {
+      if (ip) {
+        stop({ ip, hasRotation });
+      }
+    };
+  }, [hasRotation, ip, start, stop]);
+
+  const setNextSpeed = () =>
+    setSpeedIndex((oldIndex) =>
+      oldIndex === SPEEDS.length - 1 ? 0 : oldIndex + 1
+    );
 
   return (
     <Stack spacing={1} height="100%">
       {statusStart === STATUS_ERROR && (
         <Typography variant="body2">{t('errorNoStreaming')}</Typography>
       )}
-      {(statusStart === STATUS_LOADING || cameraIp == undefined) && (
+      {(statusStart === STATUS_IDLE ||
+        statusStart === STATUS_LOADING ||
+        !ip) && (
         <Skeleton variant="rectangular" width="100%" height={HEIGHT_VIDEO} />
       )}
-      {statusStart === STATUS_SUCCESS && cameraIp && (
+      {statusStart === STATUS_SUCCESS && (
         <>
           <div style={{ position: 'relative', flexGrow: 1 }}>
             <iframe
@@ -80,22 +94,18 @@ export const LiveStreamPanel = ({ siteName, camera }: LiveStreamPanelProps) => {
               }}
             />
             <FloatingActions
-              cameraIp={cameraIp}
+              cameraIp={ip}
               cameraType={camera?.type}
               speed={SPEEDS[speedIndex].speed}
             />
           </div>
-          {hasRotation(camera?.type) && (
+          {hasRotation && (
             <QuickActions
-              cameraIp={cameraIp}
-              poses={camera.poses ?? []}
-              azimuths={camera.azimuths ?? []}
+              cameraIp={ip}
+              poses={camera?.poses ?? []}
+              azimuths={camera?.azimuths ?? []}
               speedName={SPEEDS[speedIndex].name}
-              nextSpeed={() =>
-                setSpeedIndex((oldIndex) =>
-                  oldIndex === SPEEDS.length - 1 ? 0 : oldIndex + 1
-                )
-              }
+              nextSpeed={setNextSpeed}
             />
           )}
         </>

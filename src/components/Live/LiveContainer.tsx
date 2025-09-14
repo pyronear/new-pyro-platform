@@ -86,7 +86,6 @@ export const LiveContainer = ({
       )}
       {status == STATUS_SUCCESS &&
         statusCameras == STATUS_SUCCESS &&
-        sites.length != 0 &&
         selectedSite && (
           <>
             <LiveWarningCounter onClose={onClose} />

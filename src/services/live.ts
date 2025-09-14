@@ -36,7 +36,7 @@ export const getCamerasInfos = async (): Promise<CameraInfosFromPi[]> => {
     });
 };
 
-const startStreaming = async (cameraIp: string): Promise<void> => {
+export const startStreaming = async (cameraIp: string): Promise<void> => {
   return liveInstance
     .post(`/stream/start_stream/${cameraIp}`)
     .then(() => {
@@ -48,7 +48,7 @@ const startStreaming = async (cameraIp: string): Promise<void> => {
     });
 };
 
-const stopStreaming = async (): Promise<void> => {
+export const stopStreaming = async (): Promise<void> => {
   return liveInstance
     .post('/stream/stop_stream')
     .then(() => {

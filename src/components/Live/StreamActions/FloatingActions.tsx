@@ -1,6 +1,6 @@
 import Stack from '@mui/material/Stack';
 
-import { hasRotation, hasZoom } from '@/utils/live';
+import { calculateHasRotation, calculateHasZoom } from '@/utils/live';
 
 import { NavigationButtons } from './NavigationButtons';
 import { ZoomButtons } from './ZoomButtons';
@@ -24,10 +24,10 @@ export const FloatingActions = ({
       direction="row"
       spacing={1}
     >
-      {hasRotation(cameraType) && (
+      {calculateHasRotation(cameraType) && (
         <NavigationButtons cameraIp={cameraIp} speed={speed} />
       )}
-      {hasZoom(cameraType) && <ZoomButtons cameraIp={cameraIp} />}
+      {calculateHasZoom(cameraType) && <ZoomButtons cameraIp={cameraIp} />}
     </Stack>
   );
 };
