@@ -39,7 +39,7 @@ export const useDataSitesLive = () => {
       .filter((s) => liveAccess?.includes(s.id));
   }, [liveAccess, sitesInfos, cameraList]);
 
-  const status = useMemo(() => {
+  const statusSitesFetch = useMemo(() => {
     if (
       statusLiveAccess == STATUS_SUCCESS &&
       statusSitesInfos == STATUS_SUCCESS &&
@@ -57,5 +57,5 @@ export const useDataSitesLive = () => {
     return STATUS_ERROR;
   }, [statusLiveAccess, statusSitesInfos, statusCameras]);
 
-  return { sites, status };
+  return { sites, statusSitesFetch };
 };

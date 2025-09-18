@@ -2,6 +2,7 @@ import { Dialog, DialogContent } from '@mui/material';
 import { type ReactNode, useState } from 'react';
 
 import { LiveContainer } from './LiveContainer';
+import { useStreamingVideo } from './useStreamingVideo';
 
 interface ModalLiveWrapperProps {
   cameraName: string;
@@ -13,11 +14,14 @@ export const ModalLiveWrapper = ({
   children,
 }: ModalLiveWrapperProps) => {
   const [openLive, setOpenLive] = useState(false);
+  // Created here to keep the queue intact when the modal is closed
+  const { addNewStreamingAction, statusStreamingVideo } = useStreamingVideo();
 
   const handleClose = (
     _event: never,
     reason: 'backdropClick' | 'escapeKeyDown'
   ) => {
+    // To prevent from closing the dialog by clicking on the backdrop (= background around the dialog)
     if (reason !== 'backdropClick') {
       setOpenLive(false);
     }
@@ -40,6 +44,8 @@ export const ModalLiveWrapper = ({
           <LiveContainer
             onClose={() => setOpenLive(false)}
             targetCameraName={cameraName}
+            addNewStreamingAction={addNewStreamingAction}
+            statusStreamingAction={statusStreamingVideo}
           />
         </DialogContent>
       </Dialog>

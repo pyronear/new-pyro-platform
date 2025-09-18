@@ -1,70 +1,48 @@
 import Skeleton from '@mui/material/Skeleton';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import { useMutation } from '@tanstack/react-query';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 
-import {
-  STATUS_ERROR,
-  STATUS_IDLE,
-  STATUS_LOADING,
-  STATUS_SUCCESS,
-} from '@/services/axios';
-import {
-  startStreaming,
-  stopPatrolThenStartStreaming,
-  stopStreaming,
-  stopStreamingThenStartPatrol,
-} from '@/services/live';
+import { STATUS_ERROR, STATUS_LOADING, STATUS_SUCCESS } from '@/services/axios';
 import type { CameraFullInfosType } from '@/utils/camera';
 import { calculateHasRotation, SPEEDS } from '@/utils/live';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
 import { FloatingActions } from './StreamActions/FloatingActions';
 import { QuickActions } from './StreamActions/QuickActions';
+import { type StreamingAction } from './useStreamingVideo';
 
 interface LiveStreamPanelProps {
-  siteName: string;
+  urlStreaming: string;
   camera: CameraFullInfosType | null;
+  addNewStreamingAction: (newStreamingAction: StreamingAction) => void;
+  statusStreamingAction: string;
 }
 
 const HEIGHT_VIDEO = 450;
 
-export const LiveStreamPanel = ({ siteName, camera }: LiveStreamPanelProps) => {
+export const LiveStreamPanel = ({
+  urlStreaming,
+  camera,
+  addNewStreamingAction,
+  statusStreamingAction,
+}: LiveStreamPanelProps) => {
   const [speedIndex, setSpeedIndex] = useState(1);
   const { t } = useTranslationPrefix('live');
-  const ip = useMemo(() => camera?.ip ?? '', [camera]);
-  const hasRotation: boolean = useMemo(
-    () => calculateHasRotation(camera?.type),
-    [camera]
-  );
 
-  const urlStreaming = `${import.meta.env.VITE_LIVE_STREAMING_URL}/${siteName}/?controls=false`;
-
-  const { mutate: start, status: statusStart } = useMutation({
-    mutationFn: (params: { ip: string; hasRotation: boolean }) =>
-      params.hasRotation
-        ? stopPatrolThenStartStreaming(params.ip)
-        : startStreaming(params.ip),
-  });
-
-  const { mutate: stop } = useMutation({
-    mutationFn: (params: { ip: string; hasRotation: boolean }) =>
-      params.hasRotation
-        ? stopStreamingThenStartPatrol(params.ip)
-        : stopStreaming(),
-  });
+  const ip = camera?.ip ?? '';
+  const hasRotation = calculateHasRotation(camera?.type);
 
   useEffect(() => {
     if (ip) {
-      start({ ip, hasRotation });
+      addNewStreamingAction({ type: 'START', ip, hasRotation });
     }
     return () => {
       if (ip) {
-        stop({ ip, hasRotation });
+        addNewStreamingAction({ type: 'STOP', ip, hasRotation });
       }
     };
-  }, [hasRotation, ip, start, stop]);
+  }, [hasRotation, ip, addNewStreamingAction]);
 
   const setNextSpeed = () =>
     setSpeedIndex((oldIndex) =>
@@ -73,15 +51,13 @@ export const LiveStreamPanel = ({ siteName, camera }: LiveStreamPanelProps) => {
 
   return (
     <Stack spacing={1} height="100%">
-      {statusStart === STATUS_ERROR && (
+      {statusStreamingAction === STATUS_ERROR && (
         <Typography variant="body2">{t('errorNoStreaming')}</Typography>
       )}
-      {(statusStart === STATUS_IDLE ||
-        statusStart === STATUS_LOADING ||
-        !ip) && (
+      {(statusStreamingAction === STATUS_LOADING || !ip) && (
         <Skeleton variant="rectangular" width="100%" height={HEIGHT_VIDEO} />
       )}
-      {statusStart === STATUS_SUCCESS && (
+      {statusStreamingAction === STATUS_SUCCESS && (
         <>
           <div style={{ position: 'relative', flexGrow: 1 }}>
             <iframe
@@ -102,8 +78,8 @@ export const LiveStreamPanel = ({ siteName, camera }: LiveStreamPanelProps) => {
           {hasRotation && (
             <QuickActions
               cameraIp={ip}
-              poses={camera?.poses ?? []}
-              azimuths={camera?.azimuths ?? []}
+              poses={camera.poses ?? []}
+              azimuths={camera.azimuths ?? []}
               speedName={SPEEDS[speedIndex].name}
               nextSpeed={setNextSpeed}
             />

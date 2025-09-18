@@ -21,24 +21,37 @@ import { LiveControlPanel } from './LiveControlPanel';
 import { LiveStreamPanel } from './LiveStreamPanel';
 import { LiveWarningCounter } from './LiveWarningCounter';
 import { type SiteType, useDataSitesLive } from './useDataSitesLive';
+import type { StreamingAction } from './useStreamingVideo';
 
 interface LiveContainerProps {
   onClose: () => void;
   targetCameraName: string;
+  addNewStreamingAction: (newStreamingAction: StreamingAction) => void;
+  statusStreamingAction: string;
 }
 
 export const LiveContainer = ({
   onClose,
   targetCameraName,
+  addNewStreamingAction,
+  statusStreamingAction,
 }: LiveContainerProps) => {
   const { t } = useTranslationPrefix('live');
-  const { status, sites } = useDataSitesLive();
+  const { statusSitesFetch, sites } = useDataSitesLive();
   const [selectedSite, setSelectedSite] = useState<SiteType | null>(null);
   const [selectedCameraId, setSelectedCameraId] = useState<number | null>(null);
-  const isLastQueryEnabled = !!selectedSite;
+  const isFetchFromSiteEnabled = !!selectedSite;
   const selectedCamera = useMemo(() => {
     return selectedSite?.cameras.find((c) => c.id === selectedCameraId) ?? null;
   }, [selectedCameraId, selectedSite]);
+
+  const urlStreaming = useMemo(
+    () =>
+      selectedSite
+        ? `${import.meta.env.VITE_LIVE_STREAMING_URL}/${selectedSite.id}/?controls=false`
+        : '',
+    [selectedSite]
+  );
 
   useEffect(() => {
     if (selectedSite == null) {
@@ -54,8 +67,8 @@ export const LiveContainer = ({
   }, [selectedSite, sites, targetCameraName]);
 
   // TODO : retrieve the data from backend api
-  const { status: statusCameras } = useQuery({
-    enabled: isLastQueryEnabled,
+  const { status: statusCamerasFetchFromSite } = useQuery({
+    enabled: isFetchFromSiteEnabled,
     queryKey: ['camerasLive', selectedSite?.id],
     refetchOnWindowFocus: false,
     queryFn: () => {
@@ -73,27 +86,30 @@ export const LiveContainer = ({
 
   return (
     <Stack>
-      {(status == STATUS_LOADING ||
-        (isLastQueryEnabled && statusCameras == STATUS_LOADING)) && <Loader />}
-      {status == STATUS_ERROR && (
+      {(statusSitesFetch == STATUS_LOADING ||
+        (isFetchFromSiteEnabled &&
+          statusCamerasFetchFromSite == STATUS_LOADING)) && <Loader />}
+      {statusSitesFetch == STATUS_ERROR && (
         <Typography variant="body2">{t('errorFetchInfos')}</Typography>
       )}
-      {statusCameras == STATUS_ERROR && (
+      {statusCamerasFetchFromSite == STATUS_ERROR && (
         <Typography variant="body2">{t('errorCallSite')}</Typography>
       )}
-      {status == STATUS_SUCCESS && sites.length == 0 && (
+      {statusSitesFetch == STATUS_SUCCESS && sites.length == 0 && (
         <Typography variant="body2">{t('errorNoAccess')}</Typography>
       )}
-      {status == STATUS_SUCCESS &&
-        statusCameras == STATUS_SUCCESS &&
+      {statusSitesFetch == STATUS_SUCCESS &&
+        statusCamerasFetchFromSite == STATUS_SUCCESS &&
         selectedSite && (
           <>
             <LiveWarningCounter onClose={onClose} />
             <Grid container p={2} spacing={2} flexGrow={1}>
               <Grid size={9}>
                 <LiveStreamPanel
-                  siteName={selectedSite.id}
+                  urlStreaming={urlStreaming}
                   camera={selectedCamera}
+                  addNewStreamingAction={addNewStreamingAction}
+                  statusStreamingAction={statusStreamingAction}
                 />
               </Grid>
               <Grid size={3}>
