@@ -16,14 +16,20 @@
   },
   "pages": {
     "dashboard": "Panel de cámaras",
-    "alerts": "Alertas",
-    "history": "Histórico"
+    "alerts": "Alertas en vivo",
+    "history": "Histórico de alertas"
   },
   "topbar": {
     "menuLabel": "Menú"
   },
   "common": {
     "lastUpdate": "Última actualización:"
+  },
+  "errorPages": {
+    "title": "¡Ups!",
+    "notFoundMessage": "No hemos podido encontrar la página que buscas...",
+    "errorMessage": "Se ha producido un error. Vuelva a intentarlo más tarde.",
+    "button": "Ir a la página de inicio"
   },
   "dashboard": {
     "noCameraMessage": "No hay ninguna cámara asociada a su organización. Póngase en contacto con el administrador",

@@ -16,14 +16,20 @@
   },
   "pages": {
     "dashboard": "Camera dashboard",
-    "alerts": "Alerts",
-    "history": "History"
+    "alerts": "Live alerts",
+    "history": "History alerts"
   },
   "topbar": {
     "menuLabel": "Menu"
   },
   "common": {
     "lastUpdate": "Last update:"
+  },
+  "errorPages": {
+    "title": "Ooops !",
+    "notFoundMessage": "We couldn't find the page you're looking for...",
+    "errorMessage": "Something went wrong on our side. Please try again later.",
+    "button": "Go to homepage"
   },
   "dashboard": {
     "noCameraMessage": "No camera is associated with your account. Please contact the administrator",
