@@ -40,6 +40,7 @@
     "noAlertsMessage": "No alert detected",
     "errorFetchSequencesMessage": "Something went wrong on our side. Please try again later.",
     "titleSectionCamera": "Camera:",
+    "buttonChangeSequence": "Change camera",
     "defaultCameraName": "Unknown camera",
     "buttonImageDownload": "Download",
     "buttonPlay": "Play",

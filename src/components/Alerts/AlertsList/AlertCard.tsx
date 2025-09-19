@@ -9,10 +9,11 @@ import {
 } from '@mui/material';
 import Card from '@mui/material/Card';
 
-import type { AlertType } from '../../../utils/alerts';
-import { formatToDate, formatToTime } from '../../../utils/dates';
-import { useTranslationPrefix } from '../../../utils/useTranslationPrefix';
-import { CameraName } from '../../Common/CameraName';
+import type { AlertType } from '@//utils/alerts';
+import { formatToDate, formatToTime } from '@//utils/dates';
+import { CameraName } from '@/components/Common/Camera/CameraName';
+import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
+
 import { SequenceLabelChip } from '../AlertLabel/SequenceLabelChip';
 import { AlertStartedTimeAgo } from './AlertStartedTimeAgo';
 

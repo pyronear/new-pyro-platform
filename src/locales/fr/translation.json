@@ -40,6 +40,7 @@
     "noAlertsMessage": "Aucune alerte détectée",
     "errorFetchSequencesMessage": "Une erreur inattendue est survenue. Veuillez réessayer plus tard.",
     "titleSectionCamera": "Caméra :",
+    "buttonChangeSequence": "Changer de caméra",
     "titleButtonBackAlt": "Retour à la liste",
     "defaultCameraName": "Caméra inconnue",
     "buttonImageDownload": "Télécharger",

@@ -9,10 +9,10 @@ import Card from '@mui/material/Card';
 import { type Ref } from 'react';
 
 import noImage from '@/assets/no-image.svg';
+import { CameraName } from '@/components/Common/Camera/CameraName';
 import type { CameraType } from '@/services/camera';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
-import { CameraName } from '../../Common/CameraName';
 import { CameraCardActions } from './CameraCardActions';
 import { CameraCardLastPing } from './CameraCardLastPing';
 

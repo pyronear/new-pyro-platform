@@ -1,21 +1,15 @@
-import VideocamIcon from '@mui/icons-material/Videocam';
 import {
   FormControl,
   InputLabel,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
   MenuItem,
   Select,
   type SelectChangeEvent,
   Stack,
 } from '@mui/material';
 
+import { CamerasListSelectable } from '@/components/Common/Camera/CamerasListSelectable';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
-import { CameraName } from '../Common/CameraName';
 import CamerasMap from '../Dashboard/CamerasMap';
 import type { SiteType } from './useDataSitesLive';
 
@@ -56,28 +50,13 @@ export const LiveControlPanel = ({
           ))}
         </Select>
       </FormControl>
-      <List sx={{ maxHeight: '200px', overflow: 'auto' }}>
-        {selectedSite?.cameras.map((camera) => (
-          <ListItem disablePadding key={camera.id}>
-            <ListItemButton
-              selected={camera.id == selectedCameraId}
-              onClick={() => setSelectedCameraId(camera.id)}
-            >
-              {camera.id == selectedCameraId && (
-                <ListItemIcon>
-                  <VideocamIcon fontSize="small" />
-                </ListItemIcon>
-              )}
-              <ListItemText inset={camera.id != selectedCameraId}>
-                <CameraName
-                  name={camera.name}
-                  angle_of_view={camera.angle_of_view}
-                />
-              </ListItemText>
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
+      <div style={{ maxHeight: '200px', overflow: 'auto' }}>
+        <CamerasListSelectable
+          cameras={selectedSite?.cameras ?? []}
+          selectedCameraId={selectedCameraId}
+          setSelectedCameraId={setSelectedCameraId}
+        />
+      </div>
       <CamerasMap cameras={selectedSite?.cameras ?? []} height="300px" />
     </Stack>
   );
