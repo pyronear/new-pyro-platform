@@ -1,3 +1,5 @@
+import type { SiteType } from './camera';
+
 const TYPE_PTZ = 'ptz';
 
 export const calculateHasZoom = (cameraType: string | undefined) => {
@@ -18,3 +20,15 @@ export const SPEEDS: SpeedCameraMove[] = [
   { name: 1, speed: 5 },
   { name: 2, speed: 10 },
 ];
+
+export const calculateLiveStreamingUrl = (site: SiteType | null) => {
+  return site
+    ? `${import.meta.env.VITE_LIVE_STREAMING_URL}/${site.id}/?controls=false`
+    : '';
+};
+
+export const calculateSiteUrl = (site: SiteType | null) => {
+  return site
+    ? `http://${site.ip}:${import.meta.env.VITE_SITES_LIVE_PORT}`
+    : '';
+};

@@ -11,8 +11,6 @@ import {
   stopCamera,
 } from '@/services/live';
 
-import { CustomFab } from './CustomFab';
-
 interface NavigationButtonsProps {
   cameraIp: string;
   speed: number;
@@ -32,23 +30,23 @@ export const NavigationButtons = ({
 
   return (
     <Stack alignItems="center">
-      <CustomFab onClick={() => onClickMove('Up')}>
+      <Fab onClick={() => onClickMove('Up')} size="medium">
         <KeyboardArrowUpIcon />
-      </CustomFab>
+      </Fab>
       <Stack direction="row" spacing={1} alignItems="center">
-        <CustomFab onClick={() => onClickMove('Left')}>
+        <Fab onClick={() => onClickMove('Left')} size="medium">
           <KeyboardArrowLeftIcon />
-        </CustomFab>
+        </Fab>
         <Fab size="small" onClick={onClickStop}>
           <CircleIcon />
         </Fab>
-        <CustomFab onClick={() => onClickMove('Right')}>
+        <Fab onClick={() => onClickMove('Right')} size="medium">
           <KeyboardArrowRightIcon />
-        </CustomFab>
+        </Fab>
       </Stack>
-      <CustomFab onClick={() => onClickMove('Down')}>
+      <Fab onClick={() => onClickMove('Down')} size="medium">
         <KeyboardArrowDownIcon />
-      </CustomFab>
+      </Fab>
     </Stack>
   );
 };

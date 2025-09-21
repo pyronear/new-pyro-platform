@@ -1,11 +1,9 @@
 import ZoomInIcon from '@mui/icons-material/ZoomIn';
 import ZoomOutIcon from '@mui/icons-material/ZoomOut';
-import { Stack } from '@mui/material';
+import { Fab, Stack } from '@mui/material';
 import { useEffect, useState } from 'react';
 
 import { zoomCamera } from '@/services/live';
-
-import { CustomFab } from './CustomFab';
 
 const MIN_ZOOM = 0;
 const MAX_ZOOM = 64;
@@ -35,12 +33,12 @@ export const ZoomButtons = ({ cameraIp }: ZoomButtonsProps) => {
 
   return (
     <Stack spacing={1}>
-      <CustomFab onClick={onClickZoomIn} disabled={zoom === MAX_ZOOM}>
+      <Fab onClick={onClickZoomIn} disabled={zoom === MAX_ZOOM} size="medium">
         <ZoomInIcon />
-      </CustomFab>
-      <CustomFab onClick={onClickZoomOut} disabled={zoom === MIN_ZOOM}>
+      </Fab>
+      <Fab onClick={onClickZoomOut} disabled={zoom === MIN_ZOOM} size="medium">
         <ZoomOutIcon />
-      </CustomFab>
+      </Fab>
     </Stack>
   );
 };

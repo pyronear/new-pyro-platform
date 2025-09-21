@@ -2,6 +2,7 @@ import { Grid, Stack, Typography } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useMemo, useState } from 'react';
 
+import { Loader } from '@/components/Common/Loader';
 import {
   liveInstance,
   STATUS_ERROR,
@@ -13,28 +14,30 @@ import {
   aggregateSiteData,
   getCameraIdByCameraName,
   getSiteByCameraName,
+  type SiteType,
 } from '@/utils/camera';
+import { calculateLiveStreamingUrl, calculateSiteUrl } from '@/utils/live';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
-import { Loader } from '../Common/Loader';
-import { LiveControlPanel } from './LiveControlPanel';
-import { LiveStreamPanel } from './LiveStreamPanel';
-import { LiveWarningCounter } from './LiveWarningCounter';
-import { type SiteType, useDataSitesLive } from './useDataSitesLive';
-import type { StreamingAction } from './useStreamingVideo';
+import { useDataSitesLive } from './hooks/useDataSitesLive';
+import { LiveControlPanel } from './LiveContent/LiveControlPanel';
+import { LiveStreamPanel } from './LiveContent/LiveStreamPanel';
+import { LiveWarningCounter } from './LiveContent/LiveWarningCounter';
 
 interface LiveContainerProps {
   onClose: () => void;
   targetCameraName: string;
-  addNewStreamingAction: (newStreamingAction: StreamingAction) => void;
-  statusStreamingAction: string;
+  startStreamingVideo: (ip: string, hasRotation: boolean) => void;
+  stopStreamingVideo: (ip: string, hasRotation: boolean) => void;
+  statusStreamingVideo: string;
 }
 
 export const LiveContainer = ({
   onClose,
   targetCameraName,
-  addNewStreamingAction,
-  statusStreamingAction,
+  startStreamingVideo,
+  stopStreamingVideo,
+  statusStreamingVideo,
 }: LiveContainerProps) => {
   const { t } = useTranslationPrefix('live');
   const { statusSitesFetch, sites } = useDataSitesLive();
@@ -46,10 +49,7 @@ export const LiveContainer = ({
   }, [selectedCameraId, selectedSite]);
 
   const urlStreaming = useMemo(
-    () =>
-      selectedSite
-        ? `${import.meta.env.VITE_LIVE_STREAMING_URL}/${selectedSite.id}/?controls=false`
-        : '',
+    () => calculateLiveStreamingUrl(selectedSite),
     [selectedSite]
   );
 
@@ -72,7 +72,7 @@ export const LiveContainer = ({
     queryKey: ['camerasLive', selectedSite?.id],
     refetchOnWindowFocus: false,
     queryFn: () => {
-      liveInstance.defaults.baseURL = `http://${selectedSite?.ip}:${import.meta.env.VITE_SITES_LIVE_PORT}`;
+      liveInstance.defaults.baseURL = calculateSiteUrl(selectedSite);
       return getCamerasInfos().then((extraData) => {
         setSelectedSite((oldSelectedSite) =>
           oldSelectedSite == null
@@ -108,8 +108,9 @@ export const LiveContainer = ({
                 <LiveStreamPanel
                   urlStreaming={urlStreaming}
                   camera={selectedCamera}
-                  addNewStreamingAction={addNewStreamingAction}
-                  statusStreamingAction={statusStreamingAction}
+                  startStreamingVideo={startStreamingVideo}
+                  stopStreamingVideo={stopStreamingVideo}
+                  statusStreamingVideo={statusStreamingVideo}
                 />
               </Grid>
               <Grid size={3}>

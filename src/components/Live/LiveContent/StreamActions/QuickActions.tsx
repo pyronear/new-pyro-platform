@@ -1,4 +1,4 @@
-import CenterFocusStrongIcon from '@mui/icons-material/CenterFocusStrong';
+import ExploreIcon from '@mui/icons-material/Explore';
 import SpeedIcon from '@mui/icons-material/Speed';
 import {
   Button,
@@ -56,7 +56,7 @@ export const QuickActions = ({
 
       <Tooltip title={t('tooltipAzimuths')}>
         <Stack direction="row" spacing={2} alignItems="center">
-          <CenterFocusStrongIcon />
+          <ExploreIcon />
           <ButtonGroup>
             {poses.map((pose, index) => (
               <Button key={pose} onClick={() => onClickDirection(pose)}>

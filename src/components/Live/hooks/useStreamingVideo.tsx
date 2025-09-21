@@ -39,8 +39,21 @@ export const useStreamingVideo = () => {
         : stopStreaming(),
   });
 
-  const addNewAction = useCallback((newAction: StreamingAction) => {
-    setStreamingQueue((oldStreamingQueue) => [...oldStreamingQueue, newAction]);
+  const startStreamingVideo = useCallback(
+    (ip: string, hasRotation: boolean) => {
+      setStreamingQueue((oldStreamingQueue) => [
+        ...oldStreamingQueue,
+        { type: 'START', ip, hasRotation },
+      ]);
+    },
+    []
+  );
+
+  const stopStreamingVideo = useCallback((ip: string, hasRotation: boolean) => {
+    setStreamingQueue((oldStreamingQueue) => [
+      ...oldStreamingQueue,
+      { type: 'STOP', ip, hasRotation },
+    ]);
   }, []);
 
   const removeAction = () => {
@@ -89,5 +102,9 @@ export const useStreamingVideo = () => {
     return STATUS_ERROR;
   }, [statusStart, statusStop]);
 
-  return { addNewStreamingAction: addNewAction, statusStreamingVideo: status };
+  return {
+    startStreamingVideo,
+    stopStreamingVideo,
+    statusStreamingVideo: status,
+  };
 };

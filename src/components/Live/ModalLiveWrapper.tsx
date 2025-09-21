@@ -1,8 +1,8 @@
 import { Dialog, DialogContent } from '@mui/material';
 import { type ReactNode, useState } from 'react';
 
+import { useStreamingVideo } from './hooks/useStreamingVideo';
 import { LiveContainer } from './LiveContainer';
-import { useStreamingVideo } from './useStreamingVideo';
 
 interface ModalLiveWrapperProps {
   cameraName: string;
@@ -15,7 +15,8 @@ export const ModalLiveWrapper = ({
 }: ModalLiveWrapperProps) => {
   const [openLive, setOpenLive] = useState(false);
   // Created here to keep the queue intact when the modal is closed
-  const { addNewStreamingAction, statusStreamingVideo } = useStreamingVideo();
+  const { startStreamingVideo, stopStreamingVideo, statusStreamingVideo } =
+    useStreamingVideo();
 
   const handleClose = (
     _event: never,
@@ -44,8 +45,9 @@ export const ModalLiveWrapper = ({
           <LiveContainer
             onClose={() => setOpenLive(false)}
             targetCameraName={cameraName}
-            addNewStreamingAction={addNewStreamingAction}
-            statusStreamingAction={statusStreamingVideo}
+            startStreamingVideo={startStreamingVideo}
+            stopStreamingVideo={stopStreamingVideo}
+            statusStreamingVideo={statusStreamingVideo}
           />
         </DialogContent>
       </Dialog>

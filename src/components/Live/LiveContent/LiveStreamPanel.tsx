@@ -10,13 +10,13 @@ import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
 import { FloatingActions } from './StreamActions/FloatingActions';
 import { QuickActions } from './StreamActions/QuickActions';
-import { type StreamingAction } from './useStreamingVideo';
 
 interface LiveStreamPanelProps {
   urlStreaming: string;
   camera: CameraFullInfosType | null;
-  addNewStreamingAction: (newStreamingAction: StreamingAction) => void;
-  statusStreamingAction: string;
+  startStreamingVideo: (ip: string, hasRotation: boolean) => void;
+  stopStreamingVideo: (ip: string, hasRotation: boolean) => void;
+  statusStreamingVideo: string;
 }
 
 const HEIGHT_VIDEO = 450;
@@ -24,8 +24,9 @@ const HEIGHT_VIDEO = 450;
 export const LiveStreamPanel = ({
   urlStreaming,
   camera,
-  addNewStreamingAction,
-  statusStreamingAction,
+  startStreamingVideo,
+  stopStreamingVideo,
+  statusStreamingVideo,
 }: LiveStreamPanelProps) => {
   const [speedIndex, setSpeedIndex] = useState(1);
   const { t } = useTranslationPrefix('live');
@@ -35,14 +36,14 @@ export const LiveStreamPanel = ({
 
   useEffect(() => {
     if (ip) {
-      addNewStreamingAction({ type: 'START', ip, hasRotation });
+      startStreamingVideo(ip, hasRotation);
     }
     return () => {
       if (ip) {
-        addNewStreamingAction({ type: 'STOP', ip, hasRotation });
+        stopStreamingVideo(ip, hasRotation);
       }
     };
-  }, [hasRotation, ip, addNewStreamingAction]);
+  }, [hasRotation, ip, startStreamingVideo, stopStreamingVideo]);
 
   const setNextSpeed = () =>
     setSpeedIndex((oldIndex) =>
@@ -51,13 +52,13 @@ export const LiveStreamPanel = ({
 
   return (
     <Stack spacing={1} height="100%">
-      {statusStreamingAction === STATUS_ERROR && (
+      {statusStreamingVideo === STATUS_ERROR && (
         <Typography variant="body2">{t('errorNoStreaming')}</Typography>
       )}
-      {(statusStreamingAction === STATUS_LOADING || !ip) && (
+      {(statusStreamingVideo === STATUS_LOADING || !ip) && (
         <Skeleton variant="rectangular" width="100%" height={HEIGHT_VIDEO} />
       )}
-      {statusStreamingAction === STATUS_SUCCESS && (
+      {statusStreamingVideo === STATUS_SUCCESS && (
         <>
           <div style={{ position: 'relative', flexGrow: 1 }}>
             <iframe

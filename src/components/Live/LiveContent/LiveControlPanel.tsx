@@ -8,11 +8,9 @@ import {
 } from '@mui/material';
 
 import { CamerasListSelectable } from '@/components/Common/Camera/CamerasListSelectable';
-import type { CameraFullInfosType } from '@/utils/camera';
+import CamerasMap from '@/components/Dashboard/CamerasMap';
+import type { CameraFullInfosType, SiteType } from '@/utils/camera';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
-
-import CamerasMap from '../Dashboard/CamerasMap';
-import type { SiteType } from './useDataSitesLive';
 
 interface LiveControlPanelProps {
   sites: SiteType[];

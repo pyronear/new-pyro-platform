@@ -5,14 +5,7 @@ import { useAuth } from '@/context/useAuth';
 import { STATUS_ERROR, STATUS_LOADING, STATUS_SUCCESS } from '@/services/axios';
 import { getCameraList } from '@/services/camera';
 import { getLiveAccess, getSitesInfos } from '@/services/live';
-import type { CameraFullInfosType } from '@/utils/camera';
-
-export interface SiteType {
-  id: string;
-  ip: string;
-  label: string;
-  cameras: CameraFullInfosType[];
-}
+import type { SiteType } from '@/utils/camera';
 
 export const useDataSitesLive = () => {
   const auth = useAuth();
