@@ -36,10 +36,7 @@ export const CamerasListSelectable = ({
               </ListItemIcon>
             )}
             <ListItemText inset={camera.id != selectedCameraId}>
-              <CameraName
-                name={camera.name}
-                angle_of_view={camera.angle_of_view}
-              />
+              <CameraName camera={camera} />
             </ListItemText>
           </ListItemButton>
         </ListItem>
