@@ -60,7 +60,7 @@ export const CameraCardActions = ({
               },
             }}
           >
-            <ModalLiveWrapper cameraName={cameraName}>
+            <ModalLiveWrapper targetCameraName={cameraName}>
               {(onClick) => (
                 <MenuItem onClick={onClick} disabled={isMobile}>
                   <ListItemIcon>
@@ -80,7 +80,7 @@ export const CameraCardActions = ({
         </>
       ) : (
         <Stack spacing={1}>
-          <ModalLiveWrapper cameraName={cameraName}>
+          <ModalLiveWrapper targetCameraName={cameraName}>
             {(onClick) => (
               <Tooltip title={t('liveButton')}>
                 <IconButton disabled={isMobile} onClick={onClick}>

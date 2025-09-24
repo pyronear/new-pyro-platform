@@ -5,6 +5,7 @@ import Paper from '@mui/material/Paper';
 import { useTheme } from '@mui/material/styles';
 import { useState } from 'react';
 
+import { ModalLiveWrapper } from '@/components/Live/ModalLiveWrapper';
 import {
   countUnlabelledSequences,
   formatAzimuth,
@@ -76,21 +77,22 @@ export const AlertInfos = ({
             <AlertMap sequences={sequences} />
           </Grid>
           <Grid container spacing={2} direction="column">
-            {isLiveMode && (
-              <Button
-                color="secondary"
-                variant="outlined"
-                startIcon={<SportsEsportsIcon />}
-                disabled
-                sx={{
-                  '&.Mui-disabled': {
-                    background: '#c6c2c2',
-                    color: '#575757',
-                  },
-                }}
+            {isLiveMode && sequence.camera && (
+              <ModalLiveWrapper
+                targetCameraName={sequence.camera.name}
+                targetSequence={sequence}
               >
-                {t('buttonInvestigate')}
-              </Button>
+                {(onClick) => (
+                  <Button
+                    color="secondary"
+                    variant="outlined"
+                    startIcon={<SportsEsportsIcon />}
+                    onClick={onClick}
+                  >
+                    {t('buttonInvestigate')}
+                  </Button>
+                )}
+              </ModalLiveWrapper>
             )}
             <Button
               color="secondary"

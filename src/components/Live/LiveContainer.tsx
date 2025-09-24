@@ -10,6 +10,7 @@ import {
   STATUS_SUCCESS,
 } from '@/services/axios';
 import { getCamerasInfos } from '@/services/live';
+import type { SequenceWithCameraInfoType } from '@/utils/alerts';
 import {
   aggregateSiteData,
   getCameraIdByCameraName,
@@ -21,12 +22,14 @@ import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
 import { useDataSitesLive } from './hooks/useDataSitesLive';
 import { LiveControlPanel } from './LiveContent/LiveControlPanel';
+import { LiveSequenceInfo } from './LiveContent/LiveSequenceInfo';
 import { LiveStreamPanel } from './LiveContent/LiveStreamPanel';
 import { LiveWarningCounter } from './LiveContent/LiveWarningCounter';
 
 interface LiveContainerProps {
   onClose: () => void;
   targetCameraName: string;
+  targetSequence?: SequenceWithCameraInfoType;
   startStreamingVideo: (ip: string, hasRotation: boolean) => void;
   stopStreamingVideo: (ip: string, hasRotation: boolean) => void;
   statusStreamingVideo: string;
@@ -35,6 +38,7 @@ interface LiveContainerProps {
 export const LiveContainer = ({
   onClose,
   targetCameraName,
+  targetSequence,
   startStreamingVideo,
   stopStreamingVideo,
   statusStreamingVideo,
@@ -114,6 +118,9 @@ export const LiveContainer = ({
                 />
               </Grid>
               <Grid size={3}>
+                {targetSequence && (
+                  <LiveSequenceInfo sequence={targetSequence} />
+                )}
                 <LiveControlPanel
                   sites={sites}
                   selectedSite={selectedSite}

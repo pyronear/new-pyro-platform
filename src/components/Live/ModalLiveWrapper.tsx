@@ -1,16 +1,20 @@
 import { Dialog, DialogContent } from '@mui/material';
 import { type ReactNode, useState } from 'react';
 
+import type { SequenceWithCameraInfoType } from '@/utils/alerts';
+
 import { useStreamingVideo } from './hooks/useStreamingVideo';
 import { LiveContainer } from './LiveContainer';
 
 interface ModalLiveWrapperProps {
-  cameraName: string;
+  targetCameraName: string;
+  targetSequence?: SequenceWithCameraInfoType;
   children: (onClick: () => void) => ReactNode;
 }
 
 export const ModalLiveWrapper = ({
-  cameraName,
+  targetCameraName,
+  targetSequence,
   children,
 }: ModalLiveWrapperProps) => {
   const [openLive, setOpenLive] = useState(false);
@@ -44,7 +48,8 @@ export const ModalLiveWrapper = ({
         >
           <LiveContainer
             onClose={() => setOpenLive(false)}
-            targetCameraName={cameraName}
+            targetCameraName={targetCameraName}
+            targetSequence={targetSequence}
             startStreamingVideo={startStreamingVideo}
             stopStreamingVideo={stopStreamingVideo}
             statusStreamingVideo={statusStreamingVideo}
