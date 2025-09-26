@@ -52,10 +52,7 @@ export const CameraCard = ({
           <Stack direction="row">
             <CardContent sx={{ p: { xs: 1, sm: 2 }, flexGrow: 1 }}>
               <Stack spacing={1}>
-                <CameraName
-                  name={camera.name}
-                  angle_of_view={camera.angle_of_view}
-                />
+                <CameraName camera={camera} />
                 <CameraCardLastPing camera={camera} />
               </Stack>
             </CardContent>
@@ -89,10 +86,7 @@ export const CameraCard = ({
         <Stack direction="row" justifyContent="space-between">
           <CardContent sx={{ p: { xs: 1, sm: 2 }, flexGrow: 1 }}>
             <Stack spacing={1}>
-              <CameraName
-                name={camera.name}
-                angle_of_view={camera.angle_of_view}
-              />
+              <CameraName camera={camera} />
               <CameraCardLastPing camera={camera} />
             </Stack>
           </CardContent>

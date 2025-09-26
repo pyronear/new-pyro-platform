@@ -54,3 +54,20 @@ export const convertSequencesToAlerts = (
 export const countUnlabelledSequences = (
   sequences: SequenceWithCameraInfoType[]
 ) => sequences.filter((sequence) => sequence.labelWildfire === null).length;
+
+export const formatAzimuth = (azimuth: number | null, precision = 0) => {
+  return azimuth ? `${azimuth.toFixed(precision)}°` : '';
+};
+
+export const formatPosition = (
+  lat: number | undefined,
+  lon: number | undefined
+) => {
+  if (!lat && !lon) {
+    return '';
+  }
+  return `${formatOneCoordinate(lat)}, ${formatOneCoordinate(lon)}`;
+};
+const formatOneCoordinate = (coordinate: number | undefined) => {
+  return coordinate ? coordinate.toFixed(6) : '-';
+};

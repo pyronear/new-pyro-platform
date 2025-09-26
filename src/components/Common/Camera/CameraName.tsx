@@ -1,19 +1,15 @@
-import { Typography, useTheme } from '@mui/material';
+import { Stack, Typography } from '@mui/material';
+
+import type { CameraType } from '@/services/camera';
+import type { CameraFullInfosType } from '@/utils/camera';
 
 interface CameraNameType {
-  name: string;
-  angle_of_view: number | null;
+  camera: CameraType | CameraFullInfosType;
 }
-export const CameraName = ({ name, angle_of_view }: CameraNameType) => {
-  const theme = useTheme();
+export const CameraName = ({ camera }: CameraNameType) => {
   return (
-    <Typography variant="body1">
-      {name}
-      {angle_of_view && (
-        <span
-          style={{ color: theme.palette.secondaryText.main }}
-        >{` (${angle_of_view.toString()}°)`}</span>
-      )}
-    </Typography>
+    <Stack direction="row" alignItems="center" spacing={1}>
+      <Typography variant="body1">{camera.name}</Typography>
+    </Stack>
   );
 };
