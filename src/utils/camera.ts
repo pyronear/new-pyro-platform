@@ -1,4 +1,3 @@
-import type { SiteType } from '@/components/Live/useDataSitesLive';
 import type { CameraType } from '@/services/camera';
 import type { CameraInfosFromPi } from '@/services/live';
 
@@ -9,6 +8,13 @@ export interface CameraFullInfosType extends CameraType {
   type?: string;
   azimuths?: number[];
   poses?: number[];
+}
+
+export interface SiteType {
+  id: string;
+  ip: string;
+  label: string;
+  cameras: CameraFullInfosType[];
 }
 
 export const getSiteByCameraName = (
@@ -44,6 +50,8 @@ const aggregateCameraData = (
   );
   return {
     ...camera,
+    ip: cameraInfosFromPi?.ip,
+    type: cameraInfosFromPi?.type,
     azimuths: cameraInfosFromPi?.azimuths ?? [],
     poses: cameraInfosFromPi?.poses ?? [],
   };
