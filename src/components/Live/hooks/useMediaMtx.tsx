@@ -15,6 +15,7 @@ export const useMediaMtx = ({
 }: StreamVideoProps) => {
   // This boolean prevents from displaying error as long as the stream has no started yet
   const [isInitialized, setIsInitialized] = useState(false);
+  const [isStopped, setIsStopped] = useState(false);
   const [hasError, setHasError] = useState(false);
 
   const reader = useMemo(() => {
@@ -32,6 +33,9 @@ export const useMediaMtx = ({
           if (refVideo.current) {
             refVideo.current.srcObject = evt.streams[0];
           }
+        },
+        onFailLoading: () => {
+          setIsStopped(true);
         },
       });
     } else {
@@ -61,5 +65,5 @@ export const useMediaMtx = ({
     };
   }, [reader]);
 
-  return { isInitialized, hasError };
+  return { isInitialized, hasError, isStopped };
 };

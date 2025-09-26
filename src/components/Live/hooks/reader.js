@@ -12,11 +12,17 @@
  */
 
 /**
+ * @callback OnFailLoading
+ * @param {} evt - failed reading event.
+ */
+
+/**
  * @typedef Conf
  * @type {object}
  * @property {string} url - absolute URL of the WHEP endpoint.
  * @property {OnError} onError - called when there's an error.
  * @property {OnTrack} onTrack - called when there's a track available.
+ * @property {OnFailLoading} onFailLoading - called when there's no more call to WHEP endpoint.
  */
 
 const RETRY_PAUSE_IN_MS = 4000;
@@ -418,7 +424,7 @@ export class MediaMTXWebRTCReader {
 
       this.queuedCandidates = [];
 
-      if (this.restartNb < RETRY_NB_MAX && this.restartTimeout == null) {
+      if (this.restartNb < RETRY_NB_MAX) {
         this.state = 'restarting';
         this.restartTimeout = setTimeout(() => {
           this.restartNb = this.restartNb + 1;
@@ -426,6 +432,8 @@ export class MediaMTXWebRTCReader {
           this.state = 'running';
           this.#start();
         }, RETRY_PAUSE_IN_MS);
+      } else {
+        this.onFailLoading();
       }
 
       if (this.conf.onError !== undefined) {

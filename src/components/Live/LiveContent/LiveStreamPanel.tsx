@@ -59,7 +59,10 @@ export const LiveStreamPanel = ({
         <Typography variant="body2">{t('errorNoStreaming')}</Typography>
       )}
       {mediaMtx.isInitialized && mediaMtx.hasError && (
-        <Typography variant="body2">{t('errorMediaMtx')}</Typography>
+        <Typography variant="body2">{t('errorTmpMediaMtx')}</Typography>
+      )}
+      {mediaMtx.isStopped && (
+        <Typography variant="body2">{t('errorFinalMediaMtx')}</Typography>
       )}
       {(statusStreamingVideo === STATUS_LOADING ||
         (statusStreamingVideo === STATUS_SUCCESS &&
