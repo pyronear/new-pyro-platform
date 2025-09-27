@@ -1,4 +1,4 @@
-import { Grid, Stack, Typography } from '@mui/material';
+import { Button, Grid, Stack, Typography } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useMemo, useState } from 'react';
 
@@ -21,8 +21,8 @@ import { calculateLiveStreamingUrl, calculateSiteUrl } from '@/utils/live';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
 import { useDataSitesLive } from './hooks/useDataSitesLive';
+import { LiveAlertInfos as LiveAlertInfos } from './LiveContent/AlertInfos/LiveAlertInfos';
 import { LiveControlPanel } from './LiveContent/LiveControlPanel';
-import { LiveSequenceInfo } from './LiveContent/LiveSequenceInfo';
 import { LiveStreamPanel } from './LiveContent/LiveStreamPanel';
 import { LiveWarningCounter } from './LiveContent/LiveWarningCounter';
 
@@ -89,49 +89,55 @@ export const LiveContainer = ({
   });
 
   return (
-    <Stack>
-      {(statusSitesFetch == STATUS_LOADING ||
-        (isFetchFromSiteEnabled &&
-          statusCamerasFetchFromSite == STATUS_LOADING)) && <Loader />}
-      {statusSitesFetch == STATUS_ERROR && (
-        <Typography variant="body2">{t('errorFetchInfos')}</Typography>
-      )}
-      {statusCamerasFetchFromSite == STATUS_ERROR && (
-        <Typography variant="body2">{t('errorCallSite')}</Typography>
-      )}
-      {statusSitesFetch == STATUS_SUCCESS && sites.length == 0 && (
-        <Typography variant="body2">{t('errorNoAccess')}</Typography>
-      )}
+    <>
       {statusSitesFetch == STATUS_SUCCESS &&
-        statusCamerasFetchFromSite == STATUS_SUCCESS &&
-        selectedSite && (
-          <>
-            <LiveWarningCounter onClose={onClose} />
-            <Grid container p={2} spacing={2} flexGrow={1}>
-              <Grid size={9}>
-                <LiveStreamPanel
-                  urlStreaming={urlStreaming}
-                  camera={selectedCamera}
-                  startStreamingVideo={startStreamingVideo}
-                  stopStreamingVideo={stopStreamingVideo}
-                  statusStreamingVideo={statusStreamingVideo}
-                />
-              </Grid>
-              <Grid size={3}>
-                {targetSequence && (
-                  <LiveSequenceInfo sequence={targetSequence} />
-                )}
-                <LiveControlPanel
-                  sites={sites}
-                  selectedSite={selectedSite}
-                  setSelectedSite={setSelectedSite}
-                  selectedCamera={selectedCamera}
-                  setSelectedCameraId={setSelectedCameraId}
-                />
-              </Grid>
+      statusCamerasFetchFromSite == STATUS_SUCCESS &&
+      selectedSite ? (
+        <Stack>
+          <LiveWarningCounter onClose={onClose} />
+          <Grid container p={2} spacing={2} flexGrow={1}>
+            <Grid size={9}>
+              <LiveStreamPanel
+                urlStreaming={urlStreaming}
+                camera={selectedCamera}
+                startStreamingVideo={startStreamingVideo}
+                stopStreamingVideo={stopStreamingVideo}
+                statusStreamingVideo={statusStreamingVideo}
+              />
             </Grid>
-          </>
-        )}
-    </Stack>
+            <Grid size={3}>
+              {targetSequence && <LiveAlertInfos sequence={targetSequence} />}
+              <LiveControlPanel
+                sites={sites}
+                selectedSite={selectedSite}
+                setSelectedSite={setSelectedSite}
+                selectedCamera={selectedCamera}
+                setSelectedCameraId={setSelectedCameraId}
+              />
+            </Grid>
+          </Grid>
+        </Stack>
+      ) : (
+        <Stack spacing={2}>
+          <div style={{ alignSelf: 'end', padding: '8px' }}>
+            <Button variant="outlined" color="primary" onClick={onClose}>
+              {t('buttonClose')}
+            </Button>
+          </div>
+          {(statusSitesFetch == STATUS_LOADING ||
+            (isFetchFromSiteEnabled &&
+              statusCamerasFetchFromSite == STATUS_LOADING)) && <Loader />}
+          {statusSitesFetch == STATUS_ERROR && (
+            <Typography variant="body2">{t('errorFetchInfos')}</Typography>
+          )}
+          {statusCamerasFetchFromSite == STATUS_ERROR && (
+            <Typography variant="body2">{t('errorCallSite')}</Typography>
+          )}
+          {statusSitesFetch == STATUS_SUCCESS && sites.length == 0 && (
+            <Typography variant="body2">{t('errorNoAccess')}</Typography>
+          )}
+        </Stack>
+      )}
+    </>
   );
 };

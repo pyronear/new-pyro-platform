@@ -58,7 +58,7 @@ export const theme = createTheme({
     },
     h4: {
       fontWeight: 500,
-      fontSize: '1rem',
+      fontSize: '0.85rem',
     },
     body2: {
       // for user messages
