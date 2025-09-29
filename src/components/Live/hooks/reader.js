@@ -13,7 +13,7 @@
 
 /**
  * @callback OnFailLoading
- * @param {} evt - failed reading event.
+ * @param {} - failed reading event.
  */
 
 /**
