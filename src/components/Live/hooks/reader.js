@@ -25,8 +25,8 @@
  * @property {OnFailLoading} onFailLoading - called when there's no more call to WHEP endpoint.
  */
 
-const RETRY_PAUSE_IN_MS = 4000;
-const RETRY_NB_MAX = 200;
+const RETRY_PAUSE_IN_MS = 2000;
+const RETRY_NB_MAX = 50;
 
 /** WebRTC/WHEP reader. */
 export class MediaMTXWebRTCReader {
@@ -36,7 +36,6 @@ export class MediaMTXWebRTCReader {
    */
   constructor(conf) {
     this.conf = conf;
-    this.state = 'getting_codecs';
     this.restartTimeout = null;
     this.restartNb = 0;
     this.pc = null;
@@ -46,6 +45,7 @@ export class MediaMTXWebRTCReader {
   }
 
   start() {
+    this.state = 'getting_codecs';
     this.#getNonAdvertisedCodecs();
   }
 
@@ -65,6 +65,7 @@ export class MediaMTXWebRTCReader {
   }
 
   static #supportsNonAdvertisedCodec(codec, fmtp) {
+    console.log("#supportsNonAdvertisedCodec");
     return new Promise((resolve) => {
       const pc = new RTCPeerConnection({ iceServers: [] });
       const mediaType = 'audio';

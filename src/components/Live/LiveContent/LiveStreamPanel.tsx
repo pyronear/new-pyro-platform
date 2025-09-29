@@ -87,13 +87,15 @@ export const LiveStreamPanel = ({
                 display: mediaMtx.isInitialized ? 'inline' : 'none',
               }}
             />
-            <FloatingActions
-              cameraIp={ip}
-              cameraType={camera?.type}
-              speed={SPEEDS[speedIndex].speed}
-            />
+            {mediaMtx.isInitialized && (
+              <FloatingActions
+                cameraIp={ip}
+                cameraType={camera?.type}
+                speed={SPEEDS[speedIndex].speed}
+              />
+            )}
           </div>
-          {hasRotation && (
+          {hasRotation && mediaMtx.isInitialized && (
             <QuickActions
               cameraIp={ip}
               poses={camera.poses ?? []}
