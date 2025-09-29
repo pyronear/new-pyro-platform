@@ -65,7 +65,7 @@ export class MediaMTXWebRTCReader {
   }
 
   static #supportsNonAdvertisedCodec(codec, fmtp) {
-    console.log("#supportsNonAdvertisedCodec");
+    console.log('#supportsNonAdvertisedCodec');
     return new Promise((resolve) => {
       const pc = new RTCPeerConnection({ iceServers: [] });
       const mediaType = 'audio';
