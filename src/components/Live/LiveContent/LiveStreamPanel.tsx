@@ -1,8 +1,8 @@
-import Skeleton from '@mui/material/Skeleton';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { useEffect, useRef, useState } from 'react';
 
+import { Loader } from '@/components/Common/Loader';
 import { STATUS_ERROR, STATUS_LOADING, STATUS_SUCCESS } from '@/services/axios';
 import type { CameraFullInfosType } from '@/utils/camera';
 import { calculateHasRotation, SPEEDS } from '@/utils/live';
@@ -19,8 +19,6 @@ interface LiveStreamPanelProps {
   stopStreamingVideo: (ip: string, hasRotation: boolean) => void;
   statusStreamingVideo: string;
 }
-
-const DEFAULT_HEIGHT_VIDEO = 450;
 
 export const LiveStreamPanel = ({
   urlStreaming,
@@ -67,11 +65,9 @@ export const LiveStreamPanel = ({
       {(statusStreamingVideo === STATUS_LOADING ||
         (statusStreamingVideo === STATUS_SUCCESS &&
           !mediaMtx.isInitialized)) && (
-        <Skeleton
-          variant="rectangular"
-          width="100%"
-          height={DEFAULT_HEIGHT_VIDEO}
-        />
+        <div>
+          <Loader />
+        </div>
       )}
       {statusStreamingVideo === STATUS_SUCCESS && (
         <>
