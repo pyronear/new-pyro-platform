@@ -13,6 +13,8 @@ const apiSequenceResponseSchema = z.object({
   is_wildfire: z.nullable(z.string()),
   started_at: z.nullable(z.iso.datetime({ local: true })),
   last_seen_at: z.nullable(z.string()),
+  event_groups: z.array(z.array(z.number())),
+  event_smoke_locations: z.array(z.tuple([z.number(), z.number()])),
 });
 
 const apiDetectionResponseSchema = z.object({
