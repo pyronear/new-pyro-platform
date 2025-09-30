@@ -4,6 +4,7 @@ import Paper from '@mui/material/Paper';
 import { useTheme } from '@mui/material/styles';
 
 import {
+  type AlertType,
   countUnlabelledSequences,
   formatAzimuth,
   formatPosition,
@@ -20,14 +21,14 @@ interface AlertInfosType {
   isLiveMode: boolean;
   invalidateAndRefreshData: () => void;
   sequence: SequenceWithCameraInfoType;
-  sequences: SequenceWithCameraInfoType[];
+  alert: AlertType;
 }
 
 export const AlertInfos = ({
   isLiveMode,
   invalidateAndRefreshData,
   sequence,
-  sequences,
+  alert,
 }: AlertInfosType) => {
   const theme = useTheme();
   const { t } = useTranslationPrefix('alerts');
@@ -69,7 +70,7 @@ export const AlertInfos = ({
             </AlertInfosSection>
           </Grid>
           <Grid container flexGrow={1} minHeight={200}>
-            <AlertMap sequences={sequences} />
+            <AlertMap alert={alert} />
           </Grid>
           <Grid container spacing={2} direction="column">
             {isLiveMode && (
@@ -92,7 +93,9 @@ export const AlertInfos = ({
               sequence={sequence}
               isLiveMode={isLiveMode}
               invalidateAndRefreshData={invalidateAndRefreshData}
-              nbSequencesToBeLabelled={countUnlabelledSequences(sequences)}
+              nbSequencesToBeLabelled={countUnlabelledSequences(
+                alert.sequences
+              )}
               renderCustomButton={(onClick) => (
                 <Button color="secondary" variant="contained" onClick={onClick}>
                   {t(isLiveMode ? 'buttonTreatAlert' : 'buttonModifyAlert')}

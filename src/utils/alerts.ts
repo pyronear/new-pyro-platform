@@ -7,6 +7,7 @@ export interface AlertType {
   id: number; // Id of the main sequence
   startedAt: string | null; // Start date of the main sequence
   sequences: SequenceWithCameraInfoType[]; // List of grouped sequences
+  eventSmokeLocation?: [number, number];
 }
 
 export type LabelWildfireValues =
@@ -24,7 +25,6 @@ export interface SequenceWithCameraInfoType {
   coneAzimuth: number;
   coneAngle: number;
   labelWildfire: LabelWildfireValues;
-  eventSmokeLocation: [number, number];
 }
 
 /*
@@ -82,8 +82,8 @@ export const convertSequencesToAlerts = (
           coneAzimuth: sequence.cone_azimuth,
           coneAngle: sequence.cone_angle,
           labelWildfire: (sequence.is_wildfire as LabelWildfireValues) ?? null,
-          eventSmokeLocation: sequence.event_smoke_locations[groupIndex],
         })),
+      eventSmokeLocation: sequences[0].event_smoke_locations?.[groupIndex],
     };
   });
 };

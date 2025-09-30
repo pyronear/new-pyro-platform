@@ -71,37 +71,39 @@ export const AlertCard = ({
             <VideocamOutlinedIcon fontSize="small" />
             <Typography variant="h3">{t('prefixCardDetection')}</Typography>
           </Stack>
-          {alert.sequences.map((sequence) => (
-            <Stack
-              direction="row"
-              key={sequence.id}
-              justifyContent="space-between"
-              alignItems="center"
-            >
-              <Stack direction="row" spacing={1} alignItems="center">
-                <SequenceLabelChip
-                  isSmall
-                  labelWildfire={sequence.labelWildfire}
-                />
-                {sequence.camera && <CameraName camera={sequence.camera} />}
-              </Stack>
-
+          <Stack spacing={1}>
+            {alert.sequences.map((sequence) => (
               <Stack
                 direction="row"
-                spacing={1}
-                justifyContent="end"
-                flexGrow={1}
+                key={sequence.id}
+                justifyContent="space-between"
+                alignItems="center"
               >
-                <Typography variant="caption" fontWeight={500}>
-                  {formatAzimuth(sequence.coneAzimuth)}
-                </Typography>
+                <Stack direction="row" spacing={1} alignItems="center">
+                  <SequenceLabelChip
+                    isSmall
+                    labelWildfire={sequence.labelWildfire}
+                  />
+                  {sequence.camera && <CameraName camera={sequence.camera} />}
+                </Stack>
 
-                <Typography variant="caption">
-                  {formatToTime(alert.startedAt)}
-                </Typography>
+                <Stack
+                  direction="row"
+                  spacing={1}
+                  justifyContent="end"
+                  flexGrow={1}
+                >
+                  <Typography variant="caption" fontWeight={500}>
+                    {formatAzimuth(sequence.coneAzimuth)}
+                  </Typography>
+
+                  <Typography variant="caption">
+                    {formatToTime(alert.startedAt)}
+                  </Typography>
+                </Stack>
               </Stack>
-            </Stack>
-          ))}
+            ))}
+          </Stack>
         </CardContent>
       </CardActionArea>
     </Card>
