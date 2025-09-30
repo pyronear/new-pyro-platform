@@ -65,9 +65,14 @@ export const AlertInfos = ({
             <AlertInfosSection title={t('subtitleAzimuth')}>
               {formatAzimuth(sequence.coneAzimuth, 1)}
             </AlertInfosSection>
-            <AlertInfosSection title={t('subtitleLocalisation')}>
+            <AlertInfosSection title={t('subtitleCameraLocalisation')}>
               {formatPosition(sequence.camera?.lat, sequence.camera?.lon)}
             </AlertInfosSection>
+            {alert.eventSmokeLocation && (
+              <AlertInfosSection title={t('subtitleSmokeLocalisation')}>
+                {formatPosition(...alert.eventSmokeLocation)}
+              </AlertInfosSection>
+            )}
           </Grid>
           <Grid container flexGrow={1} minHeight={200}>
             <AlertMap alert={alert} />

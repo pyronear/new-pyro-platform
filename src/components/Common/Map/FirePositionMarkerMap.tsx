@@ -1,7 +1,8 @@
 import Typography from '@mui/material/Typography';
 import { Marker, Popup } from 'react-leaflet';
 
-import type { AlertType } from '@/utils/alerts';
+import { type AlertType, formatPosition } from '@/utils/alerts';
+import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
 import { fireIcon } from './Icons';
 
@@ -14,9 +15,14 @@ const FirePositionMarkerMap = ({
   alert,
   onClick,
 }: FirePositionMarkerMapType) => {
+  const { t } = useTranslationPrefix('alerts');
+
+  if (alert.eventSmokeLocation === undefined) {
+    return null;
+  }
   return (
     <Marker
-      position={alert.sequences[0].eventSmokeLocation}
+      position={alert.eventSmokeLocation}
       icon={fireIcon}
       eventHandlers={
         onClick
@@ -30,8 +36,12 @@ const FirePositionMarkerMap = ({
         <div>
           <div>
             <Typography variant="caption" sx={{ fontWeight: 'bold', mb: 1 }}>
-              {/* TODO find out what to put in the fire icon popup */}
-              {alert.sequences.map((sequence) => sequence.camera?.name)}
+              {t('subtitleSmokeLocalisation')}
+            </Typography>
+          </div>
+          <div>
+            <Typography variant="caption" sx={{ mb: 0.5 }}>
+              {formatPosition(...alert.eventSmokeLocation)}
             </Typography>
           </div>
         </div>
