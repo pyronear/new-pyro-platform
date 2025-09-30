@@ -23,7 +23,7 @@ export const SPEEDS: SpeedCameraMove[] = [
 
 export const calculateLiveStreamingUrl = (site: SiteType | null) => {
   return site
-    ? `${import.meta.env.VITE_LIVE_STREAMING_URL}/${site.id}/?controls=false`
+    ? `${import.meta.env.VITE_LIVE_STREAMING_URL}/${site.id}/whep`
     : '';
 };
 
