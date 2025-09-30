@@ -110,6 +110,7 @@
     "errorNoStreaming": "Une erreur inattendue est survenue. Veuillez réessayer plus tard.",
     "errorTmpMediaMtx": "Flux vidéo interrompu. Veuillez patienter.",
     "errorFinalMediaMtx": "Flux vidéo en erreur. Veuillez réessayer plus tard.",
+    "loadingVideo": "Chargement de la vidéo...",
     "tooltipSpeed": "Vitesse de déplacément de la caméra",
     "tooltipAzimuths": "Azimuths pré-enregistrés de la caméra"
   }

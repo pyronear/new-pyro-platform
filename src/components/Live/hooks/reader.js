@@ -26,7 +26,7 @@
  */
 
 const RETRY_PAUSE_IN_MS = 2000;
-const RETRY_NB_MAX = 50;
+const RETRY_NB_MAX = 20;
 
 /** WebRTC/WHEP reader. */
 export class MediaMTXWebRTCReader {
@@ -36,8 +36,7 @@ export class MediaMTXWebRTCReader {
    */
   constructor(conf) {
     this.conf = conf;
-    this.restartTimeout = null;
-    this.restartNb = 0;
+    this.retryConnectTimeout = null;
     this.pc = null;
     this.offerData = null;
     this.sessionUrl = null;
@@ -46,6 +45,7 @@ export class MediaMTXWebRTCReader {
 
   start() {
     this.state = 'getting_codecs';
+    this.retryConnectNb = 0;
     this.#getNonAdvertisedCodecs();
   }
 
@@ -59,13 +59,12 @@ export class MediaMTXWebRTCReader {
       this.pc.close();
     }
 
-    if (this.restartTimeout !== null) {
-      clearTimeout(this.restartTimeout);
+    if (this.retryConnectTimeout !== null) {
+      clearTimeout(this.retryConnectTimeout);
     }
   }
 
   static #supportsNonAdvertisedCodec(codec, fmtp) {
-    console.log('#supportsNonAdvertisedCodec');
     return new Promise((resolve) => {
       const pc = new RTCPeerConnection({ iceServers: [] });
       const mediaType = 'audio';
@@ -425,16 +424,16 @@ export class MediaMTXWebRTCReader {
 
       this.queuedCandidates = [];
 
-      if (this.restartNb < RETRY_NB_MAX) {
+      if (this.retryConnectNb < RETRY_NB_MAX) {
         this.state = 'restarting';
-        this.restartTimeout = setTimeout(() => {
-          this.restartNb = this.restartNb + 1;
-          this.restartTimeout = null;
+        this.retryConnectTimeout = setTimeout(() => {
+          this.retryConnectNb = this.retryConnectNb + 1;
+          this.retryConnectTimeout = null;
           this.state = 'running';
           this.#start();
         }, RETRY_PAUSE_IN_MS);
       } else {
-        this.onFailLoading();
+        this.conf.onFailLoading();
       }
 
       if (this.conf.onError !== undefined) {

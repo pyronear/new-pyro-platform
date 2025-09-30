@@ -8,7 +8,7 @@ import type { CameraFullInfosType } from '@/utils/camera';
 import { calculateHasRotation, SPEEDS } from '@/utils/live';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
-import { useMediaMtx } from '../hooks/useMediaMtx';
+import { StateStreaming, useMediaMtx } from '../hooks/useMediaMtx';
 import { FloatingActions } from './StreamActions/FloatingActions';
 import { QuickActions } from './StreamActions/QuickActions';
 
@@ -56,18 +56,22 @@ export const LiveStreamPanel = ({
       {statusStreamingVideo === STATUS_ERROR && (
         <Typography variant="body2">{t('errorNoStreaming')}</Typography>
       )}
-      {mediaMtx.isInitialized && mediaMtx.hasError && (
-        <Typography variant="body2">{t('errorTmpMediaMtx')}</Typography>
+      {mediaMtx.state === StateStreaming.WITH_ERROR && (
+        <Stack spacing={4}>
+          <Loader />
+          <Typography variant="body2">{t('errorTmpMediaMtx')}</Typography>
+        </Stack>
       )}
-      {mediaMtx.isStopped && (
+      {mediaMtx.state === StateStreaming.STOPPED && (
         <Typography variant="body2">{t('errorFinalMediaMtx')}</Typography>
       )}
       {(statusStreamingVideo === STATUS_LOADING ||
         (statusStreamingVideo === STATUS_SUCCESS &&
-          !mediaMtx.isInitialized)) && (
-        <div>
+          mediaMtx.state === StateStreaming.IN_CREATION)) && (
+        <Stack spacing={4}>
           <Loader />
-        </div>
+          <Typography variant="body2">{t('loadingVideo')}</Typography>
+        </Stack>
       )}
       {statusStreamingVideo === STATUS_SUCCESS && (
         <>
@@ -80,10 +84,13 @@ export const LiveStreamPanel = ({
                 background: '#1e1e1e',
                 width: '100%',
                 height: '100%',
-                display: mediaMtx.isInitialized ? 'inline' : 'none',
+                display:
+                  mediaMtx.state === StateStreaming.IS_STREAMING
+                    ? 'inline'
+                    : 'none',
               }}
             />
-            {mediaMtx.isInitialized && (
+            {mediaMtx.state === StateStreaming.IS_STREAMING && (
               <FloatingActions
                 cameraIp={ip}
                 cameraType={camera?.type}
@@ -91,7 +98,7 @@ export const LiveStreamPanel = ({
               />
             )}
           </div>
-          {hasRotation && mediaMtx.isInitialized && (
+          {hasRotation && mediaMtx.state === StateStreaming.IS_STREAMING && (
             <QuickActions
               cameraIp={ip}
               poses={camera.poses ?? []}
