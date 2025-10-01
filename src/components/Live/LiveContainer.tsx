@@ -1,4 +1,4 @@
-import { Button, Grid, Stack, Typography } from '@mui/material';
+import { Grid, Stack, Typography } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useMemo, useState } from 'react';
 
@@ -21,10 +21,9 @@ import { calculateLiveStreamingUrl, calculateSiteUrl } from '@/utils/live';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
 import { useDataSitesLive } from './hooks/useDataSitesLive';
-import { LiveAlertInfos as LiveAlertInfos } from './LiveContent/AlertInfos/LiveAlertInfos';
+import { HeadRow } from './LiveContent/HeadRow/HeadRow';
 import { LiveControlPanel } from './LiveContent/LiveControlPanel';
 import { LiveStreamPanel } from './LiveContent/LiveStreamPanel';
-import { LiveWarningCounter } from './LiveContent/LiveWarningCounter';
 
 interface LiveContainerProps {
   onClose: () => void;
@@ -48,6 +47,7 @@ export const LiveContainer = ({
   const [selectedSite, setSelectedSite] = useState<SiteType | null>(null);
   const [selectedCameraId, setSelectedCameraId] = useState<number | null>(null);
   const isFetchFromSiteEnabled = !!selectedSite;
+
   const selectedCamera = useMemo(() => {
     return selectedSite?.cameras.find((c) => c.id === selectedCameraId) ?? null;
   }, [selectedCameraId, selectedSite]);
@@ -88,42 +88,38 @@ export const LiveContainer = ({
     },
   });
 
+  const isStreamingLaunched =
+    statusSitesFetch == STATUS_SUCCESS &&
+    statusCamerasFetchFromSite == STATUS_SUCCESS &&
+    !!selectedSite;
+
   return (
-    <>
-      {statusSitesFetch == STATUS_SUCCESS &&
-      statusCamerasFetchFromSite == STATUS_SUCCESS &&
-      selectedSite ? (
-        <Stack>
-          <LiveWarningCounter onClose={onClose} />
-          <Grid container p={2} spacing={2} flexGrow={1}>
-            <Grid size={9}>
-              <LiveStreamPanel
-                urlStreaming={urlStreaming}
-                camera={selectedCamera}
-                startStreamingVideo={startStreamingVideo}
-                stopStreamingVideo={stopStreamingVideo}
-                statusStreamingVideo={statusStreamingVideo}
-              />
-            </Grid>
-            <Grid size={3}>
-              {targetSequence && <LiveAlertInfos sequence={targetSequence} />}
-              <LiveControlPanel
-                sites={sites}
-                selectedSite={selectedSite}
-                setSelectedSite={setSelectedSite}
-                selectedCamera={selectedCamera}
-                setSelectedCameraId={setSelectedCameraId}
-              />
-            </Grid>
+    <Stack>
+      <HeadRow onClose={onClose} isCounting={isStreamingLaunched} />
+      {isStreamingLaunched ? (
+        <Grid container p={2} spacing={2} flexGrow={1}>
+          <Grid size={9}>
+            <LiveStreamPanel
+              urlStreaming={urlStreaming}
+              camera={selectedCamera}
+              startStreamingVideo={startStreamingVideo}
+              stopStreamingVideo={stopStreamingVideo}
+              statusStreamingVideo={statusStreamingVideo}
+            />
           </Grid>
-        </Stack>
+          <Grid size={3}>
+            <LiveControlPanel
+              sites={sites}
+              selectedSite={selectedSite}
+              setSelectedSite={setSelectedSite}
+              selectedCamera={selectedCamera}
+              setSelectedCameraId={setSelectedCameraId}
+              targetSequence={targetSequence}
+            />
+          </Grid>
+        </Grid>
       ) : (
-        <Stack spacing={2}>
-          <div style={{ alignSelf: 'end', padding: '8px' }}>
-            <Button variant="outlined" color="primary" onClick={onClose}>
-              {t('buttonClose')}
-            </Button>
-          </div>
+        <Stack m={6}>
           {(statusSitesFetch == STATUS_LOADING ||
             (isFetchFromSiteEnabled &&
               statusCamerasFetchFromSite == STATUS_LOADING)) && <Loader />}
@@ -138,6 +134,6 @@ export const LiveContainer = ({
           )}
         </Stack>
       )}
-    </>
+    </Stack>
   );
 };

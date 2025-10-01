@@ -1,15 +1,22 @@
-import ExploreIcon from '@mui/icons-material/Explore';
+import ExploreOutlinedIcon from '@mui/icons-material/ExploreOutlined';
+import SearchIcon from '@mui/icons-material/Search';
 import SpeedIcon from '@mui/icons-material/Speed';
 import {
   Button,
   ButtonGroup,
   Divider,
+  IconButton,
+  InputAdornment,
+  OutlinedInput,
   Stack,
   Tooltip,
+  Typography,
   useTheme,
 } from '@mui/material';
+import { useState } from 'react';
 
-import { moveCamera } from '@/services/live';
+import { moveCamera, moveCameraToAAzimuth } from '@/services/live';
+import { getMoveToAzimuth, isAzimuthValid } from '@/utils/live';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
 interface QuickActionsProps {
@@ -29,9 +36,26 @@ export const QuickActions = ({
 }: QuickActionsProps) => {
   const theme = useTheme();
   const { t } = useTranslationPrefix('live');
+  const [azimuthToGo, setAzimuthToGo] = useState<string>('');
+  const isAzimuthToGoInvalid = !isAzimuthValid(azimuthToGo);
 
   const onClickDirection = (pose: number) => {
     void moveCamera(cameraIp, undefined, undefined, pose, undefined);
+  };
+
+  const onClickAzimuth = () => {
+    const azimuthToGoInt = Number(azimuthToGo);
+    if (!Number.isNaN(azimuthToGoInt)) {
+      const moveToDo = getMoveToAzimuth(azimuthToGoInt, azimuths, poses);
+      if (moveToDo) {
+        void moveCameraToAAzimuth(
+          cameraIp,
+          moveToDo.pose,
+          moveToDo.diffAzimuth,
+          moveToDo.direction
+        );
+      }
+    }
   };
 
   return (
@@ -54,17 +78,39 @@ export const QuickActions = ({
         </Stack>
       </Tooltip>
 
-      <Tooltip title={t('tooltipAzimuths')}>
+      <Tooltip title={t('tooltipPrerecordedAzimuths')}>
         <Stack direction="row" spacing={2} alignItems="center">
-          <ExploreIcon />
+          <ExploreOutlinedIcon />
           <ButtonGroup>
             {poses.map((pose, index) => (
               <Button key={pose} onClick={() => onClickDirection(pose)}>
-                {azimuths[index]}°
+                <Typography p="2px">{azimuths[index]}°</Typography>
               </Button>
             ))}
           </ButtonGroup>
         </Stack>
+      </Tooltip>
+      <Tooltip title={t('tooltipCustomAzimuths')}>
+        <OutlinedInput
+          value={azimuthToGo}
+          size="small"
+          sx={{ width: '105px', paddingRight: 0 }}
+          endAdornment={
+            <InputAdornment position="end">
+              <p>°</p>
+              <IconButton
+                disabled={!azimuthToGo || isAzimuthToGoInvalid}
+                onClick={onClickAzimuth}
+              >
+                <SearchIcon />
+              </IconButton>
+            </InputAdornment>
+          }
+          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+            setAzimuthToGo(event.target.value);
+          }}
+          error={isAzimuthToGoInvalid}
+        />
       </Tooltip>
     </Stack>
   );

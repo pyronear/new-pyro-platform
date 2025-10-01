@@ -1,4 +1,4 @@
-import Alert from '@mui/material/Alert';
+import { Box, useTheme } from '@mui/material';
 
 import {
   formatAzimuth,
@@ -15,8 +15,13 @@ interface LiveAlertInfosProps {
 }
 export const LiveAlertInfos = ({ sequence }: LiveAlertInfosProps) => {
   const { t } = useTranslationPrefix('alerts');
+  const theme = useTheme();
   return (
-    <Alert severity="error" sx={{ m: 0, textAlign: 'left' }} icon={false}>
+    <Box
+      border={`1px solid ${theme.palette.grey[400]}`}
+      p={1.5}
+      borderRadius={1}
+    >
       <LiveAlertInfosSection title={t('subtitleDate')}>
         {formatToDateTime(sequence.startedAt)}
       </LiveAlertInfosSection>
@@ -26,6 +31,6 @@ export const LiveAlertInfos = ({ sequence }: LiveAlertInfosProps) => {
       <LiveAlertInfosSection title={t('subtitleLocalisation')}>
         {formatPosition(sequence.camera?.lat, sequence.camera?.lon)}
       </LiveAlertInfosSection>
-    </Alert>
+    </Box>
   );
 };

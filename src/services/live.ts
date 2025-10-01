@@ -138,6 +138,17 @@ export const moveCamera = async (
     });
 };
 
+export const moveCameraToAAzimuth = async (
+  cameraIp: string,
+  poseId: number,
+  degrees: number,
+  direction: CameraDirectionType
+) => {
+  return moveCamera(cameraIp, undefined, undefined, poseId, undefined).then(
+    () => moveCamera(cameraIp, direction, undefined, undefined, degrees)
+  );
+};
+
 export const stopCamera = async (cameraIp: string): Promise<void> => {
   return liveInstance
     .post(`/control/stop/${cameraIp}`)
