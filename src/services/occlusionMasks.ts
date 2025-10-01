@@ -187,12 +187,6 @@ export const getHighestConfidenceDetection = (
     });
   });
 
-  console.log(
-    'Final highest confidence:',
-    highestConfidence,
-    'Detection:',
-    highestDetection
-  );
   return highestDetection;
 };
 
@@ -202,11 +196,8 @@ export const getHighestConfidenceDetection = (
 export const getHighestConfidenceBbox = (
   detection: DetectionType
 ): BboxType | null => {
-  console.log('Processing detection for highest bbox:', detection.bboxes);
   const bboxes = parseBboxes(detection.bboxes);
-  console.log('Parsed bboxes:', bboxes);
   if (bboxes.length === 0) {
-    console.log('No bboxes found after parsing');
     return null;
   }
 
@@ -214,7 +205,6 @@ export const getHighestConfidenceBbox = (
     (highest, current) =>
       current.confidence >= highest.confidence ? current : highest // Use >= to handle 0 confidence
   );
-  console.log('Highest confidence bbox:', highest);
   return highest;
 };
 
