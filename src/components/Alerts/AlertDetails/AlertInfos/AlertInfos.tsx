@@ -1,7 +1,9 @@
+import PictureInPictureAltIcon from '@mui/icons-material/PictureInPictureAlt';
 import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 import { Button, Divider, Grid, Typography } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import { useTheme } from '@mui/material/styles';
+import { useState } from 'react';
 
 import {
   countUnlabelledSequences,
@@ -13,6 +15,7 @@ import { formatToDateTime } from '@/utils/dates';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
 import { SequenceLabelContainer } from '../../AlertLabel/SequenceLabelContainer';
+import { OcclusionMaskModal } from '../../OcclusionMaskModal/OcclusionMaskModal';
 import { AlertInfosSection } from './AlertInfosSection';
 import AlertMap from './AlertMap';
 
@@ -31,6 +34,7 @@ export const AlertInfos = ({
 }: AlertInfosType) => {
   const theme = useTheme();
   const { t } = useTranslationPrefix('alerts');
+  const [isOcclusionModalOpen, setIsOcclusionModalOpen] = useState(false);
 
   return (
     <Paper
@@ -88,6 +92,14 @@ export const AlertInfos = ({
                 {t('buttonInvestigate')}
               </Button>
             )}
+            <Button
+              color="secondary"
+              variant="outlined"
+              startIcon={<PictureInPictureAltIcon />}
+              onClick={() => setIsOcclusionModalOpen(true)}
+            >
+              {t('occlusionMask.buttonManageMasks')}
+            </Button>
             <SequenceLabelContainer
               sequence={sequence}
               isLiveMode={isLiveMode}
@@ -102,6 +114,11 @@ export const AlertInfos = ({
           </Grid>
         </Grid>
       </Grid>
+      <OcclusionMaskModal
+        open={isOcclusionModalOpen}
+        onClose={() => setIsOcclusionModalOpen(false)}
+        sequence={sequence}
+      />
     </Paper>
   );
 };
