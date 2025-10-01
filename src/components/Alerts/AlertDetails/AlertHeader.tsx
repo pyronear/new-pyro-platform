@@ -1,13 +1,6 @@
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import {
-  Grid,
-  IconButton,
-  MenuItem,
-  Select,
-  type SelectChangeEvent,
-  Stack,
-  Typography,
-} from '@mui/material';
+import { IconButton, Stack, Typography } from '@mui/material';
+import type { Dispatch, SetStateAction } from 'react';
 
 import smallLogo from '@/assets/small-logo.png';
 import {
@@ -18,15 +11,16 @@ import { useIsMobile } from '@/utils/useIsMobile';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
 import { SequenceLabelContainer } from '../AlertLabel/SequenceLabelContainer';
+import { SequenceSelector } from './SequenceSelector';
 
 interface AlertHeaderType {
   isLiveMode: boolean;
   invalidateAndRefreshData: () => void;
   sequences: SequenceWithCameraInfoType[];
   selectedSequence: SequenceWithCameraInfoType;
-  setSelectedSequence: (
-    newSelectedSequence: SequenceWithCameraInfoType
-  ) => void;
+  setSelectedSequence: Dispatch<
+    SetStateAction<SequenceWithCameraInfoType | null>
+  >;
   resetAlert: () => void;
 }
 
@@ -43,34 +37,10 @@ export const AlertHeader = ({
 
   const camera = selectedSequence.camera;
 
-  const handleChange = (event: SelectChangeEvent) => {
-    const newSelectedSequence = sequences.find(
-      (sequence) => sequence.id.toString() == event.target.value
-    );
-    if (newSelectedSequence) {
-      setSelectedSequence(newSelectedSequence);
-    }
-  };
-
   const Title = (
     <Typography variant="h1">
-      {t('titleSectionCamera')} {camera?.name ?? t('defaultCameraName')}
-      {camera?.angle_of_view && ` (${camera.angle_of_view.toString()}°)`}
+      {camera?.name ?? t('defaultCameraName')}
     </Typography>
-  );
-
-  const SequenceSelector = (
-    <Select
-      value={selectedSequence.id.toString()}
-      onChange={handleChange}
-      sx={{ height: 24, minWidth: isMobile ? 200 : 50 }}
-    >
-      {sequences.map((sequence) => (
-        <MenuItem key={sequence.id} value={sequence.id}>
-          {sequence.camera?.name}
-        </MenuItem>
-      ))}
-    </Select>
   );
 
   const SequenceLabel = (
@@ -82,26 +52,33 @@ export const AlertHeader = ({
     />
   );
 
+  const SequenceSelectorComponent = sequences.length > 1 && (
+    <SequenceSelector
+      sequences={sequences}
+      setSelectedSequence={setSelectedSequence}
+      selectedSequence={selectedSequence}
+    />
+  );
+
   return (
     <>
       {isMobile ? (
-        <Grid container direction="row" alignItems="center" spacing={1}>
-          <Grid size="auto">
+        <Stack spacing={1}>
+          <Stack direction="row" spacing={1} justifyContent="space-between">
             <IconButton
               aria-label={t('titleButtonBackAlt')}
               onClick={resetAlert}
             >
               <ArrowBackIcon />
             </IconButton>
-          </Grid>
-          <Grid size="grow">
-            <Stack direction="column" spacing={1} alignItems="start">
-              {Title}
-              {SequenceLabel}
-              {SequenceSelector}
-            </Stack>
-          </Grid>
-        </Grid>
+            {SequenceSelectorComponent}
+          </Stack>
+
+          <Stack direction="row" flexWrap="wrap" spacing={2}>
+            {Title}
+            {SequenceLabel}
+          </Stack>
+        </Stack>
       ) : (
         <Stack
           direction="row"
@@ -114,7 +91,7 @@ export const AlertHeader = ({
             {Title}
             {SequenceLabel}
           </Stack>
-          {SequenceSelector}
+          {SequenceSelectorComponent}
         </Stack>
       )}
     </>

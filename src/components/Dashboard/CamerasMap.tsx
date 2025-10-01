@@ -4,18 +4,19 @@ import { useMemo } from 'react';
 import { Fragment } from 'react/jsx-runtime';
 import { MapContainer, TileLayer } from 'react-leaflet';
 
+import type { CameraType } from '@/services/camera';
 import {
   buildPolygonsFromCamera,
   type CameraFullInfosType,
 } from '@/utils/camera';
 
-import type { CameraType } from '../../services/camera';
 import CameraMarkerMap from '../Common/Map/CameraMarkerMap';
 import { CameraViewPolygon } from '../Common/Map/CameraViewPolygon';
 
 interface CameraMapProps {
   cameras: (CameraType | CameraFullInfosType)[];
   height?: string;
+  minHeight?: string;
   setMapRef?: (map: LeafletMap) => void;
   markerRefs?: RefObject<Map<number, LeafletMarker>>;
   onClickOnMarker?: (cameraId: number) => void;
@@ -24,6 +25,7 @@ interface CameraMapProps {
 export const CameraMap = ({
   cameras,
   height = '100%',
+  minHeight = undefined,
   setMapRef,
   markerRefs,
   onClickOnMarker,
@@ -53,7 +55,7 @@ export const CameraMap = ({
       bounds={bounds}
       key={bounds.toBBoxString()}
       boundsOptions={{ padding: [20, 20] }}
-      style={{ height, width: '100%', borderRadius: 4 }}
+      style={{ height, width: '100%', borderRadius: 4, minHeight }}
       ref={
         (m: LeafletMap) => {
           if (setMapRef) setMapRef(m);

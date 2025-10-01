@@ -16,14 +16,20 @@
   },
   "pages": {
     "dashboard": "Caméras",
-    "alerts": "Alertes",
-    "history": "Historique"
+    "alerts": "Alertes en cours",
+    "history": "Historique des alertes"
   },
   "topbar": {
     "menuLabel": "Menu"
   },
   "common": {
     "lastUpdate": "Dernière mise à jour :"
+  },
+  "errorPages": {
+    "title": "Oups !",
+    "notFoundMessage": "Nous n'avons pas trouvé la page que vous recherchez...",
+    "errorMessage": "Une erreur inattendue est survenue. Veuillez réessayer plus tard.",
+    "button": "Revenir à la page principale"
   },
   "dashboard": {
     "noCameraMessage": "Aucune caméra n'est associée avec votre organisation. Veuillez contacter l'administateur",
@@ -40,6 +46,7 @@
     "noAlertsMessage": "Aucune alerte détectée",
     "errorFetchSequencesMessage": "Une erreur inattendue est survenue. Veuillez réessayer plus tard.",
     "titleSectionCamera": "Caméra :",
+    "buttonChangeSequence": "Changer de caméra",
     "titleButtonBackAlt": "Retour à la liste",
     "defaultCameraName": "Caméra inconnue",
     "buttonImageDownload": "Télécharger",
@@ -99,6 +106,12 @@
     "errorCallSite": "Une erreur s'est produite lors de la connexion au site. Veuillez réessayer plus tard.",
     "siteField": "Site",
     "buttonClose": "Fermer la levée de doute",
-    "alertMessage": "Levée de doute en cours : détection inactive depuis {{timeSpent}}"
+    "alertMessage": "Levée de doute en cours: détection inactive depuis {{timeSpent}}",
+    "errorNoStreaming": "Une erreur inattendue est survenue. Veuillez réessayer plus tard.",
+    "errorTmpMediaMtx": "Flux vidéo interrompu. Veuillez patienter.",
+    "errorFinalMediaMtx": "Flux vidéo en erreur. Veuillez réessayer plus tard.",
+    "loadingVideo": "Chargement de la vidéo...",
+    "tooltipSpeed": "Vitesse de déplacément de la caméra",
+    "tooltipAzimuths": "Azimuths pré-enregistrés de la caméra"
   }
 }

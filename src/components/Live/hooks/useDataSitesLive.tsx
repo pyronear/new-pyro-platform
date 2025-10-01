@@ -5,14 +5,7 @@ import { useAuth } from '@/context/useAuth';
 import { STATUS_ERROR, STATUS_LOADING, STATUS_SUCCESS } from '@/services/axios';
 import { getCameraList } from '@/services/camera';
 import { getLiveAccess, getSitesInfos } from '@/services/live';
-import type { CameraFullInfosType } from '@/utils/camera';
-
-export interface SiteType {
-  id: string;
-  ip: string;
-  label: string;
-  cameras: CameraFullInfosType[];
-}
+import type { SiteType } from '@/utils/camera';
 
 export const useDataSitesLive = () => {
   const auth = useAuth();
@@ -39,7 +32,7 @@ export const useDataSitesLive = () => {
       .filter((s) => liveAccess?.includes(s.id));
   }, [liveAccess, sitesInfos, cameraList]);
 
-  const status = useMemo(() => {
+  const statusSitesFetch = useMemo(() => {
     if (
       statusLiveAccess == STATUS_SUCCESS &&
       statusSitesInfos == STATUS_SUCCESS &&
@@ -57,5 +50,5 @@ export const useDataSitesLive = () => {
     return STATUS_ERROR;
   }, [statusLiveAccess, statusSitesInfos, statusCameras]);
 
-  return { sites, status };
+  return { sites, statusSitesFetch };
 };

@@ -16,14 +16,20 @@
   },
   "pages": {
     "dashboard": "Panel de cámaras",
-    "alerts": "Alertas",
-    "history": "Histórico"
+    "alerts": "Alertas en vivo",
+    "history": "Histórico de alertas"
   },
   "topbar": {
     "menuLabel": "Menú"
   },
   "common": {
     "lastUpdate": "Última actualización:"
+  },
+  "errorPages": {
+    "title": "¡Ups!",
+    "notFoundMessage": "No hemos podido encontrar la página que buscas...",
+    "errorMessage": "Se ha producido un error. Vuelva a intentarlo más tarde.",
+    "button": "Ir a la página de inicio"
   },
   "dashboard": {
     "noCameraMessage": "No hay ninguna cámara asociada a su organización. Póngase en contacto con el administrador",
@@ -39,8 +45,9 @@
     "prefixCardDetection": "Detectada por :",
     "noAlertsMessage": "Ninguna alerta detectada",
     "errorFetchSequencesMessage": "Se ha producido un error. Vuelva a intentarlo más tarde.",
-    "titleSectionCamera": "Camera:",
-    "defaultCameraName": "Camera desconocida",
+    "titleSectionCamera": "Camára:",
+    "buttonChangeSequence": "Cambiar de camára",
+    "defaultCameraName": "Camára desconocida",
     "buttonImageDownload": "Descargar",
     "buttonPlay": "Play",
     "buttonPause": "Pause",
@@ -99,6 +106,12 @@
     "errorCallSite": "Se ha producido un error al conectarse al sitio. Inténtelo de nuevo más tarde.",
     "siteField": "Sitio",
     "buttonClose": "Cerrar la transmisión en vivo",
-    "alertMessage": "Transmisión en vivo en curso: detección inactiva desde {{timeSpent}}"
+    "alertMessage": "Transmisión en vivo en curso: detección inactiva desde {{timeSpent}}",
+    "errorNoStreaming": "Se ha producido un error. Vuelva a intentarlo más tarde.",
+    "errorTmpMediaMtx": "Interrupción del flujo de vídeo. Por favor, espere",
+    "errorFinalMediaMtx": "El streaming de vídeo ha fallado. Inténtalo de nuevo más tarde.",
+    "loadingVideo": "Cargando vídeo...",
+    "tooltipSpeed": "Velocidad de desplazamiento de la cámara",
+    "tooltipAzimuths": "Azimuts pregrabados de la cámara"
   }
 }

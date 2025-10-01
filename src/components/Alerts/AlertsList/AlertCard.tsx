@@ -9,10 +9,11 @@ import {
 } from '@mui/material';
 import Card from '@mui/material/Card';
 
-import type { AlertType } from '../../../utils/alerts';
-import { formatToDate, formatToTime } from '../../../utils/dates';
-import { useTranslationPrefix } from '../../../utils/useTranslationPrefix';
-import { CameraName } from '../../Common/CameraName';
+import { type AlertType, formatAzimuth } from '@//utils/alerts';
+import { formatToDate, formatToTime } from '@//utils/dates';
+import { CameraName } from '@/components/Common/Camera/CameraName';
+import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
+
 import { SequenceLabelChip } from '../AlertLabel/SequenceLabelChip';
 import { AlertStartedTimeAgo } from './AlertStartedTimeAgo';
 
@@ -71,39 +72,35 @@ export const AlertCard = ({
             <Typography variant="h3">{t('prefixCardDetection')}</Typography>
           </Stack>
           {alert.sequences.map((sequence) => (
-            <Grid
-              container
+            <Stack
+              direction="row"
               key={sequence.id}
               justifyContent="space-between"
               alignItems="center"
             >
-              <Grid>
-                <Stack direction="row" spacing={1} alignItems="center">
-                  <SequenceLabelChip
-                    isSmall
-                    labelWildfire={sequence.labelWildfire}
-                  />
-                  {sequence.camera && (
-                    <CameraName
-                      name={sequence.camera.name}
-                      angle_of_view={sequence.camera.angle_of_view}
-                    />
-                  )}
-                </Stack>
-              </Grid>
-              <Grid flexGrow={1}>
-                <Stack direction="row" spacing={1} justifyContent="end">
-                  {sequence.azimuth != null && (
-                    <Typography variant="caption" fontWeight={500}>
-                      {sequence.azimuth}°
-                    </Typography>
-                  )}
-                  <Typography variant="caption">
-                    {formatToTime(alert.startedAt)}
-                  </Typography>
-                </Stack>
-              </Grid>
-            </Grid>
+              <Stack direction="row" spacing={1} alignItems="center">
+                <SequenceLabelChip
+                  isSmall
+                  labelWildfire={sequence.labelWildfire}
+                />
+                {sequence.camera && <CameraName camera={sequence.camera} />}
+              </Stack>
+
+              <Stack
+                direction="row"
+                spacing={1}
+                justifyContent="end"
+                flexGrow={1}
+              >
+                <Typography variant="caption" fontWeight={500}>
+                  {formatAzimuth(sequence.coneAzimuth)}
+                </Typography>
+
+                <Typography variant="caption">
+                  {formatToTime(alert.startedAt)}
+                </Typography>
+              </Stack>
+            </Stack>
           ))}
         </CardContent>
       </CardActionArea>

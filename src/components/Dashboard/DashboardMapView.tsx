@@ -8,7 +8,7 @@ import { useEffect, useRef, useState } from 'react';
 
 import type { CameraType } from '../../services/camera';
 import { useIsMobile } from '../../utils/useIsMobile';
-import { CameraCard } from './CameraCard';
+import { CameraCard } from './CameraCard/CameraCard';
 import CamerasMap from './CamerasMap';
 
 interface ViewMapProps {
@@ -60,7 +60,7 @@ export const DashboardMapView = ({ cameraList }: ViewMapProps) => {
             <CameraCard
               key={camera.id}
               camera={camera}
-              isHorizontal
+              isSelectable
               isSelected={camera.id === selectedCameraId}
               setSelected={() => setSelectedCameraId(camera.id)}
               ref={(el: HTMLDivElement | null) => {

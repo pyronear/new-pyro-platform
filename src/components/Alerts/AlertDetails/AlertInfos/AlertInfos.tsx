@@ -5,6 +5,8 @@ import { useTheme } from '@mui/material/styles';
 
 import {
   countUnlabelledSequences,
+  formatAzimuth,
+  formatPosition,
   type SequenceWithCameraInfoType,
 } from '@/utils/alerts';
 import { formatToDateTime } from '@/utils/dates';
@@ -60,11 +62,10 @@ export const AlertInfos = ({
               {formatToDateTime(sequence.startedAt)}
             </AlertInfosSection>
             <AlertInfosSection title={t('subtitleAzimuth')}>
-              {sequence.azimuth ? `${sequence.azimuth.toString()}°` : ''}
+              {formatAzimuth(sequence.coneAzimuth, 1)}
             </AlertInfosSection>
             <AlertInfosSection title={t('subtitleLocalisation')}>
-              {sequence.camera?.lat && `${sequence.camera.lat.toString()}, `}
-              {sequence.camera?.lon.toString()}
+              {formatPosition(sequence.camera?.lat, sequence.camera?.lon)}
             </AlertInfosSection>
           </Grid>
           <Grid container flexGrow={1} minHeight={200}>
