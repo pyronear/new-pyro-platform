@@ -6,6 +6,7 @@ import { useTheme } from '@mui/material/styles';
 import { useState } from 'react';
 
 import {
+  type AlertType,
   countUnlabelledSequences,
   formatAzimuth,
   formatPosition,
@@ -23,14 +24,14 @@ interface AlertInfosType {
   isLiveMode: boolean;
   invalidateAndRefreshData: () => void;
   sequence: SequenceWithCameraInfoType;
-  sequences: SequenceWithCameraInfoType[];
+  alert: AlertType;
 }
 
 export const AlertInfos = ({
   isLiveMode,
   invalidateAndRefreshData,
   sequence,
-  sequences,
+  alert,
 }: AlertInfosType) => {
   const theme = useTheme();
   const { t } = useTranslationPrefix('alerts');
@@ -68,12 +69,17 @@ export const AlertInfos = ({
             <AlertInfosSection title={t('subtitleAzimuth')}>
               {formatAzimuth(sequence.coneAzimuth, 1)}
             </AlertInfosSection>
-            <AlertInfosSection title={t('subtitleLocalisation')}>
+            <AlertInfosSection title={t('subtitleCameraLocalisation')}>
               {formatPosition(sequence.camera?.lat, sequence.camera?.lon)}
             </AlertInfosSection>
+            {alert.eventSmokeLocation && (
+              <AlertInfosSection title={t('subtitleSmokeLocalisation')}>
+                {formatPosition(...alert.eventSmokeLocation)}
+              </AlertInfosSection>
+            )}
           </Grid>
           <Grid container flexGrow={1} minHeight={200}>
-            <AlertMap sequences={sequences} />
+            <AlertMap alert={alert} />
           </Grid>
           <Grid container spacing={2} direction="column">
             {isLiveMode && (
@@ -104,7 +110,9 @@ export const AlertInfos = ({
               sequence={sequence}
               isLiveMode={isLiveMode}
               invalidateAndRefreshData={invalidateAndRefreshData}
-              nbSequencesToBeLabelled={countUnlabelledSequences(sequences)}
+              nbSequencesToBeLabelled={countUnlabelledSequences(
+                alert.sequences
+              )}
               renderCustomButton={(onClick) => (
                 <Button color="secondary" variant="contained" onClick={onClick}>
                   {t(isLiveMode ? 'buttonTreatAlert' : 'buttonModifyAlert')}

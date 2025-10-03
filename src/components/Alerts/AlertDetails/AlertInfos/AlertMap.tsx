@@ -7,11 +7,12 @@ import { MapContainer, TileLayer } from 'react-leaflet';
 
 import CameraMarkerMap from '@/components/Common/Map/CameraMarkerMap';
 import { CameraViewPolygon } from '@/components/Common/Map/CameraViewPolygon';
-import type { SequenceWithCameraInfoType } from '@/utils/alerts';
+import FirePositionMarkerMap from '@/components/Common/Map/FirePositionMarkerMap';
+import type { AlertType, SequenceWithCameraInfoType } from '@/utils/alerts';
 import { buildVisionPolygon, DEFAULT_CAM_RANGE_KM } from '@/utils/cameraVision';
 
 interface AlertMap {
-  sequences: SequenceWithCameraInfoType[];
+  alert: AlertType;
   height?: number | string;
 }
 
@@ -19,7 +20,7 @@ type SequenceWithCamera = SequenceWithCameraInfoType & {
   camera: NonNullable<SequenceWithCameraInfoType['camera']>;
 };
 
-const AlertMap = ({ sequences, height = '100%' }: AlertMap) => {
+const AlertMap = ({ alert, height = '100%' }: AlertMap) => {
   const [fullScreen, setFullScreen] = useState(false);
 
   useEffect(() => {
@@ -39,7 +40,7 @@ const AlertMap = ({ sequences, height = '100%' }: AlertMap) => {
   }, [fullScreen]);
 
   const sequencesWithPolygons = useMemo(() => {
-    return sequences
+    return alert.sequences
       .filter((seq): seq is SequenceWithCamera => seq.camera !== null)
       .map((seq) => ({
         ...seq,
@@ -51,7 +52,7 @@ const AlertMap = ({ sequences, height = '100%' }: AlertMap) => {
           DEFAULT_CAM_RANGE_KM
         ),
       }));
-  }, [sequences]);
+  }, [alert]);
 
   const allPolygonPoints = sequencesWithPolygons.flatMap((seq) =>
     seq.visionPolygonPoints.map((point) => [point.lat, point.lng])
@@ -76,7 +77,7 @@ const AlertMap = ({ sequences, height = '100%' }: AlertMap) => {
     >
       <MapContainer
         bounds={allPolygonPoints as L.LatLngBoundsExpression}
-        key={sequences.map((s) => s.id).join(',')} // map is not recentered when a new alert is shown (because bounds don't update automatically) so we use key to force a re-render
+        key={alert.sequences.map((s) => s.id).join(',')} // map is not recentered when a new alert is shown (because bounds don't update automatically) so we use key to force a re-render
         boundsOptions={{ padding: [20, 20] }}
         style={{ height: '100%', width: '100%', borderRadius: 4 }}
       >
@@ -94,6 +95,9 @@ const AlertMap = ({ sequences, height = '100%' }: AlertMap) => {
             </div>
           );
         })}
+        {sequencesWithPolygons.length > 1 && (
+          <FirePositionMarkerMap alert={alert} />
+        )}
       </MapContainer>
       <Box
         sx={{
