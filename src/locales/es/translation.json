@@ -92,6 +92,19 @@
         "multipleSequences": "La detección está etiquetada, procese las demás detecciones para reconocer la alerta."
       },
       "saveErrorMessage": "Se ha producido un error, por favor, inténtelo de nuevo"
+    },
+    "occlusionMask": {
+      "title": "Gestionar máscaras de oclusión",
+      "loading": "Cargando datos de detección...",
+      "confirmZoneText": "Confirmar la zona de oclusión",
+      "explanationText": "Las máscaras de oclusión ocultan áreas que generan falsos positivos recurrentes. La zona verde muestra la nueva máscara propuesta. Las zonas rojas muestran las máscaras existentes.",
+      "confirmButton": "Confirmar selección",
+      "deleteAllButton": "Eliminar zonas de oclusión",
+      "cancelButton": "Cancelar",
+      "buttonManageMasks": "Gestionar máscaras de oclusión",
+      "detectionImageAlt": "Detección",
+      "deleting": "Eliminando...",
+      "adding": "Agregando..."
     }
   },
   "history": {

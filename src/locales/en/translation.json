@@ -92,6 +92,19 @@
         "multipleSequences": "The detection is labelled, process the other detections to acknowledge the alert."
       },
       "saveErrorMessage": "An error has occurred, please try again"
+    },
+    "occlusionMask": {
+      "title": "Manage occlusion masks",
+      "loading": "Loading detection data...",
+      "confirmZoneText": "Confirm the occlusion zone",
+      "explanationText": "Occlusion masks hide areas that generate recurring false positives. The green zone shows the proposed new mask. Red zones show existing masks.",
+      "confirmButton": "Confirm Selection",
+      "deleteAllButton": "Delete occlusion zones",
+      "cancelButton": "Cancel",
+      "buttonManageMasks": "Manage occlusion masks",
+      "detectionImageAlt": "Detection",
+      "deleting": "Deleting...",
+      "adding": "Adding..."
     }
   },
   "history": {
