@@ -49,6 +49,8 @@
     "buttonChangeSequence": "Cambiar de camára",
     "defaultCameraName": "Camára desconocida",
     "buttonImageDownload": "Descargar",
+    "buttonImageDownloadOne": "Descargar la imagen actual",
+    "buttonImageDownloadAll": "Descargar todas las imágenes",
     "buttonPlay": "Play",
     "buttonPause": "Pause",
     "errorFetchImagesMessage": "Se ha producido un error. Vuelva a intentarlo más tarde.",

@@ -50,6 +50,8 @@
     "titleButtonBackAlt": "Retour à la liste",
     "defaultCameraName": "Caméra inconnue",
     "buttonImageDownload": "Télécharger",
+    "buttonImageDownloadOne": "Télécharger l'image actuelle",
+    "buttonImageDownloadAll": "Télécharger toutes les images",
     "buttonPlay": "Play",
     "buttonPause": "Pause",
     "errorFetchImagesMessage": "Une erreur inattendue est survenue. Veuillez réessayer plus tard.",

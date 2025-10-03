@@ -49,6 +49,8 @@
     "buttonChangeSequence": "Change camera",
     "defaultCameraName": "Unknown camera",
     "buttonImageDownload": "Download",
+    "buttonImageDownloadOne": "Download the current image",
+    "buttonImageDownloadAll": "Download all images",
     "buttonPlay": "Play",
     "buttonPause": "Pause",
     "errorFetchImagesMessage": "Something went wrong on our side. Please try again later.",

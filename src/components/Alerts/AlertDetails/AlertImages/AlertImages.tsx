@@ -1,5 +1,4 @@
 import DownloadIcon from '@mui/icons-material/Download';
-import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
@@ -8,7 +7,11 @@ import Typography from '@mui/material/Typography';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useCallback, useEffect, useState } from 'react';
 
-import { getDetectionsBySequence } from '@/services/alerts';
+import {
+  SplitButton,
+  type SplitButtonOption,
+} from '@/components/Common/SplitButton';
+import { type DetectionType, getDetectionsBySequence } from '@/services/alerts';
 import type { SequenceWithCameraInfoType } from '@/utils/alerts';
 import { formatToTime, isStrictlyAfter } from '@/utils/dates';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
@@ -22,6 +25,8 @@ interface AlertImagesType {
 export const AlertImages = ({ sequence }: AlertImagesType) => {
   const { t } = useTranslationPrefix('alerts');
   const [lastSeenAt, setLastSeenAt] = useState<string | null>(null);
+  const [currentDetection, setCurrentDetection] =
+    useState<DetectionType | null>(null);
   const queryClient = useQueryClient();
 
   const {
@@ -55,6 +60,30 @@ export const AlertImages = ({ sequence }: AlertImagesType) => {
     setLastSeenAt(newLastSeenAt);
   }, [invalidateAndRefreshData, lastSeenAt, sequence.lastSeenAt]);
 
+  const downloadCurrentImage = () => {
+    if (currentDetection) {
+      const link = document.createElement('a');
+      link.href = currentDetection.url;
+      link.download = 'true';
+      link.rel = 'noopener noreferrer';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  };
+
+  const downloadOptions: SplitButtonOption[] = [
+    {
+      label: t('buttonImageDownloadOne'),
+      onClick: downloadCurrentImage,
+    },
+    {
+      label: t('buttonImageDownloadAll'),
+      onClick: undefined,
+      disabled: true,
+    },
+  ];
+
   return (
     <Paper sx={{ height: '100% ', borderRadius: 6, padding: 2 }}>
       <Grid container direction="column" spacing={2}>
@@ -70,9 +99,12 @@ export const AlertImages = ({ sequence }: AlertImagesType) => {
             </Typography>
           </Grid>
           <Grid>
-            <Button disabled startIcon={<DownloadIcon />} variant="outlined">
-              {t('buttonImageDownload')}
-            </Button>
+            <SplitButton
+              label={t('buttonImageDownload')}
+              options={downloadOptions}
+              startIcon={<DownloadIcon />}
+              variant="outlined"
+            />
           </Grid>
         </Grid>
         <Divider flexItem />
@@ -93,6 +125,7 @@ export const AlertImages = ({ sequence }: AlertImagesType) => {
             <AlertImagesPlayer
               sequenceId={sequence.id}
               detections={detectionsList}
+              onSelectedDetectionChange={setCurrentDetection}
             />
           )}
         </Grid>
