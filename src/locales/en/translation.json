@@ -99,7 +99,10 @@
       "confirmButton": "Confirm Selection",
       "deleteAllButton": "Delete occlusion zones",
       "cancelButton": "Cancel",
-      "buttonManageMasks": "Manage occlusion masks"
+      "buttonManageMasks": "Manage occlusion masks",
+      "detectionImageAlt": "Detection",
+      "deleting": "Deleting...",
+      "adding": "Adding..."
     }
   },
   "history": {

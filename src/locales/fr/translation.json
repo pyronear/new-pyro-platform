@@ -99,7 +99,10 @@
       "confirmButton": "Confirmer la sélection",
       "deleteAllButton": "Supprimer les zones d'occlusion",
       "cancelButton": "Annuler",
-      "buttonManageMasks": "Gérer les masques d'occlusion"
+      "buttonManageMasks": "Gérer les masques d'occlusion",
+      "detectionImageAlt": "Détection",
+      "deleting": "Suppression...",
+      "adding": "Ajout..."
     }
   },
   "history": {

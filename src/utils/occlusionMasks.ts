@@ -93,7 +93,6 @@ export const getHighestConfidenceDetection = (
   detections.forEach((detection) => {
     const bboxes = parseBboxes(detection.bboxes);
     bboxes.forEach((bbox) => {
-      console.log('bbox confidence:', bbox.confidence);
       if (bbox.confidence >= highestConfidence) {
         // Use >= to handle 0 confidence
         highestConfidence = bbox.confidence;
