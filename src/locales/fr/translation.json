@@ -95,7 +95,7 @@
       "title": "Gérer les masques d'occlusion",
       "loading": "Chargement des données de détection...",
       "confirmZoneText": "Confirmer la zone d'occlusion",
-      "explanationText": "Les masques d'occlusion cachent les zones qui génèrent des faux positifs récurrents. La zone verte montre le nouveau masque proposé basé sur la détection avec la plus haute confiance (agrandie de 10%). Les zones rouges montrent les masques existants.",
+      "explanationText": "Les masques d'occlusion cachent les zones qui génèrent des faux positifs récurrents. La zone verte montre le nouveau masque proposé. Les zones rouges montrent les masques existants.",
       "confirmButton": "Confirmer la sélection",
       "deleteAllButton": "Supprimer les zones d'occlusion",
       "cancelButton": "Annuler",

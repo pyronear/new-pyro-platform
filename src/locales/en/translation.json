@@ -95,7 +95,7 @@
       "title": "Manage occlusion masks",
       "loading": "Loading detection data...",
       "confirmZoneText": "Confirm the occlusion zone",
-      "explanationText": "Occlusion masks hide areas that generate recurring false positives. The green zone shows the proposed new mask based on the highest confidence detection (enlarged by 10%). Red zones show existing masks.",
+      "explanationText": "Occlusion masks hide areas that generate recurring false positives. The green zone shows the proposed new mask. Red zones show existing masks.",
       "confirmButton": "Confirm Selection",
       "deleteAllButton": "Delete occlusion zones",
       "cancelButton": "Cancel",
