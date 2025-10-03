@@ -225,7 +225,7 @@ export const OcclusionMaskModal = ({
               }}
             >
               <Typography variant="body2" color="text.secondary">
-                Loading...
+                {t('loading')}
               </Typography>
             </Box>
           ) : (
@@ -244,7 +244,7 @@ export const OcclusionMaskModal = ({
               >
                 <img
                   src={imageUrl}
-                  alt="Detection"
+                  alt={t('detectionImageAlt')}
                   style={{
                     width: '100%',
                     height: 'auto',
@@ -279,7 +279,7 @@ export const OcclusionMaskModal = ({
             disabled={clearMasksMutation.isPending}
           >
             {clearMasksMutation.isPending
-              ? 'Deleting...'
+              ? t('deleting')
               : t('deleteAllButton')}
           </Button>
         )}
@@ -293,7 +293,7 @@ export const OcclusionMaskModal = ({
           variant="contained"
           disabled={!proposedBbox || addMaskMutation.isPending || isLoading}
         >
-          {addMaskMutation.isPending ? 'Adding...' : t('confirmButton')}
+          {addMaskMutation.isPending ? t('adding') : t('confirmButton')}
         </Button>
       </DialogActions>
     </Dialog>
