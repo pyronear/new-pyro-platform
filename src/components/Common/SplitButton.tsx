@@ -12,30 +12,33 @@ import { useRef, useState } from 'react';
 
 export interface SplitButtonOption {
   label: string;
-  onClick: () => void;
+  onClick?: () => void;
+  disabled?: boolean;
 }
 
 interface SplitButtonProps {
   options: SplitButtonOption[];
+  label: string;
   startIcon?: ReactElement;
   variant?: 'text' | 'outlined' | 'contained';
   size?: 'small' | 'medium' | 'large';
-  disabled?: boolean;
 }
 
 export const SplitButton = ({
   options,
+  label,
   startIcon,
   variant = 'outlined',
   size = 'medium',
-  disabled = false,
 }: SplitButtonProps) => {
   const [open, setOpen] = useState(false);
   const anchorRef = useRef<HTMLDivElement>(null);
 
   const handleMenuItemClick = (option: SplitButtonOption) => {
-    setOpen(false);
-    option.onClick();
+    if (option.onClick) {
+      setOpen(false);
+      option.onClick();
+    }
   };
 
   const handleToggle = () => {
@@ -58,12 +61,11 @@ export const SplitButton = ({
       <ButtonGroup
         variant={variant}
         ref={anchorRef}
-        aria-label="split button"
-        disabled={disabled}
+        aria-label={label}
         size={size}
       >
-        <Button startIcon={startIcon} onClick={() => options[0].onClick()}>
-          {options[0].label}
+        <Button startIcon={startIcon} onClick={handleToggle}>
+          {label}
         </Button>
         <Button
           size={'small'}
@@ -99,6 +101,7 @@ export const SplitButton = ({
                     <MenuItem
                       key={option.label}
                       onClick={() => handleMenuItemClick(option)}
+                      disabled={option.disabled ?? false}
                     >
                       {option.label}
                     </MenuItem>

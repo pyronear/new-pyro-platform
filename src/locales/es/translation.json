@@ -42,6 +42,7 @@
     "titleSectionCamera": "Camera:",
     "defaultCameraName": "Camera desconocida",
     "buttonImageDownload": "Descargar",
+    "buttonImageDownloadOne": "Descargar la imagen actual",
     "buttonImageDownloadAll": "Descargar todas las imágenes",
     "buttonPlay": "Play",
     "buttonPause": "Pause",

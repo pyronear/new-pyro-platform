@@ -12,7 +12,7 @@ import { DetectionImageWithBoundingBox } from './DetectionImageWithBoundingBox';
 interface AlertImagesPlayerType {
   sequenceId: number;
   detections: DetectionType[]; // Sorted
-  onSelectedDetectionChange?: (detection: DetectionType | null) => void;
+  onSelectedDetectionChange: (detection: DetectionType | null) => void;
 }
 
 const ALERTS_PLAY_INTERVAL_MILLISECONDS = import.meta.env
@@ -51,7 +51,7 @@ export const AlertImagesPlayer = ({
       newSelectedDetection = detections[indexSelectedDetection + 1];
     }
     setSelectedDetection(newSelectedDetection);
-    onSelectedDetectionChange?.(newSelectedDetection);
+    onSelectedDetectionChange(newSelectedDetection);
   }, [detections, selectedDetection, onSelectedDetectionChange]);
 
   useEffect(() => {
@@ -61,7 +61,7 @@ export const AlertImagesPlayer = ({
     if (detections.length > 0) {
       const minDetection = detections[0];
       setSelectedDetection(minDetection);
-      onSelectedDetectionChange?.(minDetection);
+      onSelectedDetectionChange(minDetection);
       setIsPlaying(true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -94,7 +94,7 @@ export const AlertImagesPlayer = ({
       );
       if (newSelectedDetection) {
         setSelectedDetection(newSelectedDetection);
-        onSelectedDetectionChange?.(newSelectedDetection);
+        onSelectedDetectionChange(newSelectedDetection);
       }
     }
   };

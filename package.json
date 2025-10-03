@@ -38,7 +38,6 @@
     "@eslint/js": "^9.33.0",
     "@testing-library/jest-dom": "^6.6.4",
     "@testing-library/react": "^16.3.0",
-    "@types/jszip": "^3.4.1",
     "@types/leaflet": "^1.9.20",
     "@types/react": "^19.1.9",
     "@types/react-dom": "^19.1.7",

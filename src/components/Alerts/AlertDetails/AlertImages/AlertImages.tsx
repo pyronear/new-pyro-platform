@@ -74,14 +74,13 @@ export const AlertImages = ({ sequence }: AlertImagesType) => {
 
   const downloadOptions: SplitButtonOption[] = [
     {
-      label: t('buttonImageDownload'),
+      label: t('buttonImageDownloadOne'),
       onClick: downloadCurrentImage,
     },
     {
       label: t('buttonImageDownloadAll'),
-      onClick: () => {
-        console.log('TODO: Download all images');
-      },
+      onClick: undefined,
+      disabled: true,
     },
   ];
 
@@ -101,6 +100,7 @@ export const AlertImages = ({ sequence }: AlertImagesType) => {
           </Grid>
           <Grid>
             <SplitButton
+              label={t('buttonImageDownload')}
               options={downloadOptions}
               startIcon={<DownloadIcon />}
               variant="outlined"
