@@ -17,7 +17,11 @@ import {
   getSiteByCameraName,
   type SiteType,
 } from '@/utils/camera';
-import { calculateLiveStreamingUrl, calculateSiteUrl } from '@/utils/live';
+import {
+  calculateLiveStreamingUrl,
+  calculateSiteUrl,
+  type ControlledMove,
+} from '@/utils/live';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
 import { useDataSitesLive } from './hooks/useDataSitesLive';
@@ -29,7 +33,11 @@ interface LiveContainerProps {
   onClose: () => void;
   targetCameraName: string;
   targetSequence?: SequenceWithCameraInfoType;
-  startStreamingVideo: (ip: string, hasRotation: boolean) => void;
+  startStreamingVideo: (
+    ip: string,
+    hasRotation: boolean,
+    initialMove?: ControlledMove
+  ) => void;
   stopStreamingVideo: (ip: string, hasRotation: boolean) => void;
   statusStreamingVideo: string;
 }
@@ -105,6 +113,7 @@ export const LiveContainer = ({
               startStreamingVideo={startStreamingVideo}
               stopStreamingVideo={stopStreamingVideo}
               statusStreamingVideo={statusStreamingVideo}
+              targetSequence={targetSequence}
             />
           </Grid>
           <Grid size={3}>

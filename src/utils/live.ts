@@ -63,13 +63,19 @@ export const getClosestPose = (
     : null;
 };
 
+export interface ControlledMove {
+  poseId: number;
+  degrees: number;
+  direction: CameraDirectionType;
+}
+
 export const getMoveToAzimuth = (
   azimuthToGoTo: number,
   azimuthsCamera: number[],
   posesCamera: number[]
-) => {
+): ControlledMove | undefined => {
   if (azimuthsCamera.length === 0) {
-    return null;
+    return undefined;
   }
   const distanceAzimuths = azimuthsCamera.map((azimuth) =>
     closestTo0Modulo360(azimuthToGoTo - azimuth)
@@ -77,14 +83,14 @@ export const getMoveToAzimuth = (
   const indexClosestPose = indexOfClosestTo0(distanceAzimuths);
   if (indexClosestPose < posesCamera.length) {
     return {
-      pose: posesCamera[indexClosestPose],
-      diffAzimuth: Math.abs(distanceAzimuths[indexClosestPose]),
+      poseId: posesCamera[indexClosestPose],
+      degrees: Math.abs(distanceAzimuths[indexClosestPose]),
       direction: (distanceAzimuths[indexClosestPose] > 0
         ? 'Right'
         : 'Left') as CameraDirectionType,
     };
   }
-  return;
+  return undefined;
 };
 
 const closestTo0Modulo360 = (diff: number) => {

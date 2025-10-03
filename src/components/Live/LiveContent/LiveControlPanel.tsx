@@ -6,14 +6,11 @@ import {
   type SelectChangeEvent,
   Stack,
 } from '@mui/material';
-import { useEffect } from 'react';
 
 import { CamerasListSelectable } from '@/components/Common/Camera/CamerasListSelectable';
 import CamerasMap from '@/components/Dashboard/CamerasMap';
-import { moveCameraToAAzimuth } from '@/services/live';
 import type { SequenceWithCameraInfoType } from '@/utils/alerts';
 import type { CameraFullInfosType, SiteType } from '@/utils/camera';
-import { getMoveToAzimuth } from '@/utils/live';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
 import { LiveAlertInfos } from './AlertInfos/LiveAlertInfos';
@@ -40,24 +37,6 @@ export const LiveControlPanel = ({
   const handleChange = (event: SelectChangeEvent) => {
     setSelectedSite(sites.find((s) => s.id == event.target.value) ?? null);
   };
-
-  useEffect(() => {
-    if (targetSequence?.azimuth && selectedCamera?.ip) {
-      const moveToDo = getMoveToAzimuth(
-        targetSequence.azimuth,
-        selectedCamera.azimuths ?? [],
-        selectedCamera.poses ?? []
-      );
-      if (moveToDo) {
-        void moveCameraToAAzimuth(
-          selectedCamera.ip,
-          moveToDo.pose,
-          moveToDo.diffAzimuth,
-          moveToDo.direction
-        );
-      }
-    }
-  }, [selectedCamera, targetSequence?.azimuth]);
 
   return (
     <Stack spacing={1} height="100%">

@@ -1,11 +1,17 @@
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 import { Loader } from '@/components/Common/Loader';
 import { STATUS_ERROR, STATUS_LOADING, STATUS_SUCCESS } from '@/services/axios';
+import type { SequenceWithCameraInfoType } from '@/utils/alerts';
 import type { CameraFullInfosType } from '@/utils/camera';
-import { calculateHasRotation, SPEEDS } from '@/utils/live';
+import {
+  calculateHasRotation,
+  type ControlledMove,
+  getMoveToAzimuth,
+  SPEEDS,
+} from '@/utils/live';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
 import { StateStreaming, useMediaMtx } from '../hooks/useMediaMtx';
@@ -15,9 +21,14 @@ import { QuickActions } from './StreamActions/QuickActions';
 interface LiveStreamPanelProps {
   urlStreaming: string;
   camera: CameraFullInfosType | null;
-  startStreamingVideo: (ip: string, hasRotation: boolean) => void;
+  startStreamingVideo: (
+    ip: string,
+    hasRotation: boolean,
+    initialMove?: ControlledMove
+  ) => void;
   stopStreamingVideo: (ip: string, hasRotation: boolean) => void;
   statusStreamingVideo: string;
+  targetSequence?: SequenceWithCameraInfoType;
 }
 
 export const LiveStreamPanel = ({
@@ -26,6 +37,7 @@ export const LiveStreamPanel = ({
   startStreamingVideo,
   stopStreamingVideo,
   statusStreamingVideo,
+  targetSequence,
 }: LiveStreamPanelProps) => {
   const [speedIndex, setSpeedIndex] = useState(1);
   const ip = camera?.ip ?? '';
@@ -34,17 +46,28 @@ export const LiveStreamPanel = ({
   const mediaMtx = useMediaMtx({ urlStreaming, refVideo, ip });
 
   const hasRotation = calculateHasRotation(camera?.type);
+  const initialMove = useMemo(
+    () =>
+      targetSequence?.azimuth
+        ? getMoveToAzimuth(
+            targetSequence.azimuth,
+            camera?.azimuths ?? [],
+            camera?.poses ?? []
+          )
+        : undefined,
+    [camera?.azimuths, camera?.poses, targetSequence?.azimuth]
+  );
 
   useEffect(() => {
     if (ip) {
-      startStreamingVideo(ip, hasRotation);
+      startStreamingVideo(ip, hasRotation, initialMove);
     }
     return () => {
       if (ip) {
         stopStreamingVideo(ip, hasRotation);
       }
     };
-  }, [hasRotation, ip, startStreamingVideo, stopStreamingVideo]);
+  }, [hasRotation, initialMove, ip, startStreamingVideo, stopStreamingVideo]);
 
   const setNextSpeed = () =>
     setSpeedIndex((oldIndex) =>

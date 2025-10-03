@@ -46,14 +46,9 @@ export const QuickActions = ({
   const onClickAzimuth = () => {
     const azimuthToGoInt = Number(azimuthToGo);
     if (!Number.isNaN(azimuthToGoInt)) {
-      const moveToDo = getMoveToAzimuth(azimuthToGoInt, azimuths, poses);
-      if (moveToDo) {
-        void moveCameraToAAzimuth(
-          cameraIp,
-          moveToDo.pose,
-          moveToDo.diffAzimuth,
-          moveToDo.direction
-        );
+      const move = getMoveToAzimuth(azimuthToGoInt, azimuths, poses);
+      if (move) {
+        void moveCameraToAAzimuth(cameraIp, move);
       }
     }
   };

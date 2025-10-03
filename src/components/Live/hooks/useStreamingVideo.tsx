@@ -8,16 +8,19 @@ import {
   STATUS_SUCCESS,
 } from '@/services/axios';
 import {
+  moveCameraToAAzimuth,
   startStreaming,
   stopPatrolThenStartStreaming,
   stopStreaming,
   stopStreamingThenStartPatrol,
 } from '@/services/live';
+import type { ControlledMove } from '@/utils/live';
 
 export interface StreamingAction {
   type: 'START' | 'STOP';
   ip: string;
   hasRotation: boolean;
+  initialMove?: ControlledMove;
 }
 
 // Hook to prevent the actions start and stop to be run in parallel
@@ -26,9 +29,17 @@ export const useStreamingVideo = () => {
   const [isOneActionLoading, setIsOneActionLoading] = useState<boolean>(false);
 
   const { mutateAsync: start, status: statusStart } = useMutation({
-    mutationFn: (params: { ip: string; hasRotation: boolean }) =>
+    mutationFn: (params: {
+      ip: string;
+      hasRotation: boolean;
+      initialMove?: ControlledMove;
+    }) =>
       params.hasRotation
-        ? stopPatrolThenStartStreaming(params.ip)
+        ? stopPatrolThenStartStreaming(params.ip).then(() => {
+            return params.initialMove
+              ? moveCameraToAAzimuth(params.ip, params.initialMove)
+              : undefined;
+          })
         : startStreaming(params.ip),
   });
 
@@ -40,10 +51,10 @@ export const useStreamingVideo = () => {
   });
 
   const startStreamingVideo = useCallback(
-    (ip: string, hasRotation: boolean) => {
+    (ip: string, hasRotation: boolean, initialMove?: ControlledMove) => {
       setStreamingQueue((oldStreamingQueue) => [
         ...oldStreamingQueue,
-        { type: 'START', ip, hasRotation },
+        { type: 'START', ip, hasRotation, initialMove },
       ]);
     },
     []
@@ -68,12 +79,14 @@ export const useStreamingVideo = () => {
       setIsOneActionLoading(true);
 
       if (action.type === 'START') {
-        void start({ ip: action.ip, hasRotation: action.hasRotation }).then(
-          () => {
-            setIsOneActionLoading(false);
-            removeAction();
-          }
-        );
+        void start({
+          ip: action.ip,
+          hasRotation: action.hasRotation,
+          initialMove: action.initialMove,
+        }).then(() => {
+          setIsOneActionLoading(false);
+          removeAction();
+        });
       } else {
         void stop({ ip: action.ip, hasRotation: action.hasRotation }).then(
           () => {
