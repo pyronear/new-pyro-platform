@@ -23,10 +23,13 @@ export interface StreamingAction {
   initialMove?: ControlledMove;
 }
 
+const TIME_BETWEEN_START_AND_MOVE_MS = 3000;
+
 // Hook to prevent the actions start and stop to be run in parallel
 export const useStreamingVideo = () => {
   const [streamingQueue, setStreamingQueue] = useState<StreamingAction[]>([]);
   const [isOneActionLoading, setIsOneActionLoading] = useState<boolean>(false);
+  const [timer, setTimer] = useState<number | null>(null);
 
   const { mutateAsync: start, status: statusStart } = useMutation({
     mutationFn: (params: {
@@ -36,9 +39,18 @@ export const useStreamingVideo = () => {
     }) =>
       params.hasRotation
         ? stopPatrolThenStartStreaming(params.ip).then(() => {
-            return params.initialMove
-              ? moveCameraToAAzimuth(params.ip, params.initialMove)
-              : undefined;
+            if (params.initialMove) {
+              // fix: wait a few seconds before calling for move
+              // (problem in the pi)
+              setTimer(
+                setTimeout(
+                  () =>
+                    params.initialMove &&
+                    moveCameraToAAzimuth(params.ip, params.initialMove),
+                  TIME_BETWEEN_START_AND_MOVE_MS
+                )
+              );
+            }
           })
         : startStreaming(params.ip),
   });
@@ -97,6 +109,14 @@ export const useStreamingVideo = () => {
       }
     }
   }, [isOneActionLoading, start, stop, streamingQueue]);
+
+  useEffect(() => {
+    return () => {
+      if (timer) {
+        clearTimeout(timer);
+      }
+    };
+  }, [timer]);
 
   const status = useMemo(() => {
     const statusList = [statusStart, statusStop];
