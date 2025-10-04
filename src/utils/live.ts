@@ -74,7 +74,7 @@ export const getMoveToAzimuth = (
   azimuthsCamera: number[],
   posesCamera: number[]
 ): ControlledMove | undefined => {
-  const azimuthToGoToRounded = Math.round(azimuthToGoTo);
+  const azimuthToGoToRounded = Math.trunc(azimuthToGoTo);
   if (azimuthsCamera.length === 0) {
     return undefined;
   }
