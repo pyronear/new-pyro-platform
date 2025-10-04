@@ -28,7 +28,7 @@ interface LiveStreamPanelProps {
   ) => void;
   stopStreamingVideo: (ip: string, hasRotation: boolean) => void;
   statusStreamingVideo: string;
-  targetSequence?: SequenceWithCameraInfoType;
+  sequence?: SequenceWithCameraInfoType;
 }
 
 export const LiveStreamPanel = ({
@@ -37,7 +37,7 @@ export const LiveStreamPanel = ({
   startStreamingVideo,
   stopStreamingVideo,
   statusStreamingVideo,
-  targetSequence,
+  sequence,
 }: LiveStreamPanelProps) => {
   const [speedIndex, setSpeedIndex] = useState(1);
   const ip = camera?.ip ?? '';
@@ -48,14 +48,14 @@ export const LiveStreamPanel = ({
   const hasRotation = calculateHasRotation(camera?.type);
   const initialMove = useMemo(
     () =>
-      targetSequence?.coneAzimuth
+      sequence?.coneAzimuth
         ? getMoveToAzimuth(
-            targetSequence.coneAzimuth,
+            sequence.coneAzimuth,
             camera?.azimuths ?? [],
             camera?.poses ?? []
           )
         : undefined,
-    [camera?.azimuths, camera?.poses, targetSequence?.coneAzimuth]
+    [camera?.azimuths, camera?.poses, sequence?.coneAzimuth]
   );
 
   useEffect(() => {

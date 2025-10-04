@@ -7,14 +7,14 @@ import { useStreamingVideo } from './hooks/useStreamingVideo';
 import { LiveContainer } from './LiveContainer';
 
 interface ModalLiveWrapperProps {
-  targetCameraName: string;
-  targetSequence?: SequenceWithCameraInfoType;
+  cameraName: string;
+  sequence?: SequenceWithCameraInfoType;
   children: (onClick: () => void) => ReactNode;
 }
 
 export const ModalLiveWrapper = ({
-  targetCameraName,
-  targetSequence,
+  cameraName,
+  sequence,
   children,
 }: ModalLiveWrapperProps) => {
   const [openLive, setOpenLive] = useState(false);
@@ -48,8 +48,8 @@ export const ModalLiveWrapper = ({
         >
           <LiveContainer
             onClose={() => setOpenLive(false)}
-            targetCameraName={targetCameraName}
-            targetSequence={targetSequence}
+            cameraName={cameraName}
+            sequence={sequence}
             startStreamingVideo={startStreamingVideo}
             stopStreamingVideo={stopStreamingVideo}
             statusStreamingVideo={statusStreamingVideo}

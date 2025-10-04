@@ -31,8 +31,8 @@ import { LiveStreamPanel } from './LiveContent/LiveStreamPanel';
 
 interface LiveContainerProps {
   onClose: () => void;
-  targetCameraName: string;
-  targetSequence?: SequenceWithCameraInfoType;
+  cameraName: string;
+  sequence?: SequenceWithCameraInfoType;
   startStreamingVideo: (
     ip: string,
     hasRotation: boolean,
@@ -44,8 +44,8 @@ interface LiveContainerProps {
 
 export const LiveContainer = ({
   onClose,
-  targetCameraName,
-  targetSequence,
+  cameraName,
+  sequence,
   startStreamingVideo,
   stopStreamingVideo,
   statusStreamingVideo,
@@ -68,15 +68,15 @@ export const LiveContainer = ({
   useEffect(() => {
     if (selectedSite == null) {
       // Select by default target camera and its site
-      const newSelectedSite = getSiteByCameraName(sites, targetCameraName);
+      const newSelectedSite = getSiteByCameraName(sites, cameraName);
       const newSelectedCameraId = getCameraIdByCameraName(
         newSelectedSite,
-        targetCameraName
+        cameraName
       );
       setSelectedSite(newSelectedSite);
       setSelectedCameraId(newSelectedCameraId);
     }
-  }, [selectedSite, sites, targetCameraName]);
+  }, [selectedSite, sites, cameraName]);
 
   // TODO : retrieve the data from backend api
   const { status: statusCamerasFetchFromSite } = useQuery({
@@ -110,10 +110,10 @@ export const LiveContainer = ({
             <LiveStreamPanel
               urlStreaming={urlStreaming}
               camera={selectedCamera}
+              sequence={sequence}
               startStreamingVideo={startStreamingVideo}
               stopStreamingVideo={stopStreamingVideo}
               statusStreamingVideo={statusStreamingVideo}
-              targetSequence={targetSequence}
             />
           </Grid>
           <Grid size={3}>
@@ -123,7 +123,7 @@ export const LiveContainer = ({
               setSelectedSite={setSelectedSite}
               selectedCamera={selectedCamera}
               setSelectedCameraId={setSelectedCameraId}
-              targetSequence={targetSequence}
+              sequence={sequence}
             />
           </Grid>
         </Grid>

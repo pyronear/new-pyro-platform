@@ -21,7 +21,7 @@ interface LiveControlPanelProps {
   setSelectedSite: (newSite: SiteType | null) => void;
   selectedCamera: CameraFullInfosType | null;
   setSelectedCameraId: (newCameraId: number | null) => void;
-  targetSequence?: SequenceWithCameraInfoType;
+  sequence?: SequenceWithCameraInfoType;
 }
 
 export const LiveControlPanel = ({
@@ -30,7 +30,7 @@ export const LiveControlPanel = ({
   setSelectedSite,
   selectedCamera,
   setSelectedCameraId,
-  targetSequence,
+  sequence,
 }: LiveControlPanelProps) => {
   const { t } = useTranslationPrefix('live');
 
@@ -40,9 +40,9 @@ export const LiveControlPanel = ({
 
   return (
     <Stack spacing={1} height="100%">
-      {targetSequence && (
+      {sequence && (
         <div style={{ marginBottom: 8 }}>
-          <LiveAlertInfos sequence={targetSequence} />
+          <LiveAlertInfos sequence={sequence} />
         </div>
       )}
       <FormControl fullWidth>
