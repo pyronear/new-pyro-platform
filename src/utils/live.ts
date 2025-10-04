@@ -74,11 +74,12 @@ export const getMoveToAzimuth = (
   azimuthsCamera: number[],
   posesCamera: number[]
 ): ControlledMove | undefined => {
+  const azimuthToGoToRounded = Math.round(azimuthToGoTo);
   if (azimuthsCamera.length === 0) {
     return undefined;
   }
   const distanceAzimuths = azimuthsCamera.map((azimuth) =>
-    closestTo0Modulo360(azimuthToGoTo - azimuth)
+    closestTo0Modulo360(azimuthToGoToRounded - azimuth)
   );
   const indexClosestPose = indexOfClosestTo0(distanceAzimuths);
   if (indexClosestPose < posesCamera.length) {

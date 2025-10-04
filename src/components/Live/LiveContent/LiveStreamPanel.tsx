@@ -48,14 +48,14 @@ export const LiveStreamPanel = ({
   const hasRotation = calculateHasRotation(camera?.type);
   const initialMove = useMemo(
     () =>
-      targetSequence?.azimuth
+      targetSequence?.coneAzimuth
         ? getMoveToAzimuth(
-            targetSequence.azimuth,
+            targetSequence.coneAzimuth,
             camera?.azimuths ?? [],
             camera?.poses ?? []
           )
         : undefined,
-    [camera?.azimuths, camera?.poses, targetSequence?.azimuth]
+    [camera?.azimuths, camera?.poses, targetSequence?.coneAzimuth]
   );
 
   useEffect(() => {
@@ -96,7 +96,7 @@ export const LiveStreamPanel = ({
           <Typography variant="body2">{t('loadingVideo')}</Typography>
         </Stack>
       )}
-      {statusStreamingVideo === STATUS_SUCCESS && (
+      {
         <>
           <div style={{ position: 'relative', flexGrow: 1 }}>
             <video
@@ -108,30 +108,34 @@ export const LiveStreamPanel = ({
                 width: '100%',
                 height: '100%',
                 display:
+                  statusStreamingVideo === STATUS_SUCCESS &&
                   mediaMtx.state === StateStreaming.IS_STREAMING
                     ? 'inline'
                     : 'none',
               }}
             />
-            {mediaMtx.state === StateStreaming.IS_STREAMING && (
-              <FloatingActions
+            {statusStreamingVideo === STATUS_SUCCESS &&
+              mediaMtx.state === StateStreaming.IS_STREAMING && (
+                <FloatingActions
+                  cameraIp={ip}
+                  cameraType={camera?.type}
+                  speed={SPEEDS[speedIndex].speed}
+                />
+              )}
+          </div>
+          {statusStreamingVideo === STATUS_SUCCESS &&
+            hasRotation &&
+            mediaMtx.state === StateStreaming.IS_STREAMING && (
+              <QuickActions
                 cameraIp={ip}
-                cameraType={camera?.type}
-                speed={SPEEDS[speedIndex].speed}
+                poses={camera.poses ?? []}
+                azimuths={camera.azimuths ?? []}
+                speedName={SPEEDS[speedIndex].name}
+                nextSpeed={setNextSpeed}
               />
             )}
-          </div>
-          {hasRotation && mediaMtx.state === StateStreaming.IS_STREAMING && (
-            <QuickActions
-              cameraIp={ip}
-              poses={camera.poses ?? []}
-              azimuths={camera.azimuths ?? []}
-              speedName={SPEEDS[speedIndex].name}
-              nextSpeed={setNextSpeed}
-            />
-          )}
         </>
-      )}
+      }
     </Stack>
   );
 };
