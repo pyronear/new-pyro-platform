@@ -127,6 +127,7 @@
     "errorFinalMediaMtx": "Flux vidéo en erreur. Veuillez réessayer plus tard.",
     "loadingVideo": "Chargement de la vidéo...",
     "tooltipSpeed": "Vitesse de déplacément de la caméra",
-    "tooltipAzimuths": "Azimuths pré-enregistrés de la caméra"
+    "tooltipPrerecordedAzimuths": "Azimuths pré-enregistrés de la caméra",
+    "tooltipCustomAzimuths": "Azimuth personnalisé de la caméra "
   }
 }

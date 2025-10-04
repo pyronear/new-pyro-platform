@@ -127,6 +127,7 @@
     "errorFinalMediaMtx": "Video stream has failed. Please try again later.",
     "loadingVideo": "Loading video...",
     "tooltipSpeed": "Camera movement speed",
-    "tooltipAzimuths": "Pre-recorded camera azimuths"
+    "tooltipPrerecordedAzimuths": "Pre-recorded azimuths for the camera",
+    "tooltipCustomAzimuths": "Custom azimuth for the camera"
   }
 }

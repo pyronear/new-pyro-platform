@@ -127,6 +127,7 @@
     "errorFinalMediaMtx": "El streaming de vídeo ha fallado. Inténtalo de nuevo más tarde.",
     "loadingVideo": "Cargando vídeo...",
     "tooltipSpeed": "Velocidad de desplazamiento de la cámara",
-    "tooltipAzimuths": "Azimuts pregrabados de la cámara"
+    "tooltipPrerecordedAzimuths": "Azimuts pregrabados para la cámara",
+    "tooltipCustomAzimuths": "Azimut personalizado para la cámara"
   }
 }

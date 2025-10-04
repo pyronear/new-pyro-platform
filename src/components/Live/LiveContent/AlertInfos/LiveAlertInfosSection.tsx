@@ -1,17 +1,17 @@
-import { Paper, Typography, useTheme } from '@mui/material';
+import { Typography, useTheme } from '@mui/material';
 
-interface AlertInfosSectionType {
+interface LiveAlertInfosSectionType {
   title: string;
   children: React.ReactNode;
 }
 
-export const AlertInfosSection = ({
+export const LiveAlertInfosSection = ({
   title,
   children,
-}: AlertInfosSectionType) => {
+}: LiveAlertInfosSectionType) => {
   const theme = useTheme();
   return (
-    <Paper sx={{ padding: 1 }}>
+    <>
       <Typography variant="h4">{title}</Typography>
       <Typography
         variant="h4"
@@ -20,6 +20,6 @@ export const AlertInfosSection = ({
       >
         {children}
       </Typography>
-    </Paper>
+    </>
   );
 };
