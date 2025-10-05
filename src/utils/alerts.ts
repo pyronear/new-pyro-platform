@@ -1,10 +1,12 @@
-import { isEqual, uniqWith } from 'lodash';
+import { difference, isEmpty, uniqWith } from 'lodash';
+import moment from 'moment-timezone';
 
 import type { SequenceType } from '../services/alerts';
 import type { CameraType } from '../services/camera';
+import { convertStrToEpoch } from './dates';
 
 export interface AlertType {
-  id: number; // Id of the main sequence
+  id: string; // Concat of all the sequences id
   startedAt: string | null; // Start date of the main sequence
   sequences: SequenceWithCameraInfoType[]; // List of grouped sequences
   eventSmokeLocation?: [number, number];
@@ -28,49 +30,39 @@ export interface SequenceWithCameraInfoType {
 }
 
 /*
- * Sorry for the complexity of this function
- * Its goal is to group sequences using their event_groups property which is now returned by the API
+ * Its goal is to group sequences using their event_groups property which is returned by the API
  * This grouping should soon be done within the API, so this is kind of quick and dirty
  */
 export const convertSequencesToAlerts = (
   sequencesList: SequenceType[],
   camerasList: CameraType[]
 ): AlertType[] => {
-  const sequencesWithSortedEventGroups = sequencesList.map((sequence) => ({
-    ...sequence,
-    event_groups: sequence.event_groups.map((group) => group.sort()),
-  }));
-
   // An event group basically defines an "alert" (i.e. a list of one or more sequences)
-  const uniqueEventIdGroups = uniqWith(
-    sequencesWithSortedEventGroups.flatMap((sequence) => sequence.event_groups),
-    isEqual
-  );
+  const idSequencesGrouped = calculateIdSequencesGrouped(sequencesList);
 
-  return uniqueEventIdGroups.map((eventGroupIds) => {
-    const sequences = sequencesList.filter((sequence) =>
-      eventGroupIds.includes(sequence.id)
+  return idSequencesGrouped.map((idSequenceList) => {
+    const sequencesOfTheGroup = sequencesList.filter((sequence) =>
+      idSequenceList.includes(sequence.id)
     );
-    if (sequences.length === 0) {
+    if (sequencesOfTheGroup.length === 0) {
       throw new Error('should never happen');
     }
-    const validDates = sequences
-      .map((sequence) => sequence.started_at)
-      .filter((startedAt) => startedAt !== null);
-    const startedAt =
-      validDates.length !== 0
-        ? new Date(
-            Math.min(...validDates.map((date) => new Date(date).getTime()))
-          ).toISOString()
-        : null;
-    const groupIndex = sequences[0].event_groups.findIndex((group) =>
-      isEqual(group, eventGroupIds)
-    );
+    const oldestSequence = calculateOldestSequence(sequencesOfTheGroup);
+
+    const indexOfEventGroupsInTheOldestSequence =
+      oldestSequence.event_groups?.findIndex((eventGroup) =>
+        isSameArrayIgnoringOrder(eventGroup, idSequenceList)
+      );
+
     return {
-      id: sequences[0].id,
-      startedAt,
-      sequences: sequencesList
-        .filter((sequence) => eventGroupIds.includes(sequence.id))
+      id: sequencesOfTheGroup
+        .map((s) => s.id)
+        .sort()
+        .join('_'),
+      startedAt: oldestSequence.started_at,
+      sequences: sequencesOfTheGroup
+        // Sort by date ASC
+        .sort((s1, s2) => (getDateOrNowNb(s1) > getDateOrNowNb(s2) ? 1 : -1))
         .map((sequence) => ({
           id: sequence.id,
           camera:
@@ -83,7 +75,12 @@ export const convertSequencesToAlerts = (
           coneAngle: sequence.cone_angle,
           labelWildfire: (sequence.is_wildfire as LabelWildfireValues) ?? null,
         })),
-      eventSmokeLocation: sequences[0].event_smoke_locations?.[groupIndex],
+      eventSmokeLocation:
+        indexOfEventGroupsInTheOldestSequence != undefined
+          ? oldestSequence.event_smoke_locations?.[
+              indexOfEventGroupsInTheOldestSequence
+            ]
+          : undefined,
     };
   });
 };
@@ -107,4 +104,38 @@ export const formatPosition = (
 };
 const formatOneCoordinate = (coordinate: number | undefined) => {
   return coordinate ? coordinate.toFixed(6) : '-';
+};
+
+const isSameArrayIgnoringOrder = (arrayOne: number[], arrayTwo: number[]) => {
+  return (
+    arrayOne.length === arrayTwo.length &&
+    isEmpty(difference(arrayTwo.sort(), arrayOne.sort()))
+  );
+};
+
+const calculateIdSequencesGrouped = (sequenceList: SequenceType[]) => {
+  return uniqWith(
+    sequenceList.flatMap(
+      (sequence) => sequence.event_groups ?? [[sequence.id]]
+    ),
+    isSameArrayIgnoringOrder
+  );
+};
+
+const calculateOldestSequence = (sequenceList: SequenceType[]) => {
+  const sequencesDates: number[] = sequenceList.map((sequence) =>
+    getDateOrNowNb(sequence)
+  );
+  const indexOfSmallestDate = sequencesDates.indexOf(
+    Math.min(...sequencesDates)
+  );
+
+  return sequenceList[indexOfSmallestDate];
+};
+
+const getDateOrNowNb = (sequence: SequenceType) => {
+  // default date is now. should be older than all others
+  return sequence.started_at != null
+    ? convertStrToEpoch(sequence.started_at)
+    : moment.now();
 };

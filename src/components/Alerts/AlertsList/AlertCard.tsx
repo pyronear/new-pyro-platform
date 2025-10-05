@@ -98,7 +98,7 @@ export const AlertCard = ({
                   </Typography>
 
                   <Typography variant="caption">
-                    {formatToTime(alert.startedAt)}
+                    {formatToTime(sequence.startedAt)}
                   </Typography>
                 </Stack>
               </Stack>
