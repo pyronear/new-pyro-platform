@@ -54,7 +54,7 @@ export const AlertContainer = ({
           <Grid size={{ xs: 12, lg: 3 }}>
             <AlertInfos
               sequence={selectedSequence}
-              sequences={alert.sequences}
+              alert={alert}
               isLiveMode={isLiveMode}
               invalidateAndRefreshData={invalidateAndRefreshData}
             />
