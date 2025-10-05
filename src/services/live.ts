@@ -1,6 +1,8 @@
 import type { AxiosResponse } from 'axios';
 import * as z from 'zod/v4';
 
+import type { ControlledMove } from '@/utils/live';
+
 import { liveInstance } from './axios';
 
 const apiCameraInfosResponseSchema = z.object({
@@ -136,6 +138,23 @@ export const moveCamera = async (
       console.error(err);
       throw err;
     });
+};
+
+export const moveCameraToAAzimuth = async (
+  cameraIp: string,
+  move: ControlledMove
+) => {
+  return moveCamera(
+    cameraIp,
+    undefined,
+    undefined,
+    move.poseId,
+    undefined
+  ).then(() => {
+    if (move.degrees !== 0) {
+      return moveCamera(cameraIp, move.direction, 5, undefined, move.degrees);
+    }
+  });
 };
 
 export const stopCamera = async (cameraIp: string): Promise<void> => {

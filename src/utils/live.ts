@@ -1,3 +1,5 @@
+import { type CameraDirectionType } from '@/services/live';
+
 import type { SiteType } from './camera';
 
 const TYPE_PTZ = 'ptz';
@@ -31,4 +33,73 @@ export const calculateSiteUrl = (site: SiteType | null) => {
   return site
     ? `http://${site.ip}:${import.meta.env.VITE_SITES_LIVE_PORT}`
     : '';
+};
+
+export const isAzimuthValid = (azimuthStr: string) => {
+  if (!azimuthStr) {
+    return true;
+  }
+  const azimuthNb = Number(azimuthStr);
+  if (Number.isInteger(azimuthNb)) {
+    return azimuthNb > 0 && azimuthNb < 360;
+  }
+  return false;
+};
+
+export const getClosestPose = (
+  azimuth: number,
+  azimuthsCamera: number[],
+  posesCamera: number[]
+) => {
+  if (azimuthsCamera.length === 0) {
+    return null;
+  }
+  const distanceAzimuths = azimuthsCamera.map((a) => Math.abs(a - azimuth));
+  const indexClosestPose = distanceAzimuths.indexOf(
+    Math.min(...distanceAzimuths)
+  );
+  return indexClosestPose < posesCamera.length
+    ? posesCamera[indexClosestPose]
+    : null;
+};
+
+export interface ControlledMove {
+  poseId: number;
+  degrees: number;
+  direction: CameraDirectionType;
+}
+
+export const getMoveToAzimuth = (
+  azimuthToGoTo: number,
+  azimuthsCamera: number[],
+  posesCamera: number[]
+): ControlledMove | undefined => {
+  const azimuthToGoToRounded = Math.trunc(azimuthToGoTo);
+  if (azimuthsCamera.length === 0) {
+    return undefined;
+  }
+  const distanceAzimuths = azimuthsCamera.map((azimuth) =>
+    closestTo0Modulo360(azimuthToGoToRounded - azimuth)
+  );
+  const indexClosestPose = indexOfClosestTo0(distanceAzimuths);
+  if (indexClosestPose < posesCamera.length) {
+    return {
+      poseId: posesCamera[indexClosestPose],
+      degrees: Math.abs(distanceAzimuths[indexClosestPose]),
+      direction: (distanceAzimuths[indexClosestPose] > 0
+        ? 'Right'
+        : 'Left') as CameraDirectionType,
+    };
+  }
+  return undefined;
+};
+
+const closestTo0Modulo360 = (diff: number) => {
+  const modulos = [diff, diff + 360, diff - 360];
+  return modulos[indexOfClosestTo0(modulos)];
+};
+
+const indexOfClosestTo0 = (array: number[]) => {
+  const absoluteArray = array.map((nb) => Math.abs(nb));
+  return absoluteArray.indexOf(Math.min(...absoluteArray));
 };

@@ -10,31 +10,42 @@ import {
   STATUS_SUCCESS,
 } from '@/services/axios';
 import { getCamerasInfos } from '@/services/live';
+import type { SequenceWithCameraInfoType } from '@/utils/alerts';
 import {
   aggregateSiteData,
   getCameraIdByCameraName,
   getSiteByCameraName,
   type SiteType,
 } from '@/utils/camera';
-import { calculateLiveStreamingUrl, calculateSiteUrl } from '@/utils/live';
+import {
+  calculateLiveStreamingUrl,
+  calculateSiteUrl,
+  type ControlledMove,
+} from '@/utils/live';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
 import { useDataSitesLive } from './hooks/useDataSitesLive';
+import { HeadRow } from './LiveContent/HeadRow/HeadRow';
 import { LiveControlPanel } from './LiveContent/LiveControlPanel';
 import { LiveStreamPanel } from './LiveContent/LiveStreamPanel';
-import { LiveWarningCounter } from './LiveContent/LiveWarningCounter';
 
 interface LiveContainerProps {
   onClose: () => void;
-  targetCameraName: string;
-  startStreamingVideo: (ip: string, hasRotation: boolean) => void;
+  cameraName: string;
+  sequence?: SequenceWithCameraInfoType;
+  startStreamingVideo: (
+    ip: string,
+    hasRotation: boolean,
+    initialMove?: ControlledMove
+  ) => void;
   stopStreamingVideo: (ip: string, hasRotation: boolean) => void;
   statusStreamingVideo: string;
 }
 
 export const LiveContainer = ({
   onClose,
-  targetCameraName,
+  cameraName,
+  sequence,
   startStreamingVideo,
   stopStreamingVideo,
   statusStreamingVideo,
@@ -44,6 +55,7 @@ export const LiveContainer = ({
   const [selectedSite, setSelectedSite] = useState<SiteType | null>(null);
   const [selectedCameraId, setSelectedCameraId] = useState<number | null>(null);
   const isFetchFromSiteEnabled = !!selectedSite;
+
   const selectedCamera = useMemo(() => {
     return selectedSite?.cameras.find((c) => c.id === selectedCameraId) ?? null;
   }, [selectedCameraId, selectedSite]);
@@ -56,15 +68,15 @@ export const LiveContainer = ({
   useEffect(() => {
     if (selectedSite == null) {
       // Select by default target camera and its site
-      const newSelectedSite = getSiteByCameraName(sites, targetCameraName);
+      const newSelectedSite = getSiteByCameraName(sites, cameraName);
       const newSelectedCameraId = getCameraIdByCameraName(
         newSelectedSite,
-        targetCameraName
+        cameraName
       );
       setSelectedSite(newSelectedSite);
       setSelectedCameraId(newSelectedCameraId);
     }
-  }, [selectedSite, sites, targetCameraName]);
+  }, [selectedSite, sites, cameraName]);
 
   // TODO : retrieve the data from backend api
   const { status: statusCamerasFetchFromSite } = useQuery({
@@ -84,47 +96,53 @@ export const LiveContainer = ({
     },
   });
 
+  const isStreamingLaunched =
+    statusSitesFetch == STATUS_SUCCESS &&
+    statusCamerasFetchFromSite == STATUS_SUCCESS &&
+    !!selectedSite;
+
   return (
     <Stack>
-      {(statusSitesFetch == STATUS_LOADING ||
-        (isFetchFromSiteEnabled &&
-          statusCamerasFetchFromSite == STATUS_LOADING)) && <Loader />}
-      {statusSitesFetch == STATUS_ERROR && (
-        <Typography variant="body2">{t('errorFetchInfos')}</Typography>
+      <HeadRow onClose={onClose} isCounting={isStreamingLaunched} />
+      {isStreamingLaunched ? (
+        <Grid container p={2} spacing={2} flexGrow={1}>
+          <Grid size={9}>
+            <LiveStreamPanel
+              urlStreaming={urlStreaming}
+              camera={selectedCamera}
+              sequence={sequence}
+              startStreamingVideo={startStreamingVideo}
+              stopStreamingVideo={stopStreamingVideo}
+              statusStreamingVideo={statusStreamingVideo}
+            />
+          </Grid>
+          <Grid size={3}>
+            <LiveControlPanel
+              sites={sites}
+              selectedSite={selectedSite}
+              setSelectedSite={setSelectedSite}
+              selectedCamera={selectedCamera}
+              setSelectedCameraId={setSelectedCameraId}
+              sequence={sequence}
+            />
+          </Grid>
+        </Grid>
+      ) : (
+        <Stack m={6}>
+          {(statusSitesFetch == STATUS_LOADING ||
+            (isFetchFromSiteEnabled &&
+              statusCamerasFetchFromSite == STATUS_LOADING)) && <Loader />}
+          {statusSitesFetch == STATUS_ERROR && (
+            <Typography variant="body2">{t('errorFetchInfos')}</Typography>
+          )}
+          {statusCamerasFetchFromSite == STATUS_ERROR && (
+            <Typography variant="body2">{t('errorCallSite')}</Typography>
+          )}
+          {statusSitesFetch == STATUS_SUCCESS && sites.length == 0 && (
+            <Typography variant="body2">{t('errorNoAccess')}</Typography>
+          )}
+        </Stack>
       )}
-      {statusCamerasFetchFromSite == STATUS_ERROR && (
-        <Typography variant="body2">{t('errorCallSite')}</Typography>
-      )}
-      {statusSitesFetch == STATUS_SUCCESS && sites.length == 0 && (
-        <Typography variant="body2">{t('errorNoAccess')}</Typography>
-      )}
-      {statusSitesFetch == STATUS_SUCCESS &&
-        statusCamerasFetchFromSite == STATUS_SUCCESS &&
-        selectedSite && (
-          <>
-            <LiveWarningCounter onClose={onClose} />
-            <Grid container p={2} spacing={2} flexGrow={1}>
-              <Grid size={9}>
-                <LiveStreamPanel
-                  urlStreaming={urlStreaming}
-                  camera={selectedCamera}
-                  startStreamingVideo={startStreamingVideo}
-                  stopStreamingVideo={stopStreamingVideo}
-                  statusStreamingVideo={statusStreamingVideo}
-                />
-              </Grid>
-              <Grid size={3}>
-                <LiveControlPanel
-                  sites={sites}
-                  selectedSite={selectedSite}
-                  setSelectedSite={setSelectedSite}
-                  selectedCamera={selectedCamera}
-                  setSelectedCameraId={setSelectedCameraId}
-                />
-              </Grid>
-            </Grid>
-          </>
-        )}
     </Stack>
   );
 };

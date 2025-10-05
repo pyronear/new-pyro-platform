@@ -9,8 +9,11 @@ import {
 
 import { CamerasListSelectable } from '@/components/Common/Camera/CamerasListSelectable';
 import CamerasMap from '@/components/Dashboard/CamerasMap';
+import type { SequenceWithCameraInfoType } from '@/utils/alerts';
 import type { CameraFullInfosType, SiteType } from '@/utils/camera';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
+
+import { LiveAlertInfos } from './AlertInfos/LiveAlertInfos';
 
 interface LiveControlPanelProps {
   sites: SiteType[];
@@ -18,6 +21,7 @@ interface LiveControlPanelProps {
   setSelectedSite: (newSite: SiteType | null) => void;
   selectedCamera: CameraFullInfosType | null;
   setSelectedCameraId: (newCameraId: number | null) => void;
+  sequence?: SequenceWithCameraInfoType;
 }
 
 export const LiveControlPanel = ({
@@ -26,6 +30,7 @@ export const LiveControlPanel = ({
   setSelectedSite,
   selectedCamera,
   setSelectedCameraId,
+  sequence,
 }: LiveControlPanelProps) => {
   const { t } = useTranslationPrefix('live');
 
@@ -35,12 +40,18 @@ export const LiveControlPanel = ({
 
   return (
     <Stack spacing={1} height="100%">
+      {sequence && (
+        <div style={{ marginBottom: 8 }}>
+          <LiveAlertInfos sequence={sequence} />
+        </div>
+      )}
       <FormControl fullWidth>
         <InputLabel>{t('siteField')}</InputLabel>
         <Select
           value={selectedSite?.id}
           label={t('siteField')}
           onChange={handleChange}
+          sx={{ boxShadow: 'none' }}
         >
           {sites.map((s) => (
             <MenuItem value={s.id} key={s.id}>
