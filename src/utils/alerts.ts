@@ -6,7 +6,7 @@ import type { CameraType } from '../services/camera';
 import { convertStrToEpoch } from './dates';
 
 export interface AlertType {
-  id: number; // Id of the main sequence
+  id: string; // Concat of all the sequences id
   startedAt: string | null; // Start date of the main sequence
   sequences: SequenceWithCameraInfoType[]; // List of grouped sequences
   eventSmokeLocation?: [number, number];
@@ -51,8 +51,16 @@ export const convertSequencesToAlerts = (
     }
     const oldestSequence = calculateOldestSequence(sequencesOfTheGroup);
 
+    const indexOfEventGroupsInTheOldestSequence =
+      oldestSequence.event_groups?.findIndex((eventGroup) =>
+        isSameArrayIgnoringOrder(eventGroup, idSequenceList)
+      );
+
     return {
-      id: oldestSequence.id,
+      id: sequencesOfTheGroup
+        .map((s) => s.id)
+        .sort()
+        .join('_'),
       startedAt: oldestSequence.started_at,
       sequences: sequencesOfTheGroup
         // Sort by date ASC
@@ -69,7 +77,12 @@ export const convertSequencesToAlerts = (
           coneAngle: sequence.cone_angle,
           labelWildfire: (sequence.is_wildfire as LabelWildfireValues) ?? null,
         })),
-      eventSmokeLocation: oldestSequence.event_smoke_locations?.[0],
+      eventSmokeLocation:
+        indexOfEventGroupsInTheOldestSequence != undefined
+          ? oldestSequence.event_smoke_locations?.[
+              indexOfEventGroupsInTheOldestSequence
+            ]
+          : undefined,
     };
   });
 };
