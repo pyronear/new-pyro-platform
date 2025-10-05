@@ -32,8 +32,6 @@ export interface SequenceWithCameraInfoType {
 /*
  * Its goal is to group sequences using their event_groups property which is returned by the API
  * This grouping should soon be done within the API, so this is kind of quick and dirty
- *
- * What is not done yet : deal with multiple event groups within a sequence
  */
 export const convertSequencesToAlerts = (
   sequencesList: SequenceType[],
