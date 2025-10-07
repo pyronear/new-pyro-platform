@@ -6,8 +6,8 @@ import { useEffect, useMemo, useState } from 'react';
 import { MapContainer, TileLayer } from 'react-leaflet';
 
 import CameraMarkerMap from '@/components/Common/Map/CameraMarkerMap';
-import { CameraViewPolygon } from '@/components/Common/Map/CameraViewPolygon';
 import FirePositionMarkerMap from '@/components/Common/Map/FirePositionMarkerMap';
+import { SequencePolygon } from '@/components/Common/Map/SequencePolygon';
 import type { AlertType, SequenceWithCameraInfoType } from '@/utils/alerts';
 import { buildVisionPolygon, DEFAULT_CAM_RANGE_KM } from '@/utils/cameraVision';
 
@@ -88,7 +88,7 @@ const AlertMap = ({ alert, height = '100%' }: AlertMap) => {
         {sequencesWithPolygons.map((sequence) => {
           return (
             <div key={sequence.id}>
-              <CameraViewPolygon
+              <SequencePolygon
                 visionPolygonPoints={sequence.visionPolygonPoints}
               />
               <CameraMarkerMap camera={sequence.camera} />
