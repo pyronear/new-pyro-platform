@@ -1,6 +1,7 @@
 import type { CameraType } from '@/services/camera';
 import type { CameraInfosFromPi } from '@/services/live';
 
+import type { SequenceWithCameraInfoType } from './alerts';
 import { buildVisionPolygon, DEFAULT_CAM_RANGE_KM } from './cameraVision';
 
 export interface CameraFullInfosType extends CameraType {
@@ -86,4 +87,19 @@ export const buildPolygonsFromCamera = (
       DEFAULT_CAM_RANGE_KM
     ),
   }));
+};
+
+export const buildPolygonFromSequence = (
+  sequence: SequenceWithCameraInfoType
+): L.LatLng[] => {
+  if (sequence.camera) {
+    return buildVisionPolygon(
+      sequence.camera.lat,
+      sequence.camera.lon,
+      sequence.coneAzimuth,
+      sequence.coneAngle,
+      DEFAULT_CAM_RANGE_KM
+    );
+  }
+  return [];
 };

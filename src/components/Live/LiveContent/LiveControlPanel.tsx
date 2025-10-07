@@ -8,12 +8,12 @@ import {
 } from '@mui/material';
 
 import { CamerasListSelectable } from '@/components/Common/Camera/CamerasListSelectable';
-import CamerasMap from '@/components/Dashboard/CamerasMap';
 import type { SequenceWithCameraInfoType } from '@/utils/alerts';
 import type { CameraFullInfosType, SiteType } from '@/utils/camera';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
 import { LiveAlertInfos } from './AlertInfos/LiveAlertInfos';
+import LiveMap from './LiveMap';
 
 interface LiveControlPanelProps {
   sites: SiteType[];
@@ -68,10 +68,13 @@ export const LiveControlPanel = ({
         />
       </div>
       <div style={{ flexGrow: 1 }}>
-        <CamerasMap
-          cameras={selectedCamera ? [selectedCamera] : []}
-          minHeight="200px"
-        />
+        {selectedCamera && (
+          <LiveMap
+            camera={selectedCamera}
+            sequence={sequence}
+            minHeight="200px"
+          />
+        )}
       </div>
     </Stack>
   );
