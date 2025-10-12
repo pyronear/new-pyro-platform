@@ -69,11 +69,7 @@ export const LiveControlPanel = ({
       </div>
       <div style={{ flexGrow: 1 }}>
         {selectedCamera && (
-          <LiveMap
-            camera={selectedCamera}
-            sequence={sequence}
-            minHeight="200px"
-          />
+          <LiveMap camera={selectedCamera} sequence={sequence} />
         )}
       </div>
     </Stack>
