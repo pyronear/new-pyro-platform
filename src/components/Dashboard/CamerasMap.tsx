@@ -7,19 +7,19 @@ import type { CameraType } from '@/services/camera';
 import CameraMarkerMap from '../Common/Map/CameraMarkerMap';
 import TemplateMap from '../Common/Map/TemplateMap';
 
-interface CameraMapProps {
+interface CamerasMapProps {
   cameras: CameraType[];
   setMapRef: (map: LeafletMap) => void;
   markerRefs: RefObject<Map<number, LeafletMarker>>;
   onClickOnMarker: (cameraId: number) => void;
 }
 
-export const CameraMap = ({
+export const CamerasMap = ({
   cameras,
   setMapRef,
   markerRefs,
   onClickOnMarker,
-}: CameraMapProps) => {
+}: CamerasMapProps) => {
   const bounds = useMemo(() => {
     const allCamerasPoints = cameras.map(
       (c) => [c.lat, c.lon] as L.LatLngExpression
@@ -41,4 +41,4 @@ export const CameraMap = ({
   );
 };
 
-export default CameraMap;
+export default CamerasMap;
