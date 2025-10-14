@@ -3,7 +3,7 @@ import { type ReactNode, useState } from 'react';
 
 import type { SequenceWithCameraInfoType } from '@/utils/alerts';
 
-import { useStreamingActions } from './hooks/useStreamingVideo';
+import { useStreamingActions } from './hooks/useStreamingActions';
 import { LiveContainer } from './LiveContainer';
 
 interface ModalLiveWrapperProps {

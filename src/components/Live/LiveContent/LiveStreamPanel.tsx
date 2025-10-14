@@ -18,7 +18,7 @@ import { calculateHasRotation, getMoveToAzimuth, SPEEDS } from '@/utils/live';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
 import { StateStreaming, useMediaMtx } from '../hooks/useMediaMtx';
-import type { StreamingAction } from '../hooks/useStreamingVideo';
+import type { StreamingAction } from '../hooks/useStreamingActions';
 import { FloatingActions } from './StreamActions/FloatingActions';
 import { QuickActions } from './StreamActions/QuickActions';
 

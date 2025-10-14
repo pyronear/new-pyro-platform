@@ -7,7 +7,7 @@ import { Fab, Stack } from '@mui/material';
 
 import { type CameraDirectionType } from '@/services/live';
 
-import type { StreamingAction } from '../../hooks/useStreamingVideo';
+import type { StreamingAction } from '../../hooks/useStreamingActions';
 
 interface NavigationButtonsProps {
   cameraIp: string;

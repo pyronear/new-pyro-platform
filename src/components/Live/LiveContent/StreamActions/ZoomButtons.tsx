@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 
 import { zoomCamera } from '@/services/live';
 
-import type { StreamingAction } from '../../hooks/useStreamingVideo';
+import type { StreamingAction } from '../../hooks/useStreamingActions';
 
 const MIN_ZOOM = 0;
 const MAX_ZOOM = 64;

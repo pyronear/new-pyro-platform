@@ -18,7 +18,7 @@ import { useState } from 'react';
 import { getMoveToAzimuth, isAzimuthValid } from '@/utils/live';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
-import type { StreamingAction } from '../../hooks/useStreamingVideo';
+import type { StreamingAction } from '../../hooks/useStreamingActions';
 
 interface QuickActionsProps {
   cameraIp: string;

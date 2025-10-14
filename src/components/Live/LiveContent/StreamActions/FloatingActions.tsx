@@ -2,7 +2,7 @@ import Stack from '@mui/material/Stack';
 
 import { calculateHasRotation, calculateHasZoom } from '@/utils/live';
 
-import type { StreamingAction } from '../../hooks/useStreamingVideo';
+import type { StreamingAction } from '../../hooks/useStreamingActions';
 import { NavigationButtons } from './NavigationButtons';
 import { ZoomButtons } from './ZoomButtons';
 

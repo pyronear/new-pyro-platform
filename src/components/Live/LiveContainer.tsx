@@ -21,7 +21,7 @@ import { calculateLiveStreamingUrl, calculateSiteUrl } from '@/utils/live';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
 import { useDataSitesLive } from './hooks/useDataSitesLive';
-import type { StreamingAction } from './hooks/useStreamingVideo';
+import type { StreamingAction } from './hooks/useStreamingActions';
 import { HeadRow } from './LiveContent/HeadRow/HeadRow';
 import { LiveControlPanel } from './LiveContent/LiveControlPanel';
 import { LiveStreamPanel } from './LiveContent/LiveStreamPanel';
