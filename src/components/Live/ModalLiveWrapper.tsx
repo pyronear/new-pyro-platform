@@ -3,7 +3,8 @@ import { type ReactNode, useState } from 'react';
 
 import type { SequenceWithCameraInfoType } from '@/utils/alerts';
 
-import { useStreamingActions } from './hooks/useStreamingActions';
+import { ActionsOnCameraContextProvider } from './context/ActionsOnCameraProvider';
+import { useActionsOnCamera } from './context/useActionsOnCamera';
 import { LiveContainer } from './LiveContainer';
 
 interface ModalLiveWrapperProps {
@@ -22,13 +23,7 @@ export const ModalLiveWrapper = ({
   const [openLive, setOpenLive] = useState(false);
 
   // Created here to keep the queue intact when the modal is closed
-  const {
-    addStreamingAction,
-    isStreamingTimeout,
-    resetErrorOnAction,
-    errorStreamingAction,
-    statusStreamingVideo,
-  } = useStreamingActions();
+  const { errorStreamingAction, resetErrorOnAction } = useActionsOnCamera();
 
   const handleClose = (
     _event: never,
@@ -44,40 +39,39 @@ export const ModalLiveWrapper = ({
   return (
     <>
       {children(handleOpen)}
-      <Dialog open={openLive} onClose={handleClose} maxWidth="lg" fullWidth>
-        <DialogContent
-          sx={{
-            padding: 0,
-            minHeight: '90vh',
-            '& > .MuiStack-root': {
+      <ActionsOnCameraContextProvider>
+        <Dialog open={openLive} onClose={handleClose} maxWidth="lg" fullWidth>
+          <DialogContent
+            sx={{
+              padding: 0,
               minHeight: '90vh',
-            },
-          }}
-        >
-          <LiveContainer
-            onClose={() => setOpenLive(false)}
-            cameraName={cameraName}
-            sequence={sequence}
-            addStreamingAction={addStreamingAction}
-            statusStreamingVideo={statusStreamingVideo}
-            isStreamingTimeout={isStreamingTimeout}
-          />
-          <Snackbar
-            open={!!errorStreamingAction}
-            autoHideDuration={DURATION_SNACKBAR_IN_MS}
-            onClose={resetErrorOnAction}
+              '& > .MuiStack-root': {
+                minHeight: '90vh',
+              },
+            }}
           >
-            <Alert
+            <LiveContainer
+              onClose={() => setOpenLive(false)}
+              cameraName={cameraName}
+              sequence={sequence}
+            />
+            <Snackbar
+              open={!!errorStreamingAction}
+              autoHideDuration={DURATION_SNACKBAR_IN_MS}
               onClose={resetErrorOnAction}
-              severity="error"
-              variant="filled"
-              sx={{ width: '100%' }}
             >
-              {errorStreamingAction}
-            </Alert>
-          </Snackbar>
-        </DialogContent>
-      </Dialog>
+              <Alert
+                onClose={resetErrorOnAction}
+                severity="error"
+                variant="filled"
+                sx={{ width: '100%' }}
+              >
+                {errorStreamingAction}
+              </Alert>
+            </Snackbar>
+          </DialogContent>
+        </Dialog>
+      </ActionsOnCameraContextProvider>
     </>
   );
 };

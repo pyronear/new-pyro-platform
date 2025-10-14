@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 
 import { zoomCamera } from '@/services/live';
 
-import type { StreamingAction } from '../../hooks/useStreamingActions';
+import { useActionsOnCamera } from '../../context/useActionsOnCamera';
 
 const MIN_ZOOM = 0;
 const MAX_ZOOM = 64;
@@ -13,13 +13,10 @@ const STEP_ZOOM = 4;
 
 interface ZoomButtonsProps {
   cameraIp: string;
-  addStreamingAction: (newAction: StreamingAction) => void;
 }
 
-export const ZoomButtons = ({
-  cameraIp,
-  addStreamingAction,
-}: ZoomButtonsProps) => {
+export const ZoomButtons = ({ cameraIp }: ZoomButtonsProps) => {
+  const { addStreamingAction } = useActionsOnCamera();
   const [zoom, setZoom] = useState(MIN_ZOOM);
 
   useEffect(() => {

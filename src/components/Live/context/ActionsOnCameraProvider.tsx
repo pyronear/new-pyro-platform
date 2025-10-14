@@ -20,21 +20,10 @@ import {
 import type { MovementCommand } from '@/utils/live';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
-export interface StreamingAction {
-  type:
-    | 'START_STREAMING'
-    | 'STOP_STREAMING'
-    | 'MOVE'
-    | 'MOVE_TO_AZIMUTH'
-    | 'STOP'
-    | 'ZOOM';
-  ip: string;
-  params: {
-    hasRotation?: boolean;
-    move?: MovementCommand;
-    zoom?: number;
-  };
-}
+import {
+  ActionsOnCameraContext,
+  type StreamingAction,
+} from '../context/ActionsOnCameraContext';
 
 const TIME_BETWEEN_START_AND_MOVE_MS = 3000;
 const LIVE_STREAMING_TIMEOUT_MS =
@@ -42,7 +31,9 @@ const LIVE_STREAMING_TIMEOUT_MS =
 
 // Hook to prevent the actions start and stop, movements to be run in parallel
 // And orchestrate actions on camera
-export const useStreamingActions = () => {
+export const ActionsOnCameraContextProvider: React.FC<{
+  children: React.ReactNode;
+}> = ({ children }) => {
   const [actionsQueue, setActionsQueue] = useState<StreamingAction[]>([]);
   const [errorOnAction, setErrorOnAction] = useState<string | null>(null);
   const [isOneActionLoading, setIsOneActionLoading] = useState<boolean>(false);
@@ -205,11 +196,26 @@ export const useStreamingActions = () => {
     return STATUS_ERROR;
   }, [statusStart, statusStop]);
 
-  return {
-    addStreamingAction: addActionToQueue,
-    isStreamingTimeout,
-    resetErrorOnAction,
-    errorStreamingAction: errorOnAction,
-    statusStreamingVideo,
-  };
+  const contextValue = useMemo(
+    () => ({
+      addStreamingAction: addActionToQueue,
+      isStreamingTimeout,
+      resetErrorOnAction,
+      errorStreamingAction: errorOnAction,
+      statusStreamingVideo,
+    }),
+    [
+      addActionToQueue,
+      isStreamingTimeout,
+      resetErrorOnAction,
+      errorOnAction,
+      statusStreamingVideo,
+    ]
+  );
+
+  return (
+    <ActionsOnCameraContext value={contextValue}>
+      {children}
+    </ActionsOnCameraContext>
+  );
 };

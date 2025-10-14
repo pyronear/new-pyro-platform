@@ -18,11 +18,10 @@ import { useState } from 'react';
 import { getMoveToAzimuth, isAzimuthValid } from '@/utils/live';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
-import type { StreamingAction } from '../../hooks/useStreamingActions';
+import { useActionsOnCamera } from '../../context/useActionsOnCamera';
 
 interface QuickActionsProps {
   cameraIp: string;
-  addStreamingAction: (newAction: StreamingAction) => void;
   poses: number[];
   azimuths: number[];
   speedName: number;
@@ -31,7 +30,6 @@ interface QuickActionsProps {
 
 export const QuickActions = ({
   cameraIp,
-  addStreamingAction,
   poses,
   azimuths,
   speedName,
@@ -39,6 +37,7 @@ export const QuickActions = ({
 }: QuickActionsProps) => {
   const theme = useTheme();
   const { t } = useTranslationPrefix('live');
+  const { addStreamingAction } = useActionsOnCamera();
   const [azimuthToGo, setAzimuthToGo] = useState<string>('');
   const isAzimuthToGoInvalid = !isAzimuthValid(azimuthToGo);
 

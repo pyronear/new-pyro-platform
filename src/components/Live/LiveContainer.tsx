@@ -20,8 +20,8 @@ import {
 import { calculateLiveStreamingUrl, calculateSiteUrl } from '@/utils/live';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
+import { useActionsOnCamera } from './context/useActionsOnCamera';
 import { useDataSitesLive } from './hooks/useDataSitesLive';
-import type { StreamingAction } from './hooks/useStreamingActions';
 import { HeadRow } from './LiveContent/HeadRow/HeadRow';
 import { LiveControlPanel } from './LiveContent/LiveControlPanel';
 import { LiveStreamPanel } from './LiveContent/LiveStreamPanel';
@@ -30,21 +30,16 @@ interface LiveContainerProps {
   onClose: () => void;
   cameraName: string;
   sequence?: SequenceWithCameraInfoType;
-  addStreamingAction: (action: StreamingAction) => void;
-  statusStreamingVideo: string;
-  isStreamingTimeout: boolean;
 }
 
 export const LiveContainer = ({
   onClose,
   cameraName,
   sequence,
-  addStreamingAction,
-  statusStreamingVideo,
-  isStreamingTimeout,
 }: LiveContainerProps) => {
   const { t } = useTranslationPrefix('live');
   const { statusSitesFetch, sites } = useDataSitesLive();
+  const { isStreamingTimeout } = useActionsOnCamera();
   const [isStreamVideoInterrupted, setIsStreamVideoInterrupted] =
     useState<boolean>(false);
   const [selectedSite, setSelectedSite] = useState<SiteType | null>(null);
@@ -111,9 +106,6 @@ export const LiveContainer = ({
               setIsStreamVideoInterrupted={setIsStreamVideoInterrupted}
               camera={selectedCamera}
               sequence={sequence}
-              addStreamingAction={addStreamingAction}
-              statusStreamingVideo={statusStreamingVideo}
-              isStreamingTimeout={isStreamingTimeout}
             />
           </Grid>
           <Grid size={3}>

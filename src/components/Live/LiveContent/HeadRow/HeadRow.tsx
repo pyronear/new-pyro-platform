@@ -16,6 +16,7 @@ export const HeadRow = ({
   isStreamingInterrupted,
 }: HeadRowProps) => {
   const { t } = useTranslationPrefix('live.header');
+
   const isStreamingRunning = isStreamingLaunched && !isStreamingInterrupted;
   return (
     <Alert

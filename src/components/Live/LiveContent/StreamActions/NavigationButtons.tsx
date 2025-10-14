@@ -7,19 +7,19 @@ import { Fab, Stack } from '@mui/material';
 
 import { type CameraDirectionType } from '@/services/live';
 
-import type { StreamingAction } from '../../hooks/useStreamingActions';
+import { useActionsOnCamera } from '../../context/useActionsOnCamera';
 
 interface NavigationButtonsProps {
   cameraIp: string;
-  addStreamingAction: (newAction: StreamingAction) => void;
   speed: number;
 }
 
 export const NavigationButtons = ({
   cameraIp,
-  addStreamingAction,
   speed,
 }: NavigationButtonsProps) => {
+  const { addStreamingAction } = useActionsOnCamera();
+
   const onClickMove = (direction: CameraDirectionType) => {
     addStreamingAction({
       type: 'MOVE',

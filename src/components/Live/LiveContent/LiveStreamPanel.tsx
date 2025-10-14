@@ -17,35 +17,32 @@ import type { CameraFullInfosType } from '@/utils/camera';
 import { calculateHasRotation, getMoveToAzimuth, SPEEDS } from '@/utils/live';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
+import { useActionsOnCamera } from '../context/useActionsOnCamera';
 import { StateStreaming, useMediaMtx } from '../hooks/useMediaMtx';
-import type { StreamingAction } from '../hooks/useStreamingActions';
 import { FloatingActions } from './StreamActions/FloatingActions';
 import { QuickActions } from './StreamActions/QuickActions';
 
 interface LiveStreamPanelProps {
   urlStreaming: string;
   camera: CameraFullInfosType | null;
-  addStreamingAction: (newAction: StreamingAction) => void;
-  statusStreamingVideo: string;
   sequence?: SequenceWithCameraInfoType;
   setIsStreamVideoInterrupted: Dispatch<SetStateAction<boolean>>;
-  isStreamingTimeout: boolean;
 }
 
 export const LiveStreamPanel = ({
   urlStreaming,
   camera,
-  addStreamingAction,
-  statusStreamingVideo,
+
   setIsStreamVideoInterrupted,
   sequence,
-  isStreamingTimeout,
 }: LiveStreamPanelProps) => {
   const [speedIndex, setSpeedIndex] = useState(1);
   const ip = camera?.ip ?? '';
   const { t } = useTranslationPrefix('live');
   const refVideo = useRef<HTMLVideoElement>(null);
   const mediaMtx = useMediaMtx({ urlStreaming, refVideo, ip });
+  const { addStreamingAction, isStreamingTimeout, statusStreamingVideo } =
+    useActionsOnCamera();
 
   const mediaMtxInterrupted =
     mediaMtx.state === StateStreaming.WITH_ERROR ||
@@ -157,7 +154,6 @@ export const LiveStreamPanel = ({
               mediaMtx.state === StateStreaming.IS_STREAMING && (
                 <FloatingActions
                   cameraIp={ip}
-                  addStreamingAction={addStreamingAction}
                   cameraType={camera?.type}
                   speed={SPEEDS[speedIndex].speed}
                 />
@@ -168,7 +164,6 @@ export const LiveStreamPanel = ({
             mediaMtx.state === StateStreaming.IS_STREAMING && (
               <QuickActions
                 cameraIp={ip}
-                addStreamingAction={addStreamingAction}
                 poses={camera.poses ?? []}
                 azimuths={camera.azimuths ?? []}
                 speedName={SPEEDS[speedIndex].name}
