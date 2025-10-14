@@ -1,42 +1,41 @@
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import {
+  type Dispatch,
+  type SetStateAction,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 
 import { Loader } from '@/components/Common/Loader';
 import { STATUS_ERROR, STATUS_LOADING, STATUS_SUCCESS } from '@/services/axios';
 import type { SequenceWithCameraInfoType } from '@/utils/alerts';
 import type { CameraFullInfosType } from '@/utils/camera';
-import {
-  calculateHasRotation,
-  type ControlledMove,
-  getMoveToAzimuth,
-  SPEEDS,
-} from '@/utils/live';
+import { calculateHasRotation, getMoveToAzimuth, SPEEDS } from '@/utils/live';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
 import { StateStreaming, useMediaMtx } from '../hooks/useMediaMtx';
+import type { StreamingAction } from '../hooks/useStreamingVideo';
 import { FloatingActions } from './StreamActions/FloatingActions';
 import { QuickActions } from './StreamActions/QuickActions';
 
 interface LiveStreamPanelProps {
   urlStreaming: string;
   camera: CameraFullInfosType | null;
-  startStreamingVideo: (
-    ip: string,
-    hasRotation: boolean,
-    initialMove?: ControlledMove
-  ) => void;
-  stopStreamingVideo: (ip: string, hasRotation: boolean) => void;
+  addStreamingAction: (newAction: StreamingAction) => void;
   statusStreamingVideo: string;
   sequence?: SequenceWithCameraInfoType;
+  setIsStreamVideoInterrupted: Dispatch<SetStateAction<boolean>>;
 }
 
 export const LiveStreamPanel = ({
   urlStreaming,
   camera,
-  startStreamingVideo,
-  stopStreamingVideo,
+  addStreamingAction,
   statusStreamingVideo,
+  setIsStreamVideoInterrupted,
   sequence,
 }: LiveStreamPanelProps) => {
   const [speedIndex, setSpeedIndex] = useState(1);
@@ -60,14 +59,26 @@ export const LiveStreamPanel = ({
 
   useEffect(() => {
     if (ip) {
-      startStreamingVideo(ip, hasRotation, initialMove);
+      addStreamingAction({
+        type: 'START_STREAMING',
+        ip,
+        params: { hasRotation, move: initialMove },
+      });
     }
     return () => {
       if (ip) {
-        stopStreamingVideo(ip, hasRotation);
+        addStreamingAction({
+          type: 'STOP_STREAMING',
+          ip,
+          params: { hasRotation },
+        });
       }
     };
-  }, [hasRotation, initialMove, ip, startStreamingVideo, stopStreamingVideo]);
+  }, [hasRotation, initialMove, ip, addStreamingAction]);
+
+  useEffect(() => {
+    setIsStreamVideoInterrupted(mediaMtx.state === StateStreaming.WITH_ERROR);
+  }, [mediaMtx.state, setIsStreamVideoInterrupted]);
 
   const setNextSpeed = () =>
     setSpeedIndex((oldIndex) =>
@@ -118,6 +129,7 @@ export const LiveStreamPanel = ({
               mediaMtx.state === StateStreaming.IS_STREAMING && (
                 <FloatingActions
                   cameraIp={ip}
+                  addStreamingAction={addStreamingAction}
                   cameraType={camera?.type}
                   speed={SPEEDS[speedIndex].speed}
                 />
@@ -128,6 +140,7 @@ export const LiveStreamPanel = ({
             mediaMtx.state === StateStreaming.IS_STREAMING && (
               <QuickActions
                 cameraIp={ip}
+                addStreamingAction={addStreamingAction}
                 poses={camera.poses ?? []}
                 azimuths={camera.azimuths ?? []}
                 speedName={SPEEDS[speedIndex].name}

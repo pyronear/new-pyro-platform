@@ -17,14 +17,11 @@ import {
   getSiteByCameraName,
   type SiteType,
 } from '@/utils/camera';
-import {
-  calculateLiveStreamingUrl,
-  calculateSiteUrl,
-  type ControlledMove,
-} from '@/utils/live';
+import { calculateLiveStreamingUrl, calculateSiteUrl } from '@/utils/live';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
 import { useDataSitesLive } from './hooks/useDataSitesLive';
+import type { StreamingAction } from './hooks/useStreamingVideo';
 import { HeadRow } from './LiveContent/HeadRow/HeadRow';
 import { LiveControlPanel } from './LiveContent/LiveControlPanel';
 import { LiveStreamPanel } from './LiveContent/LiveStreamPanel';
@@ -33,25 +30,23 @@ interface LiveContainerProps {
   onClose: () => void;
   cameraName: string;
   sequence?: SequenceWithCameraInfoType;
-  startStreamingVideo: (
-    ip: string,
-    hasRotation: boolean,
-    initialMove?: ControlledMove
-  ) => void;
-  stopStreamingVideo: (ip: string, hasRotation: boolean) => void;
+  addStreamingAction: (action: StreamingAction) => void;
   statusStreamingVideo: string;
+  isStreamingTimeout: boolean;
 }
 
 export const LiveContainer = ({
   onClose,
   cameraName,
   sequence,
-  startStreamingVideo,
-  stopStreamingVideo,
+  addStreamingAction,
   statusStreamingVideo,
+  isStreamingTimeout,
 }: LiveContainerProps) => {
   const { t } = useTranslationPrefix('live');
   const { statusSitesFetch, sites } = useDataSitesLive();
+  const [isStreamVideoInterrupted, setIsStreamVideoInterrupted] =
+    useState<boolean>(false);
   const [selectedSite, setSelectedSite] = useState<SiteType | null>(null);
   const [selectedCameraId, setSelectedCameraId] = useState<number | null>(null);
   const isFetchFromSiteEnabled = !!selectedSite;
@@ -103,16 +98,20 @@ export const LiveContainer = ({
 
   return (
     <Stack>
-      <HeadRow onClose={onClose} isCounting={isStreamingLaunched} />
+      <HeadRow
+        onClose={onClose}
+        isStreamingLaunched={isStreamingLaunched}
+        isStreamingInterrupted={isStreamingTimeout && isStreamVideoInterrupted}
+      />
       {isStreamingLaunched ? (
         <Grid container p={2} spacing={2} flexGrow={1}>
           <Grid size={9}>
             <LiveStreamPanel
               urlStreaming={urlStreaming}
+              setIsStreamVideoInterrupted={setIsStreamVideoInterrupted}
               camera={selectedCamera}
               sequence={sequence}
-              startStreamingVideo={startStreamingVideo}
-              stopStreamingVideo={stopStreamingVideo}
+              addStreamingAction={addStreamingAction}
               statusStreamingVideo={statusStreamingVideo}
             />
           </Grid>

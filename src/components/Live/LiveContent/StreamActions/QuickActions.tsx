@@ -15,12 +15,14 @@ import {
 } from '@mui/material';
 import { useState } from 'react';
 
-import { moveCamera, moveCameraToAAzimuth } from '@/services/live';
 import { getMoveToAzimuth, isAzimuthValid } from '@/utils/live';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
+import type { StreamingAction } from '../../hooks/useStreamingVideo';
+
 interface QuickActionsProps {
   cameraIp: string;
+  addStreamingAction: (newAction: StreamingAction) => void;
   poses: number[];
   azimuths: number[];
   speedName: number;
@@ -29,6 +31,7 @@ interface QuickActionsProps {
 
 export const QuickActions = ({
   cameraIp,
+  addStreamingAction,
   poses,
   azimuths,
   speedName,
@@ -40,16 +43,22 @@ export const QuickActions = ({
   const isAzimuthToGoInvalid = !isAzimuthValid(azimuthToGo);
 
   const onClickDirection = (pose: number) => {
-    void moveCamera(cameraIp, undefined, undefined, pose, undefined);
+    addStreamingAction({
+      type: 'MOVE',
+      ip: cameraIp,
+      params: { move: { poseId: pose } },
+    });
   };
 
   const onClickAzimuth = () => {
     const azimuthToGoInt = Number(azimuthToGo);
     if (!Number.isNaN(azimuthToGoInt)) {
       const move = getMoveToAzimuth(azimuthToGoInt, azimuths, poses);
-      if (move) {
-        void moveCameraToAAzimuth(cameraIp, move);
-      }
+      addStreamingAction({
+        type: 'MOVE_TO_AZIMUTH',
+        ip: cameraIp,
+        params: { move },
+      });
     }
   };
 

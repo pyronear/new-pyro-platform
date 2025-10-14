@@ -5,27 +5,35 @@ import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { Fab, Stack } from '@mui/material';
 
-import {
-  type CameraDirectionType,
-  moveCamera,
-  stopCamera,
-} from '@/services/live';
+import { type CameraDirectionType } from '@/services/live';
+
+import type { StreamingAction } from '../../hooks/useStreamingVideo';
 
 interface NavigationButtonsProps {
   cameraIp: string;
+  addStreamingAction: (newAction: StreamingAction) => void;
   speed: number;
 }
 
 export const NavigationButtons = ({
   cameraIp,
+  addStreamingAction,
   speed,
 }: NavigationButtonsProps) => {
   const onClickMove = (direction: CameraDirectionType) => {
-    void moveCamera(cameraIp, direction, speed, undefined, undefined);
+    addStreamingAction({
+      type: 'MOVE',
+      ip: cameraIp,
+      params: { move: { direction, speed } },
+    });
   };
 
   const onClickStop = () => {
-    void stopCamera(cameraIp);
+    addStreamingAction({
+      type: 'STOP',
+      ip: cameraIp,
+      params: {},
+    });
   };
 
   return (

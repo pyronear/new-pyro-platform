@@ -129,6 +129,7 @@
     "loadingVideo": "Cargando vídeo...",
     "tooltipSpeed": "Velocidad de desplazamiento de la cámara",
     "tooltipPrerecordedAzimuths": "Azimuts pregrabados para la cámara",
-    "tooltipCustomAzimuths": "Azimut personalizado para la cámara"
+    "tooltipCustomAzimuths": "Azimut personalizado para la cámara",
+    "errorOnActionStreaming": "An unexpected error happened when try to contact camera"
   }
 }

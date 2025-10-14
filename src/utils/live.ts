@@ -63,17 +63,18 @@ export const getClosestPose = (
     : null;
 };
 
-export interface ControlledMove {
-  poseId: number;
-  degrees: number;
-  direction: CameraDirectionType;
+export interface MovementCommand {
+  poseId?: number;
+  degrees?: number;
+  speed?: number;
+  direction?: CameraDirectionType;
 }
 
 export const getMoveToAzimuth = (
   azimuthToGoTo: number,
   azimuthsCamera: number[],
   posesCamera: number[]
-): ControlledMove | undefined => {
+): MovementCommand | undefined => {
   const azimuthToGoToRounded = Math.trunc(azimuthToGoTo);
   if (azimuthsCamera.length === 0) {
     return undefined;
@@ -83,12 +84,15 @@ export const getMoveToAzimuth = (
   );
   const indexClosestPose = indexOfClosestTo0(distanceAzimuths);
   if (indexClosestPose < posesCamera.length) {
+    const diffDegrees = distanceAzimuths[indexClosestPose];
     return {
       poseId: posesCamera[indexClosestPose],
-      degrees: Math.abs(distanceAzimuths[indexClosestPose]),
-      direction: (distanceAzimuths[indexClosestPose] > 0
-        ? 'Right'
-        : 'Left') as CameraDirectionType,
+      degrees: Math.abs(diffDegrees),
+      speed: 5,
+      direction:
+        diffDegrees !== 0
+          ? ((diffDegrees > 0 ? 'Right' : 'Left') as CameraDirectionType)
+          : undefined,
     };
   }
   return undefined;

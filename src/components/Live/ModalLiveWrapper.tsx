@@ -1,9 +1,9 @@
-import { Dialog, DialogContent } from '@mui/material';
+import { Alert, Dialog, DialogContent, Snackbar } from '@mui/material';
 import { type ReactNode, useState } from 'react';
 
 import type { SequenceWithCameraInfoType } from '@/utils/alerts';
 
-import { useStreamingVideo } from './hooks/useStreamingVideo';
+import { useStreamingActions } from './hooks/useStreamingVideo';
 import { LiveContainer } from './LiveContainer';
 
 interface ModalLiveWrapperProps {
@@ -12,15 +12,23 @@ interface ModalLiveWrapperProps {
   children: (onClick: () => void) => ReactNode;
 }
 
+const DURATION_SNACKBAR_IN_MS = 5000;
+
 export const ModalLiveWrapper = ({
   cameraName,
   sequence,
   children,
 }: ModalLiveWrapperProps) => {
   const [openLive, setOpenLive] = useState(false);
+
   // Created here to keep the queue intact when the modal is closed
-  const { startStreamingVideo, stopStreamingVideo, statusStreamingVideo } =
-    useStreamingVideo();
+  const {
+    addStreamingAction,
+    isStreamingTimeout,
+    resetErrorOnAction,
+    errorStreamingAction,
+    statusStreamingVideo,
+  } = useStreamingActions();
 
   const handleClose = (
     _event: never,
@@ -50,10 +58,24 @@ export const ModalLiveWrapper = ({
             onClose={() => setOpenLive(false)}
             cameraName={cameraName}
             sequence={sequence}
-            startStreamingVideo={startStreamingVideo}
-            stopStreamingVideo={stopStreamingVideo}
+            addStreamingAction={addStreamingAction}
             statusStreamingVideo={statusStreamingVideo}
+            isStreamingTimeout={isStreamingTimeout}
           />
+          <Snackbar
+            open={!!errorStreamingAction}
+            autoHideDuration={DURATION_SNACKBAR_IN_MS}
+            onClose={resetErrorOnAction}
+          >
+            <Alert
+              onClose={resetErrorOnAction}
+              severity="error"
+              variant="filled"
+              sx={{ width: '100%' }}
+            >
+              {errorStreamingAction}
+            </Alert>
+          </Snackbar>
         </DialogContent>
       </Dialog>
     </>

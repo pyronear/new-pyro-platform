@@ -1,7 +1,7 @@
 import type { AxiosResponse } from 'axios';
 import * as z from 'zod/v4';
 
-import type { ControlledMove } from '@/utils/live';
+import type { MovementCommand } from '@/utils/live';
 
 import { liveInstance } from './axios';
 
@@ -142,7 +142,7 @@ export const moveCamera = async (
 
 export const moveCameraToAAzimuth = async (
   cameraIp: string,
-  move: ControlledMove
+  move: MovementCommand
 ) => {
   return moveCamera(
     cameraIp,
@@ -152,7 +152,13 @@ export const moveCameraToAAzimuth = async (
     undefined
   ).then(() => {
     if (move.degrees !== 0) {
-      return moveCamera(cameraIp, move.direction, 5, undefined, move.degrees);
+      return moveCamera(
+        cameraIp,
+        move.direction,
+        move.speed,
+        undefined,
+        move.degrees
+      );
     }
   });
 };
