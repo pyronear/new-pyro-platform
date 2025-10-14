@@ -1,4 +1,10 @@
-import { type RefObject, useEffect, useMemo, useState } from 'react';
+import {
+  type RefObject,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 
 import { MediaMTXWebRTCReader } from './reader';
 
@@ -53,6 +59,11 @@ export const useMediaMtx = ({
     }
   }, [refVideo, urlStreaming]);
 
+  const restart = useCallback(() => {
+    setState(StateStreaming.IN_CREATION);
+    reader?.start();
+  }, [reader]);
+
   useEffect(() => {
     // Clean up reader
     if (reader && ip) {
@@ -67,5 +78,5 @@ export const useMediaMtx = ({
     };
   }, [reader, ip]);
 
-  return { state };
+  return { state, restart };
 };

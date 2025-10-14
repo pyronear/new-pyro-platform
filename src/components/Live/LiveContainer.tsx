@@ -113,6 +113,7 @@ export const LiveContainer = ({
               sequence={sequence}
               addStreamingAction={addStreamingAction}
               statusStreamingVideo={statusStreamingVideo}
+              isStreamingTimeout={isStreamingTimeout}
             />
           </Grid>
           <Grid size={3}>

@@ -121,15 +121,21 @@
     "errorNoAccess": "No se encontró ningún sitio con esta cuenta. Póngase en contacto con su administrador.",
     "errorCallSite": "Se ha producido un error al conectarse al sitio. Inténtelo de nuevo más tarde.",
     "siteField": "Sitio",
-    "buttonClose": "Cerrar la transmisión en vivo",
-    "alertMessage": "Transmisión en vivo en curso: detección inactiva desde {{timeSpent}}",
+    "header": {
+      "buttonClose": "Cerrar la transmisión en vivo",
+      "alertMessage": "Transmisión en vivo en curso: detección inactiva desde {{timeSpent}}",
+      "interruptedMessage": "La transmisión en vivo se interrumpe.",
+      "loadingMessage": "La transmisión en directo se está cargando..."
+    },
     "errorNoStreaming": "Se ha producido un error. Vuelva a intentarlo más tarde.",
     "errorTmpMediaMtx": "Interrupción del flujo de vídeo. Por favor, espere",
+    "errorInteruptedMediaMtx": "Interrupción de la transmisión de vídeo.",
     "errorFinalMediaMtx": "El streaming de vídeo ha fallado. Inténtalo de nuevo más tarde.",
     "loadingVideo": "Cargando vídeo...",
     "tooltipSpeed": "Velocidad de desplazamiento de la cámara",
     "tooltipPrerecordedAzimuths": "Azimuts pregrabados para la cámara",
     "tooltipCustomAzimuths": "Azimut personalizado para la cámara",
-    "errorOnActionStreaming": "An unexpected error happened when try to contact camera"
+    "errorOnActionStreaming": "An unexpected error happened when try to contact camera",
+    "relaunchStreamButton": "Relanzar"
   }
 }

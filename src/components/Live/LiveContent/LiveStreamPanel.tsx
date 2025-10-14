@@ -1,3 +1,4 @@
+import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import {
@@ -28,6 +29,7 @@ interface LiveStreamPanelProps {
   statusStreamingVideo: string;
   sequence?: SequenceWithCameraInfoType;
   setIsStreamVideoInterrupted: Dispatch<SetStateAction<boolean>>;
+  isStreamingTimeout: boolean;
 }
 
 export const LiveStreamPanel = ({
@@ -37,12 +39,26 @@ export const LiveStreamPanel = ({
   statusStreamingVideo,
   setIsStreamVideoInterrupted,
   sequence,
+  isStreamingTimeout,
 }: LiveStreamPanelProps) => {
   const [speedIndex, setSpeedIndex] = useState(1);
   const ip = camera?.ip ?? '';
   const { t } = useTranslationPrefix('live');
   const refVideo = useRef<HTMLVideoElement>(null);
   const mediaMtx = useMediaMtx({ urlStreaming, refVideo, ip });
+
+  const mediaMtxInterrupted =
+    mediaMtx.state === StateStreaming.WITH_ERROR ||
+    mediaMtx.state === StateStreaming.STOPPED;
+
+  const restartStreaming = () => {
+    mediaMtx.restart();
+    addStreamingAction({
+      type: 'START_STREAMING',
+      ip,
+      params: { hasRotation, move: initialMove },
+    });
+  };
 
   const hasRotation = calculateHasRotation(camera?.type);
   const initialMove = useMemo(
@@ -77,8 +93,8 @@ export const LiveStreamPanel = ({
   }, [hasRotation, initialMove, ip, addStreamingAction]);
 
   useEffect(() => {
-    setIsStreamVideoInterrupted(mediaMtx.state === StateStreaming.WITH_ERROR);
-  }, [mediaMtx.state, setIsStreamVideoInterrupted]);
+    setIsStreamVideoInterrupted(mediaMtxInterrupted);
+  }, [mediaMtxInterrupted, setIsStreamVideoInterrupted]);
 
   const setNextSpeed = () =>
     setSpeedIndex((oldIndex) =>
@@ -90,14 +106,26 @@ export const LiveStreamPanel = ({
       {statusStreamingVideo === STATUS_ERROR && (
         <Typography variant="body2">{t('errorNoStreaming')}</Typography>
       )}
-      {mediaMtx.state === StateStreaming.WITH_ERROR && (
+      {!isStreamingTimeout && mediaMtx.state === StateStreaming.WITH_ERROR && (
         <Stack spacing={4}>
           <Loader />
           <Typography variant="body2">{t('errorTmpMediaMtx')}</Typography>
         </Stack>
       )}
-      {mediaMtx.state === StateStreaming.STOPPED && (
+      {!isStreamingTimeout && mediaMtx.state === StateStreaming.STOPPED && (
         <Typography variant="body2">{t('errorFinalMediaMtx')}</Typography>
+      )}
+      {isStreamingTimeout && mediaMtxInterrupted && (
+        <Stack spacing={4} alignItems="center">
+          <Typography variant="body2">
+            {t('errorInteruptedMediaMtx')}
+          </Typography>
+          <div>
+            <Button variant="contained" onClick={restartStreaming}>
+              {t('relaunchStreamButton')}
+            </Button>
+          </div>
+        </Stack>
       )}
       {(statusStreamingVideo === STATUS_LOADING ||
         (statusStreamingVideo === STATUS_SUCCESS &&

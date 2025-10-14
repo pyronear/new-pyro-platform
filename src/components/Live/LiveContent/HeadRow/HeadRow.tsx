@@ -16,9 +16,10 @@ export const HeadRow = ({
   isStreamingInterrupted,
 }: HeadRowProps) => {
   const { t } = useTranslationPrefix('live.header');
+  const isStreamingRunning = isStreamingLaunched && !isStreamingInterrupted;
   return (
     <Alert
-      severity={isStreamingLaunched ? 'warning' : 'info'}
+      severity={isStreamingRunning ? 'warning' : 'info'}
       sx={{ margin: 0, display: 'flex', alignItems: 'center' }}
       action={
         <Button variant="outlined" color="primary" onClick={onClose}>
@@ -30,7 +31,7 @@ export const HeadRow = ({
         <>{t('loadingMessage')}</>
       )}
       {isStreamingInterrupted && <>{t('interruptedMessage')}</>}
-      {isStreamingLaunched && <LiveWarningCounter />}
+      {isStreamingRunning && <LiveWarningCounter />}
     </Alert>
   );
 };
