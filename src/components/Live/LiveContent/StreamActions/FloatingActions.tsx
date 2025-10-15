@@ -20,7 +20,7 @@ export const FloatingActions = ({
     <Stack
       sx={{ position: 'absolute', bottom: 0, padding: 1, width: '100%' }}
       justifyContent="space-between"
-      alignItems="flex-end"
+      alignItems="stretch"
       direction="row"
       spacing={1}
     >
