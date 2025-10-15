@@ -123,17 +123,17 @@ export const ActionsOnCameraContextProvider: React.FC<{
             action.params.move?.degrees
           );
         case 'MOVE_TO_AZIMUTH':
-          if (action.params.move) {
+          if (action.params.move != undefined) {
             return moveCameraToAAzimuth(action.ip, action.params.move);
           }
-          return;
+          return Promise.resolve();
         case 'STOP':
           return stopCamera(action.ip);
         case 'ZOOM':
-          if (action.params.zoom) {
+          if (action.params.zoom != undefined) {
             return zoomCamera(action.ip, action.params.zoom);
           }
-          return;
+          return Promise.resolve();
       }
     },
     [startStreamingMutate, stopStreamingMutate]
@@ -145,7 +145,7 @@ export const ActionsOnCameraContextProvider: React.FC<{
       const action = actionsQueue[0]; // First in, first out
       setIsOneActionLoading(true);
       asyncCallByAction(action)
-        ?.catch(() => {
+        .catch(() => {
           setErrorOnAction(t('errorOnActionStreaming'));
         })
         .finally(() => {
