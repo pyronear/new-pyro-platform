@@ -1,10 +1,12 @@
 import {
+  Alert,
   Box,
   Button,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
+  Stack,
   Typography,
 } from '@mui/material';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
@@ -206,95 +208,90 @@ export const OcclusionMaskModal = ({
         },
       }}
     >
-      <DialogTitle>
-        <Typography variant="h6">{t('title')}</Typography>
-      </DialogTitle>
-      <DialogContent>
-        <Box>
-          <Typography variant="body1" gutterBottom>
-            {t('explanationText')}
-          </Typography>
-
-          {isLoading ? (
+      <DialogTitle>{t('title')}</DialogTitle>
+      <DialogContent dividers>
+        <Alert severity="info" sx={{ margin: 0 }}>
+          <Typography textAlign="start">{t('explanationText')}</Typography>
+        </Alert>
+        {isLoading ? (
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              minHeight: '200px',
+            }}
+          >
+            <Typography variant="body2" color="text.secondary">
+              {t('loading')}
+            </Typography>
+          </Box>
+        ) : (
+          imageUrl && (
             <Box
+              position="relative"
               sx={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                minHeight: '200px',
+                mt: 2,
+                border: 1,
+                borderColor: 'divider',
+                borderRadius: 1,
+                overflow: 'hidden',
+                display: 'inline-block',
+                maxWidth: '100%',
               }}
             >
-              <Typography variant="body2" color="text.secondary">
-                {t('loading')}
-              </Typography>
-            </Box>
-          ) : (
-            imageUrl && (
-              <Box
-                position="relative"
-                sx={{
-                  mt: 2,
-                  border: 1,
-                  borderColor: 'divider',
-                  borderRadius: 1,
-                  overflow: 'hidden',
-                  display: 'inline-block',
-                  maxWidth: '100%',
+              <img
+                src={imageUrl}
+                alt={t('detectionImageAlt')}
+                style={{
+                  width: '100%',
+                  height: 'auto',
+                  display: 'block',
                 }}
-              >
-                <img
-                  src={imageUrl}
-                  alt={t('detectionImageAlt')}
-                  style={{
-                    width: '100%',
-                    height: 'auto',
-                    display: 'block',
-                  }}
+              />
+
+              {/* Existing occlusion masks (red) */}
+              {existingMasks.map((mask) => (
+                <BboxOverlay
+                  key={`mask-${mask.xmin}-${mask.ymin}-${mask.xmax}-${mask.ymax}`}
+                  bbox={mask}
+                  color="red"
                 />
+              ))}
 
-                {/* Existing occlusion masks (red) */}
-                {existingMasks.map((mask) => (
-                  <BboxOverlay
-                    key={`mask-${mask.xmin}-${mask.ymin}-${mask.xmax}-${mask.ymax}`}
-                    bbox={mask}
-                    color="red"
-                  />
-                ))}
-
-                {/* Proposed new mask (green) */}
-                {proposedBbox && (
-                  <BboxOverlay bbox={proposedBbox} color="green" />
-                )}
-              </Box>
-            )
-          )}
-        </Box>
-      </DialogContent>
-      <DialogActions sx={{ p: 3, gap: 1 }}>
-        {existingMasks.length > 0 && (
-          <Button
-            onClick={handleDeleteAll}
-            color="error"
-            variant="outlined"
-            disabled={clearMasksMutation.isPending}
-          >
-            {clearMasksMutation.isPending
-              ? t('deleting')
-              : t('deleteAllButton')}
-          </Button>
+              {/* Proposed new mask (green) */}
+              {proposedBbox && (
+                <BboxOverlay bbox={proposedBbox} color="green" />
+              )}
+            </Box>
+          )
         )}
-        <Box sx={{ flex: 1 }} />
-        <Button onClick={onClose} color="inherit">
-          {t('cancelButton')}
-        </Button>
-        <Button
-          onClick={handleConfirmSelection}
-          color="success"
-          variant="contained"
-          disabled={!proposedBbox || addMaskMutation.isPending || isLoading}
-        >
-          {addMaskMutation.isPending ? t('adding') : t('confirmButton')}
-        </Button>
+      </DialogContent>
+      <DialogActions>
+        <Stack spacing={1} justifyContent="space-between" direction="row">
+          {existingMasks.length > 0 && (
+            <Button
+              onClick={handleDeleteAll}
+              color="error"
+              variant="outlined"
+              disabled={clearMasksMutation.isPending}
+            >
+              {clearMasksMutation.isPending
+                ? t('deleting')
+                : t('deleteAllButton')}
+            </Button>
+          )}
+          <Stack spacing={1} direction="row">
+            <Button onClick={onClose}>{t('cancelButton')}</Button>
+            <Button
+              onClick={handleConfirmSelection}
+              variant="contained"
+              disabled={!proposedBbox || addMaskMutation.isPending || isLoading}
+            >
+              {addMaskMutation.isPending ? t('adding') : t('confirmButton')}
+            </Button>
+          </Stack>
+        </Stack>
       </DialogActions>
     </Dialog>
   );
