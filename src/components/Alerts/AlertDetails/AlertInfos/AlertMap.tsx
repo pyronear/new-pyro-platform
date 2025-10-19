@@ -2,12 +2,12 @@ import CloseFullscreenIcon from '@mui/icons-material/CloseFullscreen';
 import FullscreenIcon from '@mui/icons-material/Fullscreen';
 import { Box } from '@mui/material';
 import L from 'leaflet';
-import { useEffect, useMemo, useState } from 'react';
-import { MapContainer, TileLayer } from 'react-leaflet';
+import { Fragment, useEffect, useMemo, useState } from 'react';
 
 import CameraMarkerMap from '@/components/Common/Map/CameraMarkerMap';
-import { CameraViewPolygon } from '@/components/Common/Map/CameraViewPolygon';
 import FirePositionMarkerMap from '@/components/Common/Map/FirePositionMarkerMap';
+import { SequencePolygon } from '@/components/Common/Map/SequencePolygon';
+import TemplateMap from '@/components/Common/Map/TemplateMap';
 import type { AlertType, SequenceWithCameraInfoType } from '@/utils/alerts';
 import { buildVisionPolygon, DEFAULT_CAM_RANGE_KM } from '@/utils/cameraVision';
 
@@ -54,9 +54,13 @@ const AlertMap = ({ alert, height = '100%' }: AlertMap) => {
       }));
   }, [alert]);
 
-  const allPolygonPoints = sequencesWithPolygons.flatMap((seq) =>
-    seq.visionPolygonPoints.map((point) => [point.lat, point.lng])
-  );
+  const bounds = useMemo(() => {
+    const allPolygonPoints = sequencesWithPolygons
+      .map((polygon) => polygon.visionPolygonPoints)
+      .flatMap((p) => p);
+
+    return L.latLngBounds(allPolygonPoints);
+  }, [sequencesWithPolygons]);
 
   return (
     <div
@@ -75,30 +79,19 @@ const AlertMap = ({ alert, height = '100%' }: AlertMap) => {
           : { position: 'relative', height, width: '100%' }
       }
     >
-      <MapContainer
-        bounds={allPolygonPoints as L.LatLngBoundsExpression}
-        key={alert.sequences.map((s) => s.id).join(',')} // map is not recentered when a new alert is shown (because bounds don't update automatically) so we use key to force a re-render
-        boundsOptions={{ padding: [20, 20] }}
-        style={{ height: '100%', width: '100%', borderRadius: 4 }}
-      >
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-        {sequencesWithPolygons.map((sequence) => {
-          return (
-            <div key={sequence.id}>
-              <CameraViewPolygon
-                visionPolygonPoints={sequence.visionPolygonPoints}
-              />
-              <CameraMarkerMap camera={sequence.camera} />
-            </div>
-          );
-        })}
+      <TemplateMap bounds={bounds}>
+        {sequencesWithPolygons.map((sequence) => (
+          <Fragment key={sequence.id}>
+            <SequencePolygon
+              visionPolygonPoints={sequence.visionPolygonPoints}
+            />
+            <CameraMarkerMap camera={sequence.camera} />
+          </Fragment>
+        ))}
         {sequencesWithPolygons.length > 1 && (
           <FirePositionMarkerMap alert={alert} />
         )}
-      </MapContainer>
+      </TemplateMap>
       <Box
         sx={{
           position: 'absolute',
