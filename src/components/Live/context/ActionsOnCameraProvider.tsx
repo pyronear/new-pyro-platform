@@ -87,10 +87,6 @@ export const ActionsOnCameraContextProvider: React.FC<{
     );
   }, []);
 
-  useEffect(() => {
-    console.log(isOneActionLoading);
-  }, [isOneActionLoading]);
-
   const resetErrorOnAction = useCallback(() => {
     setErrorOnAction(null);
   }, []);
@@ -145,7 +141,6 @@ export const ActionsOnCameraContextProvider: React.FC<{
 
   // Consumer for actions in the queue
   useEffect(() => {
-    console.log(actionsQueue);
     if (actionsQueue.length > 0 && !isOneActionLoading) {
       const action = actionsQueue[0]; // First in, first out
       setIsOneActionLoading(true);
