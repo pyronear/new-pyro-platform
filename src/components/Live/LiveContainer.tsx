@@ -17,41 +17,32 @@ import {
   getSiteByCameraName,
   type SiteType,
 } from '@/utils/camera';
-import {
-  calculateLiveStreamingUrl,
-  calculateSiteUrl,
-  type ControlledMove,
-} from '@/utils/live';
+import { calculateLiveStreamingUrl, calculateSiteUrl } from '@/utils/live';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
+import { useActionsOnCamera } from './context/useActionsOnCamera';
 import { useDataSitesLive } from './hooks/useDataSitesLive';
 import { HeadRow } from './LiveContent/HeadRow/HeadRow';
 import { LiveControlPanel } from './LiveContent/LiveControlPanel';
+import LiveErrorSnackbar from './LiveContent/LiveErrorSnackbar';
 import { LiveStreamPanel } from './LiveContent/LiveStreamPanel';
 
 interface LiveContainerProps {
   onClose: () => void;
   cameraName: string;
   sequence?: SequenceWithCameraInfoType;
-  startStreamingVideo: (
-    ip: string,
-    hasRotation: boolean,
-    initialMove?: ControlledMove
-  ) => void;
-  stopStreamingVideo: (ip: string, hasRotation: boolean) => void;
-  statusStreamingVideo: string;
 }
 
 export const LiveContainer = ({
   onClose,
   cameraName,
   sequence,
-  startStreamingVideo,
-  stopStreamingVideo,
-  statusStreamingVideo,
 }: LiveContainerProps) => {
   const { t } = useTranslationPrefix('live');
   const { statusSitesFetch, sites } = useDataSitesLive();
+  const { isStreamingTimeout } = useActionsOnCamera();
+  const [isStreamVideoInterrupted, setIsStreamVideoInterrupted] =
+    useState<boolean>(false);
   const [selectedSite, setSelectedSite] = useState<SiteType | null>(null);
   const [selectedCameraId, setSelectedCameraId] = useState<number | null>(null);
   const isFetchFromSiteEnabled = !!selectedSite;
@@ -102,47 +93,54 @@ export const LiveContainer = ({
     !!selectedSite;
 
   return (
-    <Stack>
-      <HeadRow onClose={onClose} isCounting={isStreamingLaunched} />
-      {isStreamingLaunched ? (
-        <Grid container p={2} spacing={2} flexGrow={1}>
-          <Grid size={9}>
-            <LiveStreamPanel
-              urlStreaming={urlStreaming}
-              camera={selectedCamera}
-              sequence={sequence}
-              startStreamingVideo={startStreamingVideo}
-              stopStreamingVideo={stopStreamingVideo}
-              statusStreamingVideo={statusStreamingVideo}
-            />
+    <>
+      <LiveErrorSnackbar />
+      <Stack>
+        <HeadRow
+          onClose={onClose}
+          isStreamingLaunched={isStreamingLaunched}
+          isStreamingInterrupted={
+            isStreamingTimeout && isStreamVideoInterrupted
+          }
+        />
+        {isStreamingLaunched ? (
+          <Grid container p={2} spacing={2} flexGrow={1}>
+            <Grid size={9}>
+              <LiveStreamPanel
+                urlStreaming={urlStreaming}
+                setIsStreamVideoInterrupted={setIsStreamVideoInterrupted}
+                camera={selectedCamera}
+                sequence={sequence}
+              />
+            </Grid>
+            <Grid size={3}>
+              <LiveControlPanel
+                sites={sites}
+                selectedSite={selectedSite}
+                setSelectedSite={setSelectedSite}
+                selectedCamera={selectedCamera}
+                setSelectedCameraId={setSelectedCameraId}
+                sequence={sequence}
+              />
+            </Grid>
           </Grid>
-          <Grid size={3}>
-            <LiveControlPanel
-              sites={sites}
-              selectedSite={selectedSite}
-              setSelectedSite={setSelectedSite}
-              selectedCamera={selectedCamera}
-              setSelectedCameraId={setSelectedCameraId}
-              sequence={sequence}
-            />
-          </Grid>
-        </Grid>
-      ) : (
-        <Stack m={6}>
-          {(statusSitesFetch == STATUS_LOADING ||
-            (isFetchFromSiteEnabled &&
-              statusCamerasFetchFromSite == STATUS_LOADING)) && <Loader />}
-          {statusSitesFetch == STATUS_ERROR && (
-            <Typography variant="body2">{t('errorFetchInfos')}</Typography>
-          )}
-          {statusCamerasFetchFromSite == STATUS_ERROR && (
-            <Typography variant="body2">{t('errorCallSite')}</Typography>
-          )}
-          {statusSitesFetch == STATUS_SUCCESS && sites.length == 0 && (
-            <Typography variant="body2">{t('errorNoAccess')}</Typography>
-          )}
-        </Stack>
-      )}
-    </Stack>
+        ) : (
+          <Stack m={6}>
+            {(statusSitesFetch == STATUS_LOADING ||
+              (isFetchFromSiteEnabled &&
+                statusCamerasFetchFromSite == STATUS_LOADING)) && <Loader />}
+            {statusSitesFetch == STATUS_ERROR && (
+              <Typography variant="body2">{t('errorFetchInfos')}</Typography>
+            )}
+            {statusCamerasFetchFromSite == STATUS_ERROR && (
+              <Typography variant="body2">{t('errorCallSite')}</Typography>
+            )}
+            {statusSitesFetch == STATUS_SUCCESS && sites.length == 0 && (
+              <Typography variant="body2">{t('errorNoAccess')}</Typography>
+            )}
+          </Stack>
+        )}
+      </Stack>
+    </>
   );
 };

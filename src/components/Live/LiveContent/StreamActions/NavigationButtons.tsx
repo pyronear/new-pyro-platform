@@ -5,11 +5,9 @@ import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { Fab, Stack } from '@mui/material';
 
-import {
-  type CameraDirectionType,
-  moveCamera,
-  stopCamera,
-} from '@/services/live';
+import { type CameraDirectionType } from '@/services/live';
+
+import { useActionsOnCamera } from '../../context/useActionsOnCamera';
 
 interface NavigationButtonsProps {
   cameraIp: string;
@@ -20,12 +18,22 @@ export const NavigationButtons = ({
   cameraIp,
   speed,
 }: NavigationButtonsProps) => {
+  const { addStreamingAction } = useActionsOnCamera();
+
   const onClickMove = (direction: CameraDirectionType) => {
-    void moveCamera(cameraIp, direction, speed, undefined, undefined);
+    addStreamingAction({
+      type: 'MOVE',
+      ip: cameraIp,
+      params: { move: { direction, speed } },
+    });
   };
 
   const onClickStop = () => {
-    void stopCamera(cameraIp);
+    addStreamingAction({
+      type: 'STOP',
+      ip: cameraIp,
+      params: {},
+    });
   };
 
   return (

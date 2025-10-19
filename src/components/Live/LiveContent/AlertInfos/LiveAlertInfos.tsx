@@ -28,7 +28,7 @@ export const LiveAlertInfos = ({ sequence }: LiveAlertInfosProps) => {
       <LiveAlertInfosSection title={t('subtitleAzimuth')}>
         {formatAzimuth(sequence.coneAzimuth, 1)}
       </LiveAlertInfosSection>
-      <LiveAlertInfosSection title={t('subtitleLocalisation')}>
+      <LiveAlertInfosSection title={t('subtitleCameraLocalisation')}>
         {formatPosition(sequence.camera?.lat, sequence.camera?.lon)}
       </LiveAlertInfosSection>
     </Box>

@@ -6,23 +6,33 @@ import { LiveWarningCounter } from './LiveWarningCounter';
 
 interface HeadRowProps {
   onClose: () => void;
-  isCounting: boolean;
+  isStreamingLaunched: boolean;
+  isStreamingInterrupted: boolean;
 }
 
-export const HeadRow = ({ onClose, isCounting }: HeadRowProps) => {
-  const { t } = useTranslationPrefix('live');
+export const HeadRow = ({
+  onClose,
+  isStreamingLaunched,
+  isStreamingInterrupted,
+}: HeadRowProps) => {
+  const { t } = useTranslationPrefix('live.header');
+
+  const isStreamingRunning = isStreamingLaunched && !isStreamingInterrupted;
   return (
     <Alert
-      severity={isCounting ? 'warning' : 'info'}
-      sx={{ margin: 0 }}
-      icon={isCounting}
+      severity={isStreamingRunning ? 'warning' : 'info'}
+      sx={{ margin: 0, display: 'flex', alignItems: 'center' }}
       action={
         <Button variant="outlined" color="primary" onClick={onClose}>
           {t('buttonClose')}
         </Button>
       }
     >
-      {isCounting ? <LiveWarningCounter /> : <></>}
+      {!isStreamingInterrupted && !isStreamingLaunched && (
+        <>{t('loadingMessage')}</>
+      )}
+      {isStreamingInterrupted && <>{t('interruptedMessage')}</>}
+      {isStreamingRunning && <LiveWarningCounter />}
     </Alert>
   );
 };

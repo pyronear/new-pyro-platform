@@ -1,19 +1,23 @@
+import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import {
+  type Dispatch,
+  type SetStateAction,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 
 import { Loader } from '@/components/Common/Loader';
 import { STATUS_ERROR, STATUS_LOADING, STATUS_SUCCESS } from '@/services/axios';
 import type { SequenceWithCameraInfoType } from '@/utils/alerts';
 import type { CameraFullInfosType } from '@/utils/camera';
-import {
-  calculateHasRotation,
-  type ControlledMove,
-  getMoveToAzimuth,
-  SPEEDS,
-} from '@/utils/live';
+import { calculateHasRotation, getMoveToAzimuth, SPEEDS } from '@/utils/live';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
+import { useActionsOnCamera } from '../context/useActionsOnCamera';
 import { StateStreaming, useMediaMtx } from '../hooks/useMediaMtx';
 import { FloatingActions } from './StreamActions/FloatingActions';
 import { QuickActions } from './StreamActions/QuickActions';
@@ -21,22 +25,15 @@ import { QuickActions } from './StreamActions/QuickActions';
 interface LiveStreamPanelProps {
   urlStreaming: string;
   camera: CameraFullInfosType | null;
-  startStreamingVideo: (
-    ip: string,
-    hasRotation: boolean,
-    initialMove?: ControlledMove
-  ) => void;
-  stopStreamingVideo: (ip: string, hasRotation: boolean) => void;
-  statusStreamingVideo: string;
   sequence?: SequenceWithCameraInfoType;
+  setIsStreamVideoInterrupted: Dispatch<SetStateAction<boolean>>;
 }
 
 export const LiveStreamPanel = ({
   urlStreaming,
   camera,
-  startStreamingVideo,
-  stopStreamingVideo,
-  statusStreamingVideo,
+
+  setIsStreamVideoInterrupted,
   sequence,
 }: LiveStreamPanelProps) => {
   const [speedIndex, setSpeedIndex] = useState(1);
@@ -44,6 +41,21 @@ export const LiveStreamPanel = ({
   const { t } = useTranslationPrefix('live');
   const refVideo = useRef<HTMLVideoElement>(null);
   const mediaMtx = useMediaMtx({ urlStreaming, refVideo, ip });
+  const { addStreamingAction, isStreamingTimeout, statusStreamingVideo } =
+    useActionsOnCamera();
+
+  const mediaMtxInterrupted =
+    mediaMtx.state === StateStreaming.WITH_ERROR ||
+    mediaMtx.state === StateStreaming.STOPPED;
+
+  const restartStreaming = () => {
+    mediaMtx.restart();
+    addStreamingAction({
+      type: 'START_STREAMING',
+      ip,
+      params: { hasRotation, move: initialMove },
+    });
+  };
 
   const hasRotation = calculateHasRotation(camera?.type);
   const initialMove = useMemo(
@@ -60,14 +72,26 @@ export const LiveStreamPanel = ({
 
   useEffect(() => {
     if (ip) {
-      startStreamingVideo(ip, hasRotation, initialMove);
+      addStreamingAction({
+        type: 'START_STREAMING',
+        ip,
+        params: { hasRotation, move: initialMove },
+      });
     }
     return () => {
       if (ip) {
-        stopStreamingVideo(ip, hasRotation);
+        addStreamingAction({
+          type: 'STOP_STREAMING',
+          ip,
+          params: { hasRotation },
+        });
       }
     };
-  }, [hasRotation, initialMove, ip, startStreamingVideo, stopStreamingVideo]);
+  }, [hasRotation, initialMove, ip, addStreamingAction]);
+
+  useEffect(() => {
+    setIsStreamVideoInterrupted(mediaMtxInterrupted);
+  }, [mediaMtxInterrupted, setIsStreamVideoInterrupted]);
 
   const setNextSpeed = () =>
     setSpeedIndex((oldIndex) =>
@@ -79,14 +103,26 @@ export const LiveStreamPanel = ({
       {statusStreamingVideo === STATUS_ERROR && (
         <Typography variant="body2">{t('errorNoStreaming')}</Typography>
       )}
-      {mediaMtx.state === StateStreaming.WITH_ERROR && (
+      {!isStreamingTimeout && mediaMtx.state === StateStreaming.WITH_ERROR && (
         <Stack spacing={4}>
           <Loader />
           <Typography variant="body2">{t('errorTmpMediaMtx')}</Typography>
         </Stack>
       )}
-      {mediaMtx.state === StateStreaming.STOPPED && (
+      {!isStreamingTimeout && mediaMtx.state === StateStreaming.STOPPED && (
         <Typography variant="body2">{t('errorFinalMediaMtx')}</Typography>
+      )}
+      {isStreamingTimeout && mediaMtxInterrupted && (
+        <Stack spacing={4} alignItems="center">
+          <Typography variant="body2">
+            {t('errorInteruptedMediaMtx')}
+          </Typography>
+          <div>
+            <Button variant="contained" onClick={restartStreaming}>
+              {t('relaunchStreamButton')}
+            </Button>
+          </div>
+        </Stack>
       )}
       {(statusStreamingVideo === STATUS_LOADING ||
         (statusStreamingVideo === STATUS_SUCCESS &&

@@ -121,14 +121,21 @@
     "errorNoAccess": "No site was found with this account. Please contact your administrator",
     "errorCallSite": "Something went wrong when contacting the site. Please try again later.",
     "siteField": "Site",
-    "buttonClose": "Close live stream",
-    "alertMessage": "Live stream in progress: detection inactive since {{timeSpent}}",
+    "header": {
+      "buttonClose": "Close live stream",
+      "alertMessage": "Live stream in progress: detection inactive since {{timeSpent}}",
+      "interruptedMessage": "Live stream is interrupted",
+      "loadingMessage": "Live stream is loading..."
+    },
     "errorNoStreaming": "Something went wrong on our side. Please try again later.",
     "errorTmpMediaMtx": "Video stream interrupted. Please wait.",
+    "errorInteruptedMediaMtx": "Video stream interrupted.",
     "errorFinalMediaMtx": "Video stream has failed. Please try again later.",
     "loadingVideo": "Loading video...",
     "tooltipSpeed": "Camera movement speed",
     "tooltipPrerecordedAzimuths": "Pre-recorded azimuths for the camera",
-    "tooltipCustomAzimuths": "Custom azimuth for the camera"
+    "tooltipCustomAzimuths": "Custom azimuth for the camera",
+    "errorOnActionStreaming": "An unexpected error happened when try to contact camera",
+    "relaunchStreamButton": "Relaunch"
   }
 }

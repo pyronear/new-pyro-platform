@@ -3,7 +3,7 @@ import { type ReactNode, useState } from 'react';
 
 import type { SequenceWithCameraInfoType } from '@/utils/alerts';
 
-import { useStreamingVideo } from './hooks/useStreamingVideo';
+import { ActionsOnCameraContextProvider } from './context/ActionsOnCameraProvider';
 import { LiveContainer } from './LiveContainer';
 
 interface ModalLiveWrapperProps {
@@ -18,9 +18,8 @@ export const ModalLiveWrapper = ({
   children,
 }: ModalLiveWrapperProps) => {
   const [openLive, setOpenLive] = useState(false);
+
   // Created here to keep the queue intact when the modal is closed
-  const { startStreamingVideo, stopStreamingVideo, statusStreamingVideo } =
-    useStreamingVideo();
 
   const handleClose = (
     _event: never,
@@ -36,26 +35,25 @@ export const ModalLiveWrapper = ({
   return (
     <>
       {children(handleOpen)}
-      <Dialog open={openLive} onClose={handleClose} maxWidth="lg" fullWidth>
-        <DialogContent
-          sx={{
-            padding: 0,
-            minHeight: '90vh',
-            '& > .MuiStack-root': {
+      <ActionsOnCameraContextProvider>
+        <Dialog open={openLive} onClose={handleClose} maxWidth="lg" fullWidth>
+          <DialogContent
+            sx={{
+              padding: 0,
               minHeight: '90vh',
-            },
-          }}
-        >
-          <LiveContainer
-            onClose={() => setOpenLive(false)}
-            cameraName={cameraName}
-            sequence={sequence}
-            startStreamingVideo={startStreamingVideo}
-            stopStreamingVideo={stopStreamingVideo}
-            statusStreamingVideo={statusStreamingVideo}
-          />
-        </DialogContent>
-      </Dialog>
+              '& > .MuiStack-root': {
+                minHeight: '90vh',
+              },
+            }}
+          >
+            <LiveContainer
+              onClose={() => setOpenLive(false)}
+              cameraName={cameraName}
+              sequence={sequence}
+            />
+          </DialogContent>
+        </Dialog>
+      </ActionsOnCameraContextProvider>
     </>
   );
 };
