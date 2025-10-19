@@ -46,6 +46,9 @@ export const ZoomButtons = ({ cameraIp }: ZoomButtonsProps) => {
         orientation="vertical"
         onChange={(_event, value: number) => setZoom(value)}
         onChangeCommitted={onZoomFired}
+        sx={{
+          '.MuiSlider-thumb': { height: '16px', width: '16px' },
+        }}
       />
       <ZoomOutIcon />
     </Stack>
