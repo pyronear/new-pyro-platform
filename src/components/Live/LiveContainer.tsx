@@ -10,14 +10,18 @@ import {
   STATUS_SUCCESS,
 } from '@/services/axios';
 import { getCamerasInfos } from '@/services/live';
-import type { SequenceWithCameraInfoType } from '@/utils/alerts';
+import type { AlertType } from '@/utils/alerts';
 import {
   aggregateSiteData,
   getCameraIdByCameraName,
   getSiteByCameraName,
   type SiteType,
 } from '@/utils/camera';
-import { calculateLiveStreamingUrl, calculateSiteUrl } from '@/utils/live';
+import {
+  calculateLiveStreamingUrl,
+  calculateSiteUrl,
+  getMoveToAzimuth,
+} from '@/utils/live';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
 import { useActionsOnCamera } from './context/useActionsOnCamera';
@@ -30,13 +34,13 @@ import { LiveStreamPanel } from './LiveContent/LiveStreamPanel';
 interface LiveContainerProps {
   onClose: () => void;
   cameraName: string;
-  sequence?: SequenceWithCameraInfoType;
+  alert?: AlertType;
 }
 
 export const LiveContainer = ({
   onClose,
   cameraName,
-  sequence,
+  alert,
 }: LiveContainerProps) => {
   const { t } = useTranslationPrefix('live');
   const { statusSitesFetch, sites } = useDataSitesLive();
@@ -55,6 +59,19 @@ export const LiveContainer = ({
     () => calculateLiveStreamingUrl(selectedSite),
     [selectedSite]
   );
+
+  const initialMove = useMemo(() => {
+    const currentSequence = alert?.sequences.find(
+      (seq) => seq.camera?.id === selectedCamera?.id
+    );
+    return currentSequence?.coneAzimuth
+      ? getMoveToAzimuth(
+          currentSequence.coneAzimuth,
+          selectedCamera?.azimuths ?? [],
+          selectedCamera?.poses ?? []
+        )
+      : undefined;
+  }, [alert, selectedCamera]);
 
   useEffect(() => {
     if (selectedSite == null) {
@@ -110,7 +127,7 @@ export const LiveContainer = ({
                 urlStreaming={urlStreaming}
                 setIsStreamVideoInterrupted={setIsStreamVideoInterrupted}
                 camera={selectedCamera}
-                sequence={sequence}
+                initialMove={initialMove}
               />
             </Grid>
             <Grid size={3}>
@@ -120,7 +137,7 @@ export const LiveContainer = ({
                 setSelectedSite={setSelectedSite}
                 selectedCamera={selectedCamera}
                 setSelectedCameraId={setSelectedCameraId}
-                sequence={sequence}
+                alert={alert}
               />
             </Grid>
           </Grid>

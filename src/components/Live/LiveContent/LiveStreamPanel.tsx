@@ -5,16 +5,18 @@ import {
   type Dispatch,
   type SetStateAction,
   useEffect,
-  useMemo,
   useRef,
   useState,
 } from 'react';
 
 import { Loader } from '@/components/Common/Loader';
 import { STATUS_ERROR, STATUS_LOADING, STATUS_SUCCESS } from '@/services/axios';
-import type { SequenceWithCameraInfoType } from '@/utils/alerts';
 import type { CameraFullInfosType } from '@/utils/camera';
-import { calculateHasRotation, getMoveToAzimuth, SPEEDS } from '@/utils/live';
+import {
+  calculateHasRotation,
+  type MovementCommand,
+  SPEEDS,
+} from '@/utils/live';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
 import { useActionsOnCamera } from '../context/useActionsOnCamera';
@@ -25,16 +27,15 @@ import { QuickActions } from './StreamActions/QuickActions';
 interface LiveStreamPanelProps {
   urlStreaming: string;
   camera: CameraFullInfosType | null;
-  sequence?: SequenceWithCameraInfoType;
+  initialMove?: MovementCommand;
   setIsStreamVideoInterrupted: Dispatch<SetStateAction<boolean>>;
 }
 
 export const LiveStreamPanel = ({
   urlStreaming,
   camera,
-
   setIsStreamVideoInterrupted,
-  sequence,
+  initialMove,
 }: LiveStreamPanelProps) => {
   const [speedIndex, setSpeedIndex] = useState(1);
   const ip = camera?.ip ?? '';
@@ -58,17 +59,6 @@ export const LiveStreamPanel = ({
   };
 
   const hasRotation = calculateHasRotation(camera?.type);
-  const initialMove = useMemo(
-    () =>
-      sequence?.coneAzimuth
-        ? getMoveToAzimuth(
-            sequence.coneAzimuth,
-            camera?.azimuths ?? [],
-            camera?.poses ?? []
-          )
-        : undefined,
-    [camera?.azimuths, camera?.poses, sequence?.coneAzimuth]
-  );
 
   useEffect(() => {
     if (ip) {

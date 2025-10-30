@@ -8,7 +8,7 @@ import {
 } from '@mui/material';
 
 import { CamerasListSelectable } from '@/components/Common/Camera/CamerasListSelectable';
-import type { SequenceWithCameraInfoType } from '@/utils/alerts';
+import type { AlertType } from '@/utils/alerts';
 import type { CameraFullInfosType, SiteType } from '@/utils/camera';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
@@ -21,7 +21,7 @@ interface LiveControlPanelProps {
   setSelectedSite: (newSite: SiteType | null) => void;
   selectedCamera: CameraFullInfosType | null;
   setSelectedCameraId: (newCameraId: number | null) => void;
-  sequence?: SequenceWithCameraInfoType;
+  alert?: AlertType;
 }
 
 export const LiveControlPanel = ({
@@ -30,9 +30,13 @@ export const LiveControlPanel = ({
   setSelectedSite,
   selectedCamera,
   setSelectedCameraId,
-  sequence,
+  alert,
 }: LiveControlPanelProps) => {
   const { t } = useTranslationPrefix('live');
+  const hasAlert = !!alert;
+  const currentSequence = alert?.sequences.find(
+    (seq) => seq.camera?.id === selectedCamera?.id
+  );
 
   const handleChange = (event: SelectChangeEvent) => {
     setSelectedSite(sites.find((s) => s.id == event.target.value) ?? null);
@@ -40,11 +44,6 @@ export const LiveControlPanel = ({
 
   return (
     <Stack spacing={1} height="100%">
-      {sequence && (
-        <div style={{ marginBottom: 8 }}>
-          <LiveAlertInfos sequence={sequence} />
-        </div>
-      )}
       <FormControl fullWidth>
         <InputLabel>{t('siteField')}</InputLabel>
         <Select
@@ -67,9 +66,12 @@ export const LiveControlPanel = ({
           setSelectedCameraId={setSelectedCameraId}
         />
       </div>
+      {hasAlert && currentSequence && (
+        <LiveAlertInfos sequence={currentSequence} />
+      )}
       <div style={{ flexGrow: 1 }}>
         {selectedCamera && (
-          <LiveMap camera={selectedCamera} sequence={sequence} />
+          <LiveMap camera={selectedCamera} sequence={currentSequence} />
         )}
       </div>
     </Stack>
