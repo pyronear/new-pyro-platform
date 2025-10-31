@@ -8,7 +8,7 @@ export const useRefreshEvery = (timeInSeconds: number): number => {
   const [tick, setTick] = useState(0);
 
   useEffect(() => {
-    const interval = setInterval(() => {
+    const interval = window.setInterval(() => {
       setTick((prev) => prev + 1);
     }, timeInSeconds * 1000);
 

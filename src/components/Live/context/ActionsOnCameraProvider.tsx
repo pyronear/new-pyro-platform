@@ -58,7 +58,7 @@ export const ActionsOnCameraContextProvider: React.FC<{
                 // fix: wait a few seconds before calling for move
                 // (problem in the pi)
                 setTimerBeforeInitialMove(
-                  setTimeout(
+                  window.setTimeout(
                     () =>
                       params.initialMove &&
                       moveCameraToAAzimuth(params.ip, params.initialMove),
@@ -94,7 +94,7 @@ export const ActionsOnCameraContextProvider: React.FC<{
   const resetTimerForStreaming = useCallback(() => {
     setIsStreamingTimeout(false);
     setTimerStreaming(
-      setTimeout(() => {
+      window.setTimeout(() => {
         setIsStreamingTimeout(true);
       }, LIVE_STREAMING_TIMEOUT_MS)
     );

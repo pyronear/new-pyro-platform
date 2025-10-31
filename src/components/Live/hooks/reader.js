@@ -426,7 +426,7 @@ export class MediaMTXWebRTCReader {
 
       if (this.retryConnectNb < RETRY_NB_MAX) {
         this.state = 'restarting';
-        this.retryConnectTimeout = setTimeout(() => {
+        this.retryConnectTimeout = window.setTimeout(() => {
           this.retryConnectNb = this.retryConnectNb + 1;
           this.retryConnectTimeout = null;
           this.state = 'running';

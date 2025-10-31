@@ -72,7 +72,7 @@ export const AlertImagesPlayer = ({
     let interval: number | null = null;
     if (isPlaying) {
       if (selectedDetection && detections.length > 0) {
-        interval = setInterval(
+        interval = window.setInterval(
           displayNextImage,
           ALERTS_PLAY_INTERVAL_MILLISECONDS
         );

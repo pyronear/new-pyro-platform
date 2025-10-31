@@ -7,7 +7,7 @@ export const LiveWarningCounter = () => {
   const { t } = useTranslationPrefix('live.header');
   const [spentTimeInSeconds, setSpentTimeInS] = useState(0);
   useEffect(() => {
-    const interval = setInterval(
+    const interval = window.setInterval(
       () => setSpentTimeInS((oldValue) => oldValue + 1),
       1000
     );
