@@ -56,7 +56,7 @@ You'll need a valid .env file to run this app properly.
 Note to configure the parameter `VITE_API_URL` in `.env.local` file:
 
 - Use an existing API (staging, or prod if you're brave)
-- OR you can run the [backend repo](github.com/pyronear/pyro-api) locally
+- OR you can run the [Pyronear Dev Environment](https://github.com/pyronear/pyro-envdev) locally
 
 **Keep in mind to synchronize your .env.local file with .env.example :**
 **If new properties are added to the .env.example file, it must be also added to your file .env.local**
