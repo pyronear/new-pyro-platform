@@ -76,8 +76,8 @@
     },
     "label": {
       "wildfire": "Inicio del incendio",
-      "otherSmoke": "Otro humo",
-      "other": "Otro",
+      "otherSmoke": "Humo no peligroso",
+      "other": "Falso positivo",
       "unset": "A etiquetar",
       "titleModal": "Seleccione la etiqueta para la alerta de ",
       "buttonCancelModal": "Cancelar",
