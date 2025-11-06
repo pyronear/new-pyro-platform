@@ -7,8 +7,8 @@ import logo from '@/assets/logo.svg';
 import { useAuth } from '../../context/useAuth';
 import { useTranslationPrefix } from '../../utils/useTranslationPrefix';
 import { LogoutButton } from '../Login/LogoutButton';
-import LanguageSwitcher from './LanguageSwitcher';
 import { NavigationLink } from './NavigationLink';
+import { PreferencesButton } from './PreferencesButton';
 
 export const DesktopTopbar = () => {
   const { t } = useTranslationPrefix('pages');
@@ -44,7 +44,7 @@ export const DesktopTopbar = () => {
               alignItems="center"
               justifyContent="space-around"
             >
-              <LanguageSwitcher />
+              <PreferencesButton />
               {isLoggedIn && <LogoutButton />}
             </Stack>
           </Stack>
