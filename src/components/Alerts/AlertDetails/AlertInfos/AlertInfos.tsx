@@ -74,7 +74,10 @@ export const AlertInfos = ({
               {formatPosition(sequence.camera?.lat, sequence.camera?.lon)}
             </AlertInfosSection>
             {alert.eventSmokeLocation && (
-              <AlertInfosSection title={t('subtitleSmokeLocalisation')}>
+              <AlertInfosSection
+                title={t('subtitleSmokeLocalisation')}
+                withTextToCopy={formatPosition(...alert.eventSmokeLocation)}
+              >
                 {formatPosition(...alert.eventSmokeLocation)}
               </AlertInfosSection>
             )}
