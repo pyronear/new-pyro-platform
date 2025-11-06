@@ -25,7 +25,8 @@ export const useDetectAndPlaySoundForNewSequence = (
       if (!sequence.started_at) {
         return false;
       }
-      const sequenceCreationTime = convertStrToEpoch(sequence.started_at);
+      const sequenceCreationTime =
+        convertStrToEpoch(sequence.started_at) * 1000;
       return sequenceCreationTime >= previousDataUpdatedAt;
     });
 
