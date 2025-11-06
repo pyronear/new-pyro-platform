@@ -17,6 +17,7 @@ import { formatToTime, isStrictlyAfter } from '@/utils/dates';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
 import { AlertImagesPlayer } from './AlertImagesPlayer';
+import { getFirstConfidentDetectionIndex } from './getFirstConfidentDetectionIndex';
 
 interface AlertImagesType {
   sequence: SequenceWithCameraInfoType;
@@ -126,6 +127,9 @@ export const AlertImages = ({ sequence }: AlertImagesType) => {
               sequenceId={sequence.id}
               detections={detectionsList}
               onSelectedDetectionChange={setCurrentDetection}
+              firstConfidentDetectionIndex={getFirstConfidentDetectionIndex(
+                detectionsList
+              )}
             />
           )}
         </Grid>

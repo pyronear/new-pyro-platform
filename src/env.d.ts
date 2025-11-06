@@ -10,6 +10,7 @@ interface ImportMetaEnv {
   readonly VITE_FILE_SITES_LIVE_ACCESS: string;
   readonly VITE_SITES_LIVE_PORT: number;
   readonly VITE_LIVE_STREAMING_URL: string;
+  readonly VITE_DETECTION_PLAYER_CONFIDENCE_THRESHOLD: number;
 }
 
 interface ImportMeta {

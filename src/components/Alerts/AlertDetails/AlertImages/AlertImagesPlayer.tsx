@@ -13,6 +13,7 @@ interface AlertImagesPlayerType {
   sequenceId: number;
   detections: DetectionType[]; // Sorted
   onSelectedDetectionChange: (detection: DetectionType | null) => void;
+  firstConfidentDetectionIndex: number;
 }
 
 const ALERTS_PLAY_INTERVAL_MILLISECONDS = import.meta.env
@@ -22,6 +23,7 @@ export const AlertImagesPlayer = ({
   sequenceId,
   detections,
   onSelectedDetectionChange,
+  firstConfidentDetectionIndex,
 }: AlertImagesPlayerType) => {
   const [selectedDetection, setSelectedDetection] =
     useState<DetectionType | null>(null);
@@ -60,7 +62,7 @@ export const AlertImagesPlayer = ({
     // And start animation
     if (detections.length > 0) {
       const minDetection = detections[0];
-      setSelectedDetection(minDetection);
+      setSelectedDetection(detections[firstConfidentDetectionIndex]);
       onSelectedDetectionChange(minDetection);
       setIsPlaying(true);
     }
