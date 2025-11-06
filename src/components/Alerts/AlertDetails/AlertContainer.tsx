@@ -68,7 +68,8 @@ export const AlertContainer = ({
           </Grid>
           <Grid size={{ xs: 12, lg: 3 }}>
             <Button
-              variant="text"
+              fullWidth
+              variant="outlined"
               onClick={() => setIsBlinkingModeEnabled(!isBlinkingModeEnabled)}
             >
               {isBlinkingModeEnabled
