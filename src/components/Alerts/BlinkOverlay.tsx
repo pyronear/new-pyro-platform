@@ -22,6 +22,17 @@ export const BlinkOverlay = ({ closeOverlay, hasAlert }: BlinkOverlayProps) => {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
+        ...(hasAlert && {
+          animation: 'blinkRed 0.5s steps(1, end) infinite',
+          '@keyframes blinkRed': {
+            '0%, 100%': {
+              backgroundColor: '#FA3200',
+            },
+            '50%': {
+              backgroundColor: 'black',
+            },
+          },
+        }),
       }}
     >
       <Box
