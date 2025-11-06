@@ -6,7 +6,6 @@ import logo from '@/assets/logo.svg';
 
 import { useAuth } from '../../context/useAuth';
 import { useTranslationPrefix } from '../../utils/useTranslationPrefix';
-import { LogoutButton } from '../Login/LogoutButton';
 import { NavigationLink } from './NavigationLink';
 import { PreferencesButton } from './PreferencesButton';
 
@@ -38,15 +37,7 @@ export const DesktopTopbar = () => {
                 </Stack>
               )}
             </Stack>
-            <Stack
-              direction="row"
-              spacing={2}
-              alignItems="center"
-              justifyContent="space-around"
-            >
-              <PreferencesButton />
-              {isLoggedIn && <LogoutButton />}
-            </Stack>
+            <PreferencesButton />
           </Stack>
         </Toolbar>
       </AppBar>
