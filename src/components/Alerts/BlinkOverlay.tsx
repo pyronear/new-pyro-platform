@@ -1,3 +1,4 @@
+import HighlightOff from '@mui/icons-material/HighlightOff';
 import { Box } from '@mui/material';
 
 import logoLettersOrange from '@/assets/logo_letters_orange.png';
@@ -33,21 +34,18 @@ export const BlinkOverlay = ({ closeOverlay, hasAlert }: BlinkOverlayProps) => {
           objectFit: 'contain',
         }}
       />
-      <Box
+      <HighlightOff
         onClick={closeOverlay}
         sx={{
           position: 'absolute',
-          top: 16,
-          right: 16,
+          top: 32,
+          right: 32,
           cursor: 'pointer',
-          fontSize: '2rem',
+          fontSize: '6rem',
           color: 'white',
-          fontWeight: 'bold',
           userSelect: 'none',
         }}
-      >
-        ×
-      </Box>
+      />
     </Box>
   );
 };
