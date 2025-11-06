@@ -15,7 +15,6 @@ import logo from '@/assets/logo.svg';
 import { PreferencesMenu } from '@/components/Preferences/PreferencesMenu';
 
 import { useTranslationPrefix } from '../../utils/useTranslationPrefix';
-import LanguageSwitcher from './LanguageSwitcher';
 import { NavigationLink } from './NavigationLink';
 
 interface MobileTopbarDrawerProps {
@@ -42,8 +41,6 @@ export const MobileTopbarDrawer = ({
         <div
           style={{
             height: '100%',
-            display: 'grid',
-            gridTemplateRows: '1fr auto',
           }}
         >
           <Box>
@@ -75,9 +72,6 @@ export const MobileTopbarDrawer = ({
               </ListItem>
             </List>
           </Box>
-          <div style={{ padding: '12px' }}>
-            <LanguageSwitcher />
-          </div>
         </div>
       </Drawer>
 
