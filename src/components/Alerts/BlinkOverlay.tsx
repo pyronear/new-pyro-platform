@@ -1,5 +1,7 @@
 import { Box } from '@mui/material';
 
+import logoLettersOrange from '@/assets/logo_letters_orange.png';
+
 interface BlinkOverlayProps {
   closeOverlay: () => void;
   hasAlert: boolean;
@@ -14,10 +16,23 @@ export const BlinkOverlay = ({ closeOverlay, hasAlert }: BlinkOverlayProps) => {
         top: 0,
         width: '100vw',
         height: '100vh',
-        backgroundColor: hasAlert ? 'red' : 'green',
+        backgroundColor: hasAlert ? '#FA3200' : '#0B444A',
         zIndex: 100000,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
       }}
     >
+      <Box
+        component="img"
+        src={logoLettersOrange}
+        alt="Pyro Logo"
+        sx={{
+          maxWidth: '80%',
+          maxHeight: '80%',
+          objectFit: 'contain',
+        }}
+      />
       <Box
         onClick={closeOverlay}
         sx={{
