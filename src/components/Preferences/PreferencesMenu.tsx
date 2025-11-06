@@ -1,4 +1,6 @@
+import LogoutIcon from '@mui/icons-material/Logout';
 import {
+  Button,
   Divider,
   Menu,
   Switch,
@@ -9,6 +11,7 @@ import {
 import { Stack } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
+import { useAuth } from '@/context/useAuth';
 import { usePreferences } from '@/context/usePreferences';
 
 interface PreferencesMenuProps {
@@ -22,6 +25,8 @@ export const PreferencesMenu: React.FC<PreferencesMenuProps> = ({
 }) => {
   const { t } = useTranslation();
   const { preferences, updatePreferences } = usePreferences();
+  const { logout, token } = useAuth();
+  const isLoggedIn = !!token;
 
   const handleAudioAlertsToggle = () => {
     updatePreferences({
@@ -106,6 +111,22 @@ export const PreferencesMenu: React.FC<PreferencesMenuProps> = ({
               onChange={handleAudioAlertsToggle}
             />
           </Stack>
+
+          {isLoggedIn && (
+            <>
+              <Divider />
+
+              <Button
+                onClick={logout}
+                variant="contained"
+                color="error"
+                startIcon={<LogoutIcon />}
+                fullWidth
+              >
+                {t('login.logout')}
+              </Button>
+            </>
+          )}
         </Stack>
       </Menu>
     </>
