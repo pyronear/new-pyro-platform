@@ -48,14 +48,17 @@ export const AlertContainer = ({
     };
   }, []);
 
+  if (isBlinkingModeEnabled) {
+    return (
+      <BlinkOverlay
+        closeOverlay={() => setIsBlinkingModeEnabled(false)}
+        hasAlert={alert.sequences.length > 0}
+      />
+    );
+  }
+
   return (
     <>
-      {isBlinkingModeEnabled && (
-        <BlinkOverlay
-          closeOverlay={() => setIsBlinkingModeEnabled(false)}
-          hasAlert={alert.sequences.length > 0}
-        />
-      )}
       {selectedSequence && (
         <Grid container padding={{ xs: 1, sm: 2 }} spacing={{ xs: 1, sm: 2 }}>
           <Grid size={{ xs: 12, lg: 9 }}>
@@ -75,9 +78,7 @@ export const AlertContainer = ({
                 variant="outlined"
                 onClick={() => setIsBlinkingModeEnabled(!isBlinkingModeEnabled)}
               >
-                {isBlinkingModeEnabled
-                  ? 'Switch to normal view'
-                  : 'Switch to blinking view'}
+                Switch to blinking view
               </Button>
             </Grid>
           )}
