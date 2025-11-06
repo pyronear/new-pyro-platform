@@ -140,5 +140,15 @@
     "tooltipCustomAzimuths": "Azimuth personnalisé de la caméra",
     "errorOnActionStreaming": "Une erreur inattendue est survenue en contactant la caméra",
     "relaunchStreamButton": "Relancer"
+  },
+  "preferences": {
+    "title": "Préférences",
+    "settings": "Paramètres",
+    "language": "Langue",
+    "mapBaseLayer": "Fond de carte",
+    "mapOsm": "OpenStreetMap",
+    "mapIgn": "IGN (France)",
+    "mapSatellite": "Satellite",
+    "enableAudioAlerts": "Activer les alertes sonores"
   }
 }
