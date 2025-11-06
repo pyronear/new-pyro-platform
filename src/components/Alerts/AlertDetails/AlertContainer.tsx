@@ -5,6 +5,7 @@ import {
   type AlertType,
   type SequenceWithCameraInfoType,
 } from '../../../utils/alerts';
+import { BlinkOverlay } from '../BlinkOverlay';
 import { AlertHeader } from './AlertHeader';
 import { AlertImages } from './AlertImages/AlertImages';
 import { AlertInfos } from './AlertInfos/AlertInfos';
@@ -34,6 +35,12 @@ export const AlertContainer = ({
 
   return (
     <>
+      {isBlinkingModeEnabled && (
+        <BlinkOverlay
+          closeOverlay={() => setIsBlinkingModeEnabled(false)}
+          hasAlert={alert.sequences.length > 0}
+        />
+      )}
       {selectedSequence && (
         <Grid container padding={{ xs: 1, sm: 2 }} spacing={{ xs: 1, sm: 2 }}>
           <Grid size={{ xs: 12, lg: 9 }}>
