@@ -23,6 +23,8 @@ interface AlertsContainerType {
   isRefreshing: boolean;
   invalidateAndRefreshData: () => void;
   alertsList: AlertType[];
+  isAlertSoundOn: boolean;
+  onSoundToggle: () => void;
 }
 
 export const AlertsContainer = ({
@@ -31,6 +33,8 @@ export const AlertsContainer = ({
   isRefreshing,
   invalidateAndRefreshData,
   alertsList,
+  isAlertSoundOn,
+  onSoundToggle,
 }: AlertsContainerType) => {
   const [selectedAlert, setSelectedAlert] = useState<AlertType | null>(null);
   const isMobile = useIsMobile();
@@ -64,6 +68,8 @@ export const AlertsContainer = ({
       lastUpdate={lastUpdate}
       isRefreshing={isRefreshing}
       invalidateAndRefreshData={invalidateAndRefreshData}
+      isAlertSoundOn={isAlertSoundOn}
+      onSoundToggle={onSoundToggle}
     />
   );
 

@@ -4,6 +4,7 @@ import type { AlertType } from '../../../utils/alerts';
 import { useTranslationPrefix } from '../../../utils/useTranslationPrefix';
 import { LastUpdateButton } from '../../Common/LastUpdateButton';
 import { AlertsCardsColumn } from './AlertsCardsColumn';
+import { AlertVolumeToggle } from './AlertVolumeToggle';
 
 interface AlertListType {
   alerts: AlertType[];
@@ -12,6 +13,8 @@ interface AlertListType {
   lastUpdate: number;
   isRefreshing: boolean;
   invalidateAndRefreshData: () => void;
+  isAlertSoundOn: boolean;
+  onSoundToggle: () => void;
 }
 
 export const AlertsList = ({
@@ -21,17 +24,26 @@ export const AlertsList = ({
   lastUpdate,
   isRefreshing,
   invalidateAndRefreshData,
+  isAlertSoundOn,
+  onSoundToggle,
 }: AlertListType) => {
   const theme = useTheme();
   const { t } = useTranslationPrefix('alerts');
 
   return (
     <Stack bgcolor={theme.palette.customBackground.light} height="100%">
-      <Grid minHeight="55px" padding={{ xs: 1, sm: 2 }} alignContent="center">
+      <Stack
+        direction="row"
+        justifyContent="space-between"
+        alignItems="center"
+        minHeight="55px"
+        padding={{ xs: 1, sm: 2 }}
+      >
         <Typography variant="h2">
           {`${alerts.length.toString()} ${alerts.length <= 1 ? t('titleListSimple') : t('titleListPlural')}`}
         </Typography>
-      </Grid>
+        <AlertVolumeToggle isActive={isAlertSoundOn} onToggle={onSoundToggle} />
+      </Stack>
       <Divider orientation="horizontal" flexItem />
       <Grid px={{ xs: 1, sm: 2 }} py={1}>
         <LastUpdateButton
