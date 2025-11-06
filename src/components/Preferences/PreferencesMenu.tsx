@@ -70,9 +70,9 @@ export const PreferencesMenu: React.FC<PreferencesMenuProps> = ({
               exclusive
               onChange={handleLanguageChange}
             >
-              <ToggleButton value="fr">Français</ToggleButton>
-              <ToggleButton value="en">English</ToggleButton>
-              <ToggleButton value="es">Español</ToggleButton>
+              <ToggleButton value="fr">🇫🇷 Français</ToggleButton>
+              <ToggleButton value="en">🇬🇧 English</ToggleButton>
+              <ToggleButton value="es">🇪🇸 Español</ToggleButton>
             </ToggleButtonGroup>
           </Stack>
 
@@ -85,10 +85,14 @@ export const PreferencesMenu: React.FC<PreferencesMenuProps> = ({
               exclusive
               onChange={handleMapBaseLayerChange}
             >
-              <ToggleButton value="osm">{t('preferences.mapOsm')}</ToggleButton>
-              <ToggleButton value="ign">{t('preferences.mapIgn')}</ToggleButton>
+              <ToggleButton value="osm">
+                🗺️ {t('preferences.mapOsm')}
+              </ToggleButton>
+              <ToggleButton value="ign">
+                🍄‍🟫 {t('preferences.mapIgn')}
+              </ToggleButton>
               <ToggleButton value="satellite">
-                {t('preferences.mapSatellite')}
+                🌌 {t('preferences.mapSatellite')}
               </ToggleButton>
             </ToggleButtonGroup>
           </Stack>
