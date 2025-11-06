@@ -17,7 +17,6 @@ export const DesktopTopbar = () => {
 
   const handleLogoClick = async () => {
     if (!isLoggedIn) {
-      await navigate('/login');
       return;
     }
     await navigate('/alerts');
@@ -36,6 +35,7 @@ export const DesktopTopbar = () => {
           >
             <Stack direction="row" spacing={5} alignItems="center">
               <Button
+                disabled={!isLoggedIn}
                 startIcon={<img height="30px" src={logo} alt="Logo" />}
                 onClick={() => void handleLogoClick()}
               />
