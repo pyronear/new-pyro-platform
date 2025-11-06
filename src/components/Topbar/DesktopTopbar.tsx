@@ -7,6 +7,7 @@ import { useTranslationPrefix } from '../../utils/useTranslationPrefix';
 import { LogoutButton } from '../Login/LogoutButton';
 import LanguageSwitcher from './LanguageSwitcher';
 import { NavigationLink } from './NavigationLink';
+import { PreferencesButton } from './PreferencesButton';
 
 export const DesktopTopbar = () => {
   const { t } = useTranslationPrefix('pages');
@@ -41,6 +42,7 @@ export const DesktopTopbar = () => {
               justifyContent="space-around"
             >
               <LanguageSwitcher />
+              <PreferencesButton />
               {isLoggedIn && <LogoutButton />}
             </Stack>
           </Stack>
