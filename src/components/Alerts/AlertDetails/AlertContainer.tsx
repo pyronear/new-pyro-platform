@@ -1,4 +1,4 @@
-import { Grid } from '@mui/material';
+import { Button, Grid } from '@mui/material';
 import { useEffect, useState } from 'react';
 
 import {
@@ -24,6 +24,7 @@ export const AlertContainer = ({
 }: AlertContainerType) => {
   const [selectedSequence, setSelectedSequence] =
     useState<SequenceWithCameraInfoType | null>(null);
+  const [isBlinkingModeEnabled, setIsBlinkingModeEnabled] = useState(false);
 
   useEffect(() => {
     if (alert.sequences.length > 0) {
@@ -46,7 +47,14 @@ export const AlertContainer = ({
             />
           </Grid>
           <Grid size={{ xs: 12, lg: 3 }}>
-            <></> {/** TODO : share alerts */}
+            <Button
+              variant="text"
+              onClick={() => setIsBlinkingModeEnabled(!isBlinkingModeEnabled)}
+            >
+              {isBlinkingModeEnabled
+                ? 'Switch to normal view'
+                : 'Switch to blinking view'}
+            </Button>
           </Grid>
           <Grid size={{ xs: 12, lg: 9 }}>
             <AlertImages sequence={selectedSequence} />
