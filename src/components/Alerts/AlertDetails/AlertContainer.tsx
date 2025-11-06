@@ -5,6 +5,7 @@ import {
   type AlertType,
   type SequenceWithCameraInfoType,
 } from '../../../utils/alerts';
+import { useIsMobile } from '../../../utils/useIsMobile';
 import { BlinkOverlay } from '../BlinkOverlay';
 import { AlertHeader } from './AlertHeader';
 import { AlertImages } from './AlertImages/AlertImages';
@@ -23,6 +24,7 @@ export const AlertContainer = ({
   alert,
   resetAlert,
 }: AlertContainerType) => {
+  const isMobile = useIsMobile();
   const [selectedSequence, setSelectedSequence] =
     useState<SequenceWithCameraInfoType | null>(null);
   const [isBlinkingModeEnabled, setIsBlinkingModeEnabled] = useState(false);
@@ -66,17 +68,19 @@ export const AlertContainer = ({
               invalidateAndRefreshData={invalidateAndRefreshData}
             />
           </Grid>
-          <Grid size={{ xs: 12, lg: 3 }}>
-            <Button
-              fullWidth
-              variant="outlined"
-              onClick={() => setIsBlinkingModeEnabled(!isBlinkingModeEnabled)}
-            >
-              {isBlinkingModeEnabled
-                ? 'Switch to normal view'
-                : 'Switch to blinking view'}
-            </Button>
-          </Grid>
+          {!isMobile && (
+            <Grid size={{ xs: 12, lg: 3 }}>
+              <Button
+                fullWidth
+                variant="outlined"
+                onClick={() => setIsBlinkingModeEnabled(!isBlinkingModeEnabled)}
+              >
+                {isBlinkingModeEnabled
+                  ? 'Switch to normal view'
+                  : 'Switch to blinking view'}
+              </Button>
+            </Grid>
+          )}
           <Grid size={{ xs: 12, lg: 9 }}>
             <AlertImages sequence={selectedSequence} />
           </Grid>
