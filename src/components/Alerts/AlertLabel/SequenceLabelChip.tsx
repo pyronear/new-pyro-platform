@@ -40,9 +40,9 @@ export const SequenceLabelChip = ({
       case null:
         return <QuestionMarkIcon />;
       case 'wildfire_smoke':
-        return <AlertIcon iconPath="fire" />;
-      case 'other_smoke':
         return <AlertIcon iconPath="smoke" />;
+      case 'other_smoke':
+        return <AlertIcon iconPath="factory" />;
       case 'other':
         return <ClearIcon />;
     }

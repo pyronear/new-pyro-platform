@@ -15,9 +15,10 @@ export const AlertIcon = (props: Props) => {
       playsInline
       style={{
         width: '20px',
-        height: '24px',
-        objectFit: 'cover',
-        transform: 'translateX(8px)',
+        height: '20px',
+        transform: 'translateX(8px) scale(1.75)',
+        objectPosition: 'center',
+        overflow: 'hidden',
       }}
       draggable={false}
     ></video>
