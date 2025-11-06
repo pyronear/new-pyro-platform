@@ -1,6 +1,6 @@
 import { Paper, Typography, useTheme } from '@mui/material';
 
-import { CopyToClipboard } from '@/components/copyToClipboard';
+import { CopyToClipboard } from '../../../CopyToClipboard';
 
 interface AlertInfosSectionType {
   title: string;
