@@ -7,9 +7,9 @@ import translationES from './locales/es/translation.json';
 import translationFR from './locales/fr/translation.json';
 
 const resources = {
-  en: { translation: translationEN },
-  fr: { translation: translationFR },
-  es: { translation: translationES },
+  'en-US': { translation: translationEN },
+  'fr-FR': { translation: translationFR },
+  'es-ES': { translation: translationES },
 };
 
 void i18n
@@ -17,7 +17,7 @@ void i18n
   .use(initReactI18next)
   .init({
     resources,
-    fallbackLng: 'en',
+    fallbackLng: 'en-US',
     interpolation: { escapeValue: false },
     initImmediate: false,
   });
