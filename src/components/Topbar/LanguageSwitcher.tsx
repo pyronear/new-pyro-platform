@@ -8,6 +8,7 @@ import {
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
+import de from '@/assets/languages/de.svg';
 import es from '@/assets/languages/es.svg';
 import fr from '@/assets/languages/fr.svg';
 import gb from '@/assets/languages/gb.svg';
@@ -39,6 +40,9 @@ const LanguageSwitcher: React.FC = () => {
         </MenuItem>
         <MenuItem value="es">
           <StackLanguage label="ESPAÑOL" icon={es} />
+        </MenuItem>
+        <MenuItem value="de">
+          <StackLanguage label="DEUTSCH" icon={de} />
         </MenuItem>
       </Select>
     </FormControl>

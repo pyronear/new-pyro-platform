@@ -1,0 +1,141 @@
+{
+  "login": {
+    "button": "Anmelden",
+    "title": "Anmelden",
+    "username": "Benutzername",
+    "password": "Passwort",
+    "showPassword": "Passwort anzeigen",
+    "hidePassword": "Passwort verbergen",
+    "logout": "Abmelden",
+    "errors": {
+      "INVALID_CREDENTIALS": "Ungültiger Benutzername oder Passwort.",
+      "SERVER_ERROR": "Auf unserer Seite ist etwas schief gelaufen. Bitte versuchen Sie es später erneut.",
+      "UNKNOWN_ERROR": "Ein unerwarteter Fehler ist aufgetreten.",
+      "INVALID_API_RESPONSE": "Die Anmeldeantwort war nicht gültig."
+    }
+  },
+  "pages": {
+    "dashboard": "Kamera-Dashboard",
+    "alerts": "Live-Alarme",
+    "history": "Alarmverlauf"
+  },
+  "topbar": {
+    "menuLabel": "Menü"
+  },
+  "common": {
+    "lastUpdate": "Letzte Aktualisierung:"
+  },
+  "errorPages": {
+    "title": "Hoppla!",
+    "notFoundMessage": "Wir konnten die gesuchte Seite nicht finden...",
+    "errorMessage": "Auf unserer Seite ist etwas schief gelaufen. Bitte versuchen Sie es später erneut.",
+    "button": "Zur Startseite"
+  },
+  "dashboard": {
+    "noCameraMessage": "Ihrem Konto ist keine Kamera zugeordnet. Bitte kontaktieren Sie den Administrator",
+    "errorFetchCameraMessage": "Auf unserer Seite ist etwas schief gelaufen. Bitte versuchen Sie es später erneut.",
+    "titleImage": "Letztes Bild von der Kamera",
+    "inactiveCameraMsg": "Inaktive Kamera",
+    "liveButton": "Live-Streaming starten",
+    "maskButton": "Verdeckungsmasken verwalten"
+  },
+  "alerts": {
+    "titleListSimple": "Alarm zu bearbeiten",
+    "titleListPlural": "Alarme zu bearbeiten",
+    "prefixCardDetection": "Erkannt von:",
+    "noAlertsMessage": "Kein Alarm erkannt",
+    "errorFetchSequencesMessage": "Auf unserer Seite ist etwas schief gelaufen. Bitte versuchen Sie es später erneut.",
+    "titleSectionCamera": "Kamera:",
+    "buttonChangeSequence": "Kamera wechseln",
+    "defaultCameraName": "Unbekannte Kamera",
+    "buttonImageDownload": "Herunterladen",
+    "buttonImageDownloadOne": "Aktuelles Bild herunterladen",
+    "buttonImageDownloadAll": "Alle Bilder herunterladen",
+    "buttonPlay": "Abspielen",
+    "buttonPause": "Pause",
+    "errorFetchImagesMessage": "Auf unserer Seite ist etwas schief gelaufen. Bitte versuchen Sie es später erneut.",
+    "titleDetails": "Informationen zum Alarm",
+    "titleButtonBackAlt": "Zurück zur Alarmliste",
+    "subtitleDate": "Datum & Uhrzeit",
+    "subtitleAzimuth": "Azimut",
+    "subtitleCameraLocalisation": "Kamerastandort",
+    "subtitleSmokeLocalisation": "Brandort",
+    "buttonInvestigate": "Live-Streaming starten",
+    "buttonTreatAlert": "Alarm bearbeiten",
+    "buttonModifyAlert": "Alarm ändern",
+    "mapElevation": "Höhe",
+    "mapAngleOfView": "Blickwinkel",
+    "time": {
+      "day": "Tag",
+      "days": "Tage",
+      "hour": "Stunde",
+      "hours": "Stunden",
+      "minute": "Minute",
+      "minutes": "Minuten",
+      "now": "Gerade eben"
+    },
+    "label": {
+      "wildfire": "Brandausbruch",
+      "otherSmoke": "Anderer Rauch",
+      "other": "Sonstiges",
+      "unset": "Zu kennzeichnen",
+      "titleModal": "Wählen Sie das Label für den Alarm von ",
+      "buttonCancelModal": "Abbrechen",
+      "buttonValidateModal": "Bestätigen",
+      "titleRadioButtonsModal": "Label",
+      "modalMessage": {
+        "lastSequence": "Sobald das Label registriert wurde, wird der Alarm automatisch bestätigt.",
+        "multipleSequences": "Sie müssen noch %s Erkennungen kennzeichnen, um den Alarm vollständig zu bestätigen."
+      },
+      "saveSuccessMessage": {
+        "history": "Der Alarm wurde erfolgreich gekennzeichnet",
+        "lastSequence": "Der Alarm wurde erfolgreich bestätigt.",
+        "multipleSequences": "Die Erkennung ist gekennzeichnet, bearbeiten Sie die anderen Erkennungen, um den Alarm zu bestätigen."
+      },
+      "saveErrorMessage": "Ein Fehler ist aufgetreten, bitte versuchen Sie es erneut"
+    },
+    "occlusionMask": {
+      "title": "Verdeckungsmasken verwalten",
+      "loading": "Erkennungsdaten werden geladen...",
+      "confirmZoneText": "Verdeckungszone bestätigen",
+      "explanationText": "Verdeckungsmasken verbergen Bereiche, die wiederkehrende Fehlalarme erzeugen. Die grüne Zone zeigt die vorgeschlagene neue Maske. Rote Zonen zeigen vorhandene Masken.",
+      "confirmButton": "Auswahl bestätigen",
+      "deleteAllButton": "Verdeckungszonen löschen",
+      "cancelButton": "Abbrechen",
+      "buttonManageMasks": "Verdeckungsmasken verwalten",
+      "detectionImageAlt": "Erkennung",
+      "deleting": "Wird gelöscht...",
+      "adding": "Wird hinzugefügt..."
+    }
+  },
+  "history": {
+    "title": "Verlauf",
+    "noFilterMessage": "Datum auswählen",
+    "noAlertsMessage": "Kein Alarm für diesen Tag gefunden",
+    "errorFetchSequencesMessage": "Auf unserer Seite ist etwas schief gelaufen. Bitte versuchen Sie es später erneut.",
+    "dateField": "Datum",
+    "loadMoreMessage": "Weitere Alarme laden"
+  },
+  "live": {
+    "errorFetchInfos": "Auf unserer Seite ist etwas schief gelaufen. Bitte versuchen Sie es später erneut.",
+    "errorNoAccess": "Mit diesem Konto wurde keine Website gefunden. Bitte kontaktieren Sie Ihren Administrator",
+    "errorCallSite": "Beim Kontaktieren der Website ist etwas schief gelaufen. Bitte versuchen Sie es später erneut.",
+    "siteField": "Website",
+    "header": {
+      "buttonClose": "Live-Stream schließen",
+      "alertMessage": "Live-Stream läuft: Erkennung inaktiv seit {{timeSpent}}",
+      "interruptedMessage": "Live-Stream wurde unterbrochen",
+      "loadingMessage": "Live-Stream wird geladen..."
+    },
+    "errorNoStreaming": "Auf unserer Seite ist etwas schief gelaufen. Bitte versuchen Sie es später erneut.",
+    "errorTmpMediaMtx": "Videostream unterbrochen. Bitte warten.",
+    "errorInteruptedMediaMtx": "Videostream unterbrochen.",
+    "errorFinalMediaMtx": "Videostream fehlgeschlagen. Bitte versuchen Sie es später erneut.",
+    "loadingVideo": "Video wird geladen...",
+    "tooltipSpeed": "Kamerabewegungsgeschwindigkeit",
+    "tooltipPrerecordedAzimuths": "Voraufgezeichnete Azimute für die Kamera",
+    "tooltipCustomAzimuths": "Benutzerdefinierter Azimut für die Kamera",
+    "errorOnActionStreaming": "Ein unerwarteter Fehler ist beim Versuch, die Kamera zu kontaktieren, aufgetreten",
+    "relaunchStreamButton": "Neu starten"
+  }
+}
