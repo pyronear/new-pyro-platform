@@ -31,13 +31,13 @@ const LanguageSwitcher: React.FC = () => {
           height: '30px',
         })}
       >
-        <MenuItem value="en">
+        <MenuItem value="en-US">
           <StackLanguage label="ENGLISH" icon={gb} />
         </MenuItem>
-        <MenuItem value="fr">
+        <MenuItem value="fr-FR">
           <StackLanguage label="FRANÇAIS" icon={fr} />
         </MenuItem>
-        <MenuItem value="es">
+        <MenuItem value="es-ES">
           <StackLanguage label="ESPAÑOL" icon={es} />
         </MenuItem>
       </Select>
