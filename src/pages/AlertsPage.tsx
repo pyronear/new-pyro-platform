@@ -2,6 +2,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useCallback, useMemo } from 'react';
 
 import { AlertsContainer } from '../components/Alerts/AlertsContainer';
+import { useDetectAndPlaySoundForNewSequence } from '../components/Alerts/AlertsList/useDetectAndPlaySoundForNewSequence';
 import { getUnlabelledLatestSequences } from '../services/alerts';
 import {
   STATUS_ERROR,
@@ -37,6 +38,11 @@ export const AlertsPage = () => {
     [sequenceList, cameraList]
   );
 
+  const { isAlertSoundOn, onSoundToggle } = useDetectAndPlaySoundForNewSequence(
+    sequenceList,
+    dataUpdatedAt
+  );
+
   const invalidateAndRefreshData = useCallback(() => {
     void queryClient.invalidateQueries({ queryKey: ['unlabelledSequences'] });
   }, [queryClient]);
@@ -58,6 +64,8 @@ export const AlertsPage = () => {
       lastUpdate={dataUpdatedAt}
       invalidateAndRefreshData={invalidateAndRefreshData}
       alertsList={alertsList}
+      isAlertSoundOn={isAlertSoundOn}
+      onSoundToggle={onSoundToggle}
     />
   );
 };
