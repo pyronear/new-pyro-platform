@@ -1,12 +1,12 @@
 import ClearIcon from '@mui/icons-material/Clear';
-import FactoryIcon from '@mui/icons-material/Factory';
-import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import { useTheme } from '@mui/material';
 import Chip from '@mui/material/Chip';
 
 import type { LabelWildfireValues } from '@/utils/alerts';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
+
+import { AlertIcon } from './AlertIcon/AlertIcon';
 
 interface SequenceLabelChipProps {
   labelWildfire: LabelWildfireValues;
@@ -40,9 +40,9 @@ export const SequenceLabelChip = ({
       case null:
         return <QuestionMarkIcon />;
       case 'wildfire_smoke':
-        return <LocalFireDepartmentIcon />;
+        return <AlertIcon iconPath="fire" />;
       case 'other_smoke':
-        return <FactoryIcon />;
+        return <AlertIcon iconPath="smoke" />;
       case 'other':
         return <ClearIcon />;
     }
