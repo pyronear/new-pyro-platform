@@ -1,6 +1,7 @@
-import { AppBar, Button, Stack, Toolbar } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { AppBar, Stack, Toolbar } from '@mui/material';
+import { Link } from 'react-router-dom';
 
+import { DEFAULT_ROUTE } from '@/App';
 import logo from '@/assets/logo.svg';
 
 import { useAuth } from '../../context/useAuth';
@@ -12,15 +13,7 @@ import { NavigationLink } from './NavigationLink';
 export const DesktopTopbar = () => {
   const { t } = useTranslationPrefix('pages');
   const { token } = useAuth();
-  const navigate = useNavigate();
   const isLoggedIn = !!token;
-
-  const handleLogoClick = async () => {
-    if (!isLoggedIn) {
-      return;
-    }
-    await navigate('/alerts');
-  };
 
   return (
     <>
@@ -34,11 +27,9 @@ export const DesktopTopbar = () => {
             px={2}
           >
             <Stack direction="row" spacing={5} alignItems="center">
-              <Button
-                disabled={!isLoggedIn}
-                startIcon={<img height="30px" src={logo} alt="Logo" />}
-                onClick={() => void handleLogoClick()}
-              />
+              <Link to={DEFAULT_ROUTE}>
+                <img height="30px" src={logo} alt="Logo" />
+              </Link>
               {isLoggedIn && (
                 <Stack direction="row" spacing={2}>
                   <NavigationLink path="/alerts" label={t('alerts')} />
