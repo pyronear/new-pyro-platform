@@ -16,7 +16,7 @@ export const AlertStartedTimeAgo = ({ alert }: { alert: AlertType }) => {
   useRefreshEvery(60); // re-render every 60s
 
   return (
-    <Stack direction="row" alignItems="center">
+    <Stack direction="row" alignItems="center" spacing={1}>
       <HourglassEmptyIcon fontSize="inherit" color="disabled" />
       <Typography variant="subtitle2">{formattedTimeAgo}</Typography>
     </Stack>
