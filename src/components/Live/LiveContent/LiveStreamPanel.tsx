@@ -12,9 +12,13 @@ import {
 
 import { Loader } from '@/components/Common/Loader';
 import { STATUS_ERROR, STATUS_LOADING, STATUS_SUCCESS } from '@/services/axios';
-import type { SequenceWithCameraInfoType } from '@/utils/alerts';
+import { type AlertType } from '@/utils/alerts';
 import type { CameraFullInfosType } from '@/utils/camera';
-import { calculateHasRotation, getMoveToAzimuth, SPEEDS } from '@/utils/live';
+import {
+  calculateHasRotation,
+  getMoveToAzimuthFromAlert,
+  SPEEDS,
+} from '@/utils/live';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
 import { useActionsOnCamera } from '../context/useActionsOnCamera';
@@ -25,16 +29,15 @@ import { QuickActions } from './StreamActions/QuickActions';
 interface LiveStreamPanelProps {
   urlStreaming: string;
   camera: CameraFullInfosType | null;
-  sequence?: SequenceWithCameraInfoType;
+  alert?: AlertType;
   setIsStreamVideoInterrupted: Dispatch<SetStateAction<boolean>>;
 }
 
 export const LiveStreamPanel = ({
   urlStreaming,
   camera,
-
   setIsStreamVideoInterrupted,
-  sequence,
+  alert,
 }: LiveStreamPanelProps) => {
   const [speedIndex, setSpeedIndex] = useState(1);
   const ip = camera?.ip ?? '';
@@ -43,6 +46,11 @@ export const LiveStreamPanel = ({
   const mediaMtx = useMediaMtx({ urlStreaming, refVideo, ip });
   const { addStreamingAction, isStreamingTimeout, statusStreamingVideo } =
     useActionsOnCamera();
+
+  const initialMove = useMemo(
+    () => getMoveToAzimuthFromAlert(camera, alert),
+    [alert, camera]
+  );
 
   const mediaMtxInterrupted =
     mediaMtx.state === StateStreaming.WITH_ERROR ||
@@ -53,29 +61,18 @@ export const LiveStreamPanel = ({
     addStreamingAction({
       type: 'START_STREAMING',
       ip,
-      params: { hasRotation, move: initialMove },
+      params: { hasRotation, move: initialMove ?? undefined },
     });
   };
 
   const hasRotation = calculateHasRotation(camera?.type);
-  const initialMove = useMemo(
-    () =>
-      sequence?.coneAzimuth
-        ? getMoveToAzimuth(
-            sequence.coneAzimuth,
-            camera?.azimuths ?? [],
-            camera?.poses ?? []
-          )
-        : undefined,
-    [camera?.azimuths, camera?.poses, sequence?.coneAzimuth]
-  );
 
   useEffect(() => {
     if (ip) {
       addStreamingAction({
         type: 'START_STREAMING',
         ip,
-        params: { hasRotation, move: initialMove },
+        params: { hasRotation, move: initialMove ?? undefined },
       });
     }
     return () => {

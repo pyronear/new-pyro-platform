@@ -1,6 +1,7 @@
 import { type CameraDirectionType } from '@/services/live';
 
-import type { SiteType } from './camera';
+import { type AlertType, getSequenceByCameraId } from './alerts';
+import type { CameraFullInfosType, SiteType } from './camera';
 
 const TYPE_PTZ = 'ptz';
 
@@ -70,14 +71,30 @@ export interface MovementCommand {
   direction?: CameraDirectionType;
 }
 
+export const getMoveToAzimuthFromAlert = (
+  camera: CameraFullInfosType | null,
+  alert?: AlertType
+) => {
+  const sequence =
+    alert && camera ? getSequenceByCameraId(alert, camera.id) : null;
+  if (sequence) {
+    return getMoveToAzimuth(
+      sequence.coneAzimuth,
+      camera?.azimuths ?? [],
+      camera?.poses ?? []
+    );
+  }
+  return null;
+};
+
 export const getMoveToAzimuth = (
   azimuthToGoTo: number,
   azimuthsCamera: number[],
   posesCamera: number[]
-): MovementCommand | undefined => {
+): MovementCommand | null => {
   const azimuthToGoToRounded = Math.trunc(azimuthToGoTo);
   if (azimuthsCamera.length === 0) {
-    return undefined;
+    return null;
   }
   const distanceAzimuths = azimuthsCamera.map((azimuth) =>
     closestTo0Modulo360(azimuthToGoToRounded - azimuth)
@@ -95,7 +112,7 @@ export const getMoveToAzimuth = (
           : undefined,
     };
   }
-  return undefined;
+  return null;
 };
 
 const closestTo0Modulo360 = (diff: number) => {

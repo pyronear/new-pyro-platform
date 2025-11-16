@@ -84,10 +84,7 @@ export const AlertInfos = ({
           </Grid>
           <Grid container spacing={2} direction="column">
             {isLiveMode && sequence.camera && (
-              <ModalLiveWrapper
-                cameraName={sequence.camera.name}
-                sequence={sequence}
-              >
+              <ModalLiveWrapper cameraName={sequence.camera.name} alert={alert}>
                 {(onClick) => (
                   <Button
                     color="secondary"

@@ -4,6 +4,7 @@ import type { Dispatch, SetStateAction } from 'react';
 
 import smallLogo from '@/assets/small-logo.png';
 import {
+  type AlertType,
   countUnlabelledSequences,
   type SequenceWithCameraInfoType,
 } from '@/utils/alerts';
@@ -16,7 +17,7 @@ import { SequenceSelector } from './SequenceSelector';
 interface AlertHeaderType {
   isLiveMode: boolean;
   invalidateAndRefreshData: () => void;
-  sequences: SequenceWithCameraInfoType[];
+  alert: AlertType;
   selectedSequence: SequenceWithCameraInfoType;
   setSelectedSequence: Dispatch<
     SetStateAction<SequenceWithCameraInfoType | null>
@@ -27,7 +28,7 @@ interface AlertHeaderType {
 export const AlertHeader = ({
   isLiveMode,
   invalidateAndRefreshData,
-  sequences,
+  alert,
   selectedSequence,
   setSelectedSequence,
   resetAlert,
@@ -48,13 +49,13 @@ export const AlertHeader = ({
       sequence={selectedSequence}
       isLiveMode={isLiveMode}
       invalidateAndRefreshData={invalidateAndRefreshData}
-      nbSequencesToBeLabelled={countUnlabelledSequences(sequences)}
+      nbSequencesToBeLabelled={countUnlabelledSequences(alert.sequences)}
     />
   );
 
-  const SequenceSelectorComponent = sequences.length > 1 && (
+  const SequenceSelectorComponent = alert.sequences.length > 1 && (
     <SequenceSelector
-      sequences={sequences}
+      alert={alert}
       setSelectedSequence={setSelectedSequence}
       selectedSequence={selectedSequence}
     />

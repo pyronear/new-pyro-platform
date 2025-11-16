@@ -1,20 +1,20 @@
 import { Dialog, DialogContent } from '@mui/material';
 import { type ReactNode, useState } from 'react';
 
-import type { SequenceWithCameraInfoType } from '@/utils/alerts';
+import type { AlertType } from '@/utils/alerts';
 
 import { ActionsOnCameraContextProvider } from './context/ActionsOnCameraProvider';
 import { LiveContainer } from './LiveContainer';
 
 interface ModalLiveWrapperProps {
   cameraName: string;
-  sequence?: SequenceWithCameraInfoType;
+  alert?: AlertType;
   children: (onClick: () => void) => ReactNode;
 }
 
 export const ModalLiveWrapper = ({
   cameraName,
-  sequence,
+  alert,
   children,
 }: ModalLiveWrapperProps) => {
   const [openLive, setOpenLive] = useState(false);
@@ -49,7 +49,7 @@ export const ModalLiveWrapper = ({
             <LiveContainer
               onClose={() => setOpenLive(false)}
               cameraName={cameraName}
-              sequence={sequence}
+              alert={alert}
             />
           </DialogContent>
         </Dialog>

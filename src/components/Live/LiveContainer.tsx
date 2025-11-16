@@ -10,10 +10,11 @@ import {
   STATUS_SUCCESS,
 } from '@/services/axios';
 import { getCamerasInfos } from '@/services/live';
-import type { SequenceWithCameraInfoType } from '@/utils/alerts';
+import { type AlertType } from '@/utils/alerts';
 import {
   aggregateSiteData,
   getCameraIdByCameraName,
+  getDefaultCameraIdBySite,
   getSiteByCameraName,
   type SiteType,
 } from '@/utils/camera';
@@ -30,16 +31,16 @@ import { LiveStreamPanel } from './LiveContent/LiveStreamPanel';
 interface LiveContainerProps {
   onClose: () => void;
   cameraName: string;
-  sequence?: SequenceWithCameraInfoType;
+  alert?: AlertType;
 }
 
 export const LiveContainer = ({
   onClose,
   cameraName,
-  sequence,
+  alert,
 }: LiveContainerProps) => {
   const { t } = useTranslationPrefix('live');
-  const { statusSitesFetch, sites } = useDataSitesLive();
+  const { statusSitesFetch, sites } = useDataSitesLive(alert);
   const { isStreamingTimeout } = useActionsOnCamera();
   const [isStreamVideoInterrupted, setIsStreamVideoInterrupted] =
     useState<boolean>(false);
@@ -50,6 +51,11 @@ export const LiveContainer = ({
   const selectedCamera = useMemo(() => {
     return selectedSite?.cameras.find((c) => c.id === selectedCameraId) ?? null;
   }, [selectedCameraId, selectedSite]);
+
+  const changeCamera = (newSite: SiteType, newCameraId: number | null) => {
+    setSelectedSite(newSite);
+    setSelectedCameraId(newCameraId ?? getDefaultCameraIdBySite(newSite));
+  };
 
   const urlStreaming = useMemo(
     () => calculateLiveStreamingUrl(selectedSite),
@@ -64,8 +70,9 @@ export const LiveContainer = ({
         newSelectedSite,
         cameraName
       );
-      setSelectedSite(newSelectedSite);
-      setSelectedCameraId(newSelectedCameraId);
+      if (newSelectedSite) {
+        changeCamera(newSelectedSite, newSelectedCameraId);
+      }
     }
   }, [selectedSite, sites, cameraName]);
 
@@ -110,17 +117,16 @@ export const LiveContainer = ({
                 urlStreaming={urlStreaming}
                 setIsStreamVideoInterrupted={setIsStreamVideoInterrupted}
                 camera={selectedCamera}
-                sequence={sequence}
+                alert={alert}
               />
             </Grid>
             <Grid size={3}>
               <LiveControlPanel
                 sites={sites}
                 selectedSite={selectedSite}
-                setSelectedSite={setSelectedSite}
                 selectedCamera={selectedCamera}
-                setSelectedCameraId={setSelectedCameraId}
-                sequence={sequence}
+                changeCamera={changeCamera}
+                alert={alert}
               />
             </Grid>
           </Grid>

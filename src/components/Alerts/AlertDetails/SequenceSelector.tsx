@@ -5,11 +5,16 @@ import { Button, Popover } from '@mui/material';
 import { type Dispatch, type SetStateAction, useState } from 'react';
 
 import { CamerasListSelectable } from '@/components/Common/Camera/CamerasListSelectable';
-import type { SequenceWithCameraInfoType } from '@/utils/alerts';
+import {
+  type AlertType,
+  extractCameraListFromAlert,
+  getSequenceByCameraId,
+  type SequenceWithCameraInfoType,
+} from '@/utils/alerts';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
 interface SequenceSelectorProps {
-  sequences: SequenceWithCameraInfoType[];
+  alert: AlertType;
   selectedSequence: SequenceWithCameraInfoType;
   setSelectedSequence: Dispatch<
     SetStateAction<SequenceWithCameraInfoType | null>
@@ -18,7 +23,7 @@ interface SequenceSelectorProps {
 
 export const SequenceSelector = ({
   selectedSequence,
-  sequences,
+  alert,
   setSelectedSequence,
 }: SequenceSelectorProps) => {
   const { t } = useTranslationPrefix('alerts');
@@ -58,13 +63,12 @@ export const SequenceSelector = ({
         }}
       >
         <CamerasListSelectable
-          cameras={sequences
-            .map((sequence) => sequence.camera)
-            .filter((cameraNullable) => !!cameraNullable)}
+          cameras={extractCameraListFromAlert(alert)}
           selectedCameraId={selectedSequence.camera?.id ?? null}
           setSelectedCameraId={(newCameraId: number) => {
-            const newSelectedSequence = sequences.find(
-              (sequence) => sequence.camera?.id === newCameraId
+            const newSelectedSequence = getSequenceByCameraId(
+              alert,
+              newCameraId
             );
             if (newSelectedSequence) {
               setSelectedSequence(newSelectedSequence);

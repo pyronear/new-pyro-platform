@@ -52,7 +52,8 @@ export const QuickActions = ({
   const onClickAzimuth = () => {
     const azimuthToGoInt = Number(azimuthToGo);
     if (!Number.isNaN(azimuthToGoInt)) {
-      const move = getMoveToAzimuth(azimuthToGoInt, azimuths, poses);
+      const move =
+        getMoveToAzimuth(azimuthToGoInt, azimuths, poses) ?? undefined;
       addStreamingAction({
         type: 'MOVE_TO_AZIMUTH',
         ip: cameraIp,
