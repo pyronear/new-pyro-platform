@@ -5,16 +5,18 @@ import {
   type Dispatch,
   type SetStateAction,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from 'react';
 
 import { Loader } from '@/components/Common/Loader';
 import { STATUS_ERROR, STATUS_LOADING, STATUS_SUCCESS } from '@/services/axios';
+import { type AlertType } from '@/utils/alerts';
 import type { CameraFullInfosType } from '@/utils/camera';
 import {
   calculateHasRotation,
-  type MovementCommand,
+  getMoveToAzimuthFromAlert,
   SPEEDS,
 } from '@/utils/live';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
@@ -27,7 +29,7 @@ import { QuickActions } from './StreamActions/QuickActions';
 interface LiveStreamPanelProps {
   urlStreaming: string;
   camera: CameraFullInfosType | null;
-  initialMove?: MovementCommand;
+  alert?: AlertType;
   setIsStreamVideoInterrupted: Dispatch<SetStateAction<boolean>>;
 }
 
@@ -35,7 +37,7 @@ export const LiveStreamPanel = ({
   urlStreaming,
   camera,
   setIsStreamVideoInterrupted,
-  initialMove,
+  alert,
 }: LiveStreamPanelProps) => {
   const [speedIndex, setSpeedIndex] = useState(1);
   const ip = camera?.ip ?? '';
@@ -44,6 +46,11 @@ export const LiveStreamPanel = ({
   const mediaMtx = useMediaMtx({ urlStreaming, refVideo, ip });
   const { addStreamingAction, isStreamingTimeout, statusStreamingVideo } =
     useActionsOnCamera();
+
+  const initialMove = useMemo(
+    () => getMoveToAzimuthFromAlert(camera, alert),
+    [alert, camera]
+  );
 
   const mediaMtxInterrupted =
     mediaMtx.state === StateStreaming.WITH_ERROR ||
@@ -54,7 +61,7 @@ export const LiveStreamPanel = ({
     addStreamingAction({
       type: 'START_STREAMING',
       ip,
-      params: { hasRotation, move: initialMove },
+      params: { hasRotation, move: initialMove ?? undefined },
     });
   };
 
@@ -65,7 +72,7 @@ export const LiveStreamPanel = ({
       addStreamingAction({
         type: 'START_STREAMING',
         ip,
-        params: { hasRotation, move: initialMove },
+        params: { hasRotation, move: initialMove ?? undefined },
       });
     }
     return () => {

@@ -10,7 +10,7 @@ import {
   STATUS_SUCCESS,
 } from '@/services/axios';
 import { getCamerasInfos } from '@/services/live';
-import type { AlertType } from '@/utils/alerts';
+import { type AlertType } from '@/utils/alerts';
 import {
   aggregateSiteData,
   getCameraIdByCameraName,
@@ -18,11 +18,7 @@ import {
   getSiteByCameraName,
   type SiteType,
 } from '@/utils/camera';
-import {
-  calculateLiveStreamingUrl,
-  calculateSiteUrl,
-  getMoveToAzimuth,
-} from '@/utils/live';
+import { calculateLiveStreamingUrl, calculateSiteUrl } from '@/utils/live';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
 import { useActionsOnCamera } from './context/useActionsOnCamera';
@@ -65,19 +61,6 @@ export const LiveContainer = ({
     () => calculateLiveStreamingUrl(selectedSite),
     [selectedSite]
   );
-
-  const initialMove = useMemo(() => {
-    const currentSequence = alert?.sequences.find(
-      (seq) => seq.camera?.id === selectedCamera?.id
-    );
-    return currentSequence?.coneAzimuth
-      ? getMoveToAzimuth(
-          currentSequence.coneAzimuth,
-          selectedCamera?.azimuths ?? [],
-          selectedCamera?.poses ?? []
-        )
-      : undefined;
-  }, [alert, selectedCamera]);
 
   useEffect(() => {
     if (selectedSite == null) {
@@ -134,7 +117,7 @@ export const LiveContainer = ({
                 urlStreaming={urlStreaming}
                 setIsStreamVideoInterrupted={setIsStreamVideoInterrupted}
                 camera={selectedCamera}
-                initialMove={initialMove}
+                alert={alert}
               />
             </Grid>
             <Grid size={3}>

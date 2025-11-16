@@ -1,6 +1,6 @@
 import { Stack } from '@mui/material';
 
-import type { AlertType } from '@/utils/alerts';
+import { type AlertType, getSequenceByCameraId } from '@/utils/alerts';
 import type { CameraFullInfosType, SiteType } from '@/utils/camera';
 
 import { SelectionCameraWithAlert } from './Control/SelectionCameraWithAlert';
@@ -22,9 +22,10 @@ export const LiveControlPanel = ({
   selectedCamera,
   alert,
 }: LiveControlPanelProps) => {
-  const currentSequence = alert?.sequences.find(
-    (seq) => seq.camera?.id === selectedCamera?.id
-  );
+  const currentSequence =
+    alert && selectedCamera
+      ? getSequenceByCameraId(alert, selectedCamera.id)
+      : undefined;
 
   return (
     <Stack spacing={1} height="100%">

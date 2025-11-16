@@ -1,12 +1,18 @@
+import { Box, useTheme } from '@mui/material';
+
 import { CamerasListSelectable } from '@/components/Common/Camera/CamerasListSelectable';
 import {
   type AlertType,
   extractCameraListFromAlert,
+  formatAzimuth,
+  formatPosition,
   type SequenceWithCameraInfoType,
 } from '@/utils/alerts';
 import type { CameraFullInfosType, SiteType } from '@/utils/camera';
+import { formatToDateTime } from '@/utils/dates';
+import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
-import { LiveAlertInfos } from './LiveAlertInfos';
+import { LiveAlertInfosSection } from './LiveAlertInfosSection';
 
 interface SelectionCameraProps {
   sites: SiteType[];
@@ -23,7 +29,11 @@ export const SelectionCameraWithAlert = ({
   alert,
   currentSequence,
 }: SelectionCameraProps) => {
+  const { t } = useTranslationPrefix('alerts');
+  const theme = useTheme();
   const cameraList = extractCameraListFromAlert(alert);
+
+  // TODO : to remove, once we receive sites from API
   const getSiteByCameraId = (cameraId: number) => {
     const cameraName = cameraList.find((camera) => camera.id == cameraId)?.name;
     return cameraName
@@ -45,7 +55,31 @@ export const SelectionCameraWithAlert = ({
           }}
         />
       </div>
-      {currentSequence && <LiveAlertInfos sequence={currentSequence} />}
+      {currentSequence && (
+        <Box
+          border={`1px solid ${theme.palette.grey[400]}`}
+          p={1.5}
+          borderRadius={1}
+        >
+          <LiveAlertInfosSection title={t('subtitleDate')}>
+            {formatToDateTime(currentSequence.startedAt)}
+          </LiveAlertInfosSection>
+          <LiveAlertInfosSection title={t('subtitleAzimuth')}>
+            {formatAzimuth(currentSequence.coneAzimuth, 1)}
+          </LiveAlertInfosSection>
+          <LiveAlertInfosSection title={t('subtitleCameraLocalisation')}>
+            {formatPosition(
+              currentSequence.camera?.lat,
+              currentSequence.camera?.lon
+            )}
+          </LiveAlertInfosSection>
+          {alert.eventSmokeLocation && (
+            <LiveAlertInfosSection title={t('subtitleSmokeLocalisation')}>
+              {formatPosition(...alert.eventSmokeLocation)}
+            </LiveAlertInfosSection>
+          )}
+        </Box>
+      )}
     </>
   );
 };

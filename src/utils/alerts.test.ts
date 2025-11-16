@@ -1,5 +1,7 @@
 import {
+  type AlertType,
   convertSequencesToAlerts,
+  extractCameraListFromAlert,
   formatAzimuth,
   formatPosition,
 } from './alerts';
@@ -139,5 +141,67 @@ describe('convertSequencesToAlerts', () => {
     expect(result[1].sequences.length).toEqual(2);
     expect(result[1].sequences[0].id).toEqual(1);
     expect(result[1].sequences[1].id).toEqual(3);
+  });
+});
+
+describe('extractCameraListFromAlert', () => {
+  it('should return list', () => {
+    const camera1 = {
+      id: 1,
+      organization_id: 0,
+      name: '',
+      angle_of_view: null,
+      elevation: null,
+      lat: 0,
+      lon: 0,
+      is_trustable: false,
+      last_active_at: null,
+      last_image: null,
+      last_image_url: null,
+      created_at: null,
+    };
+    const camera2 = {
+      id: 1,
+      organization_id: 0,
+      name: '',
+      angle_of_view: null,
+      elevation: null,
+      lat: 0,
+      lon: 0,
+      is_trustable: false,
+      last_active_at: null,
+      last_image: null,
+      last_image_url: null,
+      created_at: null,
+    };
+
+    const alert: AlertType = {
+      id: '',
+      startedAt: null,
+      sequences: [
+        {
+          id: 1,
+          camera: camera1,
+          lastSeenAt: null,
+          azimuth: null,
+          coneAzimuth: 0,
+          coneAngle: 0,
+          labelWildfire: null,
+          startedAt: null,
+        },
+        {
+          id: 2,
+          camera: camera2,
+          lastSeenAt: null,
+          azimuth: null,
+          coneAzimuth: 0,
+          coneAngle: 0,
+          labelWildfire: null,
+          startedAt: null,
+        },
+      ],
+    };
+    const result = extractCameraListFromAlert(alert);
+    expect(result).toStrictEqual([camera1, camera2]);
   });
 });
