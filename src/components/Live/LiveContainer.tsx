@@ -14,6 +14,7 @@ import type { AlertType } from '@/utils/alerts';
 import {
   aggregateSiteData,
   getCameraIdByCameraName,
+  getDefaultCameraIdBySite,
   getSiteByCameraName,
   type SiteType,
 } from '@/utils/camera';
@@ -43,7 +44,7 @@ export const LiveContainer = ({
   alert,
 }: LiveContainerProps) => {
   const { t } = useTranslationPrefix('live');
-  const { statusSitesFetch, sites } = useDataSitesLive();
+  const { statusSitesFetch, sites } = useDataSitesLive(alert);
   const { isStreamingTimeout } = useActionsOnCamera();
   const [isStreamVideoInterrupted, setIsStreamVideoInterrupted] =
     useState<boolean>(false);
@@ -54,6 +55,11 @@ export const LiveContainer = ({
   const selectedCamera = useMemo(() => {
     return selectedSite?.cameras.find((c) => c.id === selectedCameraId) ?? null;
   }, [selectedCameraId, selectedSite]);
+
+  const changeCamera = (newSite: SiteType, newCameraId: number | null) => {
+    setSelectedSite(newSite);
+    setSelectedCameraId(newCameraId ?? getDefaultCameraIdBySite(newSite));
+  };
 
   const urlStreaming = useMemo(
     () => calculateLiveStreamingUrl(selectedSite),
@@ -81,8 +87,9 @@ export const LiveContainer = ({
         newSelectedSite,
         cameraName
       );
-      setSelectedSite(newSelectedSite);
-      setSelectedCameraId(newSelectedCameraId);
+      if (newSelectedSite) {
+        changeCamera(newSelectedSite, newSelectedCameraId);
+      }
     }
   }, [selectedSite, sites, cameraName]);
 
@@ -134,9 +141,8 @@ export const LiveContainer = ({
               <LiveControlPanel
                 sites={sites}
                 selectedSite={selectedSite}
-                setSelectedSite={setSelectedSite}
                 selectedCamera={selectedCamera}
-                setSelectedCameraId={setSelectedCameraId}
+                changeCamera={changeCamera}
                 alert={alert}
               />
             </Grid>

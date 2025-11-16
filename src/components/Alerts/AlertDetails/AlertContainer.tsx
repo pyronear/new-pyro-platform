@@ -37,7 +37,7 @@ export const AlertContainer = ({
         <Grid container padding={{ xs: 1, sm: 2 }} spacing={{ xs: 1, sm: 2 }}>
           <Grid size={{ xs: 12, lg: 9 }}>
             <AlertHeader
-              sequences={alert.sequences}
+              alert={alert}
               selectedSequence={selectedSequence}
               setSelectedSequence={setSelectedSequence}
               resetAlert={resetAlert}

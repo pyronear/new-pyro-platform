@@ -38,8 +38,12 @@ export const getCameraIdByCameraName = (
   }
   return (
     site.cameras.find((c) => c.name == cameraName)?.id ??
-    (site.cameras.length > 0 ? site.cameras[0].id : null)
+    getDefaultCameraIdBySite(site)
   );
+};
+
+export const getDefaultCameraIdBySite = (site: SiteType) => {
+  return site.cameras.length > 0 ? site.cameras[0].id : null;
 };
 
 const aggregateCameraData = (

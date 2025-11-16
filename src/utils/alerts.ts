@@ -139,3 +139,13 @@ const getDateOrNowNb = (sequence: SequenceType) => {
     ? convertStrToEpoch(sequence.started_at)
     : moment.now();
 };
+
+export const extractCameraListFromAlert = (alert: AlertType) => {
+  return alert.sequences
+    .map((sequence) => sequence.camera)
+    .filter((cameraNullable) => !!cameraNullable);
+};
+
+export const getSequenceByCameraId = (alert: AlertType, cameraId: number) => {
+  return alert.sequences.find((sequence) => sequence.camera?.id === cameraId);
+};
