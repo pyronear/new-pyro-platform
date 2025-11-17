@@ -51,15 +51,6 @@ export const AlertContainer = ({
     };
   }, []);
 
-  if (isBlinkingModeEnabled) {
-    return (
-      <BlinkOverlay
-        closeOverlay={() => setIsBlinkingModeEnabled(false)}
-        hasAlert={alert.sequences.length > 0}
-      />
-    );
-  }
-
   return (
     <>
       {selectedSequence && (
@@ -97,6 +88,12 @@ export const AlertContainer = ({
             />
           </Grid>
         </Grid>
+      )}
+      {isBlinkingModeEnabled && (
+        <BlinkOverlay
+          closeOverlay={() => setIsBlinkingModeEnabled(false)}
+          hasAlert={alert.sequences.length > 0}
+        />
       )}
     </>
   );
