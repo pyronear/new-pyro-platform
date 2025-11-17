@@ -1,5 +1,5 @@
 import HighlightOff from '@mui/icons-material/HighlightOff';
-import { Box } from '@mui/material';
+import { Box, IconButton } from '@mui/material';
 
 import logoLettersOrange from '@/assets/logo_letters_orange.png';
 
@@ -23,8 +23,8 @@ export const BlinkOverlay = ({ closeOverlay, hasAlert }: BlinkOverlayProps) => {
         alignItems: 'center',
         justifyContent: 'center',
         ...(hasAlert && {
-          animation: 'blinkRed 0.5s steps(1, end) infinite',
-          '@keyframes blinkRed': {
+          animation: 'blinking 0.5s steps(1, end) infinite',
+          '@keyframes blinking': {
             '0%, 100%': {
               backgroundColor: '#FA3200',
             },
@@ -45,18 +45,11 @@ export const BlinkOverlay = ({ closeOverlay, hasAlert }: BlinkOverlayProps) => {
           objectFit: 'contain',
         }}
       />
-      <HighlightOff
-        onClick={closeOverlay}
-        sx={{
-          position: 'absolute',
-          top: 32,
-          right: 32,
-          cursor: 'pointer',
-          fontSize: '6rem',
-          color: 'white',
-          userSelect: 'none',
-        }}
-      />
+      <Box position="absolute" top={32} right={32}>
+        <IconButton onClick={closeOverlay} aria-label="Exit blinking mode">
+          <HighlightOff sx={{ fontSize: '6rem', color: 'white' }} />
+        </IconButton>
+      </Box>
     </Box>
   );
 };
