@@ -1,5 +1,5 @@
 import HighlightOff from '@mui/icons-material/HighlightOff';
-import { Box, IconButton } from '@mui/material';
+import { Box, IconButton, useTheme } from '@mui/material';
 
 import logoLettersOrange from '@/assets/logo_letters_orange.png';
 
@@ -9,6 +9,8 @@ interface BlinkOverlayProps {
 }
 
 export const BlinkOverlay = ({ closeOverlay, hasAlert }: BlinkOverlayProps) => {
+  const theme = useTheme();
+
   return (
     <Box
       sx={{
@@ -17,7 +19,9 @@ export const BlinkOverlay = ({ closeOverlay, hasAlert }: BlinkOverlayProps) => {
         top: 0,
         width: '100vw',
         height: '100vh',
-        backgroundColor: hasAlert ? '#FA3200' : '#0B444A',
+        backgroundColor: hasAlert
+          ? theme.palette.error.main
+          : theme.palette.primary.main,
         zIndex: 100000,
         display: 'flex',
         alignItems: 'center',
@@ -26,10 +30,10 @@ export const BlinkOverlay = ({ closeOverlay, hasAlert }: BlinkOverlayProps) => {
           animation: 'blinking 0.5s steps(1, end) infinite',
           '@keyframes blinking': {
             '0%, 100%': {
-              backgroundColor: '#FA3200',
+              backgroundColor: theme.palette.error.main,
             },
             '50%': {
-              backgroundColor: 'black',
+              backgroundColor: theme.palette.common.black,
             },
           },
         }),
