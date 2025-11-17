@@ -63,6 +63,7 @@
     "buttonInvestigate": "Start live streaming",
     "buttonTreatAlert": "Treat the alert",
     "buttonModifyAlert": "Modify the alert",
+    "buttonBlinkingView": "Switch to blinking view",
     "mapElevation": "Elevation",
     "mapAngleOfView": "Angle of view",
     "time": {

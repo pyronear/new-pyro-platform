@@ -1,6 +1,8 @@
 import { Button, Grid } from '@mui/material';
 import { useEffect, useState } from 'react';
 
+import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
+
 import {
   type AlertType,
   type SequenceWithCameraInfoType,
@@ -25,6 +27,7 @@ export const AlertContainer = ({
   resetAlert,
 }: AlertContainerType) => {
   const isMobile = useIsMobile();
+  const { t } = useTranslationPrefix('alerts');
   const [selectedSequence, setSelectedSequence] =
     useState<SequenceWithCameraInfoType | null>(null);
   const [isBlinkingModeEnabled, setIsBlinkingModeEnabled] = useState(false);
@@ -78,7 +81,7 @@ export const AlertContainer = ({
                 variant="outlined"
                 onClick={() => setIsBlinkingModeEnabled(!isBlinkingModeEnabled)}
               >
-                Switch to blinking view
+                {t('buttonBlinkingView')}
               </Button>
             </Grid>
           )}
