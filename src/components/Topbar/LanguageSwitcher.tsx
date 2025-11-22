@@ -24,7 +24,7 @@ const LanguageSwitcher: React.FC = () => {
     <FormControl size="small" variant="outlined" sx={{ minWidth: 150 }}>
       <Select
         labelId="language-select-label"
-        value={i18n.language}
+        value={i18n.resolvedLanguage ?? i18n.language}
         variant="outlined"
         onChange={handleChange}
         sx={(theme) => ({
