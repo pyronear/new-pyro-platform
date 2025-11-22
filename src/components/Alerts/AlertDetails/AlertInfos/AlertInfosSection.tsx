@@ -1,6 +1,6 @@
-import { Paper, Typography, useTheme } from '@mui/material';
+import { Paper, Stack, Typography, useTheme } from '@mui/material';
 
-import { CopyToClipboard } from '../../../CopyToClipboard';
+import { CopyToClipboard } from '@/components/Common/CopyToClipboard';
 
 interface AlertInfosSectionType {
   title: string;
@@ -18,22 +18,22 @@ export const AlertInfosSection = ({
     <Paper
       sx={{
         padding: 1,
-        display: 'flex',
-        alignItems: 'center',
-        gap: 3,
       }}
     >
-      <div style={{ flex: 1 }}>
-        <Typography variant="h4">{title}</Typography>
-        <Typography
-          variant="h4"
-          fontWeight="normal"
-          color={theme.palette.secondaryText.main}
-        >
-          {children}
-        </Typography>
-      </div>
-      {withTextToCopy && <CopyToClipboard textToCopy={withTextToCopy} />}
+      <Stack direction="row" justifyContent="space-between" alignItems="center">
+        <Stack>
+          <Typography variant="h4">{title}</Typography>
+          <Typography
+            variant="h4"
+            fontWeight="normal"
+            color={theme.palette.secondaryText.main}
+          >
+            {children}
+          </Typography>
+        </Stack>
+
+        {withTextToCopy && <CopyToClipboard textToCopy={withTextToCopy} />}
+      </Stack>
     </Paper>
   );
 };

@@ -11,6 +11,7 @@ import {
   countUnlabelledSequences,
   formatAzimuth,
   formatPosition,
+  formatPositionWithoutTronc,
   type SequenceWithCameraInfoType,
 } from '@/utils/alerts';
 import { formatToDateTime } from '@/utils/dates';
@@ -64,19 +65,33 @@ export const AlertInfos = ({
           flexGrow={1}
         >
           <Grid container spacing={2} direction="column">
-            <AlertInfosSection title={t('subtitleDate')}>
+            <AlertInfosSection
+              title={t('subtitleDate')}
+              withTextToCopy={formatToDateTime(sequence.startedAt)}
+            >
               {formatToDateTime(sequence.startedAt)}
             </AlertInfosSection>
-            <AlertInfosSection title={t('subtitleAzimuth')}>
+            <AlertInfosSection
+              title={t('subtitleAzimuth')}
+              withTextToCopy={sequence.coneAzimuth.toString()}
+            >
               {formatAzimuth(sequence.coneAzimuth, 1)}
             </AlertInfosSection>
-            <AlertInfosSection title={t('subtitleCameraLocalisation')}>
+            <AlertInfosSection
+              title={t('subtitleCameraLocalisation')}
+              withTextToCopy={formatPositionWithoutTronc(
+                sequence.camera?.lat,
+                sequence.camera?.lon
+              )}
+            >
               {formatPosition(sequence.camera?.lat, sequence.camera?.lon)}
             </AlertInfosSection>
             {alert.eventSmokeLocation && (
               <AlertInfosSection
                 title={t('subtitleSmokeLocalisation')}
-                withTextToCopy={formatPosition(...alert.eventSmokeLocation)}
+                withTextToCopy={formatPositionWithoutTronc(
+                  ...alert.eventSmokeLocation
+                )}
               >
                 {formatPosition(...alert.eventSmokeLocation)}
               </AlertInfosSection>
