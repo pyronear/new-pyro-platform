@@ -4,6 +4,7 @@ import {
   extractCameraListFromAlert,
   formatAzimuth,
   formatPosition,
+  hasNewSequenceSince,
 } from './alerts';
 
 describe('formatConeAzimuth', () => {
@@ -203,5 +204,76 @@ describe('extractCameraListFromAlert', () => {
     };
     const result = extractCameraListFromAlert(alert);
     expect(result).toStrictEqual([camera1, camera2]);
+  });
+});
+describe('hasNewSequenceSince', () => {
+  it('should return false if empty', () => {
+    const result = hasNewSequenceSince([], 1740476223000); //2025-02-25T09:37:03
+    expect(result).toBeFalsy();
+  });
+
+  it('should return false if nothing new', () => {
+    const result = hasNewSequenceSince(
+      [
+        {
+          id: 1,
+          event_groups: [],
+          event_smoke_locations: [],
+          camera_id: 1,
+          last_seen_at: null,
+          azimuth: null,
+          cone_azimuth: 0,
+          cone_angle: 0,
+          is_wildfire: null,
+          started_at: '2025-02-25T05:37:03',
+        },
+        {
+          id: 2,
+          event_groups: [],
+          event_smoke_locations: [],
+          camera_id: 1,
+          last_seen_at: null,
+          azimuth: null,
+          cone_azimuth: 0,
+          cone_angle: 0,
+          is_wildfire: null,
+          started_at: '2025-02-25T08:37:03',
+        },
+      ],
+      1740476223000
+    ); //2025-02-25T09:37:03
+    expect(result).toBeFalsy();
+  });
+  it('should return true if one new', () => {
+    const result = hasNewSequenceSince(
+      [
+        {
+          id: 1,
+          event_groups: [],
+          event_smoke_locations: [],
+          camera_id: 1,
+          last_seen_at: null,
+          azimuth: null,
+          cone_azimuth: 0,
+          cone_angle: 0,
+          is_wildfire: null,
+          started_at: '2025-02-25T05:37:03',
+        },
+        {
+          id: 2,
+          event_groups: [],
+          event_smoke_locations: [],
+          camera_id: 1,
+          last_seen_at: null,
+          azimuth: null,
+          cone_azimuth: 0,
+          cone_angle: 0,
+          is_wildfire: null,
+          started_at: '2025-02-25T09:38:03',
+        },
+      ],
+      1740476223000
+    ); //2025-02-25T09:37:03
+    expect(result).toBeTruthy();
   });
 });
