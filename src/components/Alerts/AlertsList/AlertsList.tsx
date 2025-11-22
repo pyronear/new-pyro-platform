@@ -1,8 +1,10 @@
 import { Divider, Grid, Stack, Typography, useTheme } from '@mui/material';
 
-import type { AlertType } from '../../../utils/alerts';
-import { useTranslationPrefix } from '../../../utils/useTranslationPrefix';
-import { LastUpdateButton } from '../../Common/LastUpdateButton';
+import { LastUpdateButton } from '@/components/Common/LastUpdateButton';
+import type { AlertType } from '@/utils/alerts';
+import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
+
+import { AlertVolumeToggle } from '../AlertsSound/AlertVolumeToggle';
 import { AlertsCardsColumn } from './AlertsCardsColumn';
 
 interface AlertListType {
@@ -12,6 +14,8 @@ interface AlertListType {
   lastUpdate: number;
   isRefreshing: boolean;
   invalidateAndRefreshData: () => void;
+  isAlertSoundOn: boolean;
+  toggleSound: () => void;
 }
 
 export const AlertsList = ({
@@ -21,17 +25,26 @@ export const AlertsList = ({
   lastUpdate,
   isRefreshing,
   invalidateAndRefreshData,
+  isAlertSoundOn,
+  toggleSound,
 }: AlertListType) => {
   const theme = useTheme();
   const { t } = useTranslationPrefix('alerts');
 
   return (
     <Stack bgcolor={theme.palette.customBackground.light} height="100%">
-      <Grid minHeight="55px" padding={{ xs: 1, sm: 2 }} alignContent="center">
+      <Stack
+        direction="row"
+        justifyContent="space-between"
+        alignItems="center"
+        minHeight="55px"
+        padding={{ xs: 1, sm: 2 }}
+      >
         <Typography variant="h2">
           {`${alerts.length.toString()} ${alerts.length <= 1 ? t('titleListSimple') : t('titleListPlural')}`}
         </Typography>
-      </Grid>
+        <AlertVolumeToggle isActive={isAlertSoundOn} onToggle={toggleSound} />
+      </Stack>
       <Divider orientation="horizontal" flexItem />
       <Grid px={{ xs: 1, sm: 2 }} py={1}>
         <LastUpdateButton

@@ -1,6 +1,8 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useCallback, useMemo } from 'react';
 
+import { useDetectNewSequences } from '@/utils/useDetectNewSequences';
+
 import { AlertsContainer } from '../components/Alerts/AlertsContainer';
 import { getUnlabelledLatestSequences } from '../services/alerts';
 import {
@@ -37,6 +39,8 @@ export const AlertsPage = () => {
     [sequenceList, cameraList]
   );
 
+  const { hasNewSequence } = useDetectNewSequences(sequenceList, dataUpdatedAt);
+
   const invalidateAndRefreshData = useCallback(() => {
     void queryClient.invalidateQueries({ queryKey: ['unlabelledSequences'] });
   }, [queryClient]);
@@ -58,6 +62,7 @@ export const AlertsPage = () => {
       lastUpdate={dataUpdatedAt}
       invalidateAndRefreshData={invalidateAndRefreshData}
       alertsList={alertsList}
+      hasNewSequence={hasNewSequence}
     />
   );
 };

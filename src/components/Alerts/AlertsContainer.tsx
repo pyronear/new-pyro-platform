@@ -16,6 +16,7 @@ import { useTranslationPrefix } from '../../utils/useTranslationPrefix';
 import { Loader } from '../Common/Loader';
 import { AlertContainer } from './AlertDetails/AlertContainer';
 import { AlertsList } from './AlertsList/AlertsList';
+import { useAlertSoundToggle } from './AlertsSound/useAlertSoundToggle';
 
 interface AlertsContainerType {
   status: ResponseStatus;
@@ -23,6 +24,7 @@ interface AlertsContainerType {
   isRefreshing: boolean;
   invalidateAndRefreshData: () => void;
   alertsList: AlertType[];
+  hasNewSequence: boolean;
 }
 
 export const AlertsContainer = ({
@@ -31,11 +33,20 @@ export const AlertsContainer = ({
   isRefreshing,
   invalidateAndRefreshData,
   alertsList,
+  hasNewSequence,
 }: AlertsContainerType) => {
   const [selectedAlert, setSelectedAlert] = useState<AlertType | null>(null);
   const isMobile = useIsMobile();
   const containerRef = useRef<HTMLElement>(null);
   const { t } = useTranslationPrefix('alerts');
+
+  const { isAlertSoundOn, toggleSound, playSound } = useAlertSoundToggle();
+
+  useEffect(() => {
+    if (hasNewSequence) {
+      playSound();
+    }
+  }, [hasNewSequence, playSound]);
 
   useEffect(() => {
     const indexSelectedAlert = alertsList.findIndex(
@@ -64,6 +75,8 @@ export const AlertsContainer = ({
       lastUpdate={lastUpdate}
       isRefreshing={isRefreshing}
       invalidateAndRefreshData={invalidateAndRefreshData}
+      isAlertSoundOn={isAlertSoundOn}
+      toggleSound={toggleSound}
     />
   );
 
