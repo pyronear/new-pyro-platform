@@ -93,6 +93,16 @@ export const formatAzimuth = (azimuth: number | null, precision = 0) => {
   return azimuth ? `${azimuth.toFixed(precision)}°` : '';
 };
 
+export const formatPositionWithoutTronc = (
+  lat: number | undefined,
+  lon: number | undefined
+) => {
+  if (!lat && !lon) {
+    return '';
+  }
+  return `${lat}, ${lon}`;
+};
+
 export const formatPosition = (
   lat: number | undefined,
   lon: number | undefined
