@@ -51,4 +51,23 @@ describe('Topbar', () => {
 
     expect(screen.queryByText('dashboard')).toBeInTheDocument();
   });
+
+  it('renders preferences button on desktop', () => {
+    isMobileMock = false;
+    renderWithProviders(<Topbar />);
+    const preferencesButton = screen.getByTestId('ManageAccountsIcon');
+    expect(preferencesButton).toBeInTheDocument();
+  });
+
+  it('opens preferences menu when settings button is clicked on desktop', () => {
+    isMobileMock = false;
+    renderWithProviders(<Topbar />);
+
+    const preferencesButton = screen.getByTestId('ManageAccountsIcon');
+    if (preferencesButton.parentElement) {
+      fireEvent.click(preferencesButton.parentElement);
+    }
+
+    expect(screen.getByRole('menu')).toBeInTheDocument();
+  });
 });

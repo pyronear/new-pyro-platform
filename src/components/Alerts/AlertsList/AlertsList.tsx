@@ -4,7 +4,6 @@ import { LastUpdateButton } from '@/components/Common/LastUpdateButton';
 import type { AlertType } from '@/utils/alerts';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
-import { AlertVolumeToggle } from '../AlertsSound/AlertVolumeToggle';
 import { AlertsCardsColumn } from './AlertsCardsColumn';
 
 interface AlertListType {
@@ -14,8 +13,6 @@ interface AlertListType {
   lastUpdate: number;
   isRefreshing: boolean;
   invalidateAndRefreshData: () => void;
-  isAlertSoundOn: boolean;
-  toggleSound: () => void;
 }
 
 export const AlertsList = ({
@@ -25,8 +22,6 @@ export const AlertsList = ({
   lastUpdate,
   isRefreshing,
   invalidateAndRefreshData,
-  isAlertSoundOn,
-  toggleSound,
 }: AlertListType) => {
   const theme = useTheme();
   const { t } = useTranslationPrefix('alerts');
@@ -43,7 +38,6 @@ export const AlertsList = ({
         <Typography variant="h2">
           {`${alerts.length.toString()} ${alerts.length <= 1 ? t('titleListSimple') : t('titleListPlural')}`}
         </Typography>
-        <AlertVolumeToggle isActive={isAlertSoundOn} onToggle={toggleSound} />
       </Stack>
       <Divider orientation="horizontal" flexItem />
       <Grid px={{ xs: 1, sm: 2 }} py={1}>

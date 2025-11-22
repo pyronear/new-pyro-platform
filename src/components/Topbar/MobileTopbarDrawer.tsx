@@ -1,10 +1,11 @@
-import { Box, Divider, Drawer, List, ListItem } from '@mui/material';
+import { Box, Divider, Drawer, List, ListItem, Stack } from '@mui/material';
 
 import logo from '@/assets/logo.svg';
 
 import { useTranslationPrefix } from '../../utils/useTranslationPrefix';
-import LanguageSwitcher from './LanguageSwitcher';
+import { LogoutButton } from '../Login/LogoutButton';
 import { NavigationLink } from './NavigationLink';
+import LanguageSwitcher from './Preferences/LanguageSwitcher';
 
 interface MobileTopbarDrawerProps {
   isOpen: boolean;
@@ -19,11 +20,10 @@ export const MobileTopbarDrawer = ({
 
   return (
     <Drawer open={isOpen} onClose={handleClose} onClick={handleClose}>
-      <div
+      <Stack
+        justifyContent="space-between"
         style={{
           height: '100%',
-          display: 'grid',
-          gridTemplateRows: '1fr auto',
         }}
       >
         <Box>
@@ -41,10 +41,12 @@ export const MobileTopbarDrawer = ({
             </ListItem>
           </List>
         </Box>
-        <div style={{ padding: '12px' }}>
+        <Stack p={2} spacing={4}>
           <LanguageSwitcher />
-        </div>
-      </div>
+
+          <LogoutButton />
+        </Stack>
+      </Stack>
     </Drawer>
   );
 };

@@ -138,5 +138,13 @@
     "tooltipCustomAzimuths": "Custom azimuth for the camera",
     "errorOnActionStreaming": "An unexpected error happened when try to contact camera",
     "relaunchStreamButton": "Relaunch"
+  },
+  "preferences": {
+    "iconAlt": "User preferences",
+    "mapBaseLayer": "Map Base Layer",
+    "mapOsm": "OpenStreetMap",
+    "mapIgn": "IGN (France)",
+    "mapSatellite": "Satellite",
+    "enableAudioAlerts": "Enable Audio Alerts"
   }
 }

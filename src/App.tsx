@@ -13,6 +13,7 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import ProtectedRoute from './components/Login/ProtectedRoute';
 import { Topbar } from './components/Topbar/Topbar';
 import { AuthProvider } from './context/AuthProvider';
+import { PreferencesProvider } from './context/PreferencesProvider';
 import { AlertsPage } from './pages/AlertsPage';
 import { DashboardPage } from './pages/DashboardPage';
 import { ErrorPage } from './pages/ErrorPage';
@@ -26,26 +27,28 @@ const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-        <BrowserRouter>
-          <Stack height={'100vh'}>
-            <Topbar />
-            <Stack overflow={'hidden'} flexGrow={1}>
-              <Routes>
-                <Route errorElement={<ErrorPage />}>
-                  <Route index element={<Navigate to={DEFAULT_ROUTE} />} />
-                  <Route path="/login" element={<LoginPage />} />
-                  {/* Routes under this cannot be accessed without being logged in */}
-                  <Route element={<ProtectedRoute />}>
-                    <Route path="/alerts" element={<AlertsPage />} />
-                    <Route path="/dashboard" element={<DashboardPage />} />
-                    <Route path="/history" element={<HistoryPage />} />
+        <PreferencesProvider>
+          <BrowserRouter>
+            <Stack height={'100vh'}>
+              <Topbar />
+              <Stack overflow={'hidden'} flexGrow={1}>
+                <Routes>
+                  <Route errorElement={<ErrorPage />}>
+                    <Route index element={<Navigate to={DEFAULT_ROUTE} />} />
+                    <Route path="/login" element={<LoginPage />} />
+                    {/* Routes under this cannot be accessed without being logged in */}
+                    <Route element={<ProtectedRoute />}>
+                      <Route path="/alerts" element={<AlertsPage />} />
+                      <Route path="/dashboard" element={<DashboardPage />} />
+                      <Route path="/history" element={<HistoryPage />} />
+                    </Route>
+                    <Route path="*" element={<ErrorPage is404 />} />
                   </Route>
-                  <Route path="*" element={<ErrorPage is404 />} />
-                </Route>
-              </Routes>
+                </Routes>
+              </Stack>
             </Stack>
-          </Stack>
-        </BrowserRouter>
+          </BrowserRouter>
+        </PreferencesProvider>
       </AuthProvider>
     </QueryClientProvider>
   );

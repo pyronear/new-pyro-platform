@@ -6,25 +6,25 @@ import {
   Stack,
 } from '@mui/material';
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 
 import de from '@/assets/languages/de.svg';
 import es from '@/assets/languages/es.svg';
 import fr from '@/assets/languages/fr.svg';
 import gb from '@/assets/languages/gb.svg';
+import { usePreferences } from '@/context/usePreferences';
 
 const LanguageSwitcher: React.FC = () => {
-  const { i18n } = useTranslation();
+  const { preferences, updatePreferences } = usePreferences();
 
   const handleChange = (event: SelectChangeEvent) => {
-    void i18n.changeLanguage(event.target.value);
+    updatePreferences({ language: event.target.value });
   };
 
   return (
     <FormControl size="small" variant="outlined" sx={{ minWidth: 150 }}>
       <Select
         labelId="language-select-label"
-        value={i18n.resolvedLanguage ?? i18n.language}
+        value={preferences.language}
         variant="outlined"
         onChange={handleChange}
         sx={(theme) => ({
