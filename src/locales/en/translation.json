@@ -140,9 +140,7 @@
     "relaunchStreamButton": "Relaunch"
   },
   "preferences": {
-    "title": "Preferences",
-    "settings": "Settings",
-    "language": "Language",
+    "iconAlt": "User preferences",
     "mapBaseLayer": "Map Base Layer",
     "mapOsm": "OpenStreetMap",
     "mapIgn": "IGN (France)",

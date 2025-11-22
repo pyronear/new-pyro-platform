@@ -142,13 +142,11 @@
     "relaunchStreamButton": "Relancer"
   },
   "preferences": {
-    "title": "Préférences",
-    "settings": "Paramètres",
-    "language": "Langue",
+    "iconAlt": "Préférences utilisateur",
     "mapBaseLayer": "Fond de carte",
     "mapOsm": "OpenStreetMap",
     "mapIgn": "IGN (France)",
     "mapSatellite": "Satellite",
-    "enableAudioAlerts": "Activer les alertes sonores"
+    "enableAudioAlerts": "Activer les son des alertes"
   }
 }

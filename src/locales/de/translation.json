@@ -138,5 +138,13 @@
     "tooltipCustomAzimuths": "Benutzerdefinierter Azimut für die Kamera",
     "errorOnActionStreaming": "Ein unerwarteter Fehler ist beim Versuch, die Kamera zu kontaktieren, aufgetreten",
     "relaunchStreamButton": "Neu starten"
+  },
+  "preferences": {
+    "iconAlt": "Einstellungen",
+    "mapBaseLayer": "Kart Base Layer",
+    "mapOsm": "OpenStreetMap",
+    "mapIgn": "IGN (France)",
+    "mapSatellite": "Satellit",
+    "enableAudioAlerts": "Alarmtöne aktivieren"
   }
 }

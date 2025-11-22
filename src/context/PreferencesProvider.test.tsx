@@ -2,8 +2,11 @@ import { act, renderHook } from '@testing-library/react';
 import { type ReactNode } from 'react';
 
 import i18n from '@/i18n';
-import { DEFAULT_LANGUAGE, DEFAULT_PREFERENCES } from '@/types/preferences';
-import { getUserPreferences, setUserPreferences } from '@/utils/preferences';
+import {
+  getUserPreferences,
+  setUserPreferences,
+  type UserPreferencesDto,
+} from '@/services/preferences';
 
 import { PreferencesProvider } from './PreferencesProvider';
 import { usePreferences } from './usePreferences';
@@ -11,6 +14,17 @@ import { usePreferences } from './usePreferences';
 const wrapper = ({ children }: { children: ReactNode }) => (
   <PreferencesProvider>{children}</PreferencesProvider>
 );
+
+const DEFAULT_PREFERENCES = {
+  language: 'en',
+  map: {
+    baseLayer: 'osm',
+  },
+  audio: {
+    alertsEnabled: false,
+  },
+};
+const DEFAULT_LANGUAGE = 'en';
 
 describe('PreferencesProvider', () => {
   beforeEach(() => {
@@ -34,7 +48,7 @@ describe('PreferencesProvider', () => {
         ...DEFAULT_PREFERENCES,
         language: 'fr' as const,
         map: { baseLayer: 'satellite' as const },
-      };
+      } as UserPreferencesDto;
       setUserPreferences(storedPrefs);
 
       const { result } = renderHook(() => usePreferences(), { wrapper });
@@ -44,8 +58,7 @@ describe('PreferencesProvider', () => {
 
     it('should change language on mount based on stored preferences', () => {
       setUserPreferences({
-        ...DEFAULT_PREFERENCES,
-        language: DEFAULT_LANGUAGE,
+        ...(DEFAULT_PREFERENCES as UserPreferencesDto),
       });
 
       renderHook(() => usePreferences(), { wrapper });

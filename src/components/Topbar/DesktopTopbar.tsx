@@ -3,11 +3,12 @@ import { Link } from 'react-router-dom';
 
 import { DEFAULT_ROUTE } from '@/App';
 import logo from '@/assets/logo.svg';
+import { useAuth } from '@/context/useAuth';
+import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
-import { useAuth } from '../../context/useAuth';
-import { useTranslationPrefix } from '../../utils/useTranslationPrefix';
 import { NavigationLink } from './NavigationLink';
-import { PreferencesButton } from './PreferencesButton';
+import LanguageSwitcher from './Preferences/LanguageSwitcher';
+import { PreferencesButton } from './Preferences/PreferencesButton';
 
 export const DesktopTopbar = () => {
   const { t } = useTranslationPrefix('pages');
@@ -37,7 +38,15 @@ export const DesktopTopbar = () => {
                 </Stack>
               )}
             </Stack>
-            <PreferencesButton />
+            <Stack
+              direction="row"
+              spacing={2}
+              alignItems="center"
+              justifyContent="space-around"
+            >
+              <LanguageSwitcher />
+              {isLoggedIn && <PreferencesButton />}
+            </Stack>
           </Stack>
         </Toolbar>
       </AppBar>

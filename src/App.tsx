@@ -26,8 +26,8 @@ const queryClient = new QueryClient();
 const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
-      <PreferencesProvider>
-        <AuthProvider>
+      <AuthProvider>
+        <PreferencesProvider>
           <BrowserRouter>
             <Stack height={'100vh'}>
               <Topbar />
@@ -48,8 +48,8 @@ const App = () => {
               </Stack>
             </Stack>
           </BrowserRouter>
-        </AuthProvider>
-      </PreferencesProvider>
+        </PreferencesProvider>
+      </AuthProvider>
     </QueryClientProvider>
   );
 };

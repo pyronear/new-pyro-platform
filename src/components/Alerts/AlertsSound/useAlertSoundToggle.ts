@@ -1,20 +1,16 @@
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
+
+import { usePreferences } from '@/context/usePreferences';
 
 const SOUND_FILE = import.meta.env.VITE_ALERTS_SOUND_FILE;
 
 export const useAlertSoundToggle = () => {
-  const [isAlertSoundOn, setIsAlertSoundOn] = useState(false);
+  const { preferences } = usePreferences();
+  const isAlertSoundOn = preferences.audio.alertsEnabled;
   const audioRef = useRef<HTMLAudioElement>(new Audio(`/sounds/${SOUND_FILE}`));
 
-  const toggleSound = () => {
-    setIsAlertSoundOn((prev) => !prev);
-  };
-
   const playSound = () => {
-    console.log(isAlertSoundOn);
-    console.log(audioRef);
     if (isAlertSoundOn) {
-      //audioRef.current.loop = true;
       audioRef.current.currentTime = 0;
       void audioRef.current.play();
     } else {
@@ -22,5 +18,5 @@ export const useAlertSoundToggle = () => {
     }
   };
 
-  return { isAlertSoundOn, toggleSound, playSound };
+  return { playSound };
 };

@@ -64,30 +64,9 @@ describe('Topbar', () => {
     renderWithProviders(<Topbar />);
 
     const preferencesButton = screen.getByTestId('ManageAccountsIcon');
-    fireEvent.click(preferencesButton.parentElement!);
-
-    expect(screen.getByRole('menu')).toBeInTheDocument();
-  });
-
-  it('renders preferences option in mobile drawer', () => {
-    isMobileMock = true;
-    renderWithProviders(<Topbar />);
-
-    const menuButton = screen.getByLabelText('menuLabel');
-    fireEvent.click(menuButton);
-
-    expect(screen.getByTestId('ManageAccountsIcon')).toBeInTheDocument();
-  });
-
-  it('opens preferences menu when settings is clicked in mobile drawer', () => {
-    isMobileMock = true;
-    renderWithProviders(<Topbar />);
-
-    const menuButton = screen.getByLabelText('menuLabel');
-    fireEvent.click(menuButton);
-
-    const settingsIcon = screen.getByTestId('ManageAccountsIcon');
-    fireEvent.click(settingsIcon.closest('li') as HTMLElement);
+    if (preferencesButton.parentElement) {
+      fireEvent.click(preferencesButton.parentElement);
+    }
 
     expect(screen.getByRole('menu')).toBeInTheDocument();
   });

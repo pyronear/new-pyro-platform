@@ -1,38 +1,42 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
-import i18n from '@/i18n';
-import { DEFAULT_PREFERENCES, type UserPreferences } from '@/types/preferences';
 import {
   clearUserPreferences,
-  getInitialPreferences,
   setUserPreferences,
-} from '@/utils/preferences';
+  type UserPreferencesDto,
+} from '@/services/preferences';
+import { getInitialPreferences } from '@/utils/preferences';
 
-import { PreferencesContext } from './PreferencesContext';
+import { PreferencesContext, type UserPreferences } from './PreferencesContext';
 
 export const PreferencesProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [preferences, setPreferences] = useState<UserPreferences>(() => {
-    return getInitialPreferences();
-  });
+  const { i18n } = useTranslation();
+  const initialPreferences: UserPreferences = useMemo(() => {
+    return getInitialPreferences(i18n.resolvedLanguage);
+  }, [i18n]);
+
+  const [preferences, setPreferences] =
+    useState<UserPreferences>(initialPreferences);
 
   const updatePreferences = useCallback((partial: Partial<UserPreferences>) => {
     setPreferences((prev) => {
-      const updated = { ...prev, ...partial };
+      const updated = { ...prev, ...partial } as UserPreferencesDto;
       setUserPreferences(updated);
       return updated;
     });
   }, []);
 
   const resetPreferences = useCallback(() => {
-    setPreferences(DEFAULT_PREFERENCES);
+    setPreferences(initialPreferences);
     clearUserPreferences();
-  }, []);
+  }, [initialPreferences]);
 
   useEffect(() => {
     void i18n.changeLanguage(preferences.language);
-  }, [preferences.language]);
+  }, [i18n, preferences.language]);
 
   const contextValue = useMemo(
     () => ({

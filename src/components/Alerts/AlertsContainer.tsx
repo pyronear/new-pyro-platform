@@ -40,7 +40,7 @@ export const AlertsContainer = ({
   const containerRef = useRef<HTMLElement>(null);
   const { t } = useTranslationPrefix('alerts');
 
-  const { isAlertSoundOn, toggleSound, playSound } = useAlertSoundToggle();
+  const { playSound } = useAlertSoundToggle();
 
   useEffect(() => {
     if (hasNewSequence) {
@@ -75,8 +75,6 @@ export const AlertsContainer = ({
       lastUpdate={lastUpdate}
       isRefreshing={isRefreshing}
       invalidateAndRefreshData={invalidateAndRefreshData}
-      isAlertSoundOn={isAlertSoundOn}
-      toggleSound={toggleSound}
     />
   );
 

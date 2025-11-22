@@ -1,6 +1,14 @@
 import { createContext } from 'react';
 
-import type { UserPreferences } from '@/types/preferences';
+export interface UserPreferences {
+  language: string;
+  map: {
+    baseLayer: 'osm' | 'ign' | 'satellite';
+  };
+  audio: {
+    alertsEnabled: boolean;
+  };
+}
 
 interface PreferencesContextType {
   preferences: UserPreferences;
