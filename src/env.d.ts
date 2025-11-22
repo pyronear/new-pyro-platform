@@ -11,6 +11,7 @@ interface ImportMetaEnv {
   readonly VITE_SITES_LIVE_PORT: number;
   readonly VITE_LIVE_STREAMING_URL: string;
   readonly VITE_DETECTION_PLAYER_CONFIDENCE_THRESHOLD: number;
+  readonly VITE_ALERTS_SOUND_FILE: string;
 }
 
 interface ImportMeta {

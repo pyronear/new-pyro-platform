@@ -1,10 +1,11 @@
 import { Divider, Grid, Stack, Typography, useTheme } from '@mui/material';
 
-import type { AlertType } from '../../../utils/alerts';
-import { useTranslationPrefix } from '../../../utils/useTranslationPrefix';
-import { LastUpdateButton } from '../../Common/LastUpdateButton';
+import { LastUpdateButton } from '@/components/Common/LastUpdateButton';
+import type { AlertType } from '@/utils/alerts';
+import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
+
+import { AlertVolumeToggle } from '../AlertsSound/AlertVolumeToggle';
 import { AlertsCardsColumn } from './AlertsCardsColumn';
-import { AlertVolumeToggle } from './AlertVolumeToggle';
 
 interface AlertListType {
   alerts: AlertType[];
@@ -14,7 +15,7 @@ interface AlertListType {
   isRefreshing: boolean;
   invalidateAndRefreshData: () => void;
   isAlertSoundOn: boolean;
-  onSoundToggle: () => void;
+  toggleSound: () => void;
 }
 
 export const AlertsList = ({
@@ -25,7 +26,7 @@ export const AlertsList = ({
   isRefreshing,
   invalidateAndRefreshData,
   isAlertSoundOn,
-  onSoundToggle,
+  toggleSound,
 }: AlertListType) => {
   const theme = useTheme();
   const { t } = useTranslationPrefix('alerts');
@@ -42,7 +43,7 @@ export const AlertsList = ({
         <Typography variant="h2">
           {`${alerts.length.toString()} ${alerts.length <= 1 ? t('titleListSimple') : t('titleListPlural')}`}
         </Typography>
-        <AlertVolumeToggle isActive={isAlertSoundOn} onToggle={onSoundToggle} />
+        <AlertVolumeToggle isActive={isAlertSoundOn} onToggle={toggleSound} />
       </Stack>
       <Divider orientation="horizontal" flexItem />
       <Grid px={{ xs: 1, sm: 2 }} py={1}>

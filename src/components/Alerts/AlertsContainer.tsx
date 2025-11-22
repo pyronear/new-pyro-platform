@@ -16,6 +16,7 @@ import { useTranslationPrefix } from '../../utils/useTranslationPrefix';
 import { Loader } from '../Common/Loader';
 import { AlertContainer } from './AlertDetails/AlertContainer';
 import { AlertsList } from './AlertsList/AlertsList';
+import { useAlertSoundToggle } from './AlertsSound/useAlertSoundToggle';
 
 interface AlertsContainerType {
   status: ResponseStatus;
@@ -23,8 +24,7 @@ interface AlertsContainerType {
   isRefreshing: boolean;
   invalidateAndRefreshData: () => void;
   alertsList: AlertType[];
-  isAlertSoundOn: boolean;
-  onSoundToggle: () => void;
+  hasNewSequence: boolean;
 }
 
 export const AlertsContainer = ({
@@ -33,13 +33,20 @@ export const AlertsContainer = ({
   isRefreshing,
   invalidateAndRefreshData,
   alertsList,
-  isAlertSoundOn,
-  onSoundToggle,
+  hasNewSequence,
 }: AlertsContainerType) => {
   const [selectedAlert, setSelectedAlert] = useState<AlertType | null>(null);
   const isMobile = useIsMobile();
   const containerRef = useRef<HTMLElement>(null);
   const { t } = useTranslationPrefix('alerts');
+
+  const { isAlertSoundOn, toggleSound, playSound } = useAlertSoundToggle();
+
+  useEffect(() => {
+    if (hasNewSequence) {
+      playSound();
+    }
+  }, [hasNewSequence, playSound]);
 
   useEffect(() => {
     const indexSelectedAlert = alertsList.findIndex(
@@ -69,7 +76,7 @@ export const AlertsContainer = ({
       isRefreshing={isRefreshing}
       invalidateAndRefreshData={invalidateAndRefreshData}
       isAlertSoundOn={isAlertSoundOn}
-      onSoundToggle={onSoundToggle}
+      toggleSound={toggleSound}
     />
   );
 

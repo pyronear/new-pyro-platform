@@ -159,3 +159,16 @@ export const extractCameraListFromAlert = (alert: AlertType) => {
 export const getSequenceByCameraId = (alert: AlertType, cameraId: number) => {
   return alert.sequences.find((sequence) => sequence.camera?.id === cameraId);
 };
+
+export const hasNewSequenceSince = (
+  sequenceList: SequenceType[],
+  previousDataUpdatedAt: number
+) => {
+  return sequenceList.some((sequence) => {
+    if (!sequence.started_at) {
+      return false;
+    }
+    const sequenceCreationTime = convertStrToEpoch(sequence.started_at) * 1000;
+    return sequenceCreationTime >= previousDataUpdatedAt;
+  });
+};
