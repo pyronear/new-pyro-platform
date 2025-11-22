@@ -63,6 +63,10 @@
     "buttonInvestigate": "Live-Streaming starten",
     "buttonTreatAlert": "Alarm bearbeiten",
     "buttonModifyAlert": "Alarm ändern",
+    "blinkingMode": {
+      "buttonBlinkingView": "Zur Blinkanzeige wechseln",
+      "iconCloseAlt": "Blinkanzeige verlassen"
+    },
     "buttonBlinkingView": "Zur Blinkanzeige wechseln",
     "mapElevation": "Höhe",
     "mapAngleOfView": "Blickwinkel",
