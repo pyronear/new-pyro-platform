@@ -117,6 +117,7 @@
     "title": "Verlauf",
     "noFilterMessage": "Datum auswählen",
     "noAlertsMessage": "Kein Alarm für diesen Tag gefunden",
+    "iconAlt": "Keine Warnung anzuzeigen",
     "errorFetchSequencesMessage": "Auf unserer Seite ist etwas schief gelaufen. Bitte versuchen Sie es später erneut.",
     "dateField": "Datum",
     "loadMoreMessage": "Weitere Alarme laden"

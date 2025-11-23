@@ -79,7 +79,7 @@ export const HistoryContainer = ({
     />
   );
 
-  const AlertDetailsComponent = selectedAlert && (
+  const AlertDetailsComponent = selectedAlert ? (
     <AlertContainer
       isLiveMode={false}
       alert={selectedAlert}
@@ -88,6 +88,19 @@ export const HistoryContainer = ({
       }}
       invalidateAndRefreshData={invalidateAndRefreshData}
     />
+  ) : (
+    <Box
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      height="100%"
+    >
+      <img
+        src="src/assets/small-logo.png"
+        style={{ maxWidth: '200px' }}
+        alt={t('iconAlt')}
+      />
+    </Box>
   );
 
   return (

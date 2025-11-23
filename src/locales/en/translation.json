@@ -116,6 +116,7 @@
     "title": "History",
     "noFilterMessage": "Select a date",
     "noAlertsMessage": "No alert found for this day",
+    "iconAlt": "No alert to display",
     "errorFetchSequencesMessage": "Something went wrong on our side. Please try again later.",
     "dateField": "Date",
     "loadMoreMessage": "Load more alerts"
