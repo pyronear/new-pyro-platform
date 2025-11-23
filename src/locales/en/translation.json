@@ -63,7 +63,7 @@
     "buttonInvestigate": "Start live streaming",
     "buttonTreatAlert": "Treat the alert",
     "buttonModifyAlert": "Modify the alert",
-        "blinkingMode": {
+    "blinkingMode": {
       "buttonBlinkingView": "Switch to blinking view",
       "iconCloseAlt": "Exit blinking mode"
     },
