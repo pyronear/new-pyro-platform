@@ -116,6 +116,7 @@
     "title": "Historique",
     "noFilterMessage": "Sélectionnez la date souhaitée",
     "noAlertsMessage": "Aucune alerte trouvée correspondant à la date sélectionnée",
+    "iconAlt": "Aucune alerte à afficher",
     "errorFetchSequencesMessage": "Une erreur inattendue est survenue. Veuillez réessayer plus tard.",
     "dateField": "Date",
     "loadMoreMessage": "Afficher plus d'alertes"

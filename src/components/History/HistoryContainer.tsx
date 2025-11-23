@@ -98,7 +98,7 @@ export const HistoryContainer = ({
       <img
         src="src/assets/small-logo.png"
         style={{ maxWidth: '200px' }}
-        alt="No alert selected"
+        alt={t('iconAlt')}
       />
     </Box>
   );
