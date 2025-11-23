@@ -63,7 +63,10 @@
     "buttonInvestigate": "Start live streaming",
     "buttonTreatAlert": "Treat the alert",
     "buttonModifyAlert": "Modify the alert",
-    "buttonBlinkingView": "Switch to blinking view",
+    "blinkingMode": {
+      "buttonBlinkingView": "Switch to blinking view",
+      "iconCloseAlt": "Exit blinking mode"
+    },
     "mapElevation": "Elevation",
     "mapAngleOfView": "Angle of view",
     "time": {

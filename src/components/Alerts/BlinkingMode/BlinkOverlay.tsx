@@ -2,6 +2,7 @@ import HighlightOff from '@mui/icons-material/HighlightOff';
 import { Box, IconButton, useTheme } from '@mui/material';
 
 import logoLettersOrange from '@/assets/logo_letters_orange.png';
+import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
 interface BlinkOverlayProps {
   closeOverlay: () => void;
@@ -10,6 +11,7 @@ interface BlinkOverlayProps {
 
 export const BlinkOverlay = ({ closeOverlay, hasAlert }: BlinkOverlayProps) => {
   const theme = useTheme();
+  const { t } = useTranslationPrefix('alerts.blinkingMode');
 
   return (
     <Box
@@ -50,8 +52,8 @@ export const BlinkOverlay = ({ closeOverlay, hasAlert }: BlinkOverlayProps) => {
         }}
       />
       <Box position="absolute" top={32} right={32}>
-        <IconButton onClick={closeOverlay} aria-label="Exit blinking mode">
-          <HighlightOff sx={{ fontSize: '6rem', color: 'white' }} />
+        <IconButton onClick={closeOverlay} aria-label={t('iconCloseAlt')}>
+          <HighlightOff sx={{ fontSize: '3rem', color: 'white' }} />
         </IconButton>
       </Box>
     </Box>

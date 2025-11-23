@@ -63,7 +63,10 @@
     "buttonInvestigate": "Activer la levée de doute",
     "buttonTreatAlert": "Acquitter l'alerte",
     "buttonModifyAlert": "Modifier l'alerte",
-    "buttonBlinkingView": "Passer en vue clignotante",
+    "blinkingMode": {
+      "buttonBlinkingView": "Passer en vue clignotante",
+      "iconCloseAlt": "Exit blinking mode"
+    },
     "mapElevation": "Altitude",
     "mapAngleOfView": "Angle de vue",
     "time": {

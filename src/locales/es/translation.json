@@ -63,7 +63,10 @@
     "buttonInvestigate": "Investigar la alerta",
     "buttonTreatAlert": "Descartar la alerta",
     "buttonModifyAlert": "Modificar la alerta",
-    "buttonBlinkingView": "Cambiar a vista parpadeante",
+    "blinkingMode": {
+      "buttonBlinkingView": "Cambiar a vista parpadeante",
+      "iconCloseAlt": "Salir la vista parpadeante"
+    },
     "mapElevation": "Elevación",
     "mapAngleOfView": "Ángulo de vista",
     "time": {
