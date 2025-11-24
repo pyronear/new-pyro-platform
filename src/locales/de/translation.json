@@ -81,8 +81,8 @@
     },
     "label": {
       "wildfire": "Brandausbruch",
-      "otherSmoke": "Anderer Rauch",
-      "other": "Sonstiges",
+      "otherSmoke": "Irrelevanter Rauch",
+      "other": "Weiteres falsch positives Ergebnis",
       "unset": "Zu kennzeichnen",
       "titleModal": "Wählen Sie das Label für den Alarm von ",
       "buttonCancelModal": "Abbrechen",
