@@ -1,12 +1,15 @@
-name: CI
+name: Lint and tests
 
 on:
   pull_request:
     branches:
       - '**'
+  push:
+    branches: "main"
 
 jobs:
-  build:
+  test:
+    name: test
     runs-on: ubuntu-latest
 
     steps:
@@ -16,14 +19,14 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@v2
         with:
-          version: 10
+          version: ${{ env.PNPM_VERSION }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: ${{ env.NODE_VERSION }}
           cache: 'pnpm'
-
+      
       - name: Install dependencies
         run: pnpm install
 
