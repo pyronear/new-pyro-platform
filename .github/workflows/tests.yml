@@ -5,7 +5,7 @@ on:
     branches:
       - '**'
   push:
-    branches: "main"
+    branches: 'main'
 
 jobs:
   test:
@@ -19,14 +19,14 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@v2
         with:
-          version: ${{ env.PNPM_VERSION }}
+          version: ${{ vars.PNPM_VERSION }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ env.NODE_VERSION }}
+          node-version: ${{ vars.NODE_VERSION }}
           cache: 'pnpm'
-      
+
       - name: Install dependencies
         run: pnpm install
 
