@@ -1,4 +1,4 @@
-FROM nginx:1.29
+FROM nginx:1.29-alpine
 ARG UID=1001
 
 # Update image
