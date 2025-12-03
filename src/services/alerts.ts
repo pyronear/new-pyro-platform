@@ -1,7 +1,7 @@
 import type { AxiosResponse } from 'axios';
 import * as z from 'zod/v4';
 
-import { convertStrToEpoch } from '../utils/dates';
+import { convertIsoToUnix } from '../utils/dates';
 import { apiInstance } from './axios';
 
 const apiSequenceResponseSchema = z.object({
@@ -92,8 +92,7 @@ export const getDetectionsBySequence = async (
         if (result.data) {
           result.data.sort(
             (d1, d2) =>
-              convertStrToEpoch(d1.created_at) -
-              convertStrToEpoch(d2.created_at)
+              convertIsoToUnix(d1.created_at) - convertIsoToUnix(d2.created_at)
           );
         }
         return result.data ?? [];

@@ -1,22 +1,20 @@
-import moment from 'moment-timezone';
+import { DateTime, Duration } from 'luxon';
 
 const CAMERA_INACTIVITY_THRESHOLD_MINUTES = import.meta.env
   .VITE_CAMERA_INACTIVITY_THRESHOLD_MINUTES;
 
-const FORMAT_DISPLAY_DATETIME = 'DD/MM/YYYY HH:mm:ss';
-const FORMAT_DISPLAY_DATE = 'DD/MM/YYYY';
+const FORMAT_DISPLAY_DATETIME = 'dd/MM/yyyy HH:mm:ss';
+const FORMAT_DISPLAY_DATE = 'dd/MM/yyyy';
 const FORMAT_DISPLAY_TIME = 'HH:mm:ss';
 
-const convertStrToMomentWithUserTimezone = (dateStr: string) => {
-  const dateMoment = moment.utc(dateStr);
-  dateMoment.tz(moment.tz.guess());
-  return dateMoment;
+const isoToDatetime = (dateStr: string) => {
+  const dateMoment = DateTime.fromISO(dateStr, { zone: 'utc' });
+  return dateMoment.setZone('local');
 };
 
-const convertNbToMomentWithUserTimezone = (dateNb: number) => {
-  const dateMoment = moment(dateNb);
-  dateMoment.tz(moment.tz.guess());
-  return dateMoment;
+const unixToDatetime = (dateNb: number) => {
+  const dateMoment = DateTime.fromMillis(dateNb, { zone: 'utc' });
+  return dateMoment.setZone('local');
 };
 
 export const isCameraActive = (lastContactDateStr: string | null) => {
@@ -33,51 +31,51 @@ export const isDateWithinTheLastXMinutes = (
   if (!dateStr) {
     return false;
   }
-  const lastContactDate = moment.utc(dateStr);
-  const limitDate = moment.utc().subtract(numberOfMinutes, 'minutes');
-  return lastContactDate.isAfter(limitDate);
+  const lastContactDate = DateTime.fromISO(dateStr, { zone: 'utc' });
+  const limitDate = DateTime.now().minus({ minute: numberOfMinutes });
+  return lastContactDate > limitDate;
 };
 
-export const formatToDateTime = (dateStr: string | null) => {
+export const getNowMinusOneYear = (): DateTime => {
+  return DateTime.now().minus({ year: 1 });
+};
+
+export const formatIsoToDateTime = (dateStr: string | null) => {
   if (!dateStr) {
     return '';
   }
-
-  return convertStrToMomentWithUserTimezone(dateStr).format(
-    FORMAT_DISPLAY_DATETIME
-  );
+  return isoToDatetime(dateStr).toFormat(FORMAT_DISPLAY_DATETIME);
 };
 
-export const formatNbToTime = (dateNb: number) => {
-  return convertNbToMomentWithUserTimezone(dateNb).format(FORMAT_DISPLAY_TIME);
-};
-
-export const formatToDate = (dateStr: string | null) => {
+export const formatIsoToDate = (dateStr: string | null) => {
   if (!dateStr) {
     return '';
   }
-  return convertStrToMomentWithUserTimezone(dateStr).format(
-    FORMAT_DISPLAY_DATE
-  );
+  return isoToDatetime(dateStr).toFormat(FORMAT_DISPLAY_DATE);
 };
 
-export const formatToTime = (dateStr: string | null) => {
+export const formatIsoToTime = (dateStr: string | null) => {
   if (!dateStr) {
     return '';
   }
-  return convertStrToMomentWithUserTimezone(dateStr).format(
-    FORMAT_DISPLAY_TIME
-  );
+  return isoToDatetime(dateStr).toFormat(FORMAT_DISPLAY_TIME);
 };
 
-export const convertStrToEpoch = (dateStr: string) => {
-  return convertStrToMomentWithUserTimezone(dateStr).unix();
+export const formatDateToApi = (date: DateTime) => {
+  return date.toFormat('yyyy-MM-dd');
+};
+
+export const formatUnixToTime = (dateNb: number) => {
+  const date = unixToDatetime(dateNb);
+  return date.toFormat(FORMAT_DISPLAY_TIME);
+};
+
+export const convertIsoToUnix = (dateStr: string) => {
+  return isoToDatetime(dateStr).toUnixInteger();
 };
 
 export const isStrictlyAfter = (date1: string, date2: string) => {
-  const moment1 = convertStrToMomentWithUserTimezone(date1);
-  const moment2 = convertStrToMomentWithUserTimezone(date2);
-  return moment1.isBefore(moment2);
+  return isoToDatetime(date1) < isoToDatetime(date2);
 };
 
 interface FormatTimeAgoProps {
@@ -92,16 +90,16 @@ export const formatTimeAgo = ({
   if (pastDateString === null) {
     return '';
   }
+  const pastDate = DateTime.fromISO(pastDateString, { zone: 'utc' });
+  const difference = DateTime.now().diff(pastDate, [
+    'days',
+    'hours',
+    'minutes',
+  ]);
 
-  const now = moment.utc(moment());
-  const pastDate = moment.utc(pastDateString);
-  const differenceInMs = Math.abs(now.valueOf() - pastDate.valueOf());
-
-  const days = Math.floor(differenceInMs / (1000 * 60 * 60 * 24));
-  const hours = Math.floor(
-    (differenceInMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-  );
-  const minutes = Math.floor((differenceInMs % (1000 * 60 * 60)) / (1000 * 60));
+  const days = difference.days;
+  const hours = difference.hours;
+  const minutes = Math.floor(difference.minutes);
 
   if (days !== 0) return days === 1 ? `1 ${t('day')}` : `${days} ${t('days')}`;
 
@@ -114,11 +112,7 @@ export const formatTimeAgo = ({
   return t('now');
 };
 
-const formatDigit = (n: number) => (n < 10 ? `0${n}` : n);
-
 export const formatTimer = (nbSeconds: number) => {
-  const hours = Math.floor(nbSeconds / (60 * 60));
-  const minutes = Math.floor((nbSeconds - hours * 60 * 60) / 60);
-  const seconds = nbSeconds - hours * 60 * 60 - minutes * 60;
-  return `${formatDigit(hours)}:${formatDigit(minutes)}:${formatDigit(seconds)}`;
+  const duration = Duration.fromMillis(nbSeconds * 1000);
+  return duration.toFormat('hh:mm:ss');
 };

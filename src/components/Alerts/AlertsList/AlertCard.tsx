@@ -10,7 +10,7 @@ import {
 import Card from '@mui/material/Card';
 
 import { type AlertType, formatAzimuth } from '@//utils/alerts';
-import { formatToDate, formatToTime } from '@//utils/dates';
+import { formatIsoToDate, formatIsoToTime } from '@//utils/dates';
 import { CameraName } from '@/components/Common/Camera/CameraName';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
@@ -53,7 +53,7 @@ export const AlertCard = ({
           <Grid container marginBottom="1rem" justifyContent="space-between">
             <Grid>
               <Typography variant="caption">
-                {formatToDate(alert.startedAt)}
+                {formatIsoToDate(alert.startedAt)}
               </Typography>
             </Grid>
             {isLiveMode && (
@@ -98,7 +98,7 @@ export const AlertCard = ({
                   </Typography>
 
                   <Typography variant="caption">
-                    {formatToTime(sequence.startedAt)}
+                    {formatIsoToTime(sequence.startedAt)}
                   </Typography>
                 </Stack>
               </Stack>

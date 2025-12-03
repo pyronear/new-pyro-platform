@@ -1,7 +1,7 @@
-import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
+import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon';
+import { deDE, enUS, esES, frFR } from '@mui/x-date-pickers/locales';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import moment from 'moment/min/moment-with-locales';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 export const DateLocalizationProvider: React.FC<React.PropsWithChildren> = ({
@@ -9,16 +9,27 @@ export const DateLocalizationProvider: React.FC<React.PropsWithChildren> = ({
 }) => {
   const { i18n } = useTranslation();
 
-  // Set global moment locale when language changes
-  React.useEffect(() => {
-    moment.locale(i18n.language);
+  const localeText = useMemo(() => {
+    switch (i18n.language) {
+      case 'fr':
+        return frFR.components.MuiLocalizationProvider.defaultProps.localeText;
+
+      case 'de':
+        return deDE.components.MuiLocalizationProvider.defaultProps.localeText;
+
+      case 'es':
+        return esES.components.MuiLocalizationProvider.defaultProps.localeText;
+
+      default:
+        return enUS.components.MuiLocalizationProvider.defaultProps.localeText;
+    }
   }, [i18n.language]);
 
   return (
     <LocalizationProvider
-      dateAdapter={AdapterMoment}
+      dateAdapter={AdapterLuxon}
       adapterLocale={i18n.language}
-      dateLibInstance={moment}
+      localeText={localeText}
     >
       {children}
     </LocalizationProvider>

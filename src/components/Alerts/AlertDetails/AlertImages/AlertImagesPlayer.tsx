@@ -4,7 +4,7 @@ import { Box, IconButton, Slider, Stack, useTheme } from '@mui/material';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import type { DetectionType } from '@/services/alerts';
-import { convertStrToEpoch, formatToTime } from '@/utils/dates';
+import { convertIsoToUnix, formatIsoToTime } from '@/utils/dates';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
 import { DetectionImageWithBoundingBox } from './DetectionImageWithBoundingBox';
@@ -34,11 +34,11 @@ export const AlertImagesPlayer = ({
   const marks = useMemo(
     () =>
       detections.map((d, i) => ({
-        value: convertStrToEpoch(d.created_at),
+        value: convertIsoToUnix(d.created_at),
         id: d.id,
         label:
           i == 0 || i == detections.length - 1
-            ? formatToTime(d.created_at)
+            ? formatIsoToTime(d.created_at)
             : null,
       })),
     [detections]
@@ -125,13 +125,13 @@ export const AlertImagesPlayer = ({
             </IconButton>
             <Box sx={{ flexGrow: 1, width: '100%', mr: 2, px: 3, pt: 3 }}>
               <Slider
-                value={convertStrToEpoch(selectedDetection.created_at)}
+                value={convertIsoToUnix(selectedDetection.created_at)}
                 onChange={onChangeSlider}
                 min={Math.min(...marks.map((mark) => mark.value))}
                 max={Math.max(...marks.map((mark) => mark.value))}
                 step={null}
                 valueLabelDisplay="on"
-                valueLabelFormat={formatToTime(selectedDetection.created_at)}
+                valueLabelFormat={formatIsoToTime(selectedDetection.created_at)}
                 marks={marks}
                 sx={{
                   verticalAlign: 'middle',

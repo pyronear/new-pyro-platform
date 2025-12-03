@@ -9,7 +9,7 @@ import {
   type SequenceWithCameraInfoType,
 } from '@/utils/alerts';
 import type { CameraFullInfosType, SiteType } from '@/utils/camera';
-import { formatToDateTime } from '@/utils/dates';
+import { formatIsoToDateTime } from '@/utils/dates';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
 import { LiveAlertInfosSection } from './LiveAlertInfosSection';
@@ -62,7 +62,7 @@ export const SelectionCameraWithAlert = ({
           borderRadius={1}
         >
           <LiveAlertInfosSection title={t('subtitleDate')}>
-            {formatToDateTime(currentSequence.startedAt)}
+            {formatIsoToDateTime(currentSequence.startedAt)}
           </LiveAlertInfosSection>
           <LiveAlertInfosSection title={t('subtitleAzimuth')}>
             {formatAzimuth(currentSequence.coneAzimuth, 1)}

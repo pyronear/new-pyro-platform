@@ -3,7 +3,7 @@ import WarningIcon from '@mui/icons-material/Warning';
 import { Stack, Typography } from '@mui/material';
 
 import type { CameraType } from '@/services/camera';
-import { formatToDateTime, isCameraActive } from '@/utils/dates';
+import { formatIsoToDateTime, isCameraActive } from '@/utils/dates';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
 interface CameraCardLastPingProps {
@@ -19,7 +19,7 @@ export const CameraCardLastPing = ({ camera }: CameraCardLastPingProps) => {
         <>
           <AccessTimeIcon fontSize="small" />
           <Typography variant="subtitle1">
-            {formatToDateTime(camera.last_active_at)}
+            {formatIsoToDateTime(camera.last_active_at)}
           </Typography>
         </>
       ) : (
@@ -32,7 +32,7 @@ export const CameraCardLastPing = ({ camera }: CameraCardLastPingProps) => {
             fontWeight="700"
           >
             {camera.last_active_at
-              ? formatToDateTime(camera.last_active_at)
+              ? formatIsoToDateTime(camera.last_active_at)
               : t('inactiveCameraMsg')}
           </Typography>
         </>

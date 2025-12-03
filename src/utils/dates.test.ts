@@ -1,23 +1,19 @@
-import moment from 'moment-timezone';
-import { vi } from 'vitest';
+import { renderHook } from '@testing-library/react';
+import { Settings } from 'luxon';
 
 import { providersWrapper } from '../test/renderWithProviders';
 import {
-  formatNbToTime,
+  formatIsoToDate,
+  formatIsoToDateTime,
+  formatIsoToTime,
   formatTimeAgo,
   formatTimer,
-  formatToDate,
-  formatToDateTime,
-  formatToTime,
+  formatUnixToTime,
   isDateWithinTheLastXMinutes,
   isStrictlyAfter,
 } from './dates';
 
-vi.mock('moment-timezone', async (importOriginal) => {
-  const mod = await importOriginal<typeof moment>();
-  mod.tz.guess = () => 'Europe/Paris';
-  return mod;
-});
+Settings.defaultZone = 'Europe/Paris';
 
 describe('isDateWithinTheLastXMinutes', () => {
   it('should return false if date is null', () => {
@@ -32,91 +28,90 @@ describe('isDateWithinTheLastXMinutes', () => {
     expect(result).toBeFalsy();
   });
   it('should return true if date is within 20min', () => {
-    const date10minutesAgo = moment().subtract(10, 'minutes');
     const result = isDateWithinTheLastXMinutes(
-      date10minutesAgo.format('YYYY-MM-DDTHH:mm:ss.SSSSSS'),
+      getPastDateString({ minutes: 10 }),
       20
     );
     expect(result).toBeTruthy();
   });
 });
 
-describe('formatToDateTime', () => {
+describe('formatIsoToDateTime', () => {
   it('should return empty if date is null', () => {
-    const result = formatToDateTime(null);
+    const result = formatIsoToDateTime(null);
     expect(result).toBe('');
   });
   it('should return the right format and the right UTC if date is in winter time', () => {
-    const result = formatToDateTime('2025-02-25T09:37:03.172325');
+    const result = formatIsoToDateTime('2025-02-25T09:37:03.172325');
     expect(result).toBe('25/02/2025 10:37:03');
   });
   it('should return the right format and the right UTC if date is in summertime', () => {
-    const result = formatToDateTime('2025-07-25T09:37:03.172325');
+    const result = formatIsoToDateTime('2025-07-25T09:37:03.172325');
     expect(result).toBe('25/07/2025 11:37:03');
   });
 });
 
-describe('formatToDate', () => {
+describe('formatIsoToDate', () => {
   it('should return empty if date is null', () => {
-    const result = formatToDate(null);
+    const result = formatIsoToDate(null);
     expect(result).toBe('');
   });
   it('should return the right format and the right UTC if date is in winter time', () => {
-    const result = formatToDate('2025-02-25T09:37:03.172325');
+    const result = formatIsoToDate('2025-02-25T09:37:03.172325');
     expect(result).toBe('25/02/2025');
   });
   it('should return the right format and the right UTC if date is in summertime', () => {
-    const result = formatToDate('2025-07-25T09:37:03.172325');
+    const result = formatIsoToDate('2025-07-25T09:37:03.172325');
     expect(result).toBe('25/07/2025');
   });
   it('should return the right format and the right UTC if date is in winter time close to next day', () => {
-    const result = formatToDate('2025-02-25T23:37:03.172325');
+    const result = formatIsoToDate('2025-02-25T23:37:03.172325');
     expect(result).toBe('26/02/2025');
   });
   it('should return the right format and the right UTC if date is in summertime  close to next day', () => {
-    const result = formatToDate('2025-07-25T22:37:03.172325');
+    const result = formatIsoToDate('2025-07-25T22:37:03.172325');
     expect(result).toBe('26/07/2025');
   });
 });
 
 describe('formatToTime', () => {
   it('should return empty if date is null', () => {
-    const result = formatToTime(null);
+    const result = formatIsoToTime(null);
     expect(result).toBe('');
   });
   it('should return the right format and the right UTC if date is in winter time', () => {
-    const result = formatToTime('2025-02-25T09:37:03.172325');
+    const result = formatIsoToTime('2025-02-25T09:37:03.172325');
     expect(result).toBe('10:37:03');
   });
   it('should return the right format and the right UTC if date is in summertime', () => {
-    const result = formatToTime('2025-07-25T09:37:03.172325');
+    const result = formatIsoToTime('2025-07-25T09:37:03.172325');
     expect(result).toBe('11:37:03');
   });
   it('should return the right format and the right UTC if date is in winter time close to next day', () => {
-    const result = formatToTime('2025-02-25T23:37:03.172325');
+    const result = formatIsoToTime('2025-02-25T23:37:03.172325');
     expect(result).toBe('00:37:03');
   });
   it('should return the right format and the right UTC if date is in summertime  close to next day', () => {
-    const result = formatToTime('2025-07-25T22:37:03.172325');
+    const result = formatIsoToTime('2025-07-25T22:37:03.172325');
     expect(result).toBe('00:37:03');
   });
 });
 
 describe('formatNbToTime', () => {
   it('should return the right format and the right UTC if date is in winter time', () => {
-    const result = formatNbToTime(1740476223000); //2025-02-25T09:37:03
+    const result = formatUnixToTime(1740476223000); //2025-02-25T09:37:03
     expect(result).toBe('10:37:03');
   });
   it('should return the right format and the right UTC if date is in summertime', () => {
-    const result = formatNbToTime(1753436223000); //2025-07-25T09:37:03
+    const result = formatUnixToTime(1753436223000); //2025-07-25T09:37:03
     expect(result).toBe('11:37:03');
   });
   it('should return the right format and the right UTC if date is in winter time close to next day', () => {
-    const result = formatNbToTime(1740526623000); //2025-02-25T23:37:03
+    const result = formatUnixToTime(1740526623000); //2025-02-25T23:37:03
     expect(result).toBe('00:37:03');
   });
   it('should return the right format and the right UTC if date is in summertime  close to next day', () => {
-    const result = formatNbToTime(1753483023000); //2025-07-25T22:37:03
+    const result = formatUnixToTime(1753483023000); //2025-07-25T22:37:03
     expect(result).toBe('00:37:03');
   });
 });
@@ -144,8 +139,6 @@ describe('isStrictlyAfter', () => {
     expect(result).toBeFalsy();
   });
 });
-
-import { renderHook } from '@testing-library/react';
 
 const getPastDateString = ({
   minutes = 0,
