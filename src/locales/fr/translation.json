@@ -151,6 +151,6 @@
     "mapOsm": "OpenStreetMap",
     "mapIgn": "IGN (France)",
     "mapSatellite": "Satellite",
-    "enableAudioAlerts": "Activer les son des alertes"
+    "enableAudioAlerts": "Activer le son des alertes"
   }
 }
