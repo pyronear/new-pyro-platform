@@ -1,5 +1,4 @@
 import { renderHook } from '@testing-library/react';
-import { Settings } from 'luxon';
 
 import { providersWrapper } from '../test/renderWithProviders';
 import {
@@ -12,8 +11,6 @@ import {
   isDateWithinTheLastXMinutes,
   isStrictlyAfter,
 } from './dates';
-
-Settings.defaultZone = 'Europe/Paris';
 
 describe('isDateWithinTheLastXMinutes', () => {
   it('should return false if date is null', () => {
