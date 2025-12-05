@@ -63,6 +63,7 @@
     "buttonInvestigate": "Investigar la alerta",
     "buttonTreatAlert": "Descartar la alerta",
     "buttonModifyAlert": "Modificar la alerta",
+    "copyText": "Copiado",
     "blinkingMode": {
       "buttonBlinkingView": "Cambiar a vista parpadeante",
       "iconCloseAlt": "Salir la vista parpadeante"

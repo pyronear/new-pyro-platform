@@ -63,6 +63,7 @@
     "buttonInvestigate": "Activer la levée de doute",
     "buttonTreatAlert": "Acquitter l'alerte",
     "buttonModifyAlert": "Modifier l'alerte",
+    "copyText": "Copié",
     "blinkingMode": {
       "buttonBlinkingView": "Passer en vue clignotante",
       "iconCloseAlt": "Exit blinking mode"

@@ -63,6 +63,7 @@
     "buttonInvestigate": "Live-Streaming starten",
     "buttonTreatAlert": "Alarm bearbeiten",
     "buttonModifyAlert": "Alarm ändern",
+    "copyText": "Kopiert",
     "blinkingMode": {
       "buttonBlinkingView": "Zur Blinkanzeige wechseln",
       "iconCloseAlt": "Blinkanzeige verlassen"
