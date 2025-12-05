@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
+const TIME_DISPLAY_TOOLTIP_IN_MS = 1000;
+
 interface props {
   textToCopy: string;
 }
@@ -24,7 +26,9 @@ export const CopyToClipboard = (props: props) => {
 
   async function handleCopy() {
     setOpenTooltip(true);
-    setTimeoutTooltip(window.setTimeout(() => setOpenTooltip(false), 1000));
+    setTimeoutTooltip(
+      window.setTimeout(() => setOpenTooltip(false), TIME_DISPLAY_TOOLTIP_IN_MS)
+    );
     try {
       await navigator.clipboard.writeText(textToCopy);
     } catch (error) {
