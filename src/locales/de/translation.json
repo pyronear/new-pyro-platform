@@ -150,6 +150,6 @@
     "mapOsm": "OpenStreetMap",
     "mapIgn": "IGN (France)",
     "mapSatellite": "Satellit",
-    "enableAudioAlerts": "Alarmtöne aktivieren"
+    "enableAudioAlerts": "Audio-Warnungen aktivieren"
   }
 }
