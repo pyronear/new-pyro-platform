@@ -8,7 +8,7 @@ on:
 env:
   DOCKER_IMAGE_NAME: pyro-platform-react
   DOCKER_IMAGE_VERSION: latest
-  DOCKERHUB_USER: ${{ secrets.DOCKERHUB_LOGIN }}
+  DOCKERHUB_REPO: pyronear
 
 jobs:
   build:
@@ -36,7 +36,7 @@ jobs:
         run: pnpm build
 
       - name: Docker build image
-        run: docker build -t $DOCKERHUB_USER/$DOCKER_IMAGE_NAME:$DOCKER_IMAGE_VERSION .
+        run: docker build -t $DOCKERHUB_REPO/$DOCKER_IMAGE_NAME:$DOCKER_IMAGE_VERSION .
 
       - name: Login to DockerHub
         uses: docker/login-action@v3
@@ -44,7 +44,7 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Push to hub
-        run: docker push $DOCKERHUB_USER/$DOCKER_IMAGE_NAME:$DOCKER_IMAGE_VERSION
+        run: docker push $DOCKERHUB_REPO/$DOCKER_IMAGE_NAME:$DOCKER_IMAGE_VERSION
 
       - name: Login to GHCR
         uses: docker/login-action@v3
@@ -56,7 +56,7 @@ jobs:
         run: |
           IMAGE_ID=ghcr.io/${{ github.repository_owner }}/$DOCKER_IMAGE_NAME
           IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
-          docker tag $DOCKERHUB_USER/$DOCKER_IMAGE_NAME:$DOCKER_IMAGE_VERSION $IMAGE_ID:$DOCKER_IMAGE_VERSION
+          docker tag $DOCKERHUB_REPO/$DOCKER_IMAGE_NAME:$DOCKER_IMAGE_VERSION $IMAGE_ID:$DOCKER_IMAGE_VERSION
           docker push $IMAGE_ID:$DOCKER_IMAGE_VERSION
 
   tag:
@@ -71,9 +71,9 @@ jobs:
           username: ${{ secrets.DOCKERHUB_LOGIN }}
           password: ${{ secrets.DOCKERHUB_PW }}
       - name: Pull latest
-        run: docker pull $DOCKERHUB_USER/$DOCKER_IMAGE_NAME:$DOCKER_IMAGE_VERSION
+        run: docker pull $DOCKERHUB_REPO/$DOCKER_IMAGE_NAME:$DOCKER_IMAGE_VERSION
       - name: Tag new image
         run: |
           TAG_VERSION=${{ github.ref_name }}
-          docker tag $DOCKERHUB_USER/$DOCKER_IMAGE_NAME:$DOCKER_IMAGE_VERSION $DOCKERHUB_USER/$DOCKER_IMAGE_NAME:$TAG_VERSION
-          docker push $DOCKERHUB_USER/$DOCKER_IMAGE_NAME:$TAG_VERSION
+          docker tag $DOCKERHUB_REPO/$DOCKER_IMAGE_NAME:$DOCKER_IMAGE_VERSION $DOCKERHUB_REPO/$DOCKER_IMAGE_NAME:$TAG_VERSION
+          docker push $DOCKERHUB_REPO/$DOCKER_IMAGE_NAME:$TAG_VERSION
