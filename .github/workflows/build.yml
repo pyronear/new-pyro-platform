@@ -3,7 +3,7 @@ name: Build docker image
 on:
   push:
     branches: 'feat/cicd' # TODO replace with 'main'
-    tags: "*"
+    tags: '*'
 
 env:
   DOCKER_IMAGE_NAME: pyro-platform-react

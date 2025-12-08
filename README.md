@@ -1,5 +1,7 @@
 # New pyronear platform
+
 ## Global description of the project
+
 See [Description](./docs/repo_documentation.md)
 
 ## Local setup
