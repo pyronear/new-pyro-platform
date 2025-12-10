@@ -1,6 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
+import appConfig from '@/services/appConfig';
 import {
   STATUS_ERROR,
   STATUS_IDLE,
@@ -27,7 +28,7 @@ import {
 
 const TIME_BETWEEN_START_AND_MOVE_MS = 3000;
 const LIVE_STREAMING_TIMEOUT_MS =
-  import.meta.env.VITE_LIVE_STREAMING_TIMEOUT_SECONDS * 1000;
+  appConfig.getConfig().LIVE_STREAMING_TIMEOUT_SECONDS * 1000;
 
 // Hook to prevent the actions start and stop, movements to be run in parallel
 // And orchestrate actions on camera

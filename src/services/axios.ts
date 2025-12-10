@@ -1,7 +1,9 @@
 import axios from 'axios';
 
+import appConfig from '@/services/appConfig';
+
 export const apiInstance = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
+  baseURL: appConfig.getConfig().API_URL,
   timeout: 1000,
 });
 

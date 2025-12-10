@@ -54,16 +54,16 @@ It should create a `/node_modules`directory
 
 You'll need a valid .env file to run this app properly.
 
-- Duplicate the file `.env.example` and rename it `.env.local`
-- Fill it with local parameters
+- Duplicate the file `/public/config/app-config-example.js`and rename it `/public/config/app-config-dev.js`
+- In `/public/config/app-config-dev.js`, fill it with local parameters
 
-Note to configure the parameter `VITE_API_URL` in `.env.local` file:
+Note to configure the parameter `VITE_API_URL` in `/config/app-config-dev.js` file:
 
 - Use an existing API (staging, or prod if you're brave)
 - OR you can run the [Pyronear Dev Environment](https://github.com/pyronear/pyro-envdev) locally
 
-**Keep in mind to synchronize your .env.local file with .env.example :**
-**If new properties are added to the .env.example file, it must be also added to your file .env.local**
+**Keep in mind to synchronize your app-config-dev.js file with app-config-example.js :**
+**If new properties are added to the app-config-dev.js file, it must be also added to your file app-config-local.js**
 
 ### 5. Run the project !
 

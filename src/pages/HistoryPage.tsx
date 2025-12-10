@@ -7,23 +7,21 @@ import { useCallback, useMemo, useState } from 'react';
 
 import { formatDateToApi } from '@/utils/dates';
 
-import { HistoryContainer } from '../components/History/HistoryContainer';
-import { getSequencesByFilters } from '../services/alerts';
-import {
-  STATUS_ERROR,
-  STATUS_LOADING,
-  STATUS_SUCCESS,
-} from '../services/axios';
-import { getCameraList } from '../services/camera';
-import { type AlertType, convertSequencesToAlerts } from '../utils/alerts';
+import { getSequencesByFilters } from '@/services/alerts';
+import appConfig from '@/services/appConfig';
+import { STATUS_ERROR, STATUS_LOADING, STATUS_SUCCESS } from '@/services/axios';
+import { getCameraList } from '@/services/camera';
+import { type AlertType, convertSequencesToAlerts } from '@/utils/alerts';
 import {
   type FiltersType,
   INITIAL_FILTERS,
   isFiltersEmpty,
-} from '../utils/history';
+} from '@/utils/history';
 
-const HISTORY_NB_ALERTS_PER_PAGE = import.meta.env
-  .VITE_HISTORY_NB_ALERTS_PER_PAGE;
+import { HistoryContainer } from '../components/History/HistoryContainer';
+
+const HISTORY_NB_ALERTS_PER_PAGE =
+  appConfig.getConfig().HISTORY_NB_ALERTS_PER_PAGE;
 
 export const HistoryPage = () => {
   const queryClient = useQueryClient();

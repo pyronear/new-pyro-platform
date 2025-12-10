@@ -1,5 +1,7 @@
 import type { LatLng } from 'leaflet';
 
+import appConfig from '@/services/appConfig';
+
 const degreesToRadians = (degrees: number): number => degrees * (Math.PI / 180);
 
 const radiansToDegrees = (radians: number): number => radians * (180 / Math.PI);
@@ -77,4 +79,4 @@ export const buildVisionPolygon = (
 };
 
 export const DEFAULT_CAM_RANGE_KM =
-  import.meta.env.VITE_DEFAULT_CAM_RANGE_KM || 30;
+  appConfig.getConfig().ALERTS_CAMERA_RANGE_KM;

@@ -4,6 +4,7 @@ import { Box, IconButton, Slider, Stack, useTheme } from '@mui/material';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import type { DetectionType } from '@/services/alerts';
+import appConfig from '@/services/appConfig';
 import { convertIsoToUnix, formatIsoToTime } from '@/utils/dates';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
@@ -17,8 +18,8 @@ interface AlertImagesPlayerType {
   firstConfidentDetectionIndex: number;
 }
 
-const ALERTS_PLAY_INTERVAL_MILLISECONDS = import.meta.env
-  .VITE_ALERTS_PLAY_INTERVAL_MILLISECONDS;
+const ALERTS_PLAYER_INTERVAL_MILLISECONDS =
+  appConfig.getConfig().ALERTS_PLAYER_INTERVAL_MILLISECONDS;
 
 export const AlertImagesPlayer = ({
   sequenceId,
@@ -78,7 +79,7 @@ export const AlertImagesPlayer = ({
       if (selectedDetection && detections.length > 0) {
         interval = window.setInterval(
           displayNextImage,
-          ALERTS_PLAY_INTERVAL_MILLISECONDS
+          ALERTS_PLAYER_INTERVAL_MILLISECONDS
         );
       }
     }

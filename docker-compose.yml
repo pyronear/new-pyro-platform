@@ -1,5 +1,3 @@
-version: '3.11'
-
 services:
   reverse-proxy:
     image: traefik:v2.4
@@ -28,13 +26,10 @@ services:
     expose:
       - 8080
     volumes:
-      - ${WORKING_DIR}/sites_infos_prod.json:/usr/share/nginx/html/sites_infos_prod.json
-      - ${WORKING_DIR}/sites_live_access_prod.json:/usr/share/nginx/html/sites_live_access_prod.json
-      - ${WORKING_DIR}/.env:/usr/share/nginx/html/.env
-      - ${LOG_DIR}:/var/log/nginx \
-    environment:
-      - WORKING_DIR="TBD"
-      - LOG_DIR="TBD"
+      - ${WORKING_DIR}/config/sites_infos_prod.json:/usr/share/nginx/html/sites_infos_prod.json
+      - ${WORKING_DIR}/config/sites_live_access_prod.json:/usr/share/nginx/html/sites_live_access_prod.json
+      - ${WORKING_DIR}/config/app-config.js:/usr/share/nginx/html/app-config.js
+      - ${LOG_DIR}:/var/log/nginx
     networks:
       - web
     labels:
