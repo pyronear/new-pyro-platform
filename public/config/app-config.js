@@ -1,5 +1,5 @@
 window.AppConfig = {
-  API_URL: 'http://localhost:5050',
+  API_URL: '',
   LIVE_STREAMING_MEDIA_URL: '',
   LIVE_STREAMING_SITE_PORT: 0,
 
