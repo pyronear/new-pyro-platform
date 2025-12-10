@@ -56,9 +56,9 @@ You'll need a valid .env file to run this app properly.
 
 - Duplicate the file `/public/config/app-config.js`and rename it `/public/config/app-config-dev.js`
 - In `/public/config/app-config-dev.js`, fill the local parameters
-   * API_URL
-   * LIVE_STREAMING_MEDIA_URL
-   * LIVE_STREAMING_SITE_PORT
+  - API_URL
+  - LIVE_STREAMING_MEDIA_URL
+  - LIVE_STREAMING_SITE_PORT
 
 Note to configure the parameter `API_URL` in `/config/app-config-dev.js` file:
 
