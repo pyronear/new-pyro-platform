@@ -2,4 +2,23 @@ import '@testing-library/jest-dom';
 
 import { Settings } from 'luxon';
 
+import appConfig from '@/services/appConfig';
+
 Settings.defaultZone = 'Europe/Paris';
+
+window.open = vi.fn();
+appConfig.getConfig = vi.fn().mockReturnValue({
+  API_URL: 'https://example.com/api/',
+  LIVE_STREAMING_MEDIA_URL: '',
+  LIVE_STREAMING_SITE_PORT: 0,
+
+  LIVE_STREAMING_TIMEOUT_SECONDS: 30,
+  CAMERAS_INACTIVITY_THRESHOLD_MINUTES: 30,
+  CAMERAS_LIST_REFRESH_INTERVAL_MINUTES: 2,
+  ALERTS_LIST_REFRESH_INTERVAL_SECONDS: 30,
+  ALERTS_PLAYER_INTERVAL_MILLISECONDS: 500,
+  ALERTS_PLAYER_CONFIDENCE_THRESHOLD: 0.15,
+  ALERTS_SOUND_FILE: 'notification-alert.mp3',
+  ALERTS_CAMERA_RANGE_KM: 30,
+  HISTORY_NB_ALERTS_PER_PAGE: 15,
+});
