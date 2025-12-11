@@ -182,7 +182,7 @@ const apiSitesLiveAccessResponseSchema = z.record(
 );
 
 export const getLiveAccess = async (username: string): Promise<string[]> => {
-  return fetch(`/${import.meta.env.VITE_FILE_SITES_LIVE_ACCESS}`)
+  return fetch(`/config/${import.meta.env.VITE_FILE_SITES_LIVE_ACCESS}`)
     .then((r) => r.json())
     .then((response) => {
       const result = apiSitesLiveAccessResponseSchema.safeParse(response);
@@ -201,7 +201,7 @@ export type SiteInfos = z.infer<typeof apiSiteResponseSchema>;
 const apiSitesInfosResponseSchema = z.record(z.string(), apiSiteResponseSchema);
 
 export const getSitesInfos = async (): Promise<Record<string, SiteInfos>> => {
-  return fetch('/' + import.meta.env.VITE_FILE_SITES_INFOS)
+  return fetch(`/config/${import.meta.env.VITE_FILE_SITES_INFOS}`)
     .then((r) => r.json())
     .then((response) => {
       const result = apiSitesInfosResponseSchema.safeParse(response);

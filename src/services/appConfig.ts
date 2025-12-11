@@ -19,44 +19,44 @@ export interface AppConfigType {
   readonly HISTORY_NB_ALERTS_PER_PAGE: number;
 }
 
-export class ConfigAdapter {
+export class AppConfig {
   getConfig(): AppConfigType {
     return {
       // @ts-expect-error config is fetched from a JS file
-      API_URL: window.AppConfig.API_URL,
+      API_URL: window.AppConfig?.API_URL,
       // @ts-expect-error config is fetched from a JS file
-      LIVE_STREAMING_MEDIA_URL: window.AppConfig.LIVE_STREAMING_MEDIA_URL,
+      LIVE_STREAMING_MEDIA_URL: window.AppConfig?.LIVE_STREAMING_MEDIA_URL,
       // @ts-expect-error config is fetched from a JS file
-      LIVE_STREAMING_SITE_PORT: window.AppConfig.LIVE_STREAMING_SITE_PORT,
+      LIVE_STREAMING_SITE_PORT: window.AppConfig?.LIVE_STREAMING_SITE_PORT,
 
       LIVE_STREAMING_TIMEOUT_SECONDS:
         // @ts-expect-error config is fetched from a JS file
-        window.AppConfig.LIVE_STREAMING_TIMEOUT_SECONDS,
+        window.AppConfig?.LIVE_STREAMING_TIMEOUT_SECONDS,
 
       CAMERAS_INACTIVITY_THRESHOLD_MINUTES:
         // @ts-expect-error config is fetched from a JS file
-        window.AppConfig.CAMERAS_INACTIVITY_THRESHOLD_MINUTES,
+        window.AppConfig?.CAMERAS_INACTIVITY_THRESHOLD_MINUTES,
       CAMERAS_LIST_REFRESH_INTERVAL_MINUTES:
         // @ts-expect-error config is fetched from a JS file
-        window.AppConfig.CAMERAS_LIST_REFRESH_INTERVAL_MINUTES,
+        window.AppConfig?.CAMERAS_LIST_REFRESH_INTERVAL_MINUTES,
       ALERTS_LIST_REFRESH_INTERVAL_SECONDS:
         // @ts-expect-error config is fetched from a JS file
-        window.AppConfig.ALERTS_LIST_REFRESH_INTERVAL_SECONDS,
+        window.AppConfig?.ALERTS_LIST_REFRESH_INTERVAL_SECONDS,
       ALERTS_PLAYER_INTERVAL_MILLISECONDS:
         // @ts-expect-error config is fetched from a JS file
-        window.AppConfig.ALERTS_PLAYER_INTERVAL_MILLISECONDS,
+        window.AppConfig?.ALERTS_PLAYER_INTERVAL_MILLISECONDS,
       ALERTS_PLAYER_CONFIDENCE_THRESHOLD:
         // @ts-expect-error config is fetched from a JS file
-        window.AppConfig.ALERTS_PLAYER_CONFIDENCE_THRESHOLD,
+        window.AppConfig?.ALERTS_PLAYER_CONFIDENCE_THRESHOLD,
       // @ts-expect-error config is fetched from a JS file
-      ALERTS_SOUND_FILE: window.AppConfig.ALERTS_SOUND_FILE,
+      ALERTS_SOUND_FILE: window.AppConfig?.ALERTS_SOUND_FILE,
       // @ts-expect-error config is fetched from a JS file
-      ALERTS_CAMERA_RANGE_KM: window.AppConfig.ALERTS_CAMERA_RANGE_KM ?? 30,
+      ALERTS_CAMERA_RANGE_KM: window.AppConfig?.ALERTS_CAMERA_RANGE_KM ?? 30,
       // @ts-expect-error config is fetched from a JS file
-      HISTORY_NB_ALERTS_PER_PAGE: window.AppConfig.HISTORY_NB_ALERTS_PER_PAGE,
+      HISTORY_NB_ALERTS_PER_PAGE: window.AppConfig?.HISTORY_NB_ALERTS_PER_PAGE,
     };
   }
 }
-const configAdapter = new ConfigAdapter();
+const appConfig = new AppConfig();
 
-export default configAdapter;
+export default appConfig;

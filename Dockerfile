@@ -22,8 +22,7 @@ ARG APPLICATION_BUILD_PATH
 COPY ${APPLICATION_BUILD_PATH}/dist /usr/share/nginx/html
 
 USER pyro-platform
-EXPOSE 3000
 EXPOSE 8080
 
 CMD ["/bin/sh", "-c", "nginx -g 'daemon off;'"]
-HEALTHCHECK --interval=30s --timeout=5s --start-period=30s --retries=3 CMD curl -f -s localhost:3000 || exit 1
+HEALTHCHECK --interval=30s --timeout=5s --start-period=30s --retries=3 CMD curl -f -s localhost:8080 || exit 1

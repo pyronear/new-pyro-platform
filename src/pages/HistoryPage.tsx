@@ -5,13 +5,12 @@ import {
 } from '@tanstack/react-query';
 import { useCallback, useMemo, useState } from 'react';
 
-import { formatDateToApi } from '@/utils/dates';
-
 import { getSequencesByFilters } from '@/services/alerts';
 import appConfig from '@/services/appConfig';
 import { STATUS_ERROR, STATUS_LOADING, STATUS_SUCCESS } from '@/services/axios';
 import { getCameraList } from '@/services/camera';
 import { type AlertType, convertSequencesToAlerts } from '@/utils/alerts';
+import { formatDateToApi } from '@/utils/dates';
 import {
   type FiltersType,
   INITIAL_FILTERS,
