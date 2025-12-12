@@ -1,9 +1,9 @@
 import { difference, isEmpty, uniqWith } from 'lodash';
-import moment from 'moment-timezone';
+import { DateTime } from 'luxon';
 
 import type { SequenceType } from '../services/alerts';
 import type { CameraType } from '../services/camera';
-import { convertStrToEpoch } from './dates';
+import { convertIsoToUnix } from './dates';
 
 export interface AlertType {
   id: string; // Concat of all the sequences id
@@ -146,8 +146,8 @@ const calculateOldestSequence = (sequenceList: SequenceType[]) => {
 const getDateOrNowNb = (sequence: SequenceType) => {
   // default date is now. should be older than all others
   return sequence.started_at != null
-    ? convertStrToEpoch(sequence.started_at)
-    : moment.now();
+    ? convertIsoToUnix(sequence.started_at)
+    : DateTime.now().toUnixInteger();
 };
 
 export const extractCameraListFromAlert = (alert: AlertType) => {
@@ -168,7 +168,7 @@ export const hasNewSequenceSince = (
     if (!sequence.started_at) {
       return false;
     }
-    const sequenceCreationTime = convertStrToEpoch(sequence.started_at) * 1000;
+    const sequenceCreationTime = convertIsoToUnix(sequence.started_at) * 1000;
     return sequenceCreationTime >= previousDataUpdatedAt;
   });
 };

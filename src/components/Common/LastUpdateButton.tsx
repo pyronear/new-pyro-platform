@@ -3,7 +3,7 @@ import { Stack } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 
-import { formatNbToTime } from '../../utils/dates';
+import { formatUnixToTime } from '../../utils/dates';
 import { useTranslationPrefix } from '../../utils/useTranslationPrefix';
 
 interface LastUpdateButtonProps {
@@ -25,7 +25,7 @@ export const LastUpdateButton = ({
         <RefreshIcon />
       </IconButton>
       <Typography variant="subtitle1">
-        {`${t('lastUpdate')} ${formatNbToTime(lastUpdate)}`}
+        {`${t('lastUpdate')} ${formatUnixToTime(lastUpdate)}`}
       </Typography>
     </Stack>
   );

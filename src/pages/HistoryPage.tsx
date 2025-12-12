@@ -5,6 +5,8 @@ import {
 } from '@tanstack/react-query';
 import { useCallback, useMemo, useState } from 'react';
 
+import { formatDateToApi } from '@/utils/dates';
+
 import { HistoryContainer } from '../components/History/HistoryContainer';
 import { getSequencesByFilters } from '../services/alerts';
 import {
@@ -41,7 +43,7 @@ export const HistoryPage = () => {
     queryKey: ['sequenceList', filters],
     queryFn: async ({ pageParam }) => {
       return await getSequencesByFilters(
-        filters.date?.format('YYYY-MM-DD') ?? '',
+        filters.date ? formatDateToApi(filters.date) : '',
         HISTORY_NB_ALERTS_PER_PAGE,
         pageParam * HISTORY_NB_ALERTS_PER_PAGE
       );

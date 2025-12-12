@@ -14,7 +14,7 @@ import {
   formatPositionWithoutTronc,
   type SequenceWithCameraInfoType,
 } from '@/utils/alerts';
-import { formatToDateTime } from '@/utils/dates';
+import { formatIsoToDateTime } from '@/utils/dates';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
 import { SequenceLabelContainer } from '../../AlertLabel/SequenceLabelContainer';
@@ -67,9 +67,9 @@ export const AlertInfos = ({
           <Grid container spacing={2} direction="column">
             <AlertInfosSection
               title={t('subtitleDate')}
-              withTextToCopy={formatToDateTime(sequence.startedAt)}
+              withTextToCopy={formatIsoToDateTime(sequence.startedAt)}
             >
-              {formatToDateTime(sequence.startedAt)}
+              {formatIsoToDateTime(sequence.startedAt)}
             </AlertInfosSection>
             <AlertInfosSection
               title={t('subtitleAzimuth')}

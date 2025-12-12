@@ -13,7 +13,7 @@ import {
 } from '@/components/Common/SplitButton';
 import { type DetectionType, getDetectionsBySequence } from '@/services/alerts';
 import type { SequenceWithCameraInfoType } from '@/utils/alerts';
-import { formatToTime, isStrictlyAfter } from '@/utils/dates';
+import { formatIsoToTime, isStrictlyAfter } from '@/utils/dates';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
 import { AlertImagesPlayer } from './AlertImagesPlayer';
@@ -96,7 +96,7 @@ export const AlertImages = ({ sequence }: AlertImagesType) => {
         >
           <Grid>
             <Typography variant="h2">
-              {formatToTime(sequence.startedAt)}
+              {formatIsoToTime(sequence.startedAt)}
             </Typography>
           </Grid>
           <Grid>

@@ -29,5 +29,8 @@ export default defineConfig({
       reporter: ['text', 'json', 'html'],
     },
     passWithNoTests: true,
+    env: {
+      TZ: 'Europe/Paris',
+    },
   },
 });

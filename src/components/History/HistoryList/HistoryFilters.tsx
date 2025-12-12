@@ -1,30 +1,41 @@
-import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import moment from 'moment-timezone';
+
+import i18n from '@/i18n';
+import { getNowMinusOneYear } from '@/utils/dates';
+import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
 import type { FiltersType } from '../../../utils/history';
-import { useTranslationPrefix } from '../../../utils/useTranslationPrefix';
 
 interface HistoryFiltersType {
   filters: FiltersType;
   setFilters: React.Dispatch<React.SetStateAction<FiltersType>>;
 }
 
+const getDateFormat = (locale: string) => {
+  switch (locale) {
+    case 'fr':
+    case 'es':
+      return 'dd/MM/yyyy';
+    case 'en':
+    default:
+      return 'MM/dd/yyyy';
+  }
+};
+
 export const HistoryFilters = ({ filters, setFilters }: HistoryFiltersType) => {
   const { t } = useTranslationPrefix('history');
-  const oneYearAgo = moment().subtract(1, 'year');
+  const oneYearAgo = getNowMinusOneYear();
 
   return (
-    <LocalizationProvider dateAdapter={AdapterMoment}>
-      <DatePicker
-        label={t('dateField')}
-        sx={{ width: '100%' }}
-        disableFuture
-        minDate={oneYearAgo}
-        value={filters.date}
-        onChange={(newValue) => setFilters({ ...filters, date: newValue })}
-      />
-    </LocalizationProvider>
+    // Properly localized DatePicker thanks to DateLocalizationProvider in App.tsxs
+    <DatePicker
+      label={t('dateField')}
+      sx={{ width: '100%' }}
+      disableFuture
+      minDate={oneYearAgo}
+      value={filters.date}
+      onChange={(newValue) => setFilters({ ...filters, date: newValue })}
+      format={getDateFormat(i18n.language)}
+    />
   );
 };
