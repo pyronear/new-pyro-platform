@@ -53,6 +53,8 @@
     "buttonImageDownloadAll": "Alle Bilder herunterladen",
     "buttonPlay": "Abspielen",
     "buttonPause": "Pause",
+    "buttonDisplayBBox": "Erkennung anzeigen",
+    "buttonHideBBox": "Erkennung verbergen",
     "errorFetchImagesMessage": "Auf unserer Seite ist etwas schief gelaufen. Bitte versuchen Sie es später erneut.",
     "titleDetails": "Informationen zum Alarm",
     "titleButtonBackAlt": "Zurück zur Alarmliste",
