@@ -65,6 +65,11 @@ export const AlertImages = ({ sequence }: AlertImagesType) => {
     setLastSeenAt(newLastSeenAt);
   }, [invalidateAndRefreshData, lastSeenAt, sequence.lastSeenAt]);
 
+  useEffect(() => {
+    // Reset bbox state when the sequence changes
+    setDisplayBbox(true);
+  }, [sequence.id]);
+
   const downloadCurrentImage = () => {
     if (currentDetection) {
       const link = document.createElement('a');
