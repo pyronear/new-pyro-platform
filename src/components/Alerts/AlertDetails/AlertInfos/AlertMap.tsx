@@ -4,7 +4,7 @@ import { Box } from '@mui/material';
 import L from 'leaflet';
 import { Fragment, useEffect, useMemo, useState } from 'react';
 
-import CameraMarkerMap from '@/components/Common/Map/CameraMarkerMap';
+import CameraMarker from '@/components/Common/Map/CameraMarker';
 import FirePositionMarkerMap from '@/components/Common/Map/FirePositionMarkerMap';
 import { SequencePolygon } from '@/components/Common/Map/SequencePolygon';
 import TemplateMap from '@/components/Common/Map/TemplateMap';
@@ -85,7 +85,7 @@ const AlertMap = ({ alert, height = '100%' }: AlertMap) => {
             <SequencePolygon
               visionPolygonPoints={sequence.visionPolygonPoints}
             />
-            <CameraMarkerMap camera={sequence.camera} />
+            <CameraMarker camera={sequence.camera} />
           </Fragment>
         ))}
         {sequencesWithPolygons.length > 1 && (
