@@ -53,6 +53,8 @@
     "buttonImageDownloadAll": "Download all images",
     "buttonPlay": "Play",
     "buttonPause": "Pause",
+    "buttonDisplayBBox": "Display the detection",
+    "buttonHideBBox": "Hide the detection",
     "errorFetchImagesMessage": "Something went wrong on our side. Please try again later.",
     "titleDetails": "Information about the alert",
     "titleButtonBackAlt": "Back to alerts list",

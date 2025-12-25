@@ -1,8 +1,11 @@
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 import DownloadIcon from '@mui/icons-material/Download';
+import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Skeleton from '@mui/material/Skeleton';
+import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useCallback, useEffect, useState } from 'react';
@@ -26,6 +29,7 @@ interface AlertImagesType {
 export const AlertImages = ({ sequence }: AlertImagesType) => {
   const { t } = useTranslationPrefix('alerts');
   const [lastSeenAt, setLastSeenAt] = useState<string | null>(null);
+  const [displayBbox, setDisplayBbox] = useState(true);
   const [currentDetection, setCurrentDetection] =
     useState<DetectionType | null>(null);
   const queryClient = useQueryClient();
@@ -61,6 +65,11 @@ export const AlertImages = ({ sequence }: AlertImagesType) => {
     setLastSeenAt(newLastSeenAt);
   }, [invalidateAndRefreshData, lastSeenAt, sequence.lastSeenAt]);
 
+  useEffect(() => {
+    // Reset bbox state when the sequence changes
+    setDisplayBbox(true);
+  }, [sequence.id]);
+
   const downloadCurrentImage = () => {
     if (currentDetection) {
       const link = document.createElement('a');
@@ -88,26 +97,33 @@ export const AlertImages = ({ sequence }: AlertImagesType) => {
   return (
     <Paper sx={{ height: '100% ', borderRadius: 6, padding: 2 }}>
       <Grid container direction="column" spacing={2}>
-        <Grid
-          container
+        <Stack
+          direction="row"
           justifyContent="space-between"
           alignItems="center"
+          spacing={2}
           minHeight={35}
         >
-          <Grid>
-            <Typography variant="h2">
-              {formatIsoToTime(sequence.startedAt)}
-            </Typography>
-          </Grid>
-          <Grid>
+          <Typography variant="h2">
+            {formatIsoToTime(sequence.startedAt)}
+          </Typography>
+          <Stack spacing={2} alignItems="center" direction="row">
+            <Button
+              variant="outlined"
+              onClick={() => setDisplayBbox((oldValue) => !oldValue)}
+              startIcon={displayBbox ? <VisibilityOff /> : <Visibility />}
+            >
+              {displayBbox ? t('buttonHideBBox') : t('buttonDisplayBBox')}
+            </Button>
             <SplitButton
               label={t('buttonImageDownload')}
               options={downloadOptions}
               startIcon={<DownloadIcon />}
               variant="outlined"
             />
-          </Grid>
-        </Grid>
+          </Stack>
+        </Stack>
+
         <Divider flexItem />
         {isPending && (
           <Grid container spacing={1}>
@@ -126,6 +142,7 @@ export const AlertImages = ({ sequence }: AlertImagesType) => {
             <AlertImagesPlayer
               sequenceId={sequence.id}
               detections={detectionsList}
+              displayBbox={displayBbox}
               onSelectedDetectionChange={setCurrentDetection}
               firstConfidentDetectionIndex={getFirstConfidentDetectionIndex(
                 detectionsList

@@ -54,6 +54,8 @@
     "buttonImageDownloadAll": "Télécharger toutes les images",
     "buttonPlay": "Play",
     "buttonPause": "Pause",
+    "buttonDisplayBBox": "Afficher la détection",
+    "buttonHideBBox": "Masquer la détection",
     "errorFetchImagesMessage": "Une erreur inattendue est survenue. Veuillez réessayer plus tard.",
     "titleDetails": "Détail de l'alerte",
     "subtitleDate": "Date & Heure",

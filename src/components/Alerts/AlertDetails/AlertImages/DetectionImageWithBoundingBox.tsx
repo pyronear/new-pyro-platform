@@ -40,11 +40,13 @@ interface BoundingBox {
 }
 
 interface DetectionImageWithBoundingBoxProps {
+  displayBbox: boolean;
   selectedDetection: DetectionType;
   sequenceId: number;
 }
 
 export const DetectionImageWithBoundingBox = ({
+  displayBbox,
   selectedDetection,
   sequenceId,
 }: DetectionImageWithBoundingBoxProps) => {
@@ -125,7 +127,7 @@ export const DetectionImageWithBoundingBox = ({
             style={{ maxWidth: '100%' }}
             onLoad={handleImageLoad}
           />
-          {currentBox && (
+          {displayBbox && currentBox && (
             <div
               style={{
                 position: 'absolute',

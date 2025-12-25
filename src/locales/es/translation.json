@@ -53,6 +53,8 @@
     "buttonImageDownloadAll": "Descargar todas las imágenes",
     "buttonPlay": "Play",
     "buttonPause": "Pause",
+    "buttonDisplayBBox": "Mostrar la detección",
+    "buttonHideBBox": "Ocultar la detección",
     "errorFetchImagesMessage": "Se ha producido un error. Vuelva a intentarlo más tarde.",
     "titleDetails": "Detalles de la alerta",
     "titleButtonBackAlt": "Volver a la lista",

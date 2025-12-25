@@ -12,6 +12,7 @@ import { DetectionImageWithBoundingBox } from './DetectionImageWithBoundingBox';
 interface AlertImagesPlayerType {
   sequenceId: number;
   detections: DetectionType[]; // Sorted
+  displayBbox: boolean;
   onSelectedDetectionChange: (detection: DetectionType | null) => void;
   firstConfidentDetectionIndex: number;
 }
@@ -22,6 +23,7 @@ const ALERTS_PLAY_INTERVAL_MILLISECONDS = import.meta.env
 export const AlertImagesPlayer = ({
   sequenceId,
   detections,
+  displayBbox,
   onSelectedDetectionChange,
   firstConfidentDetectionIndex,
 }: AlertImagesPlayerType) => {
@@ -110,6 +112,7 @@ export const AlertImagesPlayer = ({
       {selectedDetection && (
         <Stack direction="column" spacing={1}>
           <DetectionImageWithBoundingBox
+            displayBbox={displayBbox}
             sequenceId={sequenceId}
             selectedDetection={selectedDetection}
           />
