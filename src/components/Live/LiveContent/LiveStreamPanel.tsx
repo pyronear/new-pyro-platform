@@ -161,8 +161,7 @@ export const LiveStreamPanel = ({
             mediaMtx.state === StateStreaming.IS_STREAMING && (
               <QuickActions
                 cameraIp={ip}
-                poses={camera.poses ?? []}
-                azimuths={camera.azimuths ?? []}
+                poses={camera.poses}
                 speedName={SPEEDS[speedIndex].name}
                 nextSpeed={setNextSpeed}
               />

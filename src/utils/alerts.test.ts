@@ -160,6 +160,7 @@ describe('extractCameraListFromAlert', () => {
       last_image: null,
       last_image_url: null,
       created_at: null,
+      poses: [],
     };
     const camera2 = {
       id: 1,
@@ -174,6 +175,7 @@ describe('extractCameraListFromAlert', () => {
       last_image: null,
       last_image_url: null,
       created_at: null,
+      poses: [],
     };
 
     const alert: AlertType = {
