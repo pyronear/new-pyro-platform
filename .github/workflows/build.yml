@@ -2,7 +2,7 @@ name: Build docker image
 
 on:
   push:
-    branches: 'main'
+    branches: 'feat/cicd'
     tags: '*'
 
 env:
