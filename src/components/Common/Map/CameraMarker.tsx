@@ -7,17 +7,13 @@ import type { CameraType } from '../../../services/camera';
 import { useTranslationPrefix } from '../../../utils/useTranslationPrefix';
 import { cameraIcon } from './Icons';
 
-interface CameraMarkerMapType {
+interface CameraMarkerType {
   camera: CameraType;
   markerRefs?: RefObject<Map<number, LeafletMarker>>;
   onClick?: () => void;
 }
 
-const CameraMarkerMap = ({
-  camera,
-  markerRefs,
-  onClick,
-}: CameraMarkerMapType) => {
+const CameraMarker = ({ camera, markerRefs, onClick }: CameraMarkerType) => {
   const { t } = useTranslationPrefix('alerts');
   return (
     <Marker
@@ -60,4 +56,4 @@ const CameraMarkerMap = ({
   );
 };
 
-export default CameraMarkerMap;
+export default CameraMarker;
