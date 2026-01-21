@@ -97,16 +97,16 @@ export const getMoveToAzimuth = (
     closestTo0Modulo360(azimuthToGoToRounded - pose.azimuth)
   );
   const indexClosestPose = indexOfClosestTo0(distanceAzimuths);
-  if (poses[indexClosestPose].patrol_id) {
+  if (poses[indexClosestPose].patrol_id != null) {
     const diffDegrees = distanceAzimuths[indexClosestPose];
+    const direction = (
+      diffDegrees > 0 ? 'Right' : 'Left'
+    ) as CameraDirectionType;
     return {
       poseId: poses[indexClosestPose].patrol_id,
       degrees: Math.abs(diffDegrees),
       speed: 5,
-      direction:
-        diffDegrees !== 0
-          ? ((diffDegrees > 0 ? 'Right' : 'Left') as CameraDirectionType)
-          : undefined,
+      direction: diffDegrees === 0 ? undefined : direction,
     };
   }
   return null;
