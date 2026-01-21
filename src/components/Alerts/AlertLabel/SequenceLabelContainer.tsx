@@ -19,7 +19,7 @@ export const SequenceLabelContainer = ({
   sequence,
   isLiveMode,
   invalidateAndRefreshData,
-  renderCustomButton = undefined,
+  renderCustomButton,
   nbSequencesToBeLabelled,
 }: SequenceLabelContainerProps) => {
   const { t } = useTranslationPrefix('alerts.label');
