@@ -1,20 +1,16 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useCallback, useMemo } from 'react';
 
+import { AlertsContainer } from '@/components/Alerts/AlertsContainer';
+import { getUnlabelledLatestSequences } from '@/services/alerts';
+import appConfig from '@/services/appConfig';
+import { STATUS_ERROR, STATUS_LOADING, STATUS_SUCCESS } from '@/services/axios';
+import { getCameraList } from '@/services/camera';
+import { type AlertType, convertSequencesToAlerts } from '@/utils/alerts';
 import { useDetectNewSequences } from '@/utils/useDetectNewSequences';
 
-import { AlertsContainer } from '../components/Alerts/AlertsContainer';
-import { getUnlabelledLatestSequences } from '../services/alerts';
-import {
-  STATUS_ERROR,
-  STATUS_LOADING,
-  STATUS_SUCCESS,
-} from '../services/axios';
-import { getCameraList } from '../services/camera';
-import { type AlertType, convertSequencesToAlerts } from '../utils/alerts';
-
-const ALERTS_LIST_REFRESH_INTERVAL_SECONDS = import.meta.env
-  .VITE_ALERTS_LIST_REFRESH_INTERVAL_SECONDS;
+const ALERTS_LIST_REFRESH_INTERVAL_SECONDS =
+  appConfig.getConfig().ALERTS_LIST_REFRESH_INTERVAL_SECONDS;
 
 export const AlertsPage = () => {
   const queryClient = useQueryClient();

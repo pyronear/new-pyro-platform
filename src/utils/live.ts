@@ -1,3 +1,4 @@
+import appConfig from '@/services/appConfig';
 import { type CameraDirectionType } from '@/services/live';
 
 import { type AlertType, getSequenceByCameraId } from './alerts';
@@ -26,13 +27,13 @@ export const SPEEDS: SpeedCameraMove[] = [
 
 export const calculateLiveStreamingUrl = (site: SiteType | null) => {
   return site
-    ? `${import.meta.env.VITE_LIVE_STREAMING_URL}/${site.id}/whep`
+    ? `${appConfig.getConfig().LIVE_STREAMING_MEDIA_URL}/${site.id}/whep`
     : '';
 };
 
 export const calculateSiteUrl = (site: SiteType | null) => {
   return site
-    ? `http://${site.ip}:${import.meta.env.VITE_SITES_LIVE_PORT}`
+    ? `http://${site.ip}:${appConfig.getConfig().LIVE_STREAMING_SITE_PORT}`
     : '';
 };
 

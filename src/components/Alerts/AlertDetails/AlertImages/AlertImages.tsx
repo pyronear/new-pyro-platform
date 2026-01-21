@@ -17,10 +17,10 @@ import {
 import { type DetectionType, getDetectionsBySequence } from '@/services/alerts';
 import type { SequenceWithCameraInfoType } from '@/utils/alerts';
 import { formatIsoToTime, isStrictlyAfter } from '@/utils/dates';
+import { getFirstConfidentDetectionIndex } from '@/utils/detections';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
 import { AlertImagesPlayer } from './AlertImagesPlayer';
-import { getFirstConfidentDetectionIndex } from './getFirstConfidentDetectionIndex';
 
 interface AlertImagesType {
   sequence: SequenceWithCameraInfoType;

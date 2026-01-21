@@ -1,0 +1,79 @@
+name: Build docker image
+
+on:
+  push:
+    branches: 'main'
+    tags: '*'
+
+env:
+  DOCKER_IMAGE_NAME: pyro-platform-react
+  DOCKER_IMAGE_VERSION: latest
+  DOCKERHUB_REPO: pyronear
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: build
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: ${{ vars.PNPM_VERSION }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ vars.NODE_VERSION }}
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build app
+        run: pnpm build
+
+      - name: Docker build image
+        run: docker build -t $DOCKERHUB_REPO/$DOCKER_IMAGE_NAME:$DOCKER_IMAGE_VERSION .
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USER }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Push to hub
+        run: docker push $DOCKERHUB_REPO/$DOCKER_IMAGE_NAME:$DOCKER_IMAGE_VERSION
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Push to container registry
+        run: |
+          IMAGE_ID=ghcr.io/${{ github.repository_owner }}/$DOCKER_IMAGE_NAME
+          IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
+          docker tag $DOCKERHUB_REPO/$DOCKER_IMAGE_NAME:$DOCKER_IMAGE_VERSION $IMAGE_ID:$DOCKER_IMAGE_VERSION
+          docker push $IMAGE_ID:$DOCKER_IMAGE_VERSION
+
+  tag:
+    runs-on: ubuntu-latest
+    name: tag
+    needs: build
+    if: ${{ github.ref_type == 'tag' }}
+    steps:
+      - name: Login to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_LOGIN }}
+          password: ${{ secrets.DOCKERHUB_PW }}
+      - name: Pull latest
+        run: docker pull $DOCKERHUB_REPO/$DOCKER_IMAGE_NAME:$DOCKER_IMAGE_VERSION
+      - name: Tag new image
+        run: |
+          TAG_VERSION=${{ github.ref_name }}
+          docker tag $DOCKERHUB_REPO/$DOCKER_IMAGE_NAME:$DOCKER_IMAGE_VERSION $DOCKERHUB_REPO/$DOCKER_IMAGE_NAME:$TAG_VERSION
+          docker push $DOCKERHUB_REPO/$DOCKER_IMAGE_NAME:$TAG_VERSION

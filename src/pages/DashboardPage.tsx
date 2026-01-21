@@ -1,11 +1,12 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useCallback } from 'react';
 
-import { DashboardContainer } from '../components/Dashboard/DashboardContainer';
-import { getCameraList } from '../services/camera';
+import { DashboardContainer } from '@/components/Dashboard/DashboardContainer';
+import appConfig from '@/services/appConfig';
+import { getCameraList } from '@/services/camera';
 
-const VITE_CAMERAS_LIST_REFRESH_INTERVAL_MINUTES = import.meta.env
-  .VITE_CAMERAS_LIST_REFRESH_INTERVAL_MINUTES;
+const CAMERAS_LIST_REFRESH_INTERVAL_MINUTES =
+  appConfig.getConfig().CAMERAS_LIST_REFRESH_INTERVAL_MINUTES;
 
 export const DashboardPage = () => {
   const {
@@ -16,7 +17,7 @@ export const DashboardPage = () => {
   } = useQuery({
     queryKey: ['cameras'],
     queryFn: getCameraList,
-    refetchInterval: VITE_CAMERAS_LIST_REFRESH_INTERVAL_MINUTES * 60 * 1000,
+    refetchInterval: CAMERAS_LIST_REFRESH_INTERVAL_MINUTES * 60 * 1000,
     refetchOnWindowFocus: true,
   });
 

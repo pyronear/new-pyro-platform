@@ -1,14 +1,5 @@
-import '@testing-library/jest-dom';
-
-import { Settings } from 'luxon';
-
-import appConfig from '@/services/appConfig';
-
-Settings.defaultZone = 'Europe/Paris';
-
-window.open = vi.fn();
-appConfig.getConfig = vi.fn().mockReturnValue({
-  API_URL: 'https://example.com/api/',
+window.AppConfig = {
+  API_URL: '',
   LIVE_STREAMING_MEDIA_URL: '',
   LIVE_STREAMING_SITE_PORT: 0,
 
@@ -21,4 +12,4 @@ appConfig.getConfig = vi.fn().mockReturnValue({
   ALERTS_SOUND_FILE: 'notification-alert.mp3',
   ALERTS_CAMERA_RANGE_KM: 30,
   HISTORY_NB_ALERTS_PER_PAGE: 15,
-});
+};

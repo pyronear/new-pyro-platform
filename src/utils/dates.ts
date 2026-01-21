@@ -1,7 +1,9 @@
 import { DateTime, Duration } from 'luxon';
 
-const CAMERA_INACTIVITY_THRESHOLD_MINUTES = import.meta.env
-  .VITE_CAMERA_INACTIVITY_THRESHOLD_MINUTES;
+import appConfig from '@/services/appConfig';
+
+const CAMERAS_INACTIVITY_THRESHOLD_MINUTES =
+  appConfig.getConfig().CAMERAS_INACTIVITY_THRESHOLD_MINUTES;
 
 const FORMAT_DISPLAY_DATETIME = 'dd/MM/yyyy HH:mm:ss';
 const FORMAT_DISPLAY_DATE = 'dd/MM/yyyy';
@@ -20,7 +22,7 @@ const unixToDatetime = (dateNb: number) => {
 export const isCameraActive = (lastContactDateStr: string | null) => {
   return isDateWithinTheLastXMinutes(
     lastContactDateStr,
-    CAMERA_INACTIVITY_THRESHOLD_MINUTES
+    CAMERAS_INACTIVITY_THRESHOLD_MINUTES
   );
 };
 

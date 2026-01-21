@@ -1,8 +1,9 @@
 import { useRef } from 'react';
 
 import { usePreferences } from '@/context/usePreferences';
+import appConfig from '@/services/appConfig';
 
-const SOUND_FILE = import.meta.env.VITE_ALERTS_SOUND_FILE;
+const SOUND_FILE = appConfig.getConfig().ALERTS_SOUND_FILE;
 
 export const useAlertSoundToggle = () => {
   const { preferences } = usePreferences();
