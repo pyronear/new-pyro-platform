@@ -68,8 +68,8 @@ jobs:
       - name: Login to DockerHub
         uses: docker/login-action@v3
         with:
-          username: ${{ secrets.DOCKERHUB_LOGIN }}
-          password: ${{ secrets.DOCKERHUB_PW }}
+          username: ${{ secrets.DOCKERHUB_USER }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Pull latest
         run: docker pull $DOCKERHUB_REPO/$DOCKER_IMAGE_NAME:$DOCKER_IMAGE_VERSION
       - name: Tag new image
