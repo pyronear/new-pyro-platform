@@ -23,7 +23,7 @@ const apiCameraResponseSchema = z.object({
   last_image: z.nullable(z.string()),
   last_image_url: z.nullable(z.string()),
   created_at: z.nullable(z.iso.datetime({ local: true })),
-  poses: z.nullable(z.array(apiPoseCameraResponseSchema)),
+  poses: z.nullable(z.array(apiPoseCameraResponseSchema)).default([]),
 });
 export type CameraType = z.infer<typeof apiCameraResponseSchema>;
 export type PoseCameraType = z.infer<typeof apiPoseCameraResponseSchema>;
