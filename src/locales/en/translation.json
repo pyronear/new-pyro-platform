@@ -153,5 +153,11 @@
     "mapIgn": "IGN (France)",
     "mapSatellite": "Satellite",
     "enableAudioAlerts": "Enable Audio Alerts"
+  },
+  "map": {
+    "layerControl": "Map Layers",
+    "baseLayer": "Base Layer",
+    "overlays": "Overlays",
+    "dfciGrid": "DFCI Grid"
   }
 }

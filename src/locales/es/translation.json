@@ -153,5 +153,11 @@
     "mapIgn": "IGN (Francia)",
     "mapSatellite": "Satélite",
     "enableAudioAlerts": "Activar el sonido de las alertas"
+  },
+  "map": {
+    "layerControl": "Capas",
+    "baseLayer": "Capa base",
+    "overlays": "Superposiciones",
+    "dfciGrid": "Cuadrícula DFCI"
   }
 }

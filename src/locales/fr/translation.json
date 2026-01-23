@@ -155,5 +155,11 @@
     "mapIgn": "IGN (France)",
     "mapSatellite": "Satellite",
     "enableAudioAlerts": "Activer le son des alertes"
+  },
+  "map": {
+    "layerControl": "Couches",
+    "baseLayer": "Fond de carte",
+    "overlays": "Surcouches",
+    "dfciGrid": "Carroyage DFCI"
   }
 }
