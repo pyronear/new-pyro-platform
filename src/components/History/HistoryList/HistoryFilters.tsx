@@ -1,4 +1,6 @@
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import type { PickerValue } from '@mui/x-date-pickers/internals';
+import { useState } from 'react';
 
 import i18n from '@/i18n';
 import { getNowMinusOneYear } from '@/utils/dates';
@@ -25,6 +27,7 @@ const getDateFormat = (locale: string) => {
 export const HistoryFilters = ({ filters, setFilters }: HistoryFiltersType) => {
   const { t } = useTranslationPrefix('history');
   const oneYearAgo = getNowMinusOneYear();
+  const [currentValue, setCurrentValue] = useState<PickerValue>(filters.date);
 
   return (
     // Properly localized DatePicker thanks to DateLocalizationProvider in App.tsxs
@@ -33,8 +36,25 @@ export const HistoryFilters = ({ filters, setFilters }: HistoryFiltersType) => {
       sx={{ width: '100%' }}
       disableFuture
       minDate={oneYearAgo}
-      value={filters.date}
-      onChange={(newValue) => setFilters({ ...filters, date: newValue })}
+      value={currentValue}
+      onChange={setCurrentValue}
+      onAccept={(newValue, context) => {
+        if (context.source === 'view') {
+          setFilters({
+            ...filters,
+            date: newValue,
+          });
+        }
+      }}
+      slotProps={{
+        textField: {
+          onBlur: () =>
+            setFilters({
+              ...filters,
+              date: currentValue,
+            }),
+        },
+      }}
       format={getDateFormat(i18n.language)}
     />
   );
