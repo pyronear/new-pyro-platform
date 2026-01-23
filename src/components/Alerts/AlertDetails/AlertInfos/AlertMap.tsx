@@ -79,7 +79,7 @@ const AlertMap = ({ alert, height = '100%' }: AlertMap) => {
           : { position: 'relative', height, width: '100%' }
       }
     >
-      <TemplateMap bounds={bounds}>
+      <TemplateMap bounds={bounds} showLayerControl={fullScreen}>
         {sequencesWithPolygons.map((sequence) => (
           <Fragment key={sequence.id}>
             <SequencePolygon
