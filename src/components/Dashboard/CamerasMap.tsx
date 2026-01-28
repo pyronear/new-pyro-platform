@@ -28,7 +28,7 @@ export const CamerasMap = ({
   }, [cameras]);
 
   return (
-    <TemplateMap bounds={bounds} setMapRef={setMapRef}>
+    <TemplateMap bounds={bounds} setMapRef={setMapRef} showLayerControl>
       {cameras.map((camera) => (
         <CameraMarkerMap
           key={camera.id}
