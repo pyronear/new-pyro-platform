@@ -165,7 +165,9 @@ export const MapLayerControl = ({
                         />
                       }
                       label={
-                        <Typography variant="body2">{t('dfciGrid')}</Typography>
+                        <Typography sx={{ m: 0 }} variant="body2">
+                          {t('dfciGrid')}
+                        </Typography>
                       }
                     />
                   </Stack>
