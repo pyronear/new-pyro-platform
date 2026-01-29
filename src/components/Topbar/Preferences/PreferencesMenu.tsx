@@ -66,14 +66,10 @@ export const PreferencesMenu: React.FC<PreferencesMenuProps> = ({
               exclusive
               onChange={handleMapBaseLayerChange}
             >
-              <ToggleButton value="osm">
-                🗺️ {t('preferences.mapOsm')}
-              </ToggleButton>
-              <ToggleButton value="ign" disabled>
-                🍄‍🟫 {t('preferences.mapIgn')}
-              </ToggleButton>
-              <ToggleButton value="satellite" disabled>
-                🌌 {t('preferences.mapSatellite')}
+              <ToggleButton value="osm">{t('preferences.mapOsm')}</ToggleButton>
+              <ToggleButton value="ign">{t('preferences.mapIgn')}</ToggleButton>
+              <ToggleButton value="satellite">
+                {t('preferences.mapSatellite')}
               </ToggleButton>
             </ToggleButtonGroup>
           </Stack>
