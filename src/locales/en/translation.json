@@ -51,6 +51,7 @@
     "buttonImageDownload": "Download",
     "buttonImageDownloadOne": "Download the current image",
     "buttonImageDownloadAll": "Download all images",
+    "buttonImageDownloadAllBbox": "Download all images with bounding boxes",
     "buttonPlay": "Play",
     "buttonPause": "Pause",
     "buttonDisplayBBox": "Display the detection",

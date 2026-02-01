@@ -51,6 +51,7 @@
     "buttonImageDownload": "Herunterladen",
     "buttonImageDownloadOne": "Aktuelles Bild herunterladen",
     "buttonImageDownloadAll": "Alle Bilder herunterladen",
+    "buttonImageDownloadAllBbox": "Alle Bilder mit Begrenzungsrahmen herunterladen",
     "buttonPlay": "Abspielen",
     "buttonPause": "Pause",
     "buttonDisplayBBox": "Erkennung anzeigen",
