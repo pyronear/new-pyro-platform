@@ -132,7 +132,7 @@ export const AlertImages = ({ sequence }: AlertImagesType) => {
             <Skeleton variant="rectangular" width="100%" height={80} />
           </Grid>
         )}
-        <Grid>
+        <Grid sx={{ width: '100%' }}>
           {isError && (
             <Typography variant="body2">
               {t('errorFetchImagesMessage')}
