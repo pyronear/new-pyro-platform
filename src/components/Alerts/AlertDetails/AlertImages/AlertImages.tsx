@@ -8,6 +8,7 @@ import Skeleton from '@mui/material/Skeleton';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
+import JSZip from 'jszip';
 import { useCallback, useEffect, useState } from 'react';
 
 import {
@@ -79,7 +80,36 @@ export const AlertImages = ({ sequence }: AlertImagesType) => {
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
+      URL.revokeObjectURL(link.href);
     }
+  };
+
+  const downloadAllImages = async () => {
+    if (!detectionsList || detectionsList.length === 0) return;
+
+    const zip = new JSZip();
+
+    const fetchPromises = detectionsList.map(async (detection) => {
+      const response = await fetch(detection.url);
+      const blob = await response.blob();
+      const extension = detection.url.split('.').pop()?.split('?')[0] ?? 'jpg';
+      // Format: YYYY-MM-DDTHH-MM-SS_DETECTION_ID.extension
+      const createdAtFormatted = detection.created_at.split('.')[0];
+      const filename = `${createdAtFormatted}_${detection.id}.${extension}`;
+      zip.file(filename, blob);
+    });
+    await Promise.all(fetchPromises);
+
+    const content = await zip.generateAsync({ type: 'blob' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(content);
+    // Zip Name: YYYY-MM-DD_SEQUENCE_ID_images.zip
+    const startedAtDate = sequence.startedAt?.split('T')[0] ?? 'unknown';
+    link.download = `${startedAtDate}_${sequence.id}_images.zip`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(link.href);
   };
 
   const downloadOptions: SplitButtonOption[] = [
@@ -89,8 +119,8 @@ export const AlertImages = ({ sequence }: AlertImagesType) => {
     },
     {
       label: t('buttonImageDownloadAll'),
-      onClick: undefined,
-      disabled: true,
+      onClick: () => void downloadAllImages(),
+      disabled: !detectionsList || detectionsList.length === 0,
     },
   ];
 
