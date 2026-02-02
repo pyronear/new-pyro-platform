@@ -22,6 +22,24 @@ import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
 import { DfciGridOverlay } from './DfciGridOverlay';
 
+interface LayerButtonProps {
+  icon: React.ReactNode;
+  label: string;
+}
+
+const LayerButton = ({ icon, label }: LayerButtonProps) => (
+  <Stack
+    direction="row"
+    spacing={1}
+    alignItems="center"
+    width="100%"
+    justifyContent="flex-start"
+  >
+    {icon}
+    <Typography variant="body2">{label}</Typography>
+  </Stack>
+);
+
 interface MapLayerControlProps {
   showDfciToggle?: boolean;
 }
@@ -105,46 +123,22 @@ export const MapLayerControl = ({
                   size="small"
                 >
                   <ToggleButton value="osm">
-                    <Stack
-                      direction="row"
-                      spacing={1}
-                      alignItems="center"
-                      width="100%"
-                      justifyContent="flex-start"
-                    >
-                      <MapIcon fontSize="small" />
-                      <Typography variant="body2">
-                        {tPrefs('mapOsm')}
-                      </Typography>
-                    </Stack>
+                    <LayerButton
+                      icon={<MapIcon fontSize="small" />}
+                      label={tPrefs('mapOsm')}
+                    />
                   </ToggleButton>
                   <ToggleButton value="ign">
-                    <Stack
-                      direction="row"
-                      spacing={1}
-                      alignItems="center"
-                      width="100%"
-                      justifyContent="flex-start"
-                    >
-                      <TerrainIcon fontSize="small" />
-                      <Typography variant="body2">
-                        {tPrefs('mapIgn')}
-                      </Typography>
-                    </Stack>
+                    <LayerButton
+                      icon={<TerrainIcon fontSize="small" />}
+                      label={tPrefs('mapIgn')}
+                    />
                   </ToggleButton>
                   <ToggleButton value="satellite">
-                    <Stack
-                      direction="row"
-                      spacing={1}
-                      alignItems="center"
-                      width="100%"
-                      justifyContent="flex-start"
-                    >
-                      <SatelliteAltIcon fontSize="small" />
-                      <Typography variant="body2">
-                        {tPrefs('mapSatellite')}
-                      </Typography>
-                    </Stack>
+                    <LayerButton
+                      icon={<SatelliteAltIcon fontSize="small" />}
+                      label={tPrefs('mapSatellite')}
+                    />
                   </ToggleButton>
                 </ToggleButtonGroup>
               </Stack>
@@ -152,7 +146,7 @@ export const MapLayerControl = ({
               {showDfciToggle && (
                 <>
                   <Divider />
-                  <Stack spacing={1}>
+                  <Stack spacing={1} useFlexGap>
                     <Typography variant="caption" color="text.secondary">
                       {t('overlays')}
                     </Typography>
