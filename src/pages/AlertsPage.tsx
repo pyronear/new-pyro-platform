@@ -7,6 +7,7 @@ import appConfig from '@/services/appConfig';
 import { STATUS_ERROR, STATUS_LOADING, STATUS_SUCCESS } from '@/services/axios';
 import { getCameraList } from '@/services/camera';
 import { type AlertType, convertSequencesToAlerts } from '@/utils/alerts';
+import { isDateToday } from '@/utils/dates';
 import { useDetectNewSequences } from '@/utils/useDetectNewSequences';
 
 const ALERTS_LIST_REFRESH_INTERVAL_SECONDS =
@@ -30,12 +31,20 @@ export const AlertsPage = () => {
     queryFn: getCameraList,
   });
 
-  const alertsList: AlertType[] = useMemo(
-    () => convertSequencesToAlerts(sequenceList ?? [], cameraList ?? []),
-    [sequenceList, cameraList]
+  const todaySequences = useMemo(
+    () => (sequenceList ?? []).filter((seq) => isDateToday(seq.started_at)),
+    [sequenceList]
   );
 
-  const { hasNewSequence } = useDetectNewSequences(sequenceList, dataUpdatedAt);
+  const alertsList: AlertType[] = useMemo(
+    () => convertSequencesToAlerts(todaySequences, cameraList ?? []),
+    [todaySequences, cameraList]
+  );
+
+  const { hasNewSequence } = useDetectNewSequences(
+    todaySequences,
+    dataUpdatedAt
+  );
 
   const invalidateAndRefreshData = useCallback(() => {
     void queryClient.invalidateQueries({ queryKey: ['unlabelledSequences'] });
