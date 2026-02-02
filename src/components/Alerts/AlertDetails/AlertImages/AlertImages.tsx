@@ -8,6 +8,7 @@ import Skeleton from '@mui/material/Skeleton';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
+import JSZip from 'jszip';
 import { useCallback, useEffect, useState } from 'react';
 
 import {
@@ -79,7 +80,99 @@ export const AlertImages = ({ sequence }: AlertImagesType) => {
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
+      URL.revokeObjectURL(link.href);
     }
+  };
+
+  const drawBoundingBoxOnImage = (
+    img: HTMLImageElement,
+    bboxes: string
+  ): Promise<Blob> => {
+    return new Promise((resolve, reject) => {
+      const canvas = document.createElement('canvas');
+      canvas.width = img.naturalWidth;
+      canvas.height = img.naturalHeight;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) {
+        reject(new Error('Could not get canvas context'));
+        return;
+      }
+
+      ctx.drawImage(img, 0, 0);
+
+      // Parse bounding box: format is "(x1,y1,x2,y2)" with normalized coordinates
+      const match = /\(([^)]+)\)/.exec(bboxes);
+      if (match) {
+        const [x1, y1, x2, y2] = match[1].split(',').map(parseFloat);
+        const boxX = x1 * img.naturalWidth;
+        const boxY = y1 * img.naturalHeight;
+        const boxWidth = (x2 - x1) * img.naturalWidth;
+        const boxHeight = (y2 - y1) * img.naturalHeight;
+
+        ctx.strokeStyle = '#d32f2f'; // MUI error.main red
+        ctx.lineWidth = 3;
+        ctx.strokeRect(boxX, boxY, boxWidth, boxHeight);
+      }
+
+      canvas.toBlob(
+        (blob) => {
+          if (blob) resolve(blob);
+          else reject(new Error('Could not create blob from canvas'));
+        },
+        'image/jpeg',
+        0.95
+      );
+    });
+  };
+
+  const downloadAllImages = async () => {
+    if (!detectionsList || detectionsList.length === 0) return;
+
+    const zip = new JSZip();
+    const originalFolder = zip.folder('original');
+    const bboxFolder = zip.folder('with_bbox');
+
+    const fetchPromises = detectionsList.map(async (detection) => {
+      const response = await fetch(detection.url);
+      const blob = await response.blob();
+      const extension = detection.url.split('.').pop()?.split('?')[0] ?? 'jpg';
+      // Format: YYYY-MM-DDTHH-MM-SS_DETECTION_ID.extension
+      const createdAtFormatted = detection.created_at.split('.')[0];
+      const filename = `${createdAtFormatted}_${detection.id}.${extension}`;
+
+      // Add original image
+      originalFolder?.file(filename, blob);
+
+      // Create image with bounding box
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      const bboxBlob = await new Promise<Blob>((resolve, reject) => {
+        img.onload = async () => {
+          try {
+            const result = await drawBoundingBoxOnImage(img, detection.bboxes);
+            resolve(result);
+          } catch (err) {
+            reject(err instanceof Error ? err : new Error(String(err)));
+          }
+        };
+        img.onerror = () => reject(new Error('Failed to load image'));
+        img.src = URL.createObjectURL(blob);
+      });
+      URL.revokeObjectURL(img.src);
+      bboxFolder?.file(filename, bboxBlob);
+    });
+    await Promise.all(fetchPromises);
+
+    const content = await zip.generateAsync({ type: 'blob' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(content);
+    // Zip Name: YYYY-MM-DD_SEQUENCE_ID_images.zip
+    const startedAtDate = sequence.startedAt?.split('T')[0] ?? 'unknown';
+    link.download = `${startedAtDate}_${sequence.id}_images.zip`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(link.href);
   };
 
   const downloadOptions: SplitButtonOption[] = [
@@ -89,8 +182,8 @@ export const AlertImages = ({ sequence }: AlertImagesType) => {
     },
     {
       label: t('buttonImageDownloadAll'),
-      onClick: undefined,
-      disabled: true,
+      onClick: () => void downloadAllImages(),
+      disabled: !detectionsList || detectionsList.length === 0,
     },
   ];
 
