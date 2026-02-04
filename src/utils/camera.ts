@@ -53,7 +53,10 @@ const aggregateCameraData = (
   );
   return {
     ...camera,
-    poses: camera.poses ?? buildPosesFromPiData(camera.id, cameraInfosFromPi),
+    poses:
+      camera.poses?.length == 0
+        ? buildPosesFromPiData(camera.id, cameraInfosFromPi)
+        : camera.poses,
     ip: cameraInfosFromPi?.ip,
     type: cameraInfosFromPi?.type,
   };
