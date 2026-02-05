@@ -101,13 +101,21 @@ export const AlertImages = ({ sequence }: AlertImagesType) => {
           direction="row"
           justifyContent="space-between"
           alignItems="center"
-          spacing={2}
+          spacing={{ xs: 1, sm: 2 }}
           minHeight={35}
+          useFlexGap
+          sx={{ flexWrap: 'wrap', rowGap: 1 }}
         >
           <Typography variant="h2">
             {formatIsoToTime(sequence.startedAt)}
           </Typography>
-          <Stack spacing={2} alignItems="center" direction="row">
+          <Stack
+            spacing={{ xs: 1, sm: 2 }}
+            alignItems="center"
+            direction="row"
+            useFlexGap
+            sx={{ flexWrap: 'wrap', rowGap: 1 }}
+          >
             <Button
               variant="outlined"
               onClick={() => setDisplayBbox((oldValue) => !oldValue)}
@@ -132,7 +140,7 @@ export const AlertImages = ({ sequence }: AlertImagesType) => {
             <Skeleton variant="rectangular" width="100%" height={80} />
           </Grid>
         )}
-        <Grid>
+        <Grid sx={{ width: '100%' }}>
           {isError && (
             <Typography variant="body2">
               {t('errorFetchImagesMessage')}

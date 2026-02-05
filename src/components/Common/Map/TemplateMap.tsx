@@ -16,7 +16,7 @@ interface CameraMapProps {
 
 export const TemplateMap = ({
   height = '100%',
-  minHeight = undefined,
+  minHeight,
   children,
   bounds,
   setMapRef,

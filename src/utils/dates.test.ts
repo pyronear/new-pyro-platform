@@ -8,6 +8,7 @@ import {
   formatTimeAgo,
   formatTimer,
   formatUnixToTime,
+  isDateToday,
   isDateWithinTheLastXMinutes,
   isStrictlyAfter,
 } from './dates';
@@ -264,5 +265,24 @@ describe('formatTimer', () => {
   it('should return XX:XX:XX if more than a hour', () => {
     const result = formatTimer(3740);
     expect(result).toEqual('01:02:20');
+  });
+});
+
+describe('isDateToday', () => {
+  it('should return false if date is null', () => {
+    const result = isDateToday(null);
+    expect(result).toBeFalsy();
+  });
+  it('should return false if date is yesterday', () => {
+    const result = isDateToday(getPastDateString({ days: 1 }));
+    expect(result).toBeFalsy();
+  });
+  it('should return false if date is in the past', () => {
+    const result = isDateToday('2025-02-25T09:37:03.172325');
+    expect(result).toBeFalsy();
+  });
+  it('should return true if date is now', () => {
+    const result = isDateToday(new Date().toISOString());
+    expect(result).toBeTruthy();
   });
 });

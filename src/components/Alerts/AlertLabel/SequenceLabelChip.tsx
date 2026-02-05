@@ -17,7 +17,7 @@ interface SequenceLabelChipProps {
 export const SequenceLabelChip = ({
   isSmall = false,
   clickable = false,
-  onClick = undefined,
+  onClick,
   labelWildfire,
 }: SequenceLabelChipProps) => {
   const { t } = useTranslationPrefix('alerts.label');
