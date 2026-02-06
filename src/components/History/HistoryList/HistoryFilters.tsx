@@ -40,6 +40,7 @@ export const HistoryFilters = ({ filters, setFilters }: HistoryFiltersType) => {
       onChange={setCurrentValue}
       onAccept={(newValue, context) => {
         if (context.source === 'view') {
+          // Triggers only if a date is selected with the calendar modal
           setFilters({
             ...filters,
             date: newValue,
