@@ -118,3 +118,12 @@ export const formatTimer = (nbSeconds: number) => {
   const duration = Duration.fromMillis(nbSeconds * 1000);
   return duration.toFormat('hh:mm:ss');
 };
+
+export const isDateToday = (dateStr: string | null): boolean => {
+  if (!dateStr) {
+    return false;
+  }
+  const date = isoToDatetime(dateStr);
+  const today = DateTime.now();
+  return date.hasSame(today, 'day');
+};

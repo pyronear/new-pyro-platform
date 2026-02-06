@@ -1,21 +1,29 @@
 import L, { Map as LeafletMap } from 'leaflet';
 import { MapContainer, TileLayer } from 'react-leaflet';
 
+import { useMapLayers } from '@/utils/useMapLayers';
+
+import { MapLayerControl } from './MapLayerControl';
+
 interface CameraMapProps {
   children: React.ReactNode;
   bounds: L.LatLngBounds;
   height?: string;
   minHeight?: string;
   setMapRef?: (map: LeafletMap) => void;
+  showLayerControl?: boolean;
 }
 
 export const TemplateMap = ({
   height = '100%',
-  minHeight = undefined,
+  minHeight,
   children,
   bounds,
   setMapRef,
+  showLayerControl = false,
 }: CameraMapProps) => {
+  const { baseTileConfig } = useMapLayers();
+
   return (
     <MapContainer
       bounds={bounds}
@@ -29,11 +37,14 @@ export const TemplateMap = ({
       }
     >
       <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        attribution={baseTileConfig.attribution}
+        url={baseTileConfig.url}
+        maxZoom={baseTileConfig.maxZoom}
       />
 
       {children}
+
+      {showLayerControl && <MapLayerControl />}
     </MapContainer>
   );
 };

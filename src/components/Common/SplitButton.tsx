@@ -74,6 +74,7 @@ export const SplitButton = ({
           aria-label={options[0].label}
           aria-haspopup="menu"
           onClick={handleToggle}
+          sx={{ px: 0 }}
         >
           <ArrowDropDownIcon />
         </Button>

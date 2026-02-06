@@ -1,4 +1,7 @@
 import LogoutIcon from '@mui/icons-material/Logout';
+import MapIcon from '@mui/icons-material/Map';
+import SatelliteAltIcon from '@mui/icons-material/SatelliteAlt';
+import TerrainIcon from '@mui/icons-material/Terrain';
 import {
   Button,
   Divider,
@@ -67,13 +70,16 @@ export const PreferencesMenu: React.FC<PreferencesMenuProps> = ({
               onChange={handleMapBaseLayerChange}
             >
               <ToggleButton value="osm">
-                🗺️ {t('preferences.mapOsm')}
+                <MapIcon fontSize="small" sx={{ mr: 0.5 }} />
+                {t('preferences.mapOsm')}
               </ToggleButton>
-              <ToggleButton value="ign" disabled>
-                🍄‍🟫 {t('preferences.mapIgn')}
+              <ToggleButton value="ign">
+                <TerrainIcon fontSize="small" sx={{ mr: 0.5 }} />
+                {t('preferences.mapIgn')}
               </ToggleButton>
-              <ToggleButton value="satellite" disabled>
-                🌌 {t('preferences.mapSatellite')}
+              <ToggleButton value="satellite">
+                <SatelliteAltIcon fontSize="small" sx={{ mr: 0.5 }} />
+                {t('preferences.mapSatellite')}
               </ToggleButton>
             </ToggleButtonGroup>
           </Stack>
