@@ -85,7 +85,13 @@ export const DetectionImageWithBoundingBox = ({
   };
 
   return (
-    <div style={{ position: 'relative', display: 'inline-block' }}>
+    <div
+      style={{
+        position: 'relative',
+        display: 'inline-block',
+        justifyItems: 'center',
+      }}
+    >
       <TransformWrapper
         limitToBounds
         centerZoomedOut

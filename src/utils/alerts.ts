@@ -172,3 +172,11 @@ export const hasNewSequenceSince = (
     return sequenceCreationTime >= previousDataUpdatedAt;
   });
 };
+
+export const isInTheList = (
+  alertsList: AlertType[],
+  alert: AlertType | null
+) => {
+  const indexSelectedAlert = alertsList.findIndex((a) => a.id === alert?.id);
+  return indexSelectedAlert != -1;
+};
