@@ -1,4 +1,4 @@
-import type { CameraType } from '@/services/camera';
+import type { CameraType, PoseCameraType } from '@/services/camera';
 import type { CameraInfosFromPi } from '@/services/live';
 
 import type { SequenceWithCameraInfoType } from './alerts';
@@ -7,8 +7,6 @@ import { buildVisionPolygon, DEFAULT_CAM_RANGE_KM } from './cameraVision';
 export interface CameraFullInfosType extends CameraType {
   ip?: string;
   type?: string;
-  azimuths?: number[];
-  poses?: number[];
 }
 
 export interface SiteType {
@@ -55,11 +53,27 @@ const aggregateCameraData = (
   );
   return {
     ...camera,
+    poses:
+      camera.poses?.length == 0
+        ? buildPosesFromPiData(camera.id, cameraInfosFromPi)
+        : camera.poses,
     ip: cameraInfosFromPi?.ip,
     type: cameraInfosFromPi?.type,
-    azimuths: cameraInfosFromPi?.azimuths ?? [],
-    poses: cameraInfosFromPi?.poses ?? [],
   };
+};
+
+const buildPosesFromPiData = (
+  idCamera: number,
+  cameraInfosFromPi?: CameraInfosFromPi
+): PoseCameraType[] => {
+  return (
+    cameraInfosFromPi?.poses.map((value, index) => ({
+      id: value,
+      azimuth: cameraInfosFromPi.azimuths[index],
+      camera_id: idCamera,
+      patrol_id: value,
+    })) ?? []
+  );
 };
 
 export const aggregateSiteData = (
@@ -76,21 +90,32 @@ export const aggregateSiteData = (
 
 const DEFAULT_ANGLE_OF_VIEW = 1;
 
+interface CameraWithPolygons extends Omit<CameraType, 'poses'> {
+  poses: (PoseCameraType & {
+    visionPolygon: L.LatLng[];
+  })[];
+}
+
 export const buildPolygonsFromCamera = (
   camera: CameraType | CameraFullInfosType
-): { azimuth: number; visionPolygon: L.LatLng[] }[] => {
+): CameraWithPolygons => {
   const angleOfView = camera.angle_of_view ?? DEFAULT_ANGLE_OF_VIEW;
-  const azimuths = (camera as CameraFullInfosType).azimuths ?? [];
-  return azimuths.map((azimuth) => ({
-    azimuth,
-    visionPolygon: buildVisionPolygon(
-      camera.lat,
-      camera.lon,
-      azimuth,
-      angleOfView,
-      DEFAULT_CAM_RANGE_KM
-    ),
-  }));
+  const poses = (camera as CameraType).poses ?? [];
+  return {
+    ...camera,
+    poses: poses.map((pose) => {
+      return {
+        ...pose,
+        visionPolygon: buildVisionPolygon(
+          camera.lat,
+          camera.lon,
+          pose.azimuth,
+          angleOfView,
+          DEFAULT_CAM_RANGE_KM
+        ),
+      };
+    }),
+  };
 };
 
 export const buildPolygonFromSequence = (
@@ -100,7 +125,7 @@ export const buildPolygonFromSequence = (
     return buildVisionPolygon(
       sequence.camera.lat,
       sequence.camera.lon,
-      sequence.coneAzimuth,
+      sequence.azimuth,
       sequence.coneAngle,
       DEFAULT_CAM_RANGE_KM
     );

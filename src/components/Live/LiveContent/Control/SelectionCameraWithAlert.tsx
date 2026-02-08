@@ -65,7 +65,7 @@ export const SelectionCameraWithAlert = ({
             {formatIsoToDateTime(currentSequence.startedAt)}
           </LiveAlertInfosSection>
           <LiveAlertInfosSection title={t('subtitleAzimuth')}>
-            {formatAzimuth(currentSequence.coneAzimuth, 1)}
+            {formatAzimuth(currentSequence.azimuth, 1)}
           </LiveAlertInfosSection>
           <LiveAlertInfosSection title={t('subtitleCameraLocalisation')}>
             {formatPosition(

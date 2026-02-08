@@ -1,12 +1,11 @@
-import { difference, isEmpty, uniqWith } from 'lodash';
 import { DateTime } from 'luxon';
 
-import type { SequenceType } from '../services/alerts';
+import type { AlertTypeApi, SequenceTypeApi } from '../services/alerts';
 import type { CameraType } from '../services/camera';
 import { convertIsoToUnix } from './dates';
 
 export interface AlertType {
-  id: string; // Concat of all the sequences id
+  id: number;
   startedAt: string | null; // Start date of the main sequence
   sequences: SequenceWithCameraInfoType[]; // List of grouped sequences
   eventSmokeLocation?: [number, number];
@@ -23,8 +22,7 @@ export interface SequenceWithCameraInfoType {
   camera: CameraType | null;
   startedAt: string | null;
   lastSeenAt: string | null;
-  azimuth: number | null;
-  coneAzimuth: number;
+  azimuth: number;
   coneAngle: number;
   labelWildfire: LabelWildfireValues;
 }
@@ -33,34 +31,17 @@ export interface SequenceWithCameraInfoType {
  * Its goal is to group sequences using their event_groups property which is returned by the API
  * This grouping should soon be done within the API, so this is kind of quick and dirty
  */
-export const convertSequencesToAlerts = (
-  sequencesList: SequenceType[],
+export const mapAlertTypeApiToAlertType = (
+  alertListDto: AlertTypeApi[],
   camerasList: CameraType[]
 ): AlertType[] => {
-  // An event group basically defines an "alert" (i.e. a list of one or more sequences)
-  const idSequencesGrouped = calculateIdSequencesGrouped(sequencesList);
-
-  return idSequencesGrouped.map((idSequenceList) => {
-    const sequencesOfTheGroup = sequencesList.filter((sequence) =>
-      idSequenceList.includes(sequence.id)
-    );
-    if (sequencesOfTheGroup.length === 0) {
-      throw new Error('should never happen');
-    }
-    const oldestSequence = calculateOldestSequence(sequencesOfTheGroup);
-
-    const indexOfEventGroupsInTheOldestSequence =
-      oldestSequence.event_groups?.findIndex((eventGroup) =>
-        isSameArrayIgnoringOrder(eventGroup, idSequenceList)
-      );
-
+  return alertListDto.map((alertDto) => {
     return {
-      id: sequencesOfTheGroup
-        .map((s) => s.id)
-        .sort()
-        .join('_'),
-      startedAt: oldestSequence.started_at,
-      sequences: sequencesOfTheGroup
+      id: alertDto.id,
+      startedAt: alertDto.started_at,
+      eventSmokeLocation:
+        alertDto.lat && alertDto.lon ? [alertDto.lat, alertDto.lon] : undefined,
+      sequences: alertDto.sequences
         // Sort by date ASC
         .sort((s1, s2) => (getDateOrNowNb(s1) > getDateOrNowNb(s2) ? 1 : -1))
         .map((sequence) => ({
@@ -70,17 +51,10 @@ export const convertSequencesToAlerts = (
             null,
           startedAt: sequence.started_at,
           lastSeenAt: sequence.last_seen_at,
-          azimuth: sequence.azimuth,
-          coneAzimuth: sequence.cone_azimuth,
+          azimuth: sequence.sequence_azimuth,
           coneAngle: sequence.cone_angle,
           labelWildfire: (sequence.is_wildfire as LabelWildfireValues) ?? null,
         })),
-      eventSmokeLocation:
-        indexOfEventGroupsInTheOldestSequence != undefined
-          ? oldestSequence.event_smoke_locations?.[
-              indexOfEventGroupsInTheOldestSequence
-            ]
-          : undefined,
     };
   });
 };
@@ -116,34 +90,7 @@ const formatOneCoordinate = (coordinate: number | undefined) => {
   return coordinate ? coordinate.toFixed(6) : '-';
 };
 
-const isSameArrayIgnoringOrder = (arrayOne: number[], arrayTwo: number[]) => {
-  return (
-    arrayOne.length === arrayTwo.length &&
-    isEmpty(difference(arrayTwo.sort(), arrayOne.sort()))
-  );
-};
-
-const calculateIdSequencesGrouped = (sequenceList: SequenceType[]) => {
-  return uniqWith(
-    sequenceList.flatMap(
-      (sequence) => sequence.event_groups ?? [[sequence.id]]
-    ),
-    isSameArrayIgnoringOrder
-  );
-};
-
-const calculateOldestSequence = (sequenceList: SequenceType[]) => {
-  const sequencesDates: number[] = sequenceList.map((sequence) =>
-    getDateOrNowNb(sequence)
-  );
-  const indexOfSmallestDate = sequencesDates.indexOf(
-    Math.min(...sequencesDates)
-  );
-
-  return sequenceList[indexOfSmallestDate];
-};
-
-const getDateOrNowNb = (sequence: SequenceType) => {
+const getDateOrNowNb = (sequence: SequenceTypeApi) => {
   // default date is now. should be older than all others
   return sequence.started_at != null
     ? convertIsoToUnix(sequence.started_at)
@@ -160,11 +107,11 @@ export const getSequenceByCameraId = (alert: AlertType, cameraId: number) => {
   return alert.sequences.find((sequence) => sequence.camera?.id === cameraId);
 };
 
-export const hasNewSequenceSince = (
-  sequenceList: SequenceType[],
+export const hasNewAlertSince = (
+  alertList: AlertTypeApi[],
   previousDataUpdatedAt: number
 ) => {
-  return sequenceList.some((sequence) => {
+  return alertList.some((sequence) => {
     if (!sequence.started_at) {
       return false;
     }

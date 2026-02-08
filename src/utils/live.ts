@@ -1,4 +1,5 @@
 import appConfig from '@/services/appConfig';
+import type { PoseCameraType } from '@/services/camera';
 import { type CameraDirectionType } from '@/services/live';
 
 import { type AlertType, getSequenceByCameraId } from './alerts';
@@ -79,38 +80,33 @@ export const getMoveToAzimuthFromAlert = (
   const sequence =
     alert && camera ? getSequenceByCameraId(alert, camera.id) : null;
   if (sequence) {
-    return getMoveToAzimuth(
-      sequence.coneAzimuth,
-      camera?.azimuths ?? [],
-      camera?.poses ?? []
-    );
+    return getMoveToAzimuth(sequence.azimuth, camera?.poses ?? []);
   }
   return null;
 };
 
 export const getMoveToAzimuth = (
   azimuthToGoTo: number,
-  azimuthsCamera: number[],
-  posesCamera: number[]
+  poses: PoseCameraType[]
 ): MovementCommand | null => {
   const azimuthToGoToRounded = Math.trunc(azimuthToGoTo);
-  if (azimuthsCamera.length === 0) {
+  if (poses.length === 0) {
     return null;
   }
-  const distanceAzimuths = azimuthsCamera.map((azimuth) =>
-    closestTo0Modulo360(azimuthToGoToRounded - azimuth)
+  const distanceAzimuths = poses.map((pose) =>
+    closestTo0Modulo360(azimuthToGoToRounded - pose.azimuth)
   );
   const indexClosestPose = indexOfClosestTo0(distanceAzimuths);
-  if (indexClosestPose < posesCamera.length) {
+  if (poses[indexClosestPose].patrol_id != null) {
     const diffDegrees = distanceAzimuths[indexClosestPose];
+    const direction = (
+      diffDegrees > 0 ? 'Right' : 'Left'
+    ) as CameraDirectionType;
     return {
-      poseId: posesCamera[indexClosestPose],
+      poseId: poses[indexClosestPose].patrol_id,
       degrees: Math.abs(diffDegrees),
       speed: 5,
-      direction:
-        diffDegrees !== 0
-          ? ((diffDegrees > 0 ? 'Right' : 'Left') as CameraDirectionType)
-          : undefined,
+      direction: diffDegrees === 0 ? undefined : direction,
     };
   }
   return null;

@@ -1,7 +1,7 @@
 import L from 'leaflet';
 import { useMemo } from 'react';
 
-import CameraMarkerMap from '@/components/Common/Map/CameraMarkerMap';
+import CameraMarker from '@/components/Common/Map/CameraMarker';
 import { CameraViewPolygon } from '@/components/Common/Map/CameraViewPolygon';
 import { SequencePolygon } from '@/components/Common/Map/SequencePolygon';
 import TemplateMap from '@/components/Common/Map/TemplateMap';
@@ -18,7 +18,7 @@ interface LiveMapProps {
 }
 
 export const LiveMap = ({ camera, sequence }: LiveMapProps) => {
-  const cameraPolygons = useMemo(
+  const cameraWithPolygons = useMemo(
     () => buildPolygonsFromCamera(camera),
     [camera]
   );
@@ -29,22 +29,22 @@ export const LiveMap = ({ camera, sequence }: LiveMapProps) => {
   );
 
   const bounds = useMemo(() => {
-    const allPolygonPoints = cameraPolygons
-      .map((polygon) => polygon.visionPolygon)
-      .flatMap((p) => p);
+    const allPolygonPoints = cameraWithPolygons.poses.flatMap(
+      (pose) => pose.visionPolygon
+    );
     const camerasPoints = [[camera.lat, camera.lon] as L.LatLngExpression];
     return L.latLngBounds(
       allPolygonPoints.length > 0 ? allPolygonPoints : camerasPoints
     );
-  }, [camera.lat, camera.lon, cameraPolygons]);
+  }, [camera.lat, camera.lon, cameraWithPolygons]);
 
   return (
     <TemplateMap bounds={bounds} minHeight="200px">
-      <CameraMarkerMap camera={camera} />
-      {cameraPolygons.map((polygon) => (
+      <CameraMarker camera={camera} />
+      {cameraWithPolygons.poses.map((pose) => (
         <CameraViewPolygon
-          key={`${camera.id}_${polygon.azimuth}`}
-          visionPolygonPoints={polygon.visionPolygon}
+          key={`${camera.id}_${pose.azimuth}`}
+          visionPolygonPoints={pose.visionPolygon}
         />
       ))}
       {sequencePolygon && (

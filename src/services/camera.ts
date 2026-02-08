@@ -3,6 +3,13 @@ import * as z from 'zod/v4';
 
 import { apiInstance } from './axios';
 
+const apiPoseCameraResponseSchema = z.object({
+  id: z.number(),
+  camera_id: z.number(),
+  azimuth: z.number(),
+  patrol_id: z.nullable(z.number()),
+});
+
 const apiCameraResponseSchema = z.object({
   id: z.number(),
   organization_id: z.number(),
@@ -16,8 +23,10 @@ const apiCameraResponseSchema = z.object({
   last_image: z.nullable(z.string()),
   last_image_url: z.nullable(z.string()),
   created_at: z.nullable(z.iso.datetime({ local: true })),
+  poses: z.nullable(z.array(apiPoseCameraResponseSchema)).default([]),
 });
 export type CameraType = z.infer<typeof apiCameraResponseSchema>;
+export type PoseCameraType = z.infer<typeof apiPoseCameraResponseSchema>;
 const apiCameraListResponseSchema = z.array(apiCameraResponseSchema);
 
 export const getCameraList = async (): Promise<CameraType[]> => {

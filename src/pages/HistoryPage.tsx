@@ -5,11 +5,11 @@ import {
 } from '@tanstack/react-query';
 import { useCallback, useMemo, useState } from 'react';
 
-import { getSequencesByFilters } from '@/services/alerts';
+import { getAlertsByFilters } from '@/services/alerts';
 import appConfig from '@/services/appConfig';
 import { STATUS_ERROR, STATUS_LOADING, STATUS_SUCCESS } from '@/services/axios';
 import { getCameraList } from '@/services/camera';
-import { type AlertType, convertSequencesToAlerts } from '@/utils/alerts';
+import { type AlertType, mapAlertTypeApiToAlertType } from '@/utils/alerts';
 import { formatDateToApi } from '@/utils/dates';
 import {
   type FiltersType,
@@ -37,9 +37,9 @@ export const HistoryPage = () => {
     isFetchingNextPage,
   } = useInfiniteQuery({
     enabled: isQuerySequencesEnabled,
-    queryKey: ['sequenceList', filters],
+    queryKey: ['alertsList', filters],
     queryFn: async ({ pageParam }) => {
-      return await getSequencesByFilters(
+      return await getAlertsByFilters(
         filters.date ? formatDateToApi(filters.date) : '',
         HISTORY_NB_ALERTS_PER_PAGE,
         pageParam * HISTORY_NB_ALERTS_PER_PAGE
@@ -62,11 +62,11 @@ export const HistoryPage = () => {
   });
 
   const invalidateAndRefreshData = useCallback(() => {
-    void queryClient.invalidateQueries({ queryKey: ['sequenceList'] });
+    void queryClient.invalidateQueries({ queryKey: ['alertsList'] });
   }, [queryClient]);
 
   const alertsList: AlertType[] = useMemo(() => {
-    return convertSequencesToAlerts(
+    return mapAlertTypeApiToAlertType(
       sequenceList?.pages.flat() ?? [],
       cameraList ?? []
     );

@@ -1,10 +1,12 @@
 import L, { Map as LeafletMap, Marker as LeafletMarker } from 'leaflet';
 import type { RefObject } from 'react';
-import { useMemo } from 'react';
+import { Fragment, useMemo } from 'react';
 
 import type { CameraType } from '@/services/camera';
+import { buildPolygonsFromCamera } from '@/utils/camera';
 
-import CameraMarkerMap from '../Common/Map/CameraMarkerMap';
+import CameraMarker from '../Common/Map/CameraMarker';
+import { CameraViewPolygon } from '../Common/Map/CameraViewPolygon';
 import TemplateMap from '../Common/Map/TemplateMap';
 
 interface CamerasMapProps {
@@ -20,22 +22,34 @@ export const CamerasMap = ({
   markerRefs,
   onClickOnMarker,
 }: CamerasMapProps) => {
+  const camerasWithPolygons = cameras.map((camera) =>
+    buildPolygonsFromCamera(camera)
+  );
+
   const bounds = useMemo(() => {
-    const allCamerasPoints = cameras.map(
-      (c) => [c.lat, c.lon] as L.LatLngExpression
-    );
-    return L.latLngBounds(allCamerasPoints);
-  }, [cameras]);
+    const allPolygonPoints = camerasWithPolygons
+      .flatMap((camera) => camera.poses)
+      .flatMap((pose) => pose.visionPolygon);
+
+    return L.latLngBounds(allPolygonPoints);
+  }, [camerasWithPolygons]);
 
   return (
     <TemplateMap bounds={bounds} setMapRef={setMapRef} showLayerControl>
-      {cameras.map((camera) => (
-        <CameraMarkerMap
-          key={camera.id}
-          camera={camera}
-          markerRefs={markerRefs}
-          onClick={() => onClickOnMarker(camera.id)}
-        />
+      {camerasWithPolygons.map((camera) => (
+        <Fragment key={camera.id}>
+          <CameraMarker
+            camera={camera}
+            markerRefs={markerRefs}
+            onClick={() => onClickOnMarker(camera.id)}
+          />
+          {camera.poses.map((pose) => (
+            <CameraViewPolygon
+              key={`${camera.id}_${pose.azimuth}`}
+              visionPolygonPoints={pose.visionPolygon}
+            />
+          ))}
+        </Fragment>
       ))}
     </TemplateMap>
   );
