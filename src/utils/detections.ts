@@ -17,7 +17,7 @@ export const getFirstConfidentDetectionIndex = (
 };
 
 const hasBboxWithSufficientConfidence = (detection: DetectionType): boolean => {
-  const bboxes = parseBboxes(detection.bboxes);
+  const bboxes = parseBboxes(detection.bbox);
   return bboxes.some(
     (bbox) => bbox.confidence >= ALERTS_PLAYER_CONFIDENCE_THRESHOLD
   );

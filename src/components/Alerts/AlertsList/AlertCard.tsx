@@ -94,7 +94,7 @@ export const AlertCard = ({
                   flexGrow={1}
                 >
                   <Typography variant="caption" fontWeight={500}>
-                    {formatAzimuth(sequence.coneAzimuth)}
+                    {formatAzimuth(sequence.azimuth)}
                   </Typography>
 
                   <Typography variant="caption">

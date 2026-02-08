@@ -73,9 +73,9 @@ export const AlertInfos = ({
             </AlertInfosSection>
             <AlertInfosSection
               title={t('subtitleAzimuth')}
-              withTextToCopy={sequence.coneAzimuth.toString()}
+              withTextToCopy={sequence.azimuth.toString()}
             >
-              {formatAzimuth(sequence.coneAzimuth, 1)}
+              {formatAzimuth(sequence.azimuth, 1)}
             </AlertInfosSection>
             <AlertInfosSection
               title={t('subtitleCameraLocalisation')}

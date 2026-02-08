@@ -44,14 +44,15 @@ export const AlertsContainer = ({
 
   const selectedAlert = useMemo(
     () =>
-      alertsList.find((alert) => alert.id === searchParams.get('alert')) ??
-      null,
+      alertsList.find(
+        (alert) => alert.id.toString() === searchParams.get('alert')
+      ) ?? null,
     [alertsList, searchParams]
   );
 
   const setSelectedAlert = useCallback(
     (alert: AlertType) => {
-      setSearchParams({ alert: alert.id });
+      setSearchParams({ alert: alert.id.toString() });
     },
     [setSearchParams]
   );

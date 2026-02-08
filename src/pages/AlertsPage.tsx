@@ -2,13 +2,13 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useCallback, useMemo } from 'react';
 
 import { AlertsContainer } from '@/components/Alerts/AlertsContainer';
-import { getUnlabelledLatestSequences } from '@/services/alerts';
+import { getUnlabelledLatestAlerts } from '@/services/alerts';
 import appConfig from '@/services/appConfig';
 import { STATUS_ERROR, STATUS_LOADING, STATUS_SUCCESS } from '@/services/axios';
 import { getCameraList } from '@/services/camera';
-import { type AlertType, convertSequencesToAlerts } from '@/utils/alerts';
+import { type AlertType, mapAlertTypeApiToAlertType } from '@/utils/alerts';
 import { isDateToday } from '@/utils/dates';
-import { useDetectNewSequences } from '@/utils/useDetectNewSequences';
+import { useDetectNewSequences as useDetectNewAlerts } from '@/utils/useDetectNewSequences';
 
 const ALERTS_LIST_REFRESH_INTERVAL_SECONDS =
   appConfig.getConfig().ALERTS_LIST_REFRESH_INTERVAL_SECONDS;
@@ -19,10 +19,10 @@ export const AlertsPage = () => {
     isFetching,
     dataUpdatedAt,
     status: statusSequences,
-    data: sequenceList,
+    data: alertList,
   } = useQuery({
-    queryKey: ['unlabelledSequences'],
-    queryFn: getUnlabelledLatestSequences,
+    queryKey: ['unlabelledAlerts'],
+    queryFn: getUnlabelledLatestAlerts,
     refetchInterval: ALERTS_LIST_REFRESH_INTERVAL_SECONDS * 1000,
   });
 
@@ -31,23 +31,23 @@ export const AlertsPage = () => {
     queryFn: getCameraList,
   });
 
-  const todaySequences = useMemo(
-    () => (sequenceList ?? []).filter((seq) => isDateToday(seq.started_at)),
-    [sequenceList]
+  const todayAlerts = useMemo(
+    () => (alertList ?? []).filter((alert) => isDateToday(alert.started_at)),
+    [alertList]
   );
 
   const alertsList: AlertType[] = useMemo(
-    () => convertSequencesToAlerts(todaySequences, cameraList ?? []),
-    [todaySequences, cameraList]
+    () => mapAlertTypeApiToAlertType(todayAlerts, cameraList ?? []),
+    [todayAlerts, cameraList]
   );
 
-  const { hasNewSequence } = useDetectNewSequences(
-    todaySequences,
+  const { hasNewSequence: hasNewAlert } = useDetectNewAlerts(
+    todayAlerts,
     dataUpdatedAt
   );
 
   const invalidateAndRefreshData = useCallback(() => {
-    void queryClient.invalidateQueries({ queryKey: ['unlabelledSequences'] });
+    void queryClient.invalidateQueries({ queryKey: ['unlabelledAlerts'] });
   }, [queryClient]);
 
   const status = useMemo(() => {
@@ -67,7 +67,7 @@ export const AlertsPage = () => {
       lastUpdate={dataUpdatedAt}
       invalidateAndRefreshData={invalidateAndRefreshData}
       alertsList={alertsList}
-      hasNewSequence={hasNewSequence}
+      hasNewSequence={hasNewAlert}
     />
   );
 };
