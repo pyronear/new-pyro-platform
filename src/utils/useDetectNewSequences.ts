@@ -1,30 +1,27 @@
 import { useMemo, useRef } from 'react';
 
-import type { SequenceType } from '@/services/alerts';
-import { hasNewSequenceSince } from '@/utils/alerts';
+import type { AlertTypeApi } from '@/services/alerts';
+import { hasNewAlertSince } from '@/utils/alerts';
 
 export const useDetectNewSequences = (
-  sequenceList: SequenceType[] | undefined,
+  alertList: AlertTypeApi[],
   dataUpdatedAt: number
 ) => {
   const previousDataUpdatedAtRef = useRef<number>(0);
 
   const hasNewSequence = useMemo(() => {
-    if (!sequenceList || sequenceList.length === 0) {
+    if (alertList.length === 0) {
       previousDataUpdatedAtRef.current = dataUpdatedAt;
       return false;
     }
 
     const previousDataUpdatedAt = previousDataUpdatedAtRef.current;
 
-    const hasNewSequence = hasNewSequenceSince(
-      sequenceList,
-      previousDataUpdatedAt
-    );
+    const hasNewSequence = hasNewAlertSince(alertList, previousDataUpdatedAt);
 
     previousDataUpdatedAtRef.current = dataUpdatedAt;
     return hasNewSequence;
-  }, [sequenceList, dataUpdatedAt]);
+  }, [alertList, dataUpdatedAt]);
 
   return { hasNewSequence };
 };
