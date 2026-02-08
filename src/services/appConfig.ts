@@ -3,7 +3,7 @@
 export interface AppConfigType {
   readonly API_URL: string;
   readonly LIVE_STREAMING_MEDIA_URL: string;
-  readonly LIVE_STREAMING_SITE_PORT: number;
+  readonly LIVE_STREAMING_SITE_URL: string;
 
   readonly LIVE_STREAMING_TIMEOUT_SECONDS: number;
 
@@ -27,7 +27,7 @@ export class AppConfig {
       // @ts-expect-error config is fetched from a JS file
       LIVE_STREAMING_MEDIA_URL: window.AppConfig?.LIVE_STREAMING_MEDIA_URL,
       // @ts-expect-error config is fetched from a JS file
-      LIVE_STREAMING_SITE_PORT: window.AppConfig?.LIVE_STREAMING_SITE_PORT,
+      LIVE_STREAMING_SITE_URL: window.AppConfig?.LIVE_STREAMING_SITE_URL,
 
       LIVE_STREAMING_TIMEOUT_SECONDS:
         // @ts-expect-error config is fetched from a JS file

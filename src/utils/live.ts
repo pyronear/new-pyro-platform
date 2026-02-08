@@ -32,9 +32,13 @@ export const calculateLiveStreamingUrl = (site: SiteType | null) => {
 };
 
 export const calculateSiteUrl = (site: SiteType | null) => {
-  return site
-    ? `http://${site.ip}:${appConfig.getConfig().LIVE_STREAMING_SITE_PORT}`
-    : '';
+  if (site == null) {
+    return '';
+  }
+  const liveStreamingUrl = appConfig.getConfig().LIVE_STREAMING_SITE_URL;
+  return liveStreamingUrl
+    ? 'http://${site.ip}'
+    : `${appConfig.getConfig().LIVE_STREAMING_SITE_URL}/?pi=${site.ip}`;
 };
 
 export const isAzimuthValid = (azimuthStr: string) => {
