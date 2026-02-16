@@ -1,16 +1,16 @@
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Button } from '@mui/material';
+import { useAuth } from 'react-oidc-context';
 
-import { useAuth } from '../../context/useAuth';
-import { useTranslationPrefix } from '../../utils/useTranslationPrefix';
+import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
 export const LogoutButton = () => {
-  const { logout } = useAuth();
+  const auth = useAuth();
   const { t } = useTranslationPrefix('login');
 
   return (
     <Button
-      onClick={logout}
+      onClick={() => void auth.signoutSilent()}
       variant="contained"
       color="error"
       startIcon={<LogoutIcon />}

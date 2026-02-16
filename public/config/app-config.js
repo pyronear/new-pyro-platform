@@ -28,4 +28,8 @@ window.AppConfig = {
   // The key is referrer-restricted: every origin serving the app (localhost, preprod,
   // prod) must be allow-listed in the IGN client space, or tiles come back 401.
   IGN_API_KEY: '',
+
+  KEYCLOAK_URL: 'http://localhost:9310/realms/pyronear',
+  KEYCLOAK_CLIENT_ID: 'new-pyro-platform',
+  KEYCLOAK_REDIRECT_URI: 'http://localhost:5173/',
 };
