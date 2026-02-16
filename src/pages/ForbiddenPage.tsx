@@ -1,7 +1,7 @@
 import { Button, Stack, Typography } from '@mui/material';
 import { useNavigate } from 'react-router';
 
-import { DEFAULT_ROUTE } from '@/App';
+import { DEFAULT_ROUTE } from '@/AppRouter.tsx';
 import logo from '@/assets/small-logo.png';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 

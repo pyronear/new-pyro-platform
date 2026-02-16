@@ -59,6 +59,9 @@ importers:
       luxon:
         specifier: ~3.7.2
         version: 3.7.2
+      oidc-client-ts:
+        specifier: ^3.4.1
+        version: 3.5.0
       react:
         specifier: ~19.2.3
         version: 19.2.3
@@ -71,6 +74,9 @@ importers:
       react-leaflet:
         specifier: ~5.0.0
         version: 5.0.0(leaflet@1.9.4)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+      react-oidc-context:
+        specifier: ^3.3.0
+        version: 3.3.1(oidc-client-ts@3.5.0)(react@19.2.3)
       react-router:
         specifier: ~7.18.3
         version: 7.18.3(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
@@ -2030,6 +2036,10 @@ packages:
   obug@2.1.1:
     resolution: {integrity: sha512-uTqF9MuPraAQ+IsnPf366RG4cP9RtUi7MLO1N3KEc+wb0a6yKpeL0lmk2IB1jY5KHPAlTc6T/JRdC/YqxHNwkQ==}
 
+  oidc-client-ts@3.5.0:
+    resolution: {integrity: sha512-l2q8l9CTCTOlbX+AnK4p3M+4CEpKpyQhle6blQkdFhm0IsBqsxm15bYaSa11G7pWdsYr6epdsRZxJpCyCRbT8A==}
+    engines: {node: '>=18'}
+
   optionator@0.9.4:
     resolution: {integrity: sha512-6IpQ7mKUxRcZNLIObR0hz7lxsapSSIYNZJwXPGeF0mTVqGKFIXj1DQcMoT22S3ROcLyY/rz0PWaWZ9ayWmad9g==}
     engines: {node: '>= 0.8.0'}
@@ -2168,6 +2178,13 @@ packages:
       leaflet: ^1.9.0
       react: ^19.0.0
       react-dom: ^19.0.0
+
+  react-oidc-context@3.3.1:
+    resolution: {integrity: sha512-/Azvm9W4DhhOtSDBE73kFInh1b6zZRRfILKbgmk2syExMF0PCYJOn/dGdOOi2BFX8x0rCeUe45NXHU+/+xDcrQ==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      oidc-client-ts: ^3.1.0
+      react: '>=16.14.0'
 
   react-refresh@0.17.0:
     resolution: {integrity: sha512-z6F7K9bV85EfseRCp2bzrpyQ0Gkw1uLoCel9XBVWPg/TjRj94SkJzUTGfOa4bs7iJvBWtQG0Wq7wnI0syw3EBQ==}
@@ -4747,6 +4764,10 @@ snapshots:
 
   obug@2.1.1: {}
 
+  oidc-client-ts@3.5.0:
+    dependencies:
+      jwt-decode: 4.0.0
+
   optionator@0.9.4:
     dependencies:
       deep-is: 0.1.4
@@ -4866,6 +4887,11 @@ snapshots:
       leaflet: 1.9.4
       react: 19.2.3
       react-dom: 19.2.3(react@19.2.3)
+
+  react-oidc-context@3.3.1(oidc-client-ts@3.5.0)(react@19.2.3):
+    dependencies:
+      oidc-client-ts: 3.5.0
+      react: 19.2.3
 
   react-refresh@0.17.0: {}
 

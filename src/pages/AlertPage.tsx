@@ -5,7 +5,7 @@ import { AxiosError } from 'axios';
 import { useCallback, useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router';
 
-import { DEFAULT_ROUTE } from '@/App';
+import { DEFAULT_ROUTE } from '@/AppRouter.tsx';
 import { AlertContainer } from '@/components/Alerts/AlertDetails/AlertContainer';
 import { Loader } from '@/components/Common/Loader';
 import { CameraListProvider } from '@/context/CameraListProvider';

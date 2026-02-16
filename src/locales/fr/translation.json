@@ -1,18 +1,7 @@
 {
   "login": {
-    "button": "Se connecter",
-    "title": "Connexion",
-    "username": "Utilisateur",
-    "password": "Mot de passe",
-    "showPassword": "Afficher le mot de passe",
-    "hidePassword": "Cacher le mot de passe",
-    "logout": "Se déconnecter",
-    "errors": {
-      "INVALID_CREDENTIALS": "Nom d'utilisateur ou mot de passe incorrect.",
-      "SERVER_ERROR": "Une erreur inattendue est survenue. Veuillez réessayer plus tard.",
-      "UNKNOWN_ERROR": "Une erreur inattendue est survenue.",
-      "INVALID_API_RESPONSE": "La réponse du serveur de connexion est invalide."
-    }
+    "title": "Redirection en cours",
+    "logout": "Se déconnecter"
   },
   "pages": {
     "dashboard": "Caméras",
