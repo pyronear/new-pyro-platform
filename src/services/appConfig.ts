@@ -26,6 +26,9 @@ export interface AppConfigType {
 
   /** Display the non-selected detections of a frame as dashed boxes. */
   readonly FEATURE_DISPLAY_OTHER_BBOXES: boolean;
+  readonly KEYCLOAK_URL: string;
+  readonly KEYCLOAK_CLIENT_ID: string;
+  readonly KEYCLOAK_REDIRECT_URI: string;
 }
 
 export class AppConfig {
@@ -81,6 +84,12 @@ export class AppConfig {
       FEATURE_DISPLAY_OTHER_BBOXES:
         // @ts-expect-error config is fetched from a JS file
         window.AppConfig?.FEATURE_DISPLAY_OTHER_BBOXES ?? false,
+      // @ts-expect-error config is fetched from a JS file
+      KEYCLOAK_URL: window.AppConfig?.KEYCLOAK_URL,
+      // @ts-expect-error config is fetched from a JS file
+      KEYCLOAK_CLIENT_ID: window.AppConfig?.KEYCLOAK_CLIENT_ID,
+      // @ts-expect-error config is fetched from a JS file
+      KEYCLOAK_REDIRECT_URI: window.AppConfig?.KEYCLOAK_REDIRECT_URI,
     };
   }
 }

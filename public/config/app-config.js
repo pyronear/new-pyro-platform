@@ -31,4 +31,7 @@ window.AppConfig = {
 
   // Feature flags
   FEATURE_DISPLAY_OTHER_BBOXES: false,
+  KEYCLOAK_URL: 'http://localhost:9310/realms/pyronear',
+  KEYCLOAK_CLIENT_ID: 'new-pyro-platform',
+  KEYCLOAK_REDIRECT_URI: 'http://localhost:5173/',
 };
