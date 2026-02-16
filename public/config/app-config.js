@@ -2,6 +2,9 @@ window.AppConfig = {
   API_URL: '',
   LIVE_STREAMING_MEDIA_URL: '',
   LIVE_STREAMING_SITE_PORT: 0,
+  KEYCLOAK_URL: 'http://localhost:9310/realms/pyronear',
+  KEYCLOAK_CLIENT_ID: 'new-pyro-platform',
+  KEYCLOAK_REDIRECT_URI: 'http://localhost:5173/',
 
   LIVE_STREAMING_TIMEOUT_SECONDS: 30,
   CAMERAS_INACTIVITY_THRESHOLD_MINUTES: 30,

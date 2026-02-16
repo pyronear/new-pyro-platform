@@ -16,8 +16,7 @@ import { useTranslationPrefix } from '../../utils/useTranslationPrefix';
 import { MobileTopbarDrawer } from './MobileTopbarDrawer';
 
 export const MobileTopbar = () => {
-  const { token } = useAuth();
-  const isLoggedIn = !!token;
+  const { isLoggedIn } = useAuth();
 
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const handleDrawerClose = () => {

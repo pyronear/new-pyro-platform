@@ -1,9 +1,9 @@
 import { Box, Divider, Drawer, List, ListItem, Stack } from '@mui/material';
 
 import logo from '@/assets/logo.svg';
+import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
-import { useTranslationPrefix } from '../../utils/useTranslationPrefix';
-import { LogoutButton } from '../Login/LogoutButton';
+import { LogoutButton } from './LogoutButton';
 import { NavigationLink } from './NavigationLink';
 import LanguageSwitcher from './Preferences/LanguageSwitcher';
 

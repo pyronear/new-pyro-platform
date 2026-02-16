@@ -17,6 +17,10 @@ export interface AppConfigType {
   readonly ALERTS_CAMERA_RANGE_KM: number;
 
   readonly HISTORY_NB_ALERTS_PER_PAGE: number;
+
+  readonly KEYCLOAK_URL: string;
+  readonly KEYCLOAK_CLIENT_ID: string;
+  readonly KEYCLOAK_REDIRECT_URI: string;
 }
 
 export class AppConfig {
@@ -54,6 +58,12 @@ export class AppConfig {
       ALERTS_CAMERA_RANGE_KM: window.AppConfig?.ALERTS_CAMERA_RANGE_KM ?? 30,
       // @ts-expect-error config is fetched from a JS file
       HISTORY_NB_ALERTS_PER_PAGE: window.AppConfig?.HISTORY_NB_ALERTS_PER_PAGE,
+      // @ts-expect-error config is fetched from a JS file
+      KEYCLOAK_URL: window.AppConfig?.KEYCLOAK_URL,
+      // @ts-expect-error config is fetched from a JS file
+      KEYCLOAK_CLIENT_ID: window.AppConfig?.KEYCLOAK_CLIENT_ID,
+      // @ts-expect-error config is fetched from a JS file
+      KEYCLOAK_REDIRECT_URI: window.AppConfig?.KEYCLOAK_REDIRECT_URI,
     };
   }
 }

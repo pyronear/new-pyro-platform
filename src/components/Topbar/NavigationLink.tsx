@@ -1,5 +1,5 @@
 import { Typography, useTheme } from '@mui/material';
-import { NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router';
 
 interface NavigationLinkProps {
   path: string;

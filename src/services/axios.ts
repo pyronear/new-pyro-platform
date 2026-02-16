@@ -11,6 +11,13 @@ export const liveInstance = axios.create({
   headers: {},
 });
 
+export const setTokenOnAxios = (token: string) => {
+  apiInstance.defaults.headers.common.Authorization = `Bearer ${token}`;
+};
+export const resetTokenOnAxios = () => {
+  delete apiInstance.defaults.headers.common.Authorization;
+};
+
 export const STATUS_SUCCESS = 'success';
 export const STATUS_ERROR = 'error';
 export const STATUS_LOADING = 'pending';

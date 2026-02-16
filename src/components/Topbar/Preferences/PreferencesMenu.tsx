@@ -12,8 +12,8 @@ import {
 } from '@mui/material';
 import { Stack } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import { useAuth } from 'react-oidc-context';
 
-import { useAuth } from '@/context/useAuth';
 import { usePreferences } from '@/context/usePreferences';
 
 import { AlertVolumeToggle } from './AlertVolumeToggle';
@@ -29,7 +29,7 @@ export const PreferencesMenu: React.FC<PreferencesMenuProps> = ({
 }) => {
   const { t } = useTranslation();
   const { preferences, updatePreferences } = usePreferences();
-  const { logout } = useAuth();
+  const auth = useAuth();
 
   const handleAudioAlertsToggle = () => {
     updatePreferences({
@@ -98,7 +98,7 @@ export const PreferencesMenu: React.FC<PreferencesMenuProps> = ({
             <>
               <Divider />
               <Button
-                onClick={logout}
+                onClick={() => void auth.signoutSilent()}
                 variant="contained"
                 color="error"
                 startIcon={<LogoutIcon />}
