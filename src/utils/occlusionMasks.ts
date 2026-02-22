@@ -25,8 +25,12 @@ export const parseApiMask = (mask: string): BboxType | null => {
   };
 };
 
+/**
+ * API validates with a regex that only allows 3 decimals
+ */
 export const formatBboxToApiMask = (bbox: BboxType): string => {
-  return `(${bbox.xmin},${bbox.ymin},${bbox.xmax},${bbox.ymax})`;
+  const round = (v: number) => parseFloat(v.toFixed(3));
+  return `(${round(bbox.xmin)},${round(bbox.ymin)},${round(bbox.xmax)},${round(bbox.ymax)})`;
 };
 
 /**
