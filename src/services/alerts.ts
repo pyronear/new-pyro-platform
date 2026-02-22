@@ -7,6 +7,7 @@ import { apiInstance } from './axios';
 const apiSequenceResponseSchema = z.object({
   id: z.number(),
   camera_id: z.number(),
+  pose_id: z.nullable(z.number()),
   azimuth: z.nullable(z.number()),
   cone_azimuth: z.number(),
   cone_angle: z.number(),

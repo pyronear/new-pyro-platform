@@ -54,6 +54,7 @@ const createSequence = (
   return {
     id,
     camera_id: cameraId,
+    pose_id: null,
     azimuth: 120,
     cone_azimuth: 120,
     cone_angle: 120,
@@ -182,6 +183,7 @@ describe('extractCameraListFromAlert', () => {
       sequences: [
         {
           id: 1,
+          poseId: null,
           camera: camera1,
           lastSeenAt: null,
           azimuth: null,
@@ -192,6 +194,7 @@ describe('extractCameraListFromAlert', () => {
         },
         {
           id: 2,
+          poseId: null,
           camera: camera2,
           lastSeenAt: null,
           azimuth: null,
@@ -220,6 +223,7 @@ describe('hasNewSequenceSince', () => {
           event_groups: [],
           event_smoke_locations: [],
           camera_id: 1,
+          pose_id: null,
           last_seen_at: null,
           azimuth: null,
           cone_azimuth: 0,
@@ -232,6 +236,7 @@ describe('hasNewSequenceSince', () => {
           event_groups: [],
           event_smoke_locations: [],
           camera_id: 1,
+          pose_id: null,
           last_seen_at: null,
           azimuth: null,
           cone_azimuth: 0,
@@ -252,6 +257,7 @@ describe('hasNewSequenceSince', () => {
           event_groups: [],
           event_smoke_locations: [],
           camera_id: 1,
+          pose_id: null,
           last_seen_at: null,
           azimuth: null,
           cone_azimuth: 0,
@@ -264,6 +270,7 @@ describe('hasNewSequenceSince', () => {
           event_groups: [],
           event_smoke_locations: [],
           camera_id: 1,
+          pose_id: null,
           last_seen_at: null,
           azimuth: null,
           cone_azimuth: 0,
