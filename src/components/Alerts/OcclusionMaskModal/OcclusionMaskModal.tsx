@@ -13,14 +13,15 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { getDetectionsBySequence } from '@/services/alerts';
 import {
-  addOcclusionMask,
-  clearOcclusionMasks,
-  getOcclusionMasks,
+  createOcclusionMask,
+  deleteAllOcclusionMasksByPose,
+  getOcclusionMasksByPose,
 } from '@/services/occlusionMasks';
 import type { SequenceWithCameraInfoType } from '@/utils/alerts';
 import {
   type BboxType,
   enlargeBbox,
+  formatBboxToApiMask,
   getHighestConfidenceBbox,
   getHighestConfidenceDetection,
   getNonOverlappingMasks,
@@ -81,47 +82,22 @@ export const OcclusionMaskModal = ({
 
   // Query for existing occlusion masks
   const { data: existingMasks = [], isLoading: isLoadingMasks } = useQuery({
-    queryKey: [
-      'occlusionMasks',
-      sequence.camera?.name,
-      sequence.camera?.angle_of_view,
-    ],
-    queryFn: () => {
-      if (!sequence.camera?.name || sequence.camera.angle_of_view === null) {
-        return [];
-      }
-      const masks = getOcclusionMasks(
-        sequence.camera.name,
-        sequence.camera.angle_of_view
-      );
+    queryKey: ['occlusionMasks', sequence.poseId],
+    queryFn: async () => {
+      if (!sequence.poseId) return [];
+      const masks = await getOcclusionMasksByPose(sequence.poseId);
       return getNonOverlappingMasks(masks);
     },
-    enabled:
-      open && !!sequence.camera?.name && sequence.camera.angle_of_view !== null,
+    enabled: open && !!sequence.poseId,
   });
 
   // Mutation for adding occlusion mask
   const addMaskMutation = useMutation({
-    mutationFn: ({
-      cameraName,
-      angleOfView,
-      bbox,
-    }: {
-      cameraName: string;
-      angleOfView: number;
-      bbox: BboxType;
-    }) => {
-      addOcclusionMask(cameraName, angleOfView, bbox);
-      return Promise.resolve();
-    },
+    mutationFn: ({ poseId, bbox }: { poseId: number; bbox: BboxType }) =>
+      createOcclusionMask(poseId, formatBboxToApiMask(bbox)),
     onSuccess: () => {
-      // Invalidate and refetch occlusion masks
       void queryClient.invalidateQueries({
-        queryKey: [
-          'occlusionMasks',
-          sequence.camera?.name,
-          sequence.camera?.angle_of_view,
-        ],
+        queryKey: ['occlusionMasks', sequence.poseId],
       });
       onClose();
     },
@@ -129,24 +105,11 @@ export const OcclusionMaskModal = ({
 
   // Mutation for clearing all masks
   const clearMasksMutation = useMutation({
-    mutationFn: ({
-      cameraName,
-      angleOfView,
-    }: {
-      cameraName: string;
-      angleOfView: number;
-    }) => {
-      clearOcclusionMasks(cameraName, angleOfView);
-      return Promise.resolve();
-    },
+    mutationFn: ({ poseId }: { poseId: number }) =>
+      deleteAllOcclusionMasksByPose(poseId),
     onSuccess: () => {
-      // Invalidate and refetch occlusion masks
       void queryClient.invalidateQueries({
-        queryKey: [
-          'occlusionMasks',
-          sequence.camera?.name,
-          sequence.camera?.angle_of_view,
-        ],
+        queryKey: ['occlusionMasks', sequence.poseId],
       });
     },
   });
@@ -161,29 +124,19 @@ export const OcclusionMaskModal = ({
     : null;
 
   const handleConfirmSelection = () => {
-    if (
-      !proposedBbox ||
-      !sequence.camera?.name ||
-      sequence.camera.angle_of_view === null
-    ) {
-      return;
-    }
+    if (!proposedBbox || !sequence.poseId) return;
 
     addMaskMutation.mutate({
-      cameraName: sequence.camera.name,
-      angleOfView: sequence.camera.angle_of_view,
+      poseId: sequence.poseId,
       bbox: proposedBbox,
     });
   };
 
   const handleDeleteAll = () => {
-    if (!sequence.camera?.name || sequence.camera.angle_of_view === null) {
-      return;
-    }
+    if (!sequence.poseId) return;
 
     clearMasksMutation.mutate({
-      cameraName: sequence.camera.name,
-      angleOfView: sequence.camera.angle_of_view,
+      poseId: sequence.poseId,
     });
   };
 
