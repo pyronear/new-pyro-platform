@@ -86,16 +86,6 @@ export const AlertInfos = ({
             >
               {formatPosition(sequence.camera?.lat, sequence.camera?.lon)}
             </AlertInfosSection>
-            {alert.eventSmokeLocation && (
-              <AlertInfosSection
-                title={t('subtitleSmokeLocalisation')}
-                withTextToCopy={formatPositionWithoutTronc(
-                  ...alert.eventSmokeLocation
-                )}
-              >
-                {formatPosition(...alert.eventSmokeLocation)}
-              </AlertInfosSection>
-            )}
           </Grid>
           <Grid container flexGrow={1} minHeight={200}>
             <AlertMap alert={alert} />

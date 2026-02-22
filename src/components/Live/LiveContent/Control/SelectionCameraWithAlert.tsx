@@ -73,11 +73,6 @@ export const SelectionCameraWithAlert = ({
               currentSequence.camera?.lon
             )}
           </LiveAlertInfosSection>
-          {alert.eventSmokeLocation && (
-            <LiveAlertInfosSection title={t('subtitleSmokeLocalisation')}>
-              {formatPosition(...alert.eventSmokeLocation)}
-            </LiveAlertInfosSection>
-          )}
         </Box>
       )}
     </>

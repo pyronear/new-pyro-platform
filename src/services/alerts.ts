@@ -8,17 +8,12 @@ const apiSequenceResponseSchema = z.object({
   id: z.number(),
   camera_id: z.number(),
   pose_id: z.nullable(z.number()),
-  azimuth: z.nullable(z.number()),
-  cone_azimuth: z.number(),
+  camera_azimuth: z.nullable(z.number()),
+  sequence_azimuth: z.number(),
   cone_angle: z.number(),
   is_wildfire: z.nullable(z.string()),
   started_at: z.nullable(z.iso.datetime({ local: true })),
   last_seen_at: z.nullable(z.string()),
-  event_groups: z.union([z.undefined(), z.array(z.array(z.number()))]),
-  event_smoke_locations: z.union([
-    z.undefined(),
-    z.array(z.tuple([z.number(), z.number()])),
-  ]),
 });
 
 const apiDetectionResponseSchema = z.object({

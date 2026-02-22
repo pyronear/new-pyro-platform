@@ -5,7 +5,6 @@ import L from 'leaflet';
 import { Fragment, useEffect, useMemo, useState } from 'react';
 
 import CameraMarkerMap from '@/components/Common/Map/CameraMarkerMap';
-import FirePositionMarkerMap from '@/components/Common/Map/FirePositionMarkerMap';
 import { SequencePolygon } from '@/components/Common/Map/SequencePolygon';
 import TemplateMap from '@/components/Common/Map/TemplateMap';
 import type { AlertType, SequenceWithCameraInfoType } from '@/utils/alerts';
@@ -88,9 +87,6 @@ const AlertMap = ({ alert, height = '100%' }: AlertMap) => {
             <CameraMarkerMap camera={sequence.camera} />
           </Fragment>
         ))}
-        {sequencesWithPolygons.length > 1 && (
-          <FirePositionMarkerMap alert={alert} />
-        )}
       </TemplateMap>
       <Box
         sx={{

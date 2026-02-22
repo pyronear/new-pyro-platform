@@ -1,4 +1,4 @@
-import { difference, isEmpty, uniqWith } from 'lodash';
+import { uniqWith } from 'lodash';
 import { DateTime } from 'luxon';
 
 import type { SequenceType } from '../services/alerts';
@@ -9,7 +9,6 @@ export interface AlertType {
   id: string; // Concat of all the sequences id
   startedAt: string | null; // Start date of the main sequence
   sequences: SequenceWithCameraInfoType[]; // List of grouped sequences
-  eventSmokeLocation?: [number, number];
 }
 
 export type LabelWildfireValues =
@@ -30,10 +29,6 @@ export interface SequenceWithCameraInfoType {
   labelWildfire: LabelWildfireValues;
 }
 
-/*
- * Its goal is to group sequences using their event_groups property which is returned by the API
- * This grouping should soon be done within the API, so this is kind of quick and dirty
- */
 export const convertSequencesToAlerts = (
   sequencesList: SequenceType[],
   camerasList: CameraType[]
@@ -49,11 +44,6 @@ export const convertSequencesToAlerts = (
       throw new Error('should never happen');
     }
     const oldestSequence = calculateOldestSequence(sequencesOfTheGroup);
-
-    const indexOfEventGroupsInTheOldestSequence =
-      oldestSequence.event_groups?.findIndex((eventGroup) =>
-        isSameArrayIgnoringOrder(eventGroup, idSequenceList)
-      );
 
     return {
       id: sequencesOfTheGroup
@@ -72,17 +62,11 @@ export const convertSequencesToAlerts = (
             null,
           startedAt: sequence.started_at,
           lastSeenAt: sequence.last_seen_at,
-          azimuth: sequence.azimuth,
-          coneAzimuth: sequence.cone_azimuth,
+          azimuth: sequence.camera_azimuth,
+          coneAzimuth: sequence.sequence_azimuth,
           coneAngle: sequence.cone_angle,
           labelWildfire: (sequence.is_wildfire as LabelWildfireValues) ?? null,
         })),
-      eventSmokeLocation:
-        indexOfEventGroupsInTheOldestSequence != undefined
-          ? oldestSequence.event_smoke_locations?.[
-              indexOfEventGroupsInTheOldestSequence
-            ]
-          : undefined,
     };
   });
 };
@@ -119,17 +103,15 @@ const formatOneCoordinate = (coordinate: number | undefined) => {
 };
 
 const isSameArrayIgnoringOrder = (arrayOne: number[], arrayTwo: number[]) => {
-  return (
-    arrayOne.length === arrayTwo.length &&
-    isEmpty(difference(arrayTwo.sort(), arrayOne.sort()))
-  );
+  if (arrayOne.length !== arrayTwo.length) return false;
+  const sorted1 = [...arrayOne].sort();
+  const sorted2 = [...arrayTwo].sort();
+  return sorted1.every((val, i) => val === sorted2[i]);
 };
 
 const calculateIdSequencesGrouped = (sequenceList: SequenceType[]) => {
   return uniqWith(
-    sequenceList.flatMap(
-      (sequence) => sequence.event_groups ?? [[sequence.id]]
-    ),
+    sequenceList.map((sequence) => [sequence.id]),
     isSameArrayIgnoringOrder
   );
 };
