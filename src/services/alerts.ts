@@ -19,9 +19,8 @@ const apiSequenceResponseSchema = z.object({
 const apiDetectionResponseSchema = z.object({
   id: z.number(),
   camera_id: z.number(),
-  azimuth: z.nullable(z.number()),
   bucket_key: z.string(),
-  bboxes: z.string(),
+  bbox: z.string(),
   created_at: z.iso.datetime({ local: true }),
   url: z.string(),
 });

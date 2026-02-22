@@ -86,7 +86,7 @@ export const getHighestConfidenceDetection = (
   let highestConfidence = -1; // Start with -1 to handle confidence of 0
 
   detections.forEach((detection) => {
-    const bboxes = parseBboxes(detection.bboxes);
+    const bboxes = parseBboxes(detection.bbox);
     bboxes.forEach((bbox) => {
       if (bbox.confidence >= highestConfidence) {
         // Use >= to handle 0 confidence
@@ -105,7 +105,7 @@ export const getHighestConfidenceDetection = (
 export const getHighestConfidenceBbox = (
   detection: DetectionType
 ): BboxType | null => {
-  const bboxes = parseBboxes(detection.bboxes);
+  const bboxes = parseBboxes(detection.bbox);
   if (bboxes.length === 0) {
     return null;
   }
