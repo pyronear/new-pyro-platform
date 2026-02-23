@@ -75,6 +75,7 @@ export const DashboardMapView = ({ cameraList }: ViewMapProps) => {
         {cameraList.length > 0 && (
           <CamerasMap
             cameras={cameraList}
+            selectedCameraId={selectedCameraId}
             setMapRef={setMapRef}
             markerRefs={markerRefs}
             onClickOnMarker={setSelectedCameraId}

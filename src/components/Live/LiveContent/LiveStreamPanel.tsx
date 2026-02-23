@@ -162,7 +162,6 @@ export const LiveStreamPanel = ({
               <QuickActions
                 cameraIp={ip}
                 poses={camera.poses ?? []}
-                azimuths={camera.azimuths ?? []}
                 speedName={SPEEDS[speedIndex].name}
                 nextSpeed={setNextSpeed}
               />

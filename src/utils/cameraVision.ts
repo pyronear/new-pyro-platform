@@ -55,7 +55,7 @@ export const buildVisionPolygon = (
   openingAngle: number,
   distKm: number
 ): LatLng[] => {
-  const center: LatLng = { lat: siteLat, lng: siteLon } as LatLng;
+  const center: LatLng = buildLatLongPoint(siteLat, siteLon);
 
   const nSteps = Math.max(1, Math.round(openingAngle));
 
@@ -76,6 +76,10 @@ export const buildVisionPolygon = (
   const points = [center, ...points1, ...points2.reverse()];
 
   return points;
+};
+
+export const buildLatLongPoint = (lat: number, lng: number) => {
+  return { lat, lng } as LatLng;
 };
 
 export const DEFAULT_CAM_RANGE_KM =
