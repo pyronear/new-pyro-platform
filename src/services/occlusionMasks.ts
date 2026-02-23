@@ -1,87 +1,66 @@
-import type { BboxType, OcclusionMask } from '../utils/occlusionMasks';
-import { getOcclusionMaskKey } from '../utils/occlusionMasks';
+import type { AxiosResponse } from 'axios';
+import * as z from 'zod/v4';
 
-/**
- * Get occlusion masks from localStorage for a specific camera and angle of view
- */
-export const getOcclusionMasks = (
-  cameraName: string,
-  angleOfView: number
-): OcclusionMask => {
-  const key = getOcclusionMaskKey(cameraName, angleOfView);
-  const stored = localStorage.getItem(`occlusion_mask_${key}`);
+import { apiInstance } from './axios';
 
-  if (!stored) {
-    return {};
-  }
+const occlusionMaskReadSchema = z.object({
+  id: z.number(),
+  pose_id: z.number(),
+  mask: z.string(),
+  created_at: z.iso.datetime({ local: true }),
+});
 
-  try {
-    const masks = JSON.parse(stored) as OcclusionMask;
+export type OcclusionMaskApiType = z.infer<typeof occlusionMaskReadSchema>;
 
-    // Filter out masks older than 120 days
-    const cutoffDate = new Date();
-    cutoffDate.setDate(cutoffDate.getDate() - 120);
+const occlusionMaskListResponseSchema = z.array(occlusionMaskReadSchema);
 
-    const filteredMasks: OcclusionMask = {};
-    Object.entries(masks).forEach(([timestamp, bbox]) => {
-      const maskDate = new Date(timestamp);
-      if (maskDate >= cutoffDate) {
-        filteredMasks[timestamp] = bbox;
-      }
+export const getOcclusionMasksByPose = async (
+  poseId: number
+): Promise<OcclusionMaskApiType[]> => {
+  return apiInstance
+    .get(`/api/v1/poses/${poseId.toString()}/occlusion_masks`)
+    .then((response: AxiosResponse) => {
+      const result = occlusionMaskListResponseSchema.safeParse(response.data);
+      return result.data ?? [];
+    })
+    .catch((err: unknown) => {
+      console.error(err);
+      throw err;
     });
-
-    return filteredMasks;
-  } catch (error) {
-    console.error('Error parsing occlusion masks from localStorage:', error);
-    return {};
-  }
 };
 
-/**
- * Save occlusion masks to localStorage for a specific camera and angle of view
- */
-export const saveOcclusionMasks = (
-  cameraName: string,
-  angleOfView: number,
-  masks: OcclusionMask
-): void => {
-  const key = getOcclusionMaskKey(cameraName, angleOfView);
-
-  try {
-    localStorage.setItem(`occlusion_mask_${key}`, JSON.stringify(masks));
-  } catch (error) {
-    console.error('Error saving occlusion masks to localStorage:', error);
-  }
+export const createOcclusionMask = async (
+  poseId: number,
+  mask: string
+): Promise<OcclusionMaskApiType> => {
+  return apiInstance
+    .post('/api/v1/occlusion_masks/', { pose_id: poseId, mask })
+    .then((response: AxiosResponse) => {
+      const result = occlusionMaskReadSchema.safeParse(response.data);
+      if (!result.success) {
+        throw new Error('INVALID_API_RESPONSE');
+      }
+      return result.data;
+    })
+    .catch((err: unknown) => {
+      console.error(err);
+      throw err;
+    });
 };
 
-/**
- * Add a new occlusion mask
- */
-export const addOcclusionMask = (
-  cameraName: string,
-  angleOfView: number,
-  bbox: BboxType
-): void => {
-  const currentMasks = getOcclusionMasks(cameraName, angleOfView);
-  const timestamp = new Date().toISOString().replace('T', ' ').substring(0, 19);
-
-  currentMasks[timestamp] = [
-    bbox.xmin,
-    bbox.ymin,
-    bbox.xmax,
-    bbox.ymax,
-    bbox.confidence,
-  ];
-
-  saveOcclusionMasks(cameraName, angleOfView, currentMasks);
+export const deleteOcclusionMask = async (maskId: number): Promise<void> => {
+  return apiInstance
+    .delete(`/api/v1/occlusion_masks/${maskId.toString()}`)
+    .then(() => undefined)
+    .catch((err: unknown) => {
+      console.error(err);
+      throw err;
+    });
 };
 
-/**
- * Clear all occlusion masks for a specific camera and angle of view
- */
-export const clearOcclusionMasks = (
-  cameraName: string,
-  angleOfView: number
-): void => {
-  saveOcclusionMasks(cameraName, angleOfView, {});
+export const deleteAllOcclusionMasksByPose = async (
+  poseId: number
+): Promise<void> => {
+  const masks = await getOcclusionMasksByPose(poseId);
+  await Promise.all(masks.map((mask) => deleteOcclusionMask(mask.id)));
 };
