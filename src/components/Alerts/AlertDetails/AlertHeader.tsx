@@ -1,6 +1,6 @@
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { IconButton, Stack, Typography } from '@mui/material';
-import type { Dispatch, SetStateAction } from 'react';
+import { type Dispatch, type SetStateAction } from 'react';
 
 import smallLogo from '@/assets/small-logo.png';
 import {
@@ -65,19 +65,22 @@ export const AlertHeader = ({
     <>
       {isMobile ? (
         <Stack spacing={1}>
-          <Stack direction="row" spacing={1} justifyContent="space-between">
+          <Stack
+            direction="row"
+            spacing={1}
+            alignItems="center"
+            flexWrap="wrap"
+          >
             <IconButton
               aria-label={t('titleButtonBackAlt')}
               onClick={resetAlert}
             >
               <ArrowBackIcon />
             </IconButton>
-            {SequenceSelectorComponent}
-          </Stack>
-
-          <Stack direction="row" flexWrap="wrap" spacing={2}>
             {Title}
+            {SequenceSelectorComponent}
             {SequenceLabel}
+            {SequenceSelectorComponent}
           </Stack>
         </Stack>
       ) : (

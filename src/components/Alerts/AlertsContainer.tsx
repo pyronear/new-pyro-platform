@@ -2,7 +2,8 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Slide from '@mui/material/Slide';
 import Typography from '@mui/material/Typography';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
+import { useSearchParams } from 'react-router-dom';
 
 import {
   type ResponseStatus,
@@ -10,7 +11,7 @@ import {
   STATUS_LOADING,
   STATUS_SUCCESS,
 } from '../../services/axios';
-import type { AlertType } from '../../utils/alerts';
+import { type AlertType, isInTheList } from '../../utils/alerts';
 import { useIsMobile } from '../../utils/useIsMobile';
 import { useTranslationPrefix } from '../../utils/useTranslationPrefix';
 import { Loader } from '../Common/Loader';
@@ -35,12 +36,29 @@ export const AlertsContainer = ({
   alertsList,
   hasNewSequence,
 }: AlertsContainerType) => {
-  const [selectedAlert, setSelectedAlert] = useState<AlertType | null>(null);
+  const [searchParams, setSearchParams] = useSearchParams();
   const isMobile = useIsMobile();
   const containerRef = useRef<HTMLElement>(null);
   const { t } = useTranslationPrefix('alerts');
-
   const { playSound } = useAlertSoundToggle();
+
+  const selectedAlert = useMemo(
+    () =>
+      alertsList.find((alert) => alert.id === searchParams.get('alert')) ??
+      null,
+    [alertsList, searchParams]
+  );
+
+  const setSelectedAlert = useCallback(
+    (alert: AlertType) => {
+      setSearchParams({ alert: alert.id });
+    },
+    [setSearchParams]
+  );
+
+  const resetSelectedAlert = useCallback(() => {
+    setSearchParams({});
+  }, [setSearchParams]);
 
   useEffect(() => {
     if (hasNewSequence) {
@@ -49,23 +67,29 @@ export const AlertsContainer = ({
   }, [hasNewSequence, playSound]);
 
   useEffect(() => {
-    const indexSelectedAlert = alertsList.findIndex(
-      (a) => a.id === selectedAlert?.id
-    );
-    if (!selectedAlert || indexSelectedAlert == -1) {
-      // Default : initial state or if the list changes and the alert doesn't exist anymore
+    // Default : initial state or if the list changes and the alert doesn't exist anymore
+    if (!selectedAlert || !isInTheList(alertsList, selectedAlert)) {
       // In mobile, nothing is selected
       // In computer mode, the first in the list is selected
-      if (isMobile) {
-        setSelectedAlert(null);
-      } else {
-        setSelectedAlert(alertsList.length > 0 ? alertsList[0] : null);
+      if (isMobile || alertsList.length == 0) {
+        resetSelectedAlert();
+      } else if (alertsList.length > 0) {
+        setSelectedAlert(alertsList[0]);
       }
-    } else if (indexSelectedAlert != -1) {
+    } else if (isInTheList(alertsList, selectedAlert)) {
       // If the selected alert has changed, its data is updated
+      const indexSelectedAlert = alertsList.findIndex(
+        (a) => a.id === selectedAlert.id
+      );
       setSelectedAlert(alertsList[indexSelectedAlert]);
     }
-  }, [alertsList, isMobile, selectedAlert]);
+  }, [
+    alertsList,
+    isMobile,
+    resetSelectedAlert,
+    selectedAlert,
+    setSelectedAlert,
+  ]);
 
   const AlertsListComponent = (
     <AlertsList
@@ -82,9 +106,7 @@ export const AlertsContainer = ({
     <AlertContainer
       isLiveMode={true}
       alert={selectedAlert}
-      resetAlert={() => {
-        setSelectedAlert(null);
-      }}
+      resetAlert={resetSelectedAlert}
       invalidateAndRefreshData={invalidateAndRefreshData}
     />
   );
