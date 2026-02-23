@@ -1,18 +1,18 @@
 import MenuIcon from '@mui/icons-material/Menu';
 import {
   AppBar,
-  Grid,
   IconButton,
   Slide,
+  Stack,
   Toolbar,
   useScrollTrigger,
 } from '@mui/material';
 import { useState } from 'react';
 
 import logo from '@/assets/logo.svg';
+import { useAuth } from '@/context/useAuth';
+import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
-import { useAuth } from '../../context/useAuth';
-import { useTranslationPrefix } from '../../utils/useTranslationPrefix';
 import { MobileTopbarDrawer } from './MobileTopbarDrawer';
 
 export const MobileTopbar = () => {
@@ -34,16 +34,8 @@ export const MobileTopbar = () => {
       <Slide appear={false} direction="down" in={!shouldHideTopbar}>
         <AppBar>
           <Toolbar disableGutters>
-            <Grid
-              container
-              justifyContent="space-between"
-              sx={{
-                flexGrow: 1,
-                paddingX: '1rem',
-                alignItems: 'center',
-              }}
-            >
-              {isLoggedIn ? (
+            <Stack flexGrow={1} direction="row" paddingX="1rem">
+              {isLoggedIn && (
                 <IconButton
                   edge="start"
                   color="inherit"
@@ -55,10 +47,9 @@ export const MobileTopbar = () => {
                 >
                   <MenuIcon />
                 </IconButton>
-              ) : (
-                <img height="30px" src={logo} alt="Logo" />
               )}
-            </Grid>
+              <img height="30px" src={logo} alt="Logo" />
+            </Stack>
           </Toolbar>
         </AppBar>
       </Slide>

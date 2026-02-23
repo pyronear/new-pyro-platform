@@ -164,11 +164,20 @@ export const hasNewSequenceSince = (
   sequenceList: SequenceType[],
   previousDataUpdatedAt: number
 ) => {
+  if (previousDataUpdatedAt === 0) return false;
   return sequenceList.some((sequence) => {
     if (!sequence.started_at) {
       return false;
     }
     const sequenceCreationTime = convertIsoToUnix(sequence.started_at) * 1000;
-    return sequenceCreationTime >= previousDataUpdatedAt;
+    return sequenceCreationTime > previousDataUpdatedAt;
   });
+};
+
+export const isInTheList = (
+  alertsList: AlertType[],
+  alert: AlertType | null
+) => {
+  const indexSelectedAlert = alertsList.findIndex((a) => a.id === alert?.id);
+  return indexSelectedAlert != -1;
 };

@@ -78,7 +78,7 @@ export const AlertImages = ({ sequence }: AlertImagesType) => {
       link.rel = 'noopener noreferrer';
       document.body.appendChild(link);
       link.click();
-      document.body.removeChild(link);
+      link.remove();
     }
   };
 

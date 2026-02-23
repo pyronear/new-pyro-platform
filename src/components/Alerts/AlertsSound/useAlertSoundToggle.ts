@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useCallback, useRef } from 'react';
 
 import { usePreferences } from '@/context/usePreferences';
 import appConfig from '@/services/appConfig';
@@ -10,14 +10,14 @@ export const useAlertSoundToggle = () => {
   const isAlertSoundOn = preferences.audio.alertsEnabled;
   const audioRef = useRef<HTMLAudioElement>(new Audio(`/sounds/${SOUND_FILE}`));
 
-  const playSound = () => {
+  const playSound = useCallback(() => {
     if (isAlertSoundOn) {
       audioRef.current.currentTime = 0;
       void audioRef.current.play();
     } else {
       audioRef.current.pause();
     }
-  };
+  }, [isAlertSoundOn]);
 
   return { playSound };
 };
