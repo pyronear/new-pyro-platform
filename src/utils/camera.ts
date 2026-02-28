@@ -11,8 +11,6 @@ export interface CameraFullInfosType extends CameraType {
 
 export interface SiteType {
   id: string;
-  ip: string;
-  label: string;
   cameras: CameraFullInfosType[];
 }
 

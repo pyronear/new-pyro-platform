@@ -10,7 +10,6 @@ window.open = vi.fn();
 appConfig.getConfig = vi.fn().mockReturnValue({
   API_URL: 'https://example.com/api/',
   LIVE_STREAMING_MEDIA_URL: '',
-  LIVE_STREAMING_SITE_PORT: 0,
 
   LIVE_STREAMING_TIMEOUT_SECONDS: 30,
   CAMERAS_INACTIVITY_THRESHOLD_MINUTES: 30,

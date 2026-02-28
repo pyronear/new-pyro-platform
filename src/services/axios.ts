@@ -4,11 +4,7 @@ import appConfig from '@/services/appConfig';
 
 export const apiInstance = axios.create({
   baseURL: appConfig.getConfig().API_URL,
-  timeout: 1000,
-});
-
-export const liveInstance = axios.create({
-  headers: {},
+  timeout: appConfig.getConfig().API_TIMEOUT_MS,
 });
 
 export const STATUS_SUCCESS = 'success';

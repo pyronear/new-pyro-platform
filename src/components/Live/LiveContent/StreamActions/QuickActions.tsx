@@ -22,14 +22,14 @@ import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 import { useActionsOnCamera } from '../../context/useActionsOnCamera';
 
 interface QuickActionsProps {
-  cameraIp: string;
+  cameraId: number;
   poses: PoseCameraType[];
   speedName: number;
   nextSpeed: () => void;
 }
 
 export const QuickActions = ({
-  cameraIp,
+  cameraId,
   poses,
   speedName,
   nextSpeed,
@@ -43,7 +43,7 @@ export const QuickActions = ({
   const onClickDirection = (pose: number) => {
     addStreamingAction({
       type: 'MOVE',
-      ip: cameraIp,
+      id: cameraId,
       params: { move: { poseId: pose } },
     });
   };
@@ -54,7 +54,7 @@ export const QuickActions = ({
       const move = getMoveToAzimuth(azimuthToGoInt, poses) ?? undefined;
       addStreamingAction({
         type: 'MOVE_TO_AZIMUTH',
-        ip: cameraIp,
+        id: cameraId,
         params: { move },
       });
     }

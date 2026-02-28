@@ -28,7 +28,7 @@ import { QuickActions } from './StreamActions/QuickActions';
 
 interface LiveStreamPanelProps {
   urlStreaming: string;
-  camera: CameraFullInfosType | null;
+  camera: CameraFullInfosType;
   alert?: AlertType;
   setIsStreamVideoInterrupted: Dispatch<SetStateAction<boolean>>;
 }
@@ -40,10 +40,10 @@ export const LiveStreamPanel = ({
   alert,
 }: LiveStreamPanelProps) => {
   const [speedIndex, setSpeedIndex] = useState(1);
-  const ip = camera?.ip ?? '';
+  const id = camera.id;
   const { t } = useTranslationPrefix('live');
   const refVideo = useRef<HTMLVideoElement>(null);
-  const mediaMtx = useMediaMtx({ urlStreaming, refVideo, ip });
+  const mediaMtx = useMediaMtx({ urlStreaming, refVideo, id: camera.id });
   const { addStreamingAction, isStreamingTimeout, statusStreamingVideo } =
     useActionsOnCamera();
 
@@ -60,31 +60,31 @@ export const LiveStreamPanel = ({
     mediaMtx.restart();
     addStreamingAction({
       type: 'START_STREAMING',
-      ip,
+      id,
       params: { hasRotation, move: initialMove ?? undefined },
     });
   };
 
-  const hasRotation = calculateHasRotation(camera?.type);
+  const hasRotation = calculateHasRotation(camera.type);
 
   useEffect(() => {
-    if (ip) {
+    if (id) {
       addStreamingAction({
         type: 'START_STREAMING',
-        ip,
+        id,
         params: { hasRotation, move: initialMove ?? undefined },
       });
     }
     return () => {
-      if (ip) {
+      if (id) {
         addStreamingAction({
           type: 'STOP_STREAMING',
-          ip,
+          id,
           params: { hasRotation },
         });
       }
     };
-  }, [hasRotation, initialMove, ip, addStreamingAction]);
+  }, [hasRotation, initialMove, id, addStreamingAction]);
 
   useEffect(() => {
     setIsStreamVideoInterrupted(mediaMtxInterrupted);
@@ -150,8 +150,8 @@ export const LiveStreamPanel = ({
             {statusStreamingVideo === STATUS_SUCCESS &&
               mediaMtx.state === StateStreaming.IS_STREAMING && (
                 <FloatingActions
-                  cameraIp={ip}
-                  cameraType={camera?.type}
+                  cameraId={id}
+                  cameraType={camera.type}
                   speed={SPEEDS[speedIndex].speed}
                 />
               )}
@@ -160,7 +160,7 @@ export const LiveStreamPanel = ({
             hasRotation &&
             mediaMtx.state === StateStreaming.IS_STREAMING && (
               <QuickActions
-                cameraIp={ip}
+                cameraId={id}
                 poses={camera.poses ?? []}
                 speedName={SPEEDS[speedIndex].name}
                 nextSpeed={setNextSpeed}

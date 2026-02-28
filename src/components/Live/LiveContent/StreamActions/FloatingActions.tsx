@@ -6,13 +6,13 @@ import { NavigationButtons } from './NavigationButtons';
 import { ZoomButtons } from './ZoomButtons';
 
 interface FloatingActionsProps {
-  cameraIp: string;
+  cameraId: number;
   cameraType?: string;
   speed: number;
 }
 
 export const FloatingActions = ({
-  cameraIp,
+  cameraId,
   cameraType = '',
   speed,
 }: FloatingActionsProps) => {
@@ -25,9 +25,9 @@ export const FloatingActions = ({
       spacing={1}
     >
       {calculateHasRotation(cameraType) && (
-        <NavigationButtons cameraIp={cameraIp} speed={speed} />
+        <NavigationButtons cameraId={cameraId} speed={speed} />
       )}
-      {calculateHasZoom(cameraType) && <ZoomButtons cameraIp={cameraIp} />}
+      {calculateHasZoom(cameraType) && <ZoomButtons cameraId={cameraId} />}
     </Stack>
   );
 };
