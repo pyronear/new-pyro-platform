@@ -10,7 +10,7 @@ export interface StreamingAction {
     | 'MOVE_TO_AZIMUTH'
     | 'STOP'
     | 'ZOOM';
-  ip: string;
+  id: number;
   params: {
     hasRotation?: boolean;
     move?: MovementCommand;

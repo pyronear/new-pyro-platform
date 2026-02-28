@@ -3,7 +3,7 @@ import * as z from 'zod/v4';
 
 import type { MovementCommand } from '@/utils/live';
 
-import { liveInstance } from './axios';
+import { apiInstance } from './axios';
 
 const apiCameraInfosResponseSchema = z.object({
   ip: z.string(),
@@ -22,9 +22,11 @@ const apiCamerasInfosResponseSchema = z.object({
 
 export type CameraInfosFromPi = z.infer<typeof apiCameraInfosResponseSchema>;
 
-export const getCamerasInfos = async (): Promise<CameraInfosFromPi[]> => {
-  return liveInstance
-    .get('/cameras/camera_infos')
+export const getCamerasInfos = async (
+  cameraId: number
+): Promise<CameraInfosFromPi[]> => {
+  return apiInstance
+    .get(`/api/v1/cameras/${cameraId}/camera_infos`)
     .then((response: AxiosResponse) => {
       try {
         const result = apiCamerasInfosResponseSchema.safeParse(response.data);
@@ -39,9 +41,9 @@ export const getCamerasInfos = async (): Promise<CameraInfosFromPi[]> => {
     });
 };
 
-export const startStreaming = async (cameraIp: string): Promise<void> => {
-  return liveInstance
-    .post(`/stream/start_stream/${cameraIp}`)
+export const startStreaming = async (cameraId: number): Promise<void> => {
+  return apiInstance
+    .post(`/api/v1/cameras/${cameraId}/stream/start`)
     .then(() => {
       return;
     })
@@ -51,9 +53,9 @@ export const startStreaming = async (cameraIp: string): Promise<void> => {
     });
 };
 
-export const stopStreaming = async (): Promise<void> => {
-  return liveInstance
-    .post('/stream/stop_stream')
+export const stopStreaming = async (cameraId: number): Promise<void> => {
+  return apiInstance
+    .post(`/api/v1/cameras/${cameraId}/stream/stop`)
     .then(() => {
       return;
     })
@@ -62,9 +64,9 @@ export const stopStreaming = async (): Promise<void> => {
       throw err;
     });
 };
-const startPatrol = async (cameraIp: string): Promise<void> => {
-  return liveInstance
-    .post('/patrol/start_patrol', null, { params: { camera_ip: cameraIp } })
+const startPatrol = async (cameraId: number): Promise<void> => {
+  return apiInstance
+    .post(`/api/v1/cameras/${cameraId}/patrol/start`)
     .then(() => {
       return;
     })
@@ -74,9 +76,9 @@ const startPatrol = async (cameraIp: string): Promise<void> => {
     });
 };
 
-const stopPatrol = async (cameraIp: string): Promise<void> => {
-  return liveInstance
-    .post('/patrol/stop_patrol', null, { params: { camera_ip: cameraIp } })
+const stopPatrol = async (cameraId: number): Promise<void> => {
+  return apiInstance
+    .post(`/api/v1/cameras/${cameraId}/patrol/stop`)
     .then(() => {
       return;
     })
@@ -87,23 +89,23 @@ const stopPatrol = async (cameraIp: string): Promise<void> => {
 };
 
 export const stopPatrolThenStartStreaming = async (
-  cameraIp: string
+  cameraId: number
 ): Promise<void> => {
-  return stopPatrol(cameraIp).then(() => startStreaming(cameraIp));
+  return stopPatrol(cameraId).then(() => startStreaming(cameraId));
 };
 
 export const stopStreamingThenStartPatrol = async (
-  cameraIp: string
+  cameraId: number
 ): Promise<void> => {
-  return stopStreaming().then(() => startPatrol(cameraIp));
+  return stopStreaming(cameraId).then(() => startPatrol(cameraId));
 };
 
 export const zoomCamera = async (
-  cameraIp: string,
+  cameraId: number,
   level: number
 ): Promise<void> => {
-  return liveInstance
-    .post(`/control/zoom/${cameraIp}/${level}`)
+  return apiInstance
+    .post(`/api/v1/cameras/${cameraId}/control/zoom/${level}`)
     .then(() => {
       return;
     })
@@ -116,16 +118,16 @@ export const zoomCamera = async (
 export type CameraDirectionType = 'Up' | 'Down' | 'Left' | 'Right';
 
 export const moveCamera = async (
-  cameraIp: string,
+  cameraId: number,
   direction?: CameraDirectionType,
   speed?: number,
   poseId?: number,
   degrees?: number
 ): Promise<void> => {
-  return liveInstance
-    .post('/control/move', null, {
+  return apiInstance
+    .post(`/api/v1/cameras/${cameraId}/control/move`, null, {
       params: {
-        camera_ip: cameraIp,
+        camera_ip: cameraId,
         direction,
         speed,
         pose_id: poseId,
@@ -142,11 +144,11 @@ export const moveCamera = async (
 };
 
 export const moveCameraToAAzimuth = async (
-  cameraIp: string,
+  cameraId: number,
   move: MovementCommand
 ) => {
   return moveCamera(
-    cameraIp,
+    cameraId,
     undefined,
     undefined,
     move.poseId,
@@ -154,7 +156,7 @@ export const moveCameraToAAzimuth = async (
   ).then(() => {
     if (move.degrees !== 0) {
       return moveCamera(
-        cameraIp,
+        cameraId,
         move.direction,
         move.speed,
         undefined,
@@ -164,9 +166,9 @@ export const moveCameraToAAzimuth = async (
   });
 };
 
-export const stopCamera = async (cameraIp: string): Promise<void> => {
-  return liveInstance
-    .post(`/control/stop/${cameraIp}`)
+export const stopCamera = async (cameraId: number): Promise<void> => {
+  return apiInstance
+    .post(`/api/v1/cameras/${cameraId}/control/stop`)
     .then(() => {
       return;
     })
@@ -190,24 +192,5 @@ export const getLiveAccess = async (username: string): Promise<string[]> => {
         return result.data[username] ?? [];
       }
       return [];
-    });
-};
-
-const apiSiteResponseSchema = z.object({
-  ip: z.string(),
-  name: z.string(),
-});
-export type SiteInfos = z.infer<typeof apiSiteResponseSchema>;
-const apiSitesInfosResponseSchema = z.record(z.string(), apiSiteResponseSchema);
-
-export const getSitesInfos = async (): Promise<Record<string, SiteInfos>> => {
-  return fetch(`/config/${import.meta.env.VITE_FILE_SITES_INFOS}`)
-    .then((r) => r.json())
-    .then((response) => {
-      const result = apiSitesInfosResponseSchema.safeParse(response);
-      if (result.success) {
-        return result.data;
-      }
-      return {};
     });
 };

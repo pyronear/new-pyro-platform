@@ -10,12 +10,12 @@ import { type CameraDirectionType } from '@/services/live';
 import { useActionsOnCamera } from '../../context/useActionsOnCamera';
 
 interface NavigationButtonsProps {
-  cameraIp: string;
+  cameraId: number;
   speed: number;
 }
 
 export const NavigationButtons = ({
-  cameraIp,
+  cameraId,
   speed,
 }: NavigationButtonsProps) => {
   const { addStreamingAction } = useActionsOnCamera();
@@ -23,7 +23,7 @@ export const NavigationButtons = ({
   const onClickMove = (direction: CameraDirectionType) => {
     addStreamingAction({
       type: 'MOVE',
-      ip: cameraIp,
+      id: cameraId,
       params: { move: { direction, speed } },
     });
   };
@@ -31,7 +31,7 @@ export const NavigationButtons = ({
   const onClickStop = () => {
     addStreamingAction({
       type: 'STOP',
-      ip: cameraIp,
+      id: cameraId,
       params: {},
     });
   };

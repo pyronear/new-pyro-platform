@@ -1,5 +1,5 @@
 {
   "st-peray": ["st-peray"],
-  "test07": ["brison", "serre-de-barre"],
+  "test07": ["brison", "serre-de-barre", "st-peray"],
   "test77": ["croix-augas", "videlles", "moret-sur-loing", "nemours"]
 }

@@ -11,7 +11,7 @@ import { MediaMTXWebRTCReader } from './reader';
 interface StreamVideoProps {
   urlStreaming: string;
   refVideo: RefObject<HTMLVideoElement | null>;
-  ip: string;
+  id: number;
 }
 
 export const StateStreaming = {
@@ -24,7 +24,7 @@ export const StateStreaming = {
 export const useMediaMtx = ({
   urlStreaming,
   refVideo,
-  ip,
+  id,
 }: StreamVideoProps) => {
   const [state, setState] = useState<number>(StateStreaming.IN_CREATION);
 
@@ -66,17 +66,17 @@ export const useMediaMtx = ({
 
   useEffect(() => {
     // Clean up reader
-    if (reader && ip) {
+    if (reader && id) {
       setState(StateStreaming.IN_CREATION);
       reader.start();
     }
     return () => {
-      if (reader && ip) {
+      if (reader && id) {
         setState(StateStreaming.STOPPED);
         reader.close();
       }
     };
-  }, [reader, ip]);
+  }, [reader, id]);
 
   return { state, restart };
 };

@@ -2,9 +2,8 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 export interface AppConfigType {
   readonly API_URL: string;
+  readonly API_TIMEOUT_MS: number;
   readonly LIVE_STREAMING_MEDIA_URL: string;
-  readonly LIVE_STREAMING_SITE_PORT: number;
-
   readonly LIVE_STREAMING_TIMEOUT_SECONDS: number;
 
   readonly CAMERAS_INACTIVITY_THRESHOLD_MINUTES: number;
@@ -25,9 +24,9 @@ export class AppConfig {
       // @ts-expect-error config is fetched from a JS file
       API_URL: window.AppConfig?.API_URL,
       // @ts-expect-error config is fetched from a JS file
-      LIVE_STREAMING_MEDIA_URL: window.AppConfig?.LIVE_STREAMING_MEDIA_URL,
+      API_TIMEOUT_MS: window.AppConfig?.API_TIMEOUT_MS,
       // @ts-expect-error config is fetched from a JS file
-      LIVE_STREAMING_SITE_PORT: window.AppConfig?.LIVE_STREAMING_SITE_PORT,
+      LIVE_STREAMING_MEDIA_URL: window.AppConfig?.LIVE_STREAMING_MEDIA_URL,
 
       LIVE_STREAMING_TIMEOUT_SECONDS:
         // @ts-expect-error config is fetched from a JS file

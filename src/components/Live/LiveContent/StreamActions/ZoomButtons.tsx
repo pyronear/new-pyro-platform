@@ -10,21 +10,21 @@ const MAX_ZOOM = 64;
 const STEP_ZOOM = 8;
 
 interface ZoomButtonsProps {
-  cameraIp: string;
+  cameraId: number;
 }
 
-export const ZoomButtons = ({ cameraIp }: ZoomButtonsProps) => {
+export const ZoomButtons = ({ cameraId }: ZoomButtonsProps) => {
   const { addStreamingAction } = useActionsOnCamera();
   const [zoom, setZoom] = useState(MIN_ZOOM);
 
   useEffect(() => {
     setZoom(MIN_ZOOM);
-  }, [cameraIp]);
+  }, [cameraId]);
 
   const onZoomFired = () => {
     addStreamingAction({
       type: 'ZOOM',
-      ip: cameraIp,
+      id: cameraId,
       params: { zoom },
     });
   };
