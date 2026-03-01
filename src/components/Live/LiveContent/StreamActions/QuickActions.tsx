@@ -15,6 +15,7 @@ import {
 } from '@mui/material';
 import { useState } from 'react';
 
+import type { PoseCameraType } from '@/services/camera';
 import { getMoveToAzimuth, isAzimuthValid } from '@/utils/live';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
@@ -22,8 +23,7 @@ import { useActionsOnCamera } from '../../context/useActionsOnCamera';
 
 interface QuickActionsProps {
   cameraIp: string;
-  poses: number[];
-  azimuths: number[];
+  poses: PoseCameraType[];
   speedName: number;
   nextSpeed: () => void;
 }
@@ -31,7 +31,6 @@ interface QuickActionsProps {
 export const QuickActions = ({
   cameraIp,
   poses,
-  azimuths,
   speedName,
   nextSpeed,
 }: QuickActionsProps) => {
@@ -52,8 +51,7 @@ export const QuickActions = ({
   const onClickAzimuth = () => {
     const azimuthToGoInt = Number(azimuthToGo);
     if (!Number.isNaN(azimuthToGoInt)) {
-      const move =
-        getMoveToAzimuth(azimuthToGoInt, azimuths, poses) ?? undefined;
+      const move = getMoveToAzimuth(azimuthToGoInt, poses) ?? undefined;
       addStreamingAction({
         type: 'MOVE_TO_AZIMUTH',
         ip: cameraIp,
@@ -86,11 +84,18 @@ export const QuickActions = ({
         <Stack direction="row" spacing={2} alignItems="center">
           <ExploreOutlinedIcon />
           <ButtonGroup>
-            {poses.map((pose, index) => (
-              <Button key={pose} onClick={() => onClickDirection(pose)}>
-                <Typography p="2px">{azimuths[index]}°</Typography>
-              </Button>
-            ))}
+            {poses
+              .filter((pose) => pose.patrol_id != null)
+              .map((pose) => (
+                <Button
+                  key={pose.id}
+                  onClick={() =>
+                    pose.patrol_id && onClickDirection(pose.patrol_id)
+                  }
+                >
+                  <Typography p="2px">{pose.azimuth}°</Typography>
+                </Button>
+              ))}
           </ButtonGroup>
         </Stack>
       </Tooltip>
