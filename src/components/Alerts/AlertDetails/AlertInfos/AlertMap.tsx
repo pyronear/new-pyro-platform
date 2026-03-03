@@ -47,7 +47,7 @@ const AlertMap = ({ alert, height = '100%' }: AlertMap) => {
         visionPolygonPoints: buildVisionPolygon(
           seq.camera.lat,
           seq.camera.lon,
-          seq.coneAzimuth,
+          seq.azimuth,
           seq.coneAngle,
           DEFAULT_CAM_RANGE_KM
         ),

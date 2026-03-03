@@ -18,7 +18,7 @@ const parseDetectionBox = (
     return null;
   }
 
-  const match = /\(([^)]+)\)/.exec(detection.bboxes);
+  const match = /\(([^)]+)\)/.exec(detection.bbox);
   if (!match) {
     return null;
   }
