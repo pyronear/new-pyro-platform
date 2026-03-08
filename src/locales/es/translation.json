@@ -37,7 +37,20 @@
     "titleImage": "Última imagen de la cámara",
     "inactiveCameraMsg": "Cámara inactiva",
     "liveButton": "Iniciar transmisión en directo",
-    "maskButton": "Gestionar máscaras de oclusión "
+    "maskButton": "Gestionar máscaras de oclusión",
+    "occlusionMask": {
+      "selectPose": "Seleccionar pose",
+      "masksCount_one": "{{count}} máscara",
+      "masksCount_other": "{{count}} máscaras",
+      "noMasks": "Sin máscaras para esta pose",
+      "noPoses": "No hay poses disponibles para esta cámara",
+      "noImage": "No hay imagen disponible para esta pose",
+      "deleteAllButton": "Eliminar todas las máscaras",
+      "deleteHint": "Haga clic en una máscara para eliminarla",
+      "closeButton": "Cerrar",
+      "loading": "Cargando...",
+      "poseImageAlt": "Imagen de la pose"
+    }
   },
   "alerts": {
     "titleListSimple": "alerta a tratar",
