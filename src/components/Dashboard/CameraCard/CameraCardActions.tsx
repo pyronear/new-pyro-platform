@@ -12,18 +12,20 @@ import {
 } from '@mui/material';
 import { useState } from 'react';
 
+import { ModalOcclusionMaskWrapper } from '@/components/Dashboard/OcclusionMaskModal/ModalOcclusionMaskWrapper';
 import { ModalLiveWrapper } from '@/components/Live/ModalLiveWrapper';
+import type { CameraType } from '@/services/camera';
 import { useIsMobile } from '@/utils/useIsMobile';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
 interface CameraCardActionsProps {
   isOneIcon?: boolean;
-  cameraName: string;
+  camera: CameraType;
 }
 
 export const CameraCardActions = ({
   isOneIcon,
-  cameraName,
+  camera,
 }: CameraCardActionsProps) => {
   const isMobile = useIsMobile();
   const { t } = useTranslationPrefix('dashboard');
@@ -60,7 +62,7 @@ export const CameraCardActions = ({
               },
             }}
           >
-            <ModalLiveWrapper cameraName={cameraName}>
+            <ModalLiveWrapper cameraName={camera.name}>
               {(onClick) => (
                 <MenuItem onClick={onClick} disabled={isMobile}>
                   <ListItemIcon>
@@ -70,17 +72,21 @@ export const CameraCardActions = ({
                 </MenuItem>
               )}
             </ModalLiveWrapper>
-            <MenuItem disabled>
-              <ListItemIcon>
-                <PictureInPictureAltIcon />
-              </ListItemIcon>
-              <ListItemText primary={t('maskButton')} />
-            </MenuItem>
+            <ModalOcclusionMaskWrapper camera={camera}>
+              {(onClick) => (
+                <MenuItem onClick={onClick}>
+                  <ListItemIcon>
+                    <PictureInPictureAltIcon />
+                  </ListItemIcon>
+                  <ListItemText primary={t('maskButton')} />
+                </MenuItem>
+              )}
+            </ModalOcclusionMaskWrapper>
           </Menu>
         </>
       ) : (
         <Stack spacing={1}>
-          <ModalLiveWrapper cameraName={cameraName}>
+          <ModalLiveWrapper cameraName={camera.name}>
             {(onClick) => (
               <Tooltip title={t('liveButton')}>
                 <IconButton disabled={isMobile} onClick={onClick}>
@@ -89,11 +95,15 @@ export const CameraCardActions = ({
               </Tooltip>
             )}
           </ModalLiveWrapper>
-          <Tooltip title={t('maskButton')}>
-            <IconButton disabled>
-              <PictureInPictureAltIcon />
-            </IconButton>
-          </Tooltip>
+          <ModalOcclusionMaskWrapper camera={camera}>
+            {(onClick) => (
+              <Tooltip title={t('maskButton')}>
+                <IconButton onClick={onClick}>
+                  <PictureInPictureAltIcon />
+                </IconButton>
+              </Tooltip>
+            )}
+          </ModalOcclusionMaskWrapper>
         </Stack>
       )}
     </>
