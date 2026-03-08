@@ -37,7 +37,20 @@
     "titleImage": "Dernière image de la caméra",
     "inactiveCameraMsg": "Caméra inactive",
     "liveButton": "Activer la levée de doute",
-    "maskButton": "Gérer les masques d'occlusion"
+    "maskButton": "Gérer les masques d'occlusion",
+    "occlusionMask": {
+      "selectPose": "Sélectionner la pose",
+      "masksCount_one": "{{count}} masque",
+      "masksCount_other": "{{count}} masques",
+      "noMasks": "Aucun masque pour cette pose",
+      "noPoses": "Aucune pose disponible pour cette caméra",
+      "noImage": "Aucune image disponible pour cette pose",
+      "deleteAllButton": "Supprimer tous les masques",
+      "deleteHint": "Cliquez sur un masque pour le supprimer",
+      "closeButton": "Fermer",
+      "loading": "Chargement...",
+      "poseImageAlt": "Image de la pose"
+    }
   },
   "alerts": {
     "titleListSimple": "alerte à traiter",

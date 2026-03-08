@@ -37,7 +37,20 @@
     "titleImage": "Last image from the camera",
     "inactiveCameraMsg": "Inactive camera",
     "liveButton": "Start live streaming",
-    "maskButton": "Manage occlusion masks"
+    "maskButton": "Manage occlusion masks",
+    "occlusionMask": {
+      "selectPose": "Select pose",
+      "masksCount_one": "{{count}} mask",
+      "masksCount_other": "{{count}} masks",
+      "noMasks": "No masks for this pose",
+      "noPoses": "No poses available for this camera",
+      "noImage": "No image available for this pose",
+      "deleteAllButton": "Delete all masks",
+      "deleteHint": "Click a mask to delete it",
+      "closeButton": "Close",
+      "loading": "Loading...",
+      "poseImageAlt": "Pose image"
+    }
   },
   "alerts": {
     "titleListSimple": "alert to treat",
