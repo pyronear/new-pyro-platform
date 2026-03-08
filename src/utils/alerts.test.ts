@@ -84,16 +84,17 @@ describe('extractCameraListFromAlert', () => {
       sequences: [
         {
           id: 1,
+          poseId: null,
           camera: camera1,
           lastSeenAt: null,
           azimuth: 0,
-
           coneAngle: 0,
           labelWildfire: null,
           startedAt: null,
         },
         {
           id: 2,
+          poseId: null,
           camera: camera2,
           lastSeenAt: null,
           azimuth: 0,
@@ -144,7 +145,6 @@ describe('hasNewSequenceSince', () => {
       [
         {
           id: 1,
-
           started_at: '2025-02-25T05:37:03',
           sequences: [],
           organization_id: 0,

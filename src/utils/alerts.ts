@@ -19,6 +19,7 @@ export type LabelWildfireValues =
 
 export interface SequenceWithCameraInfoType {
   id: number;
+  poseId: number | null;
   camera: CameraType | null;
   startedAt: string | null;
   lastSeenAt: string | null;
@@ -46,6 +47,7 @@ export const mapAlertTypeApiToAlertType = (
         .sort((s1, s2) => (getDateOrNowNb(s1) > getDateOrNowNb(s2) ? 1 : -1))
         .map((sequence) => ({
           id: sequence.id,
+          poseId: sequence.pose_id,
           camera:
             camerasList.find((camera) => camera.id == sequence.camera_id) ??
             null,

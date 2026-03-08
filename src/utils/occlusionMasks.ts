@@ -1,6 +1,5 @@
 import type { DetectionType } from '../services/alerts';
-
-export type OcclusionMask = Record<string, number[]>; // [xmin, ymin, xmax, ymax, confidence]
+import type { OcclusionMaskApiType } from '../services/occlusionMasks';
 
 export interface BboxType {
   xmin: number;
@@ -10,28 +9,28 @@ export interface BboxType {
   confidence: number;
 }
 
-/**
- * Get the camera prefix name from the camera name
- * Example: "nemours-01" -> "nemours"
- */
-export const getCameraPrefixName = (cameraName: string): string => {
-  const lastDashIndex = cameraName.lastIndexOf('-');
-  if (lastDashIndex === -1) {
-    return cameraName;
-  }
-  return cameraName.substring(0, lastDashIndex);
+export const parseApiMask = (mask: string): BboxType | null => {
+  const match = /^\(([^)]+)\)$/.exec(mask);
+  if (!match) return null;
+
+  const values = match[1].split(',').map((v) => parseFloat(v.trim()));
+  if (values.length !== 4 || values.some(isNaN)) return null;
+
+  return {
+    xmin: values[0],
+    ymin: values[1],
+    xmax: values[2],
+    ymax: values[3],
+    confidence: 0,
+  };
 };
 
 /**
- * Generate the occlusion mask file key for localStorage
- * Format: "CAMERA_PREFIX_NAME" + "_" + "CAMERA_ANGLE_OF_VIEW"
+ * API validates with a regex that only allows 3 decimals
  */
-export const getOcclusionMaskKey = (
-  cameraName: string,
-  angleOfView: number
-): string => {
-  const prefixName = getCameraPrefixName(cameraName);
-  return `${prefixName}_${angleOfView}`;
+export const formatBboxToApiMask = (bbox: BboxType): string => {
+  const round = (v: number) => parseFloat(v.toFixed(3));
+  return `(${round(bbox.xmin)},${round(bbox.ymin)},${round(bbox.xmax)},${round(bbox.ymax)})`;
 };
 
 /**
@@ -153,25 +152,49 @@ export const doBboxesOverlap = (bbox1: BboxType, bbox2: BboxType): boolean => {
   );
 };
 
-/**
- * Get non-overlapping occlusion masks (most recent takes precedence)
- */
-export const getNonOverlappingMasks = (masks: OcclusionMask): BboxType[] => {
-  const maskEntries = Object.entries(masks).sort(
-    ([timestampA], [timestampB]) =>
-      new Date(timestampB).getTime() - new Date(timestampA).getTime()
+export interface MaskWithId extends BboxType {
+  maskId: number;
+}
+
+export const getNonOverlappingMasksWithIds = (
+  masks: OcclusionMaskApiType[]
+): MaskWithId[] => {
+  const sorted = [...masks].sort(
+    (a, b) =>
+      new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+  );
+
+  const result: MaskWithId[] = [];
+
+  sorted.forEach((apiMask) => {
+    const bbox = parseApiMask(apiMask.mask);
+    if (!bbox) return;
+
+    const overlaps = result.some((existingBbox) =>
+      doBboxesOverlap(bbox, existingBbox)
+    );
+
+    if (!overlaps) {
+      result.push({ ...bbox, maskId: apiMask.id });
+    }
+  });
+
+  return result;
+};
+
+export const getNonOverlappingMasks = (
+  masks: OcclusionMaskApiType[]
+): BboxType[] => {
+  const sorted = [...masks].sort(
+    (a, b) =>
+      new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
   );
 
   const result: BboxType[] = [];
 
-  maskEntries.forEach(([, bboxArray]) => {
-    const bbox: BboxType = {
-      xmin: bboxArray[0],
-      ymin: bboxArray[1],
-      xmax: bboxArray[2],
-      ymax: bboxArray[3],
-      confidence: bboxArray[4],
-    };
+  sorted.forEach((apiMask) => {
+    const bbox = parseApiMask(apiMask.mask);
+    if (!bbox) return;
 
     const overlaps = result.some((existingBbox) =>
       doBboxesOverlap(bbox, existingBbox)
