@@ -11,6 +11,7 @@ import {
 } from '@mui/material';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
+import { BboxOverlay } from '@/components/Common/BboxOverlay';
 import { getDetectionsBySequence } from '@/services/alerts';
 import {
   createOcclusionMask,
@@ -27,33 +28,6 @@ import {
   getNonOverlappingMasks,
 } from '@/utils/occlusionMasks';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
-
-interface BboxOverlayProps {
-  bbox: BboxType;
-  color: 'red' | 'green';
-}
-
-const BboxOverlay = ({ bbox, color }: BboxOverlayProps) => {
-  const borderColor = color === 'red' ? '#f44336' : '#4caf50';
-  const backgroundColor =
-    color === 'red' ? 'rgba(244, 67, 54, 0.2)' : 'rgba(76, 175, 80, 0.2)';
-
-  return (
-    <Box
-      sx={{
-        position: 'absolute',
-        left: `${bbox.xmin * 100}%`,
-        top: `${bbox.ymin * 100}%`,
-        width: `${(bbox.xmax - bbox.xmin) * 100}%`,
-        height: `${(bbox.ymax - bbox.ymin) * 100}%`,
-        border: `2px solid ${borderColor}`,
-        backgroundColor,
-        pointerEvents: 'none',
-        zIndex: 1,
-      }}
-    ></Box>
-  );
-};
 
 interface OcclusionMaskModalProps {
   open: boolean;
