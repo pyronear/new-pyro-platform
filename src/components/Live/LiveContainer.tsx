@@ -68,6 +68,8 @@ export const LiveContainer = ({
       );
       if (newSelectedSite) {
         changeCamera(newSelectedSite, newSelectedCameraId);
+      } else {
+        console.error(`Camera ${cameraName} not found in user allowed sites`);
       }
     }
   }, [selectedSite, sites, cameraName]);
