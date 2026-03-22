@@ -80,7 +80,7 @@ export const getMoveToAzimuthFromAlert = (
   const sequence =
     alert && camera ? getSequenceByCameraId(alert, camera.id) : null;
   if (sequence) {
-    return getMoveToAzimuth(sequence.coneAzimuth, camera?.poses ?? []);
+    return getMoveToAzimuth(sequence.azimuth, camera?.poses ?? []);
   }
   return null;
 };

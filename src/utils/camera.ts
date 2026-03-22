@@ -125,7 +125,7 @@ export const buildPolygonFromSequence = (
     return buildVisionPolygon(
       sequence.camera.lat,
       sequence.camera.lon,
-      sequence.coneAzimuth,
+      sequence.azimuth,
       sequence.coneAngle,
       DEFAULT_CAM_RANGE_KM
     );
