@@ -6,6 +6,8 @@ See [Description](./docs/repo_documentation.md)
 
 ## Local setup
 
+_In case you just want to run the project with docker, follow [dedicated steps](#run-with-docker)._
+
 ### 1. Install nodejs
 
 The node version is specified in `./.nvmrc` file
@@ -77,6 +79,15 @@ pnpm run dev
 ```
 
 **Once the setup is done, next time you want to run the app, you need to execute only the last step**
+
+## Run with Docker
+
+1. Follow step 4 of the previous section " 4. Configure .env file"
+2. Run the project with
+
+```bash
+docker compose up -d
+```
 
 ## Contributing
 
