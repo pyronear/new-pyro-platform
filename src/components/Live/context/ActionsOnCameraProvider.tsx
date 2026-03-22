@@ -49,12 +49,12 @@ export const ActionsOnCameraContextProvider: React.FC<{
   const { mutateAsync: startStreamingMutate, status: statusStart } =
     useMutation({
       mutationFn: (params: {
-        ip: string;
+        id: number;
         hasRotation: boolean;
         initialMove?: MovementCommand;
       }) =>
         params.hasRotation
-          ? stopPatrolThenStartStreaming(params.ip).then(() => {
+          ? stopPatrolThenStartStreaming(params.id).then(() => {
               if (params.initialMove) {
                 // fix: wait a few seconds before calling for move
                 // (problem in the pi)
@@ -62,20 +62,20 @@ export const ActionsOnCameraContextProvider: React.FC<{
                   window.setTimeout(
                     () =>
                       params.initialMove &&
-                      moveCameraToAAzimuth(params.ip, params.initialMove),
+                      moveCameraToAAzimuth(params.id, params.initialMove),
                     TIME_BETWEEN_START_AND_MOVE_MS
                   )
                 );
               }
             })
-          : startStreaming(params.ip),
+          : startStreaming(params.id),
     });
 
   const { mutateAsync: stopStreamingMutate, status: statusStop } = useMutation({
-    mutationFn: (params: { ip: string; hasRotation: boolean }) =>
+    mutationFn: (params: { id: number; hasRotation: boolean }) =>
       params.hasRotation
-        ? stopStreamingThenStartPatrol(params.ip)
-        : stopStreaming(),
+        ? stopStreamingThenStartPatrol(params.id)
+        : stopStreaming(params.id),
   });
 
   const addActionToQueue = useCallback((newAction: StreamingAction) => {
@@ -106,18 +106,18 @@ export const ActionsOnCameraContextProvider: React.FC<{
       switch (action.type) {
         case 'START_STREAMING':
           return startStreamingMutate({
-            ip: action.ip,
+            id: action.id,
             hasRotation: action.params.hasRotation ?? false,
             initialMove: action.params.move,
           });
         case 'STOP_STREAMING':
           return stopStreamingMutate({
-            ip: action.ip,
+            id: action.id,
             hasRotation: action.params.hasRotation ?? false,
           });
         case 'MOVE':
           return moveCamera(
-            action.ip,
+            action.id,
             action.params.move?.direction,
             action.params.move?.speed,
             action.params.move?.poseId,
@@ -125,14 +125,14 @@ export const ActionsOnCameraContextProvider: React.FC<{
           );
         case 'MOVE_TO_AZIMUTH':
           if (action.params.move != undefined) {
-            return moveCameraToAAzimuth(action.ip, action.params.move);
+            return moveCameraToAAzimuth(action.id, action.params.move);
           }
           return Promise.resolve();
         case 'STOP':
-          return stopCamera(action.ip);
+          return stopCamera(action.id);
         case 'ZOOM':
           if (action.params.zoom != undefined) {
-            return zoomCamera(action.ip, action.params.zoom);
+            return zoomCamera(action.id, action.params.zoom);
           }
           return Promise.resolve();
       }

@@ -44,7 +44,7 @@ export const SelectionCameraWithoutAlert = ({
         >
           {sites.map((s) => (
             <MenuItem value={s.id} key={s.id}>
-              {s.label}
+              {s.id}
             </MenuItem>
           ))}
         </Select>

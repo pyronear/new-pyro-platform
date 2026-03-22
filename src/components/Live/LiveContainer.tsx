@@ -3,12 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useEffect, useMemo, useState } from 'react';
 
 import { Loader } from '@/components/Common/Loader';
-import {
-  liveInstance,
-  STATUS_ERROR,
-  STATUS_LOADING,
-  STATUS_SUCCESS,
-} from '@/services/axios';
+import { STATUS_ERROR, STATUS_LOADING, STATUS_SUCCESS } from '@/services/axios';
 import { getCamerasInfos } from '@/services/live';
 import { type AlertType } from '@/utils/alerts';
 import {
@@ -18,7 +13,7 @@ import {
   getSiteByCameraName,
   type SiteType,
 } from '@/utils/camera';
-import { calculateLiveStreamingUrl, calculateSiteUrl } from '@/utils/live';
+import { calculateLiveStreamingUrl } from '@/utils/live';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
 import { useActionsOnCamera } from './context/useActionsOnCamera';
@@ -46,11 +41,12 @@ export const LiveContainer = ({
     useState<boolean>(false);
   const [selectedSite, setSelectedSite] = useState<SiteType | null>(null);
   const [selectedCameraId, setSelectedCameraId] = useState<number | null>(null);
-  const isFetchFromSiteEnabled = !!selectedSite;
 
   const selectedCamera = useMemo(() => {
     return selectedSite?.cameras.find((c) => c.id === selectedCameraId) ?? null;
   }, [selectedCameraId, selectedSite]);
+
+  const isCameraSelected = !!selectedSite && !!selectedCamera;
 
   const changeCamera = (newSite: SiteType, newCameraId: number | null) => {
     setSelectedSite(newSite);
@@ -72,32 +68,36 @@ export const LiveContainer = ({
       );
       if (newSelectedSite) {
         changeCamera(newSelectedSite, newSelectedCameraId);
+      } else {
+        console.error(`Camera ${cameraName} not found in user allowed sites`);
       }
     }
   }, [selectedSite, sites, cameraName]);
 
   // TODO : retrieve the data from backend api
   const { status: statusCamerasFetchFromSite } = useQuery({
-    enabled: isFetchFromSiteEnabled,
+    enabled: isCameraSelected,
     queryKey: ['camerasLive', selectedSite?.id],
     refetchOnWindowFocus: false,
     queryFn: () => {
-      liveInstance.defaults.baseURL = calculateSiteUrl(selectedSite);
-      return getCamerasInfos().then((extraData) => {
-        setSelectedSite((oldSelectedSite) =>
-          oldSelectedSite == null
-            ? null
-            : aggregateSiteData(oldSelectedSite, extraData)
-        );
-        return extraData;
-      });
+      if (selectedCamera) {
+        return getCamerasInfos(selectedCamera.id).then((extraData) => {
+          setSelectedSite((oldSelectedSite) =>
+            oldSelectedSite == null
+              ? null
+              : aggregateSiteData(oldSelectedSite, extraData)
+          );
+          return extraData;
+        });
+      }
+      return;
     },
   });
 
   const isStreamingLaunched =
     statusSitesFetch == STATUS_SUCCESS &&
     statusCamerasFetchFromSite == STATUS_SUCCESS &&
-    !!selectedSite;
+    isCameraSelected;
 
   return (
     <>
@@ -133,7 +133,7 @@ export const LiveContainer = ({
         ) : (
           <Stack m={6}>
             {(statusSitesFetch == STATUS_LOADING ||
-              (isFetchFromSiteEnabled &&
+              (isCameraSelected &&
                 statusCamerasFetchFromSite == STATUS_LOADING)) && <Loader />}
             {statusSitesFetch == STATUS_ERROR && (
               <Typography variant="body2">{t('errorFetchInfos')}</Typography>

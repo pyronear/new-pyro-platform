@@ -95,7 +95,6 @@ export const getDetectionsBySequence = async (
     .then((response: AxiosResponse) => {
       try {
         const result = apiDetectionListResponseSchema.safeParse(response.data);
-        console.log(result);
         if (result.data) {
           result.data.sort(
             (d1, d2) =>
