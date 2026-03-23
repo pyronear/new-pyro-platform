@@ -134,7 +134,7 @@ export const AlertImagesPlayer = ({
                 min={Math.min(...marks.map((mark) => mark.value))}
                 max={Math.max(...marks.map((mark) => mark.value))}
                 step={null}
-                valueLabelDisplay="on"
+                valueLabelDisplay={isPlaying ? 'off' : 'on'}
                 valueLabelFormat={formatIsoToTime(selectedDetection.created_at)}
                 marks={marks}
                 sx={{
