@@ -139,13 +139,14 @@ export const AlertImagesPlayer = ({
                 marks={marks}
                 sx={{
                   verticalAlign: 'middle',
+                  color: theme.palette.primary.light,
                   '& .MuiSlider-markLabel': {
                     m: 0,
                     fontSize: '0.8rem',
                   },
                   '& .MuiSlider-valueLabel': {
                     m: 0,
-                    backgroundColor: theme.palette.primary.main,
+                    backgroundColor: theme.palette.primary.light,
                     fontSize: '0.8rem',
                   },
                 }}
