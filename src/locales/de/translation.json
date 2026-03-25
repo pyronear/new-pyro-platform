@@ -65,6 +65,8 @@
     "buttonInvestigate": "Live-Streaming starten",
     "buttonTreatAlert": "Alarm bearbeiten",
     "buttonModifyAlert": "Alarm ändern",
+    "buttonShare": "Teilen",
+    "shareLinkCopied": "Alarm-Link in die Zwischenablage kopiert",
     "copyText": "Kopiert",
     "blinkingMode": {
       "buttonBlinkingView": "Zur Blinkanzeige wechseln",
@@ -115,6 +117,12 @@
       "deleting": "Wird gelöscht...",
       "adding": "Wird hinzugefügt..."
     }
+  },
+  "alertPage": {
+    "forbiddenTitle": "Zugriff verweigert",
+    "forbiddenMessage": "Sie sind nicht angemeldet oder nicht berechtigt, diesen Alarm anzuzeigen.",
+    "errorMessage": "Auf unserer Seite ist etwas schief gelaufen. Bitte versuchen Sie es später erneut.",
+    "buttonGoHome": "Zur Startseite"
   },
   "history": {
     "title": "Verlauf",

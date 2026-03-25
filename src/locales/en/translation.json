@@ -65,6 +65,8 @@
     "buttonInvestigate": "Start live streaming",
     "buttonTreatAlert": "Treat the alert",
     "buttonModifyAlert": "Modify the alert",
+    "buttonShare": "Share",
+    "shareLinkCopied": "Alert link copied to clipboard",
     "copyText": "Copied",
     "blinkingMode": {
       "buttonBlinkingView": "Switch to blinking view",
@@ -114,6 +116,12 @@
       "deleting": "Deleting...",
       "adding": "Adding..."
     }
+  },
+  "alertPage": {
+    "forbiddenTitle": "Access denied",
+    "forbiddenMessage": "You are not logged in or are not authorized to view this alert.",
+    "errorMessage": "Something went wrong on our side. Please try again later.",
+    "buttonGoHome": "Go to homepage"
   },
   "history": {
     "title": "History",
