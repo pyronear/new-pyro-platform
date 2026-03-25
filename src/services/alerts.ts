@@ -44,6 +44,25 @@ const apiAlertListResponseSchema = z.array(apiAlertResponseSchema);
 export type DetectionType = z.infer<typeof apiDetectionResponseSchema>;
 const apiDetectionListResponseSchema = z.array(apiDetectionResponseSchema);
 
+export const getAlertById = async (
+  alertId: number
+): Promise<AlertTypeApi | null> => {
+  return apiInstance
+    .get(`/api/v1/alerts/${alertId.toString()}`)
+    .then((response: AxiosResponse) => {
+      try {
+        const result = apiAlertResponseSchema.safeParse(response.data);
+        return result.data ?? null;
+      } catch {
+        throw new Error('INVALID_API_RESPONSE');
+      }
+    })
+    .catch((err: unknown) => {
+      console.error(err);
+      throw err;
+    });
+};
+
 export const getUnlabelledLatestAlerts = async (): Promise<AlertTypeApi[]> => {
   return apiInstance
     .get('/api/v1/alerts/unlabeled/latest')
