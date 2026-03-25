@@ -15,6 +15,7 @@ import { Topbar } from './components/Topbar/Topbar';
 import { AuthProvider } from './context/AuthProvider';
 import { DateLocalizationProvider } from './context/DateLocalizationProvider';
 import { PreferencesProvider } from './context/PreferencesProvider';
+import { AlertPage } from './pages/AlertPage';
 import { AlertsPage } from './pages/AlertsPage';
 import { DashboardPage } from './pages/DashboardPage';
 import { ErrorPage } from './pages/ErrorPage';
@@ -41,6 +42,7 @@ const App = () => {
                       {/* Routes under this cannot be accessed without being logged in */}
                       <Route element={<ProtectedRoute />}>
                         <Route path="/alerts" element={<AlertsPage />} />
+                        <Route path="/alert/:alertId" element={<AlertPage />} />
                         <Route path="/dashboard" element={<DashboardPage />} />
                         <Route path="/history" element={<HistoryPage />} />
                       </Route>
