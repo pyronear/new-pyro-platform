@@ -65,6 +65,8 @@
     "buttonInvestigate": "Investigar la alerta",
     "buttonTreatAlert": "Descartar la alerta",
     "buttonModifyAlert": "Modificar la alerta",
+    "buttonShare": "Compartir",
+    "shareLinkCopied": "Enlace de la alerta copiado al portapapeles",
     "copyText": "Copiado",
     "blinkingMode": {
       "buttonBlinkingView": "Cambiar a vista parpadeante",
@@ -114,6 +116,12 @@
       "deleting": "Eliminando...",
       "adding": "Agregando..."
     }
+  },
+  "alertPage": {
+    "forbiddenTitle": "Acceso denegado",
+    "forbiddenMessage": "No ha iniciado sesión o no está autorizado para ver esta alerta.",
+    "errorMessage": "Se ha producido un error. Vuelva a intentarlo más tarde.",
+    "buttonGoHome": "Ir a la página de inicio"
   },
   "history": {
     "title": "Histórico",
