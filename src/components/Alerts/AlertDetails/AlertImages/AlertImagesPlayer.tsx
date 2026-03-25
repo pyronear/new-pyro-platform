@@ -134,18 +134,19 @@ export const AlertImagesPlayer = ({
                 min={Math.min(...marks.map((mark) => mark.value))}
                 max={Math.max(...marks.map((mark) => mark.value))}
                 step={null}
-                valueLabelDisplay="on"
+                valueLabelDisplay={isPlaying ? 'off' : 'on'}
                 valueLabelFormat={formatIsoToTime(selectedDetection.created_at)}
                 marks={marks}
                 sx={{
                   verticalAlign: 'middle',
+                  color: theme.palette.primary.light,
                   '& .MuiSlider-markLabel': {
                     m: 0,
                     fontSize: '0.8rem',
                   },
                   '& .MuiSlider-valueLabel': {
                     m: 0,
-                    backgroundColor: theme.palette.primary.main,
+                    backgroundColor: theme.palette.primary.light,
                     fontSize: '0.8rem',
                   },
                 }}
