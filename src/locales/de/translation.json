@@ -37,7 +37,20 @@
     "titleImage": "Letztes Bild von der Kamera",
     "inactiveCameraMsg": "Inaktive Kamera",
     "liveButton": "Live-Streaming starten",
-    "maskButton": "Verdeckungsmasken verwalten"
+    "maskButton": "Verdeckungsmasken verwalten",
+    "occlusionMask": {
+      "selectPose": "Pose auswählen",
+      "masksCount_one": "{{count}} Maske",
+      "masksCount_other": "{{count}} Masken",
+      "noMasks": "Keine Masken für diese Pose",
+      "noPoses": "Für diese Kamera sind keine Posen verfügbar",
+      "noImage": "Für diese Pose ist kein Bild verfügbar",
+      "deleteAllButton": "Alle Masken löschen",
+      "deleteHint": "Klicken Sie auf eine Maske, um sie zu löschen",
+      "closeButton": "Schließen",
+      "loading": "Wird geladen...",
+      "poseImageAlt": "Pose-Bild"
+    }
   },
   "alerts": {
     "titleListSimple": "Alarm zu bearbeiten",
