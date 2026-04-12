@@ -37,7 +37,28 @@
     "titleImage": "Letztes Bild von der Kamera",
     "inactiveCameraMsg": "Inaktive Kamera",
     "liveButton": "Live-Streaming starten",
-    "maskButton": "Verdeckungsmasken verwalten"
+    "maskButton": "Verdeckungsmasken verwalten",
+    "occlusionMask": {
+      "title": "Verdeckungsmasken für {{cameraName}} verwalten",
+      "selectPose": "Pose auswählen",
+      "masksCount_one": "{{count}} Maske",
+      "masksCount_other": "{{count}} Masken",
+      "noMasks": "Keine Masken für diese Pose",
+      "noPoses": "Für diese Kamera sind keine Posen verfügbar",
+      "noImage": "Für diese Pose ist kein Bild verfügbar",
+      "infoText": "Verdeckungsmasken verbergen Bereiche, die wiederkehrende Fehlalarme erzeugen. Klicken Sie auf einen roten Bereich, um ihn zu löschen.",
+      "deleteAllButton": "Alle Masken löschen",
+      "deleteHint": "Klicken Sie auf eine Maske, um sie zu löschen",
+      "deleteSingleTitle": "Diese Verdeckungsmaske löschen?",
+      "deleteSingleMessage": "Diese Aktion entfernt die ausgewählte Verdeckungsmaske für die aktuelle Pose dauerhaft.",
+      "deleteAllTitle": "Alle Verdeckungsmasken löschen?",
+      "deleteAllMessage": "Diese Aktion entfernt alle Verdeckungsmasken für die ausgewählte Pose dauerhaft.",
+      "confirmDeleteButton": "Löschen",
+      "cancelButton": "Abbrechen",
+      "closeButton": "Schließen",
+      "loading": "Wird geladen...",
+      "poseImageAlt": "Pose-Bild"
+    }
   },
   "alerts": {
     "titleListSimple": "Alarm zu bearbeiten",

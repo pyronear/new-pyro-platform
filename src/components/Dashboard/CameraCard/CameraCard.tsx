@@ -68,7 +68,7 @@ export const CameraCard = ({
           </Stack>
         </CardActionArea>
         <CardActions>
-          <CameraCardActions isOneIcon={false} cameraName={camera.name} />
+          <CameraCardActions isOneIcon={false} camera={camera} />
         </CardActions>
       </Stack>
     </Card>
@@ -91,7 +91,7 @@ export const CameraCard = ({
             </Stack>
           </CardContent>
           <CardActions>
-            <CameraCardActions isOneIcon={true} cameraName={camera.name} />
+            <CameraCardActions isOneIcon={true} camera={camera} />
           </CardActions>
         </Stack>
       </Stack>

@@ -152,6 +152,36 @@ export const doBboxesOverlap = (bbox1: BboxType, bbox2: BboxType): boolean => {
   );
 };
 
+export interface MaskWithId extends BboxType {
+  maskId: number;
+}
+
+export const getNonOverlappingMasksWithIds = (
+  masks: OcclusionMaskApiType[]
+): MaskWithId[] => {
+  const sorted = [...masks].sort(
+    (a, b) =>
+      new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+  );
+
+  const result: MaskWithId[] = [];
+
+  sorted.forEach((apiMask) => {
+    const bbox = parseApiMask(apiMask.mask);
+    if (!bbox) return;
+
+    const overlaps = result.some((existingBbox) =>
+      doBboxesOverlap(bbox, existingBbox)
+    );
+
+    if (!overlaps) {
+      result.push({ ...bbox, maskId: apiMask.id });
+    }
+  });
+
+  return result;
+};
+
 export const getNonOverlappingMasks = (
   masks: OcclusionMaskApiType[]
 ): BboxType[] => {

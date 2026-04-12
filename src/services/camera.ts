@@ -29,6 +29,32 @@ export type CameraType = z.infer<typeof apiCameraResponseSchema>;
 export type PoseCameraType = z.infer<typeof apiPoseCameraResponseSchema>;
 const apiCameraListResponseSchema = z.array(apiCameraResponseSchema);
 
+const poseReadSchema = z.object({
+  id: z.number(),
+  camera_id: z.number(),
+  azimuth: z.number(),
+  patrol_id: z.nullable(z.number()),
+  image: z.nullable(z.string()),
+  image_url: z.nullable(z.string()),
+});
+export type PoseReadType = z.infer<typeof poseReadSchema>;
+
+export const getPoseById = async (poseId: number): Promise<PoseReadType> => {
+  return apiInstance
+    .get(`/api/v1/poses/${poseId.toString()}`)
+    .then((response: AxiosResponse) => {
+      const result = poseReadSchema.safeParse(response.data);
+      if (!result.success) {
+        throw new Error('INVALID_API_RESPONSE');
+      }
+      return result.data;
+    })
+    .catch((err: unknown) => {
+      console.error(err);
+      throw err;
+    });
+};
+
 export const getCameraList = async (): Promise<CameraType[]> => {
   return apiInstance
     .get('/api/v1/cameras/')
