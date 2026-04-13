@@ -1,0 +1,39 @@
+src/pages/AlertPage.tsx
+  6a08c71653419b63 1-2,4-13,15,18-21,23-26,28-37,39,44-45,47-64,71-97
+  41d1c03b9ab9436c 17
+src/App.tsx
+  6a08c71653419b63 18,45
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.8",
+  "base_commit_sha": "8888aa7de2d186c8386c443b1ad12b10c9a46dc9",
+  "prompts": {
+    "41d1c03b9ab9436c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "bbf01998-d0a7-47c3-a5bf-2553f64ee703",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Theo Rodrigues",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 1,
+      "overriden_lines": 0
+    },
+    "6a08c71653419b63": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b97359fc-e387-46ef-925b-becfe6f4fdaf",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Theo Rodrigues <theo.rodrigues@theodo.com>",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 81,
+      "overriden_lines": 0
+    }
+  }
+}

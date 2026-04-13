@@ -1,0 +1,33 @@
+src/locales/en/translation.json
+  6a08c71653419b63 91-92
+  41d1c03b9ab9436c 32-33
+src/locales/es/translation.json
+  6a08c71653419b63 91-92
+  41d1c03b9ab9436c 32-33
+src/locales/fr/translation.json
+  6a08c71653419b63 91-92
+  41d1c03b9ab9436c 32-33
+src/locales/de/translation.json
+  6a08c71653419b63 91-92
+  41d1c03b9ab9436c 32-33
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.8",
+  "base_commit_sha": "c6ed214981bbeb4530f5c0f0e01d39552c566fb0",
+  "prompts": {
+    "41d1c03b9ab9436c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "bbf01998-d0a7-47c3-a5bf-2553f64ee703",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Theo Rodrigues",
+      "messages": [],
+      "total_additions": 290,
+      "total_deletions": 240,
+      "accepted_lines": 8,
+      "overriden_lines": 0
+    }
+  }
+}

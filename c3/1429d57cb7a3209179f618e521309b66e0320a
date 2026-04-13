@@ -1,0 +1,23 @@
+src/services/alerts.ts
+  6a08c71653419b63 47-65
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.8",
+  "base_commit_sha": "c31429d57cb7a3209179f618e521309b66e0320a",
+  "prompts": {
+    "6a08c71653419b63": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b97359fc-e387-46ef-925b-becfe6f4fdaf",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Theo Rodrigues <theo.rodrigues@theodo.com>",
+      "messages": [],
+      "total_additions": 434,
+      "total_deletions": 235,
+      "accepted_lines": 19,
+      "overriden_lines": 0
+    }
+  }
+}
