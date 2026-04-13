@@ -1,11 +1,12 @@
 import ShareIcon from '@mui/icons-material/Share';
-import { Chip, Grid, Snackbar, useTheme } from '@mui/material';
+import { Chip, Grid, Tooltip, useTheme } from '@mui/material';
 import { useEffect, useState } from 'react';
 
 import {
   type AlertType,
   type SequenceWithCameraInfoType,
 } from '../../../utils/alerts';
+import { useTransientTooltip } from '../../../utils/useTransientTooltip';
 import { useTranslationPrefix } from '../../../utils/useTranslationPrefix';
 import { AlertHeader } from './AlertHeader';
 import { AlertImages } from './AlertImages/AlertImages';
@@ -28,12 +29,13 @@ export const AlertContainer = ({
   const { t } = useTranslationPrefix('alerts');
   const [selectedSequence, setSelectedSequence] =
     useState<SequenceWithCameraInfoType | null>(null);
-  const [isShareSnackbarOpen, setIsShareSnackbarOpen] = useState(false);
+  const { show: showShareTooltip, tooltipProps: shareTooltipProps } =
+    useTransientTooltip();
 
   const handleShare = () => {
     const shareUrl = `${window.location.origin}/alert/${alert.id}`;
     void navigator.clipboard.writeText(shareUrl).then(() => {
-      setIsShareSnackbarOpen(true);
+      showShareTooltip();
     });
   };
 
@@ -63,19 +65,25 @@ export const AlertContainer = ({
             justifyContent="flex-end"
             alignItems="center"
           >
-            <Chip
-              icon={<ShareIcon />}
-              label={t('buttonShare')}
-              variant="filled"
-              size="medium"
-              clickable
-              onClick={handleShare}
-              sx={{
-                '& .MuiChip-label': {
-                  font: theme.typography.body1,
-                },
-              }}
-            />
+            <Tooltip
+              {...shareTooltipProps}
+              placement="top-end"
+              title={t('shareLinkCopied')}
+            >
+              <Chip
+                icon={<ShareIcon />}
+                label={t('buttonShare')}
+                variant="filled"
+                size="medium"
+                clickable
+                onClick={handleShare}
+                sx={{
+                  '& .MuiChip-label': {
+                    font: theme.typography.body1,
+                  },
+                }}
+              />
+            </Tooltip>
           </Grid>
           <Grid size={{ xs: 12, lg: 9 }}>
             <AlertImages sequence={selectedSequence} />
@@ -90,12 +98,6 @@ export const AlertContainer = ({
           </Grid>
         </Grid>
       )}
-      <Snackbar
-        open={isShareSnackbarOpen}
-        autoHideDuration={2000}
-        onClose={() => setIsShareSnackbarOpen(false)}
-        message={t('shareLinkCopied')}
-      />
     </>
   );
 };
