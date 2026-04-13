@@ -86,6 +86,7 @@ export const QuickActions = ({
           <ButtonGroup>
             {poses
               .filter((pose) => pose.patrol_id != null)
+              .sort((p1, p2) => p1.azimuth - p2.azimuth)
               .map((pose) => (
                 <Button
                   key={pose.id}
