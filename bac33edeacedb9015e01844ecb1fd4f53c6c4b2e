@@ -1,0 +1,31 @@
+src/pages/AlertsPage.tsx
+  41d1c03b9ab9436c 9,40
+src/pages/AlertPage.tsx
+  41d1c03b9ab9436c 4,14,16-18,28-32,43,45,66-72
+src/pages/ForbiddenPage.tsx
+  41d1c03b9ab9436c 1-38
+src/pages/HistoryPage.tsx
+  41d1c03b9ab9436c 12,69
+src/utils/alerts.ts
+  41d1c03b9ab9436c 35-61,65-67
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.8",
+  "base_commit_sha": "bac33edeacedb9015e01844ecb1fd4f53c6c4b2e",
+  "prompts": {
+    "41d1c03b9ab9436c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "bbf01998-d0a7-47c3-a5bf-2553f64ee703",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Theo Rodrigues",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 91,
+      "overriden_lines": 0
+    }
+  }
+}
