@@ -29,6 +29,8 @@
     "title": "Ooops !",
     "notFoundMessage": "We couldn't find the page you're looking for...",
     "errorMessage": "Something went wrong on our side. Please try again later.",
+    "forbiddenTitle": "Access denied",
+    "forbiddenMessage": "You do not have permission to access this page.",
     "button": "Go to homepage"
   },
   "dashboard": {
@@ -137,12 +139,6 @@
       "deleting": "Deleting...",
       "adding": "Adding..."
     }
-  },
-  "alertPage": {
-    "forbiddenTitle": "Access denied",
-    "forbiddenMessage": "You are not logged in or are not authorized to view this alert.",
-    "errorMessage": "Something went wrong on our side. Please try again later.",
-    "buttonGoHome": "Go to homepage"
   },
   "history": {
     "title": "History",

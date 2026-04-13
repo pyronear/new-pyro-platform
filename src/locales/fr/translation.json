@@ -29,6 +29,8 @@
     "title": "Oups !",
     "notFoundMessage": "Nous n'avons pas trouvé la page que vous recherchez...",
     "errorMessage": "Une erreur inattendue est survenue. Veuillez réessayer plus tard.",
+    "forbiddenTitle": "Accès refusé",
+    "forbiddenMessage": "Vous n'avez pas les droits nécessaires pour accéder à cette page.",
     "button": "Revenir à la page principale"
   },
   "dashboard": {
@@ -137,12 +139,6 @@
       "deleting": "Suppression...",
       "adding": "Ajout..."
     }
-  },
-  "alertPage": {
-    "forbiddenTitle": "Accès refusé",
-    "forbiddenMessage": "Vous n'êtes pas connecté ou vous n'êtes pas autorisé à consulter cette alerte.",
-    "errorMessage": "Une erreur inattendue est survenue. Veuillez réessayer plus tard.",
-    "buttonGoHome": "Revenir à la page principale"
   },
   "history": {
     "title": "Historique",

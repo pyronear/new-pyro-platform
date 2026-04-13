@@ -29,6 +29,8 @@
     "title": "¡Ups!",
     "notFoundMessage": "No hemos podido encontrar la página que buscas...",
     "errorMessage": "Se ha producido un error. Vuelva a intentarlo más tarde.",
+    "forbiddenTitle": "Acceso denegado",
+    "forbiddenMessage": "No tiene permisos para acceder a esta página.",
     "button": "Ir a la página de inicio"
   },
   "dashboard": {
@@ -137,12 +139,6 @@
       "deleting": "Eliminando...",
       "adding": "Agregando..."
     }
-  },
-  "alertPage": {
-    "forbiddenTitle": "Acceso denegado",
-    "forbiddenMessage": "No ha iniciado sesión o no está autorizado para ver esta alerta.",
-    "errorMessage": "Se ha producido un error. Vuelva a intentarlo más tarde.",
-    "buttonGoHome": "Ir a la página de inicio"
   },
   "history": {
     "title": "Histórico",
