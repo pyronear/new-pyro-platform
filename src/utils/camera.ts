@@ -49,12 +49,15 @@ const aggregateCameraData = (
   const cameraInfosFromPi = extraData.find(
     (cameraFromPi) => cameraFromPi.name == camera.name
   );
+  let poses: PoseCameraType[];
+  if (camera.poses && camera.poses.length != 0) {
+    poses = camera.poses.filter((pose) => pose.patrol_id != null);
+  } else {
+    poses = buildPosesFromPiData(camera.id, cameraInfosFromPi);
+  }
   return {
     ...camera,
-    poses:
-      camera.poses?.length == 0
-        ? buildPosesFromPiData(camera.id, cameraInfosFromPi)
-        : camera.poses,
+    poses,
     ip: cameraInfosFromPi?.ip,
     type: cameraInfosFromPi?.type,
   };
