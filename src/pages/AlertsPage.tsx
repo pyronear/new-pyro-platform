@@ -6,7 +6,7 @@ import { getUnlabelledLatestAlerts } from '@/services/alerts';
 import appConfig from '@/services/appConfig';
 import { STATUS_ERROR, STATUS_LOADING, STATUS_SUCCESS } from '@/services/axios';
 import { getCameraList } from '@/services/camera';
-import { type AlertType, mapAlertTypeApiToAlertType } from '@/utils/alerts';
+import { type AlertType, mapListAlertApiToAlertType } from '@/utils/alerts';
 import { isDateToday } from '@/utils/dates';
 import { useDetectNewSequences as useDetectNewAlerts } from '@/utils/useDetectNewSequences';
 
@@ -37,7 +37,7 @@ export const AlertsPage = () => {
   );
 
   const alertsList: AlertType[] = useMemo(
-    () => mapAlertTypeApiToAlertType(todayAlerts, cameraList ?? []),
+    () => mapListAlertApiToAlertType(todayAlerts, cameraList ?? []),
     [todayAlerts, cameraList]
   );
 

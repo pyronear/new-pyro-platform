@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 import { useCallback, useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -11,20 +11,25 @@ import { Loader } from '@/components/Common/Loader';
 import { getAlertById } from '@/services/alerts';
 import { STATUS_ERROR, STATUS_LOADING, STATUS_SUCCESS } from '@/services/axios';
 import { getCameraList } from '@/services/camera';
-import { type AlertType, mapAlertTypeApiToAlertType } from '@/utils/alerts';
+import { type AlertType, mapOneAlertApiToAlertType } from '@/utils/alerts';
 import { useIsMobile } from '@/utils/useIsMobile';
-import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
+
+import { ErrorPage } from './ErrorPage';
+import { ForbiddenPage } from './ForbiddenPage';
 
 export const AlertPage = () => {
   const { alertId } = useParams<{ alertId: string }>();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const { t } = useTranslationPrefix('alerts');
   const isMobile = useIsMobile();
 
   const alertIdNumber = Number(alertId);
 
-  const { status: statusAlert, data: alertData } = useQuery({
+  const {
+    status: statusAlert,
+    data: alertData,
+    error: alertError,
+  } = useQuery({
     queryKey: ['alert', alertIdNumber],
     queryFn: () => getAlertById(alertIdNumber),
     enabled: !isNaN(alertIdNumber),
@@ -35,15 +40,11 @@ export const AlertPage = () => {
     queryFn: getCameraList,
   });
 
-  const alertsList: AlertType[] = useMemo(
+  const alert: AlertType | null = useMemo(
     () =>
-      mapAlertTypeApiToAlertType(
-        alertData ? [alertData] : [],
-        cameraList ?? []
-      ),
+      alertData ? mapOneAlertApiToAlertType(alertData, cameraList ?? []) : null,
     [alertData, cameraList]
   );
-  const alert = alertsList[0];
 
   const invalidateAndRefreshData = useCallback(() => {
     void queryClient.invalidateQueries({ queryKey: ['alert', alertIdNumber] });
@@ -62,12 +63,13 @@ export const AlertPage = () => {
   return (
     <>
       {status === STATUS_LOADING && <Loader />}
-      {status === STATUS_ERROR && (
-        <Typography variant="body2">
-          {t('errorFetchSequencesMessage')}
-        </Typography>
-      )}
-      {status === STATUS_SUCCESS && alertsList.length > 0 && (
+      {status === STATUS_ERROR &&
+        (alertError instanceof AxiosError && alertError.status === 403 ? (
+          <ForbiddenPage />
+        ) : (
+          <ErrorPage />
+        ))}
+      {status === STATUS_SUCCESS && alert && (
         <>
           {isMobile ? (
             <Box height={'100%'} overflow={'auto'}>
