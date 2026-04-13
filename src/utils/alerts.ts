@@ -32,33 +32,39 @@ export interface SequenceWithCameraInfoType {
  * Its goal is to group sequences using their event_groups property which is returned by the API
  * This grouping should soon be done within the API, so this is kind of quick and dirty
  */
-export const mapAlertTypeApiToAlertType = (
+export const mapOneAlertApiToAlertType = (
+  alertDto: AlertTypeApi,
+  camerasList: CameraType[]
+): AlertType => {
+  return {
+    id: alertDto.id,
+    startedAt: alertDto.started_at,
+    eventSmokeLocation:
+      alertDto.lat && alertDto.lon ? [alertDto.lat, alertDto.lon] : undefined,
+    sequences: alertDto.sequences
+      // Sort by date ASC
+      .sort((s1, s2) => (getDateOrNowNb(s1) > getDateOrNowNb(s2) ? 1 : -1))
+      .map((sequence) => ({
+        id: sequence.id,
+        poseId: sequence.pose_id,
+        camera:
+          camerasList.find((camera) => camera.id == sequence.camera_id) ?? null,
+        startedAt: sequence.started_at,
+        lastSeenAt: sequence.last_seen_at,
+        azimuth: sequence.sequence_azimuth,
+        coneAngle: sequence.cone_angle,
+        labelWildfire: (sequence.is_wildfire as LabelWildfireValues) ?? null,
+      })),
+  };
+};
+
+export const mapListAlertApiToAlertType = (
   alertListDto: AlertTypeApi[],
   camerasList: CameraType[]
 ): AlertType[] => {
-  return alertListDto.map((alertDto) => {
-    return {
-      id: alertDto.id,
-      startedAt: alertDto.started_at,
-      eventSmokeLocation:
-        alertDto.lat && alertDto.lon ? [alertDto.lat, alertDto.lon] : undefined,
-      sequences: alertDto.sequences
-        // Sort by date ASC
-        .sort((s1, s2) => (getDateOrNowNb(s1) > getDateOrNowNb(s2) ? 1 : -1))
-        .map((sequence) => ({
-          id: sequence.id,
-          poseId: sequence.pose_id,
-          camera:
-            camerasList.find((camera) => camera.id == sequence.camera_id) ??
-            null,
-          startedAt: sequence.started_at,
-          lastSeenAt: sequence.last_seen_at,
-          azimuth: sequence.sequence_azimuth,
-          coneAngle: sequence.cone_angle,
-          labelWildfire: (sequence.is_wildfire as LabelWildfireValues) ?? null,
-        })),
-    };
-  });
+  return alertListDto.map((alertDto) =>
+    mapOneAlertApiToAlertType(alertDto, camerasList)
+  );
 };
 
 export const countUnlabelledSequences = (

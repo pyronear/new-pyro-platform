@@ -9,7 +9,7 @@ import { getAlertsByFilters } from '@/services/alerts';
 import appConfig from '@/services/appConfig';
 import { STATUS_ERROR, STATUS_LOADING, STATUS_SUCCESS } from '@/services/axios';
 import { getCameraList } from '@/services/camera';
-import { type AlertType, mapAlertTypeApiToAlertType } from '@/utils/alerts';
+import { type AlertType, mapListAlertApiToAlertType } from '@/utils/alerts';
 import { formatDateToApi } from '@/utils/dates';
 import {
   type FiltersType,
@@ -66,7 +66,7 @@ export const HistoryPage = () => {
   }, [queryClient]);
 
   const alertsList: AlertType[] = useMemo(() => {
-    return mapAlertTypeApiToAlertType(
+    return mapListAlertApiToAlertType(
       sequenceList?.pages.flat() ?? [],
       cameraList ?? []
     );

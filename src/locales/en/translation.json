@@ -29,6 +29,8 @@
     "title": "Ooops !",
     "notFoundMessage": "We couldn't find the page you're looking for...",
     "errorMessage": "Something went wrong on our side. Please try again later.",
+    "forbiddenTitle": "Access denied",
+    "forbiddenMessage": "You do not have permission to access this page.",
     "button": "Go to homepage"
   },
   "dashboard": {
@@ -86,6 +88,8 @@
     "buttonInvestigate": "Start live streaming",
     "buttonTreatAlert": "Treat the alert",
     "buttonModifyAlert": "Modify the alert",
+    "buttonShare": "Share",
+    "shareLinkCopied": "Alert link copied to clipboard",
     "copyText": "Copied",
     "blinkingMode": {
       "buttonBlinkingView": "Switch to blinking view",

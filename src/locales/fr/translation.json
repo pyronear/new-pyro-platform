@@ -29,6 +29,8 @@
     "title": "Oups !",
     "notFoundMessage": "Nous n'avons pas trouvé la page que vous recherchez...",
     "errorMessage": "Une erreur inattendue est survenue. Veuillez réessayer plus tard.",
+    "forbiddenTitle": "Accès refusé",
+    "forbiddenMessage": "Vous n'avez pas les droits nécessaires pour accéder à cette page.",
     "button": "Revenir à la page principale"
   },
   "dashboard": {
@@ -86,6 +88,8 @@
     "buttonInvestigate": "Activer la levée de doute",
     "buttonTreatAlert": "Acquitter l'alerte",
     "buttonModifyAlert": "Modifier l'alerte",
+    "buttonShare": "Partager",
+    "shareLinkCopied": "Lien de l'alerte copié dans le presse-papier",
     "copyText": "Copié",
     "blinkingMode": {
       "buttonBlinkingView": "Passer en vue clignotante",
