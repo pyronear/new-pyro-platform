@@ -1,0 +1,27 @@
+src/utils/useTransientTooltip.ts
+  41d1c03b9ab9436c 1-38
+src/components/Alerts/AlertDetails/AlertContainer.tsx
+  41d1c03b9ab9436c 2,9,32-33,38,68-86
+src/components/Common/CopyToClipboard.tsx
+  41d1c03b9ab9436c 4,14,17,24,26
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.8",
+  "base_commit_sha": "5ce6dbd36218c259d769de6a85a3ab0599482ee9",
+  "prompts": {
+    "41d1c03b9ab9436c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "bbf01998-d0a7-47c3-a5bf-2553f64ee703",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Theo Rodrigues",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 171,
+      "overriden_lines": 0
+    }
+  }
+}
