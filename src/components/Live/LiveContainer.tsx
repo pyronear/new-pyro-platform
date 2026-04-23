@@ -102,7 +102,7 @@ export const LiveContainer = ({
   return (
     <>
       <LiveErrorSnackbar />
-      <Stack>
+      <Stack height="100%">
         <HeadRow
           onClose={onClose}
           isStreamingLaunched={isStreamingLaunched}
@@ -111,8 +111,8 @@ export const LiveContainer = ({
           }
         />
         {isStreamingLaunched ? (
-          <Grid container p={2} spacing={2} flexGrow={1}>
-            <Grid size={9}>
+          <Grid container spacing={2} flexGrow={1}>
+            <Grid size={8}>
               <LiveStreamPanel
                 urlStreaming={urlStreaming}
                 setIsStreamVideoInterrupted={setIsStreamVideoInterrupted}
@@ -120,7 +120,7 @@ export const LiveContainer = ({
                 alert={alert}
               />
             </Grid>
-            <Grid size={3}>
+            <Grid size={4}>
               <LiveControlPanel
                 sites={sites}
                 selectedSite={selectedSite}

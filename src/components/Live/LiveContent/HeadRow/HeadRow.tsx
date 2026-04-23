@@ -21,7 +21,12 @@ export const HeadRow = ({
   return (
     <Alert
       severity={isStreamingRunning ? 'warning' : 'info'}
-      sx={{ margin: 0, display: 'flex', alignItems: 'center' }}
+      sx={{
+        margin: 0,
+        display: 'flex',
+        alignItems: 'center',
+        borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
+      }}
       action={
         <Button variant="outlined" color="primary" onClick={onClose}>
           {t('buttonClose')}
