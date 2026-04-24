@@ -18,6 +18,7 @@ import { Loader } from '../Common/Loader';
 import { AlertContainer } from './AlertDetails/AlertContainer';
 import { AlertsList } from './AlertsList/AlertsList';
 import { useAlertSoundToggle } from './AlertsSound/useAlertSoundToggle';
+import { PyronearForestWatch } from './PyronearForestWatch';
 
 interface AlertsContainerType {
   status: ResponseStatus;
@@ -103,13 +104,25 @@ export const AlertsContainer = ({
     />
   );
 
-  const AlertDetailsComponent = selectedAlert && (
+  const AlertDetailsComponent = selectedAlert ? (
     <AlertContainer
       isLiveMode={true}
       alert={selectedAlert}
       resetAlert={resetSelectedAlert}
       invalidateAndRefreshData={invalidateAndRefreshData}
     />
+  ) : (
+    <Box
+      height="100%"
+      width="100%"
+      display="flex"
+      alignItems="stretch"
+      justifyContent="stretch"
+    >
+      <PyronearForestWatch
+        style={{ width: '100%', height: '100%', display: 'flex' }}
+      />
+    </Box>
   );
 
   return (
