@@ -30,6 +30,7 @@ export const AlertImages = ({ sequence }: AlertImagesType) => {
   const { t } = useTranslationPrefix('alerts');
   const [lastSeenAt, setLastSeenAt] = useState<string | null>(null);
   const [displayBbox, setDisplayBbox] = useState(true);
+  const [orderDetectionsByDesc, setOrderDetectionsByDesc] = useState(true);
   const [currentDetection, setCurrentDetection] =
     useState<DetectionType | null>(null);
   const queryClient = useQueryClient();
@@ -40,9 +41,9 @@ export const AlertImages = ({ sequence }: AlertImagesType) => {
     isSuccess,
     data: detectionsList,
   } = useQuery({
-    queryKey: ['detections', sequence.id],
+    queryKey: ['detections', sequence.id, orderDetectionsByDesc],
     queryFn: async () => {
-      return await getDetectionsBySequence(sequence.id);
+      return await getDetectionsBySequence(sequence.id, orderDetectionsByDesc);
     },
     refetchOnWindowFocus: false,
   });
@@ -155,6 +156,8 @@ export const AlertImages = ({ sequence }: AlertImagesType) => {
               firstConfidentDetectionIndex={getFirstConfidentDetectionIndex(
                 detectionsList
               )}
+              orderDetectionsByDesc={orderDetectionsByDesc}
+              setOrderDetectionsByDesc={setOrderDetectionsByDesc}
             />
           )}
         </Grid>
