@@ -37,6 +37,7 @@ export const AlertOrderButton = ({
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
+        sx={{ transform: 'rotate(90deg)' }}
       >
         <SwapVertIcon />
       </IconButton>
