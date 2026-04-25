@@ -1,4 +1,4 @@
-import { type Ref, useState } from 'react';
+import { type MouseEventHandler, type Ref, useState } from 'react';
 
 import type { CameraFullInfosType } from '@/utils/camera';
 import { SPEEDS } from '@/utils/live';
@@ -21,6 +21,15 @@ export const VideoStream = ({
 }: VideoStreamProps) => {
   const [speedIndex, setSpeedIndex] = useState(1);
 
+  const onClick: MouseEventHandler<HTMLVideoElement> = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    if (rect.height && rect.width) {
+      const x = (e.clientX - rect.left) / rect.width;
+      const y = (e.clientY - rect.top) / rect.height;
+      console.log(`Left? : ${x}; Top? : ${y}`);
+    }
+  };
+
   const setNextSpeed = () =>
     setSpeedIndex((oldIndex) =>
       oldIndex === SPEEDS.length - 1 ? 0 : oldIndex + 1
@@ -33,6 +42,7 @@ export const VideoStream = ({
           ref={ref}
           playsInline
           autoPlay
+          onClick={onClick}
           style={{
             background: '#1e1e1e',
             width: '100%',
