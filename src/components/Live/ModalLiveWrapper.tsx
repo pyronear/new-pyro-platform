@@ -1,4 +1,4 @@
-import { Dialog, DialogContent } from '@mui/material';
+import { Dialog, DialogContent, useTheme } from '@mui/material';
 import { type ReactNode, useState } from 'react';
 
 import type { AlertType } from '@/utils/alerts';
@@ -18,6 +18,7 @@ export const ModalLiveWrapper = ({
   children,
 }: ModalLiveWrapperProps) => {
   const [openLive, setOpenLive] = useState(false);
+  const theme = useTheme();
 
   // Created here to keep the queue intact when the modal is closed
 
@@ -36,16 +37,17 @@ export const ModalLiveWrapper = ({
     <>
       {children(handleOpen)}
       <ActionsOnCameraContextProvider>
-        <Dialog open={openLive} onClose={handleClose} maxWidth="lg" fullWidth>
-          <DialogContent
-            sx={{
-              padding: 0,
-              minHeight: '90vh',
-              '& > .MuiStack-root': {
-                minHeight: '90vh',
-              },
-            }}
-          >
+        <Dialog
+          open={openLive}
+          onClose={handleClose}
+          fullScreen
+          sx={{
+            '.MuiDialog-paper': {
+              background: theme.palette.background.default,
+            },
+          }}
+        >
+          <DialogContent sx={{ padding: 0 }}>
             <LiveContainer
               onClose={() => setOpenLive(false)}
               cameraName={cameraName}

@@ -49,7 +49,8 @@ export const LiveStreamPanel = ({
 
   const initialMove = useMemo(
     () => getMoveToAzimuthFromAlert(camera, alert),
-    [alert, camera]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
   );
 
   const mediaMtxInterrupted =
@@ -96,7 +97,7 @@ export const LiveStreamPanel = ({
     );
 
   return (
-    <Stack spacing={1} height="100%">
+    <Stack spacing={1} height="100%" p={2}>
       {statusStreamingVideo === STATUS_ERROR && (
         <Typography variant="body2">{t('errorNoStreaming')}</Typography>
       )}

@@ -1,4 +1,4 @@
-import { Stack } from '@mui/material';
+import { Stack, useTheme } from '@mui/material';
 
 import { type AlertType, getSequenceByCameraId } from '@/utils/alerts';
 import type { CameraFullInfosType, SiteType } from '@/utils/camera';
@@ -22,13 +22,19 @@ export const LiveControlPanel = ({
   selectedCamera,
   alert,
 }: LiveControlPanelProps) => {
+  const theme = useTheme();
   const currentSequence =
     alert && selectedCamera
       ? getSequenceByCameraId(alert, selectedCamera.id)
       : undefined;
 
   return (
-    <Stack spacing={1} height="100%">
+    <Stack
+      spacing={1}
+      height="100%"
+      p={2}
+      sx={{ backgroundColor: theme.palette.customBackground.light }}
+    >
       {alert ? (
         <SelectionCameraWithAlert
           sites={sites}
