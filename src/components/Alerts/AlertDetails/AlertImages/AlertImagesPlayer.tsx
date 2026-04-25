@@ -139,6 +139,10 @@ export const AlertImagesPlayer = ({
             >
               {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
             </IconButton>
+            <AlertOrderButton
+              orderDetectionsByDesc={orderDetectionsByDesc}
+              setOrderDetectionsByDesc={setOrderDetectionsByDesc}
+            />
             <Box sx={{ flexGrow: 1, width: '100%', mr: 2, px: 3, pt: 3 }}>
               <Slider
                 value={convertIsoToUnix(selectedDetection.created_at)}
@@ -164,10 +168,6 @@ export const AlertImagesPlayer = ({
                 }}
               />
             </Box>
-            <AlertOrderButton
-              orderDetectionsByDesc={orderDetectionsByDesc}
-              setOrderDetectionsByDesc={setOrderDetectionsByDesc}
-            />
           </Stack>
         </Stack>
       )}
