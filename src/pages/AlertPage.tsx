@@ -78,6 +78,7 @@ export const AlertPage = () => {
                 alert={alert}
                 resetAlert={() => void navigate(DEFAULT_ROUTE)}
                 invalidateAndRefreshData={invalidateAndRefreshData}
+                isFullWidth
               />
             </Box>
           ) : (
@@ -88,6 +89,7 @@ export const AlertPage = () => {
                   alert={alert}
                   resetAlert={() => void navigate(DEFAULT_ROUTE)}
                   invalidateAndRefreshData={invalidateAndRefreshData}
+                  isFullWidth
                 />
               </Grid>
             </Grid>

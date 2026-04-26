@@ -17,6 +17,7 @@ interface AlertContainerType {
   invalidateAndRefreshData: () => void;
   alert: AlertType;
   resetAlert: () => void;
+  isFullWidth?: boolean;
 }
 
 export const AlertContainer = ({
@@ -24,6 +25,7 @@ export const AlertContainer = ({
   invalidateAndRefreshData,
   alert,
   resetAlert,
+  isFullWidth = false,
 }: AlertContainerType) => {
   const theme = useTheme();
   const { t } = useTranslationPrefix('alerts');
@@ -49,7 +51,7 @@ export const AlertContainer = ({
     <>
       {selectedSequence && (
         <Grid container padding={{ xs: 1, sm: 2 }} spacing={{ xs: 1, sm: 2 }}>
-          <Grid size={{ xs: 12, lg: 9 }}>
+          <Grid size={{ xs: 12, lg: 8 }}>
             <AlertHeader
               alert={alert}
               selectedSequence={selectedSequence}
@@ -60,7 +62,7 @@ export const AlertContainer = ({
             />
           </Grid>
           <Grid
-            size={{ xs: 12, lg: 3 }}
+            size={{ xs: 12, lg: 4 }}
             container
             justifyContent="flex-end"
             alignItems="center"
@@ -85,15 +87,16 @@ export const AlertContainer = ({
               />
             </Tooltip>
           </Grid>
-          <Grid size={{ xs: 12, lg: 9 }}>
-            <AlertImages sequence={selectedSequence} />
+          <Grid size={{ xs: 12, lg: 8 }}>
+            <AlertImages sequence={selectedSequence} maxImageHeight="60vh" />
           </Grid>
-          <Grid size={{ xs: 12, lg: 3 }}>
+          <Grid size={{ xs: 12, lg: 4 }}>
             <AlertInfos
               sequence={selectedSequence}
               alert={alert}
               isLiveMode={isLiveMode}
               invalidateAndRefreshData={invalidateAndRefreshData}
+              isFullWidth={isFullWidth}
             />
           </Grid>
         </Grid>

@@ -20,7 +20,7 @@ export const AlertsCardsColumn = ({
   children = null,
 }: AlertsCardsColumnType) => {
   return (
-    <Stack spacing={{ xs: 1, sm: 2 }}>
+    <Stack spacing={{ xs: 0.5, sm: 1 }}>
       {alerts.map((alert) => (
         <AlertCard
           key={alert.id}
