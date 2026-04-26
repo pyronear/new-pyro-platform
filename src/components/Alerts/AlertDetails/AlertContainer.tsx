@@ -5,9 +5,10 @@ import { useEffect, useState } from 'react';
 import {
   type AlertType,
   type SequenceWithCameraInfoType,
-} from '../../../utils/alerts';
-import { useTransientTooltip } from '../../../utils/useTransientTooltip';
-import { useTranslationPrefix } from '../../../utils/useTranslationPrefix';
+} from '@/utils/alerts';
+import { useTransientTooltip } from '@/utils/useTransientTooltip';
+import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
+
 import { AlertHeader } from './AlertHeader';
 import { AlertImages } from './AlertImages/AlertImages';
 import { AlertInfos } from './AlertInfos/AlertInfos';
@@ -88,7 +89,7 @@ export const AlertContainer = ({
             </Tooltip>
           </Grid>
           <Grid size={{ xs: 12, lg: 8 }}>
-            <AlertImages sequence={selectedSequence} maxImageHeight="60vh" />
+            <AlertImages sequence={selectedSequence} />
           </Grid>
           <Grid size={{ xs: 12, lg: 4 }}>
             <AlertInfos

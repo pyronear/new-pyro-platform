@@ -9,9 +9,9 @@ import {
 } from '@mui/material';
 import Card from '@mui/material/Card';
 
-import { type AlertType, formatAzimuth } from '@//utils/alerts';
-import { formatIsoToDate, formatIsoToTime } from '@//utils/dates';
 import { CameraName } from '@/components/Common/Camera/CameraName';
+import { type AlertType, formatAzimuth } from '@/utils/alerts';
+import { formatIsoToDate, formatIsoToTime } from '@/utils/dates';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
 import { SequenceLabelChip } from '../AlertLabel/SequenceLabelChip';

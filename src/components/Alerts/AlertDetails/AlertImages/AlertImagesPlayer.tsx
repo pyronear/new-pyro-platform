@@ -16,7 +16,6 @@ interface AlertImagesPlayerType {
   displayBbox: boolean;
   onSelectedDetectionChange: (detection: DetectionType | null) => void;
   firstConfidentDetectionIndex: number;
-  maxImageHeight?: string;
 }
 
 const ALERTS_PLAYER_INTERVAL_MILLISECONDS =
@@ -28,7 +27,6 @@ export const AlertImagesPlayer = ({
   displayBbox,
   onSelectedDetectionChange,
   firstConfidentDetectionIndex,
-  maxImageHeight,
 }: AlertImagesPlayerType) => {
   const [selectedDetection, setSelectedDetection] =
     useState<DetectionType | null>(null);
@@ -118,7 +116,6 @@ export const AlertImagesPlayer = ({
             displayBbox={displayBbox}
             sequenceId={sequenceId}
             selectedDetection={selectedDetection}
-            maxImageHeight={maxImageHeight}
           />
 
           <Stack direction="row" alignItems="center" spacing={2}>

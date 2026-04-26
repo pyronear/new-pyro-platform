@@ -24,10 +24,9 @@ import { AlertImagesPlayer } from './AlertImagesPlayer';
 
 interface AlertImagesType {
   sequence: SequenceWithCameraInfoType;
-  maxImageHeight?: string;
 }
 
-export const AlertImages = ({ sequence, maxImageHeight }: AlertImagesType) => {
+export const AlertImages = ({ sequence }: AlertImagesType) => {
   const { t } = useTranslationPrefix('alerts');
   const [lastSeenAt, setLastSeenAt] = useState<string | null>(null);
   const [displayBbox, setDisplayBbox] = useState(true);
@@ -156,7 +155,6 @@ export const AlertImages = ({ sequence, maxImageHeight }: AlertImagesType) => {
               firstConfidentDetectionIndex={getFirstConfidentDetectionIndex(
                 detectionsList
               )}
-              maxImageHeight={maxImageHeight}
             />
           )}
         </Grid>
