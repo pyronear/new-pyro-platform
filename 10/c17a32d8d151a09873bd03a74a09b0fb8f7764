@@ -1,0 +1,27 @@
+src/components/Alerts/AlertDetails/AlertImages/AlertImages.tsx
+  f06320e4fb4aede4 29
+src/components/Alerts/AlertDetails/AlertContainer.tsx
+  f06320e4fb4aede4 92
+src/components/Alerts/AlertDetails/AlertImages/DetectionImageWithBoundingBox.tsx
+  f06320e4fb4aede4 133
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.4",
+  "base_commit_sha": "10c17a32d8d151a09873bd03a74a09b0fb8f7764",
+  "prompts": {
+    "f06320e4fb4aede4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "48f8d7aa-51bf-4509-9271-23bc48ffcd83",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Theo Rodrigues",
+      "messages": [],
+      "total_additions": 2388,
+      "total_deletions": 20,
+      "accepted_lines": 2376,
+      "overriden_lines": 0
+    }
+  }
+}
