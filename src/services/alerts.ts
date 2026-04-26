@@ -35,6 +35,7 @@ const apiDetectionResponseSchema = z.object({
   others_bboxes: z.nullable(z.string()),
   created_at: z.iso.datetime({ local: true }),
   url: z.string(),
+  crop_url: z.nullable(z.string()).optional(),
 });
 
 export type SequenceTypeApi = z.infer<typeof apiSequenceResponseSchema>;
@@ -110,7 +111,9 @@ export const getDetectionsBySequence = async (
   sequenceId: number
 ): Promise<DetectionType[]> => {
   return apiInstance
-    .get(`/api/v1/sequences/${sequenceId.toString()}/detections`)
+    .get(`/api/v1/sequences/${sequenceId.toString()}/detections`, {
+      params: { with_crop: true },
+    })
     .then((response: AxiosResponse) => {
       try {
         const result = apiDetectionListResponseSchema.safeParse(response.data);
