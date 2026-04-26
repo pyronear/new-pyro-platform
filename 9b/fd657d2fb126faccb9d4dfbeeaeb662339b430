@@ -1,0 +1,58 @@
+src/components/Alerts/AlertDetails/AlertContainer.tsx
+  41d1c03b9ab9436c 20,28,54,65,90-91,93,99
+src/components/Alerts/AlertsList/AlertsCardsColumn.tsx
+  2c9a6b15d369d9b9 23
+src/pages/AlertPage.tsx
+  41d1c03b9ab9436c 81,92
+src/components/Alerts/AlertsList/AlertCard.tsx
+  41d1c03b9ab9436c 52-63,68,73,75-81,86,88-95,97,102-103
+  f06320e4fb4aede4 3,87,96
+src/components/Alerts/AlertsContainer.tsx
+  2c9a6b15d369d9b9 150,153
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.4",
+  "base_commit_sha": "9bfd657d2fb126faccb9d4dfbeeaeb662339b430",
+  "prompts": {
+    "2c9a6b15d369d9b9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "91292a1b-974b-4413-a7e3-23090efc9507",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Theo Rodrigues",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 15,
+      "overriden_lines": 0
+    },
+    "41d1c03b9ab9436c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "bbf01998-d0a7-47c3-a5bf-2553f64ee703",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Theo Rodrigues",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 246,
+      "overriden_lines": 0
+    },
+    "f06320e4fb4aede4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "48f8d7aa-51bf-4509-9271-23bc48ffcd83",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Theo Rodrigues",
+      "messages": [],
+      "total_additions": 5,
+      "total_deletions": 5,
+      "accepted_lines": 29,
+      "overriden_lines": 0
+    }
+  }
+}
