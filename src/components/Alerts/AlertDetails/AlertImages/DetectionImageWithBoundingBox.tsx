@@ -43,12 +43,14 @@ interface DetectionImageWithBoundingBoxProps {
   displayBbox: boolean;
   selectedDetection: DetectionType;
   sequenceId: number;
+  maxImageHeight?: string;
 }
 
 export const DetectionImageWithBoundingBox = ({
   displayBbox,
   selectedDetection,
   sequenceId,
+  maxImageHeight,
 }: DetectionImageWithBoundingBoxProps) => {
   const theme = useTheme();
   const wrapperRef = useRef<ReactZoomPanPinchContentRef | null>(null);
@@ -130,7 +132,7 @@ export const DetectionImageWithBoundingBox = ({
           <img
             ref={imgRef}
             src={selectedDetection.url}
-            style={{ maxWidth: '100%' }}
+            style={{ maxWidth: '100%', maxHeight: maxImageHeight }}
             onLoad={handleImageLoad}
           />
           {displayBbox && currentBox && (
