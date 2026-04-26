@@ -78,6 +78,8 @@
     "buttonPause": "Pause",
     "buttonDisplayBBox": "Display the detection",
     "buttonHideBBox": "Hide the detection",
+    "buttonDisplayCrop": "Show crop",
+    "buttonHideCrop": "Hide crop",
     "errorFetchImagesMessage": "Something went wrong on our side. Please try again later.",
     "titleDetails": "Information about the alert",
     "titleButtonBackAlt": "Back to alerts list",

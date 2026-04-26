@@ -78,6 +78,8 @@
     "buttonPause": "Pause",
     "buttonDisplayBBox": "Mostrar la detección",
     "buttonHideBBox": "Ocultar la detección",
+    "buttonDisplayCrop": "Mostrar recorte",
+    "buttonHideCrop": "Ocultar recorte",
     "errorFetchImagesMessage": "Se ha producido un error. Vuelva a intentarlo más tarde.",
     "titleDetails": "Detalles de la alerta",
     "titleButtonBackAlt": "Volver a la lista",
