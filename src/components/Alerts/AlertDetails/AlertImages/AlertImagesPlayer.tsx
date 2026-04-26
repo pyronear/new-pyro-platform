@@ -14,6 +14,7 @@ interface AlertImagesPlayerType {
   sequenceId: number;
   detections: DetectionType[]; // Sorted
   displayBbox: boolean;
+  displayCrop: boolean;
   onSelectedDetectionChange: (detection: DetectionType | null) => void;
   firstConfidentDetectionIndex: number;
 }
@@ -25,6 +26,7 @@ export const AlertImagesPlayer = ({
   sequenceId,
   detections,
   displayBbox,
+  displayCrop,
   onSelectedDetectionChange,
   firstConfidentDetectionIndex,
 }: AlertImagesPlayerType) => {
@@ -114,6 +116,7 @@ export const AlertImagesPlayer = ({
         <Stack direction="column" spacing={1}>
           <DetectionImageWithBoundingBox
             displayBbox={displayBbox}
+            displayCrop={displayCrop}
             sequenceId={sequenceId}
             selectedDetection={selectedDetection}
           />

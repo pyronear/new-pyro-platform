@@ -41,12 +41,14 @@ interface BoundingBox {
 
 interface DetectionImageWithBoundingBoxProps {
   displayBbox: boolean;
+  displayCrop: boolean;
   selectedDetection: DetectionType;
   sequenceId: number;
 }
 
 export const DetectionImageWithBoundingBox = ({
   displayBbox,
+  displayCrop,
   selectedDetection,
   sequenceId,
 }: DetectionImageWithBoundingBoxProps) => {
@@ -124,6 +126,24 @@ export const DetectionImageWithBoundingBox = ({
               />
             </MiniMap>
           </div>
+        )}
+
+        {displayCrop && selectedDetection.crop_url && (
+          <img
+            src={selectedDetection.crop_url}
+            alt=""
+            style={{
+              position: 'absolute',
+              top: 20,
+              left: 20,
+              width: 150,
+              zIndex: 2,
+              border: `2px solid ${theme.palette.secondary.dark}`,
+              borderRadius: 4,
+              boxShadow: '0 2px 6px rgba(0, 0, 0, 0.4)',
+              backgroundColor: theme.palette.background.paper,
+            }}
+          />
         )}
 
         <TransformComponent>
