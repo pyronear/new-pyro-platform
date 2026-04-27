@@ -157,7 +157,7 @@ export const DetectionImageWithBoundingBox = ({
               position: 'absolute',
               top: 20,
               ...(cropOnLeft ? { left: 20 } : { right: 20 }),
-              width: 150,
+              width: 224,
               zIndex: 2,
               border: `2px solid ${theme.palette.secondary.dark}`,
               borderRadius: 4,
