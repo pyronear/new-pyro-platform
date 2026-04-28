@@ -78,10 +78,9 @@ export const AlertHeader = ({
               <ArrowBackIcon />
             </IconButton>
             {Title}
-            {SequenceSelectorComponent}
             {SequenceLabel}
-            {SequenceSelectorComponent}
           </Stack>
+          <div style={{ alignSelf: 'center' }}>{SequenceSelectorComponent}</div>
         </Stack>
       ) : (
         <Stack

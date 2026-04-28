@@ -1,15 +1,9 @@
-import VideocamIcon from '@mui/icons-material/Videocam';
-import {
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-} from '@mui/material';
+import { List } from '@mui/material';
 
 import type { CameraType } from '@/services/camera';
 
 import { CameraName } from './CameraName';
+import { SelectableItemList } from './SelectableItemList';
 
 interface CamerasListSelectableProps {
   cameras: CameraType[];
@@ -25,21 +19,14 @@ export const CamerasListSelectable = ({
   return (
     <List>
       {cameras.map((camera) => (
-        <ListItem disablePadding disableGutters key={camera.id}>
-          <ListItemButton
-            selected={camera.id == selectedCameraId}
-            onClick={() => setSelectedCameraId(camera.id)}
-          >
-            {camera.id == selectedCameraId && (
-              <ListItemIcon>
-                <VideocamIcon fontSize="small" />
-              </ListItemIcon>
-            )}
-            <ListItemText inset={camera.id != selectedCameraId}>
-              <CameraName camera={camera} />
-            </ListItemText>
-          </ListItemButton>
-        </ListItem>
+        <SelectableItemList
+          selected={camera.id == selectedCameraId}
+          itemId={camera.id}
+          onClick={setSelectedCameraId}
+          key={camera.id}
+        >
+          <CameraName camera={camera} />
+        </SelectableItemList>
       ))}
     </List>
   );
