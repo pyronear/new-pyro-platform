@@ -85,14 +85,15 @@ export const QuickActions = ({
           <ExploreOutlinedIcon />
           <ButtonGroup>
             {poses
-              .filter((pose) => pose.patrol_id != null)
+              .filter(
+                (pose): pose is PoseCameraType & { patrol_id: number } =>
+                  pose.patrol_id != null
+              )
               .sort((p1, p2) => p1.azimuth - p2.azimuth)
               .map((pose) => (
                 <Button
                   key={pose.id}
-                  onClick={() =>
-                    pose.patrol_id != null && onClickDirection(pose.patrol_id)
-                  }
+                  onClick={() => onClickDirection(pose.patrol_id)}
                 >
                   <Typography p="2px">{pose.azimuth}°</Typography>
                 </Button>
