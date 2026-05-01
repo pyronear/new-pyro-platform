@@ -141,6 +141,11 @@
       "detectionImageAlt": "Erkennung",
       "deleting": "Wird gelöscht...",
       "adding": "Wird hinzugefügt..."
+    },
+    "detectionsOrder": {
+      "buttonLabel": "Erkennungen sortieren",
+      "recentFirst": "Älteste zuerst anzeigen",
+      "latestFirst": "Neueste zuerst anzeigen"
     }
   },
   "history": {

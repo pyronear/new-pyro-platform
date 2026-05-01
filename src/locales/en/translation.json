@@ -140,6 +140,11 @@
       "detectionImageAlt": "Detection",
       "deleting": "Deleting...",
       "adding": "Adding..."
+    },
+    "detectionsOrder": {
+      "buttonLabel": "Sort detections",
+      "recentFirst": "Display oldest first",
+      "latestFirst": "Display newest first"
     }
   },
   "history": {

@@ -91,7 +91,7 @@ export const QuickActions = ({
                 <Button
                   key={pose.id}
                   onClick={() =>
-                    pose.patrol_id && onClickDirection(pose.patrol_id)
+                    pose.patrol_id != null && onClickDirection(pose.patrol_id)
                   }
                 >
                   <Typography p="2px">{pose.azimuth}°</Typography>
