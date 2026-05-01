@@ -1,5 +1,5 @@
 import { useTheme } from '@mui/material';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import {
   MiniMap,
   type ReactZoomPanPinchContentRef,
@@ -11,6 +11,17 @@ import type { DetectionType } from '@//services/alerts';
 
 const MINIMUM_ZOOM_AMOUNT_TO_DISPLAY_MINIMAP = 1.4;
 
+const parseBboxCoords = (
+  bbox: string
+): { x1: number; y1: number; x2: number; y2: number } | null => {
+  const match = /\(([^)]+)\)/.exec(bbox);
+  if (!match) {
+    return null;
+  }
+  const [x1, y1, x2, y2] = match[1].split(',').map(parseFloat);
+  return { x1, y1, x2, y2 };
+};
+
 const parseDetectionBox = (
   detection: DetectionType | null
 ): BoundingBox | null => {
@@ -18,12 +29,12 @@ const parseDetectionBox = (
     return null;
   }
 
-  const match = /\(([^)]+)\)/.exec(detection.bbox);
-  if (!match) {
+  const coords = parseBboxCoords(detection.bbox);
+  if (!coords) {
     return null;
   }
 
-  const [x1, y1, x2, y2] = match[1].split(',').map(parseFloat);
+  const { x1, y1, x2, y2 } = coords;
   return {
     left: `${100 * x1}%`,
     top: `${100 * y1}%`,
@@ -41,12 +52,14 @@ interface BoundingBox {
 
 interface DetectionImageWithBoundingBoxProps {
   displayBbox: boolean;
+  displayCrop: boolean;
   selectedDetection: DetectionType;
   sequenceId: number;
 }
 
 export const DetectionImageWithBoundingBox = ({
   displayBbox,
+  displayCrop,
   selectedDetection,
   sequenceId,
 }: DetectionImageWithBoundingBoxProps) => {
@@ -54,6 +67,16 @@ export const DetectionImageWithBoundingBox = ({
   const wrapperRef = useRef<ReactZoomPanPinchContentRef | null>(null);
   const [currentBox, setCurrentBox] = useState<BoundingBox | null>(null);
   const shouldResetTransform = useRef(false);
+
+  // Place the crop preview opposite the detection so it never sits on top of it
+  const cropOnLeft = useMemo(() => {
+    const coords = parseBboxCoords(selectedDetection.bbox);
+    if (!coords) {
+      return true;
+    }
+    const centerX = (coords.x1 + coords.x2) / 2;
+    return centerX > 0.5;
+  }, [selectedDetection.bbox]);
 
   // Reset image position & zoom whenever the user switches alert
   // This reset will happen once the new image has loaded to avoid glitchy looking behaviour
@@ -124,6 +147,24 @@ export const DetectionImageWithBoundingBox = ({
               />
             </MiniMap>
           </div>
+        )}
+
+        {displayCrop && selectedDetection.crop_url && (
+          <img
+            src={selectedDetection.crop_url}
+            alt=""
+            style={{
+              position: 'absolute',
+              top: 20,
+              ...(cropOnLeft ? { left: 20 } : { right: 20 }),
+              width: 150,
+              zIndex: 2,
+              border: `2px solid ${theme.palette.secondary.dark}`,
+              borderRadius: 4,
+              boxShadow: '0 2px 6px rgba(0, 0, 0, 0.4)',
+              backgroundColor: theme.palette.background.paper,
+            }}
+          />
         )}
 
         <TransformComponent>

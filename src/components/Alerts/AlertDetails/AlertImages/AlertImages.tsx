@@ -1,4 +1,9 @@
-import { Visibility, VisibilityOff } from '@mui/icons-material';
+import {
+  CropFree,
+  CropOriginal,
+  Visibility,
+  VisibilityOff,
+} from '@mui/icons-material';
 import DownloadIcon from '@mui/icons-material/Download';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
@@ -30,6 +35,7 @@ export const AlertImages = ({ sequence }: AlertImagesType) => {
   const { t } = useTranslationPrefix('alerts');
   const [lastSeenAt, setLastSeenAt] = useState<string | null>(null);
   const [displayBbox, setDisplayBbox] = useState(true);
+  const [displayCrop, setDisplayCrop] = useState(true);
   const [orderDetectionsByDesc, setOrderDetectionsByDesc] = useState(true);
   const [currentDetection, setCurrentDetection] =
     useState<DetectionType | null>(null);
@@ -69,6 +75,7 @@ export const AlertImages = ({ sequence }: AlertImagesType) => {
   useEffect(() => {
     // Reset bbox state when the sequence changes
     setDisplayBbox(true);
+    setDisplayCrop(true);
   }, [sequence.id]);
 
   const downloadCurrentImage = () => {
@@ -124,6 +131,13 @@ export const AlertImages = ({ sequence }: AlertImagesType) => {
             >
               {displayBbox ? t('buttonHideBBox') : t('buttonDisplayBBox')}
             </Button>
+            <Button
+              variant="outlined"
+              onClick={() => setDisplayCrop((oldValue) => !oldValue)}
+              startIcon={displayCrop ? <CropFree /> : <CropOriginal />}
+            >
+              {displayCrop ? t('buttonHideCrop') : t('buttonDisplayCrop')}
+            </Button>
             <SplitButton
               label={t('buttonImageDownload')}
               options={downloadOptions}
@@ -152,6 +166,7 @@ export const AlertImages = ({ sequence }: AlertImagesType) => {
               sequenceId={sequence.id}
               detections={detectionsList}
               displayBbox={displayBbox}
+              displayCrop={displayCrop}
               onSelectedDetectionChange={setCurrentDetection}
               firstConfidentDetectionIndex={getFirstConfidentDetectionIndex(
                 detectionsList

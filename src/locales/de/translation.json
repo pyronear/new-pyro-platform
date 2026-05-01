@@ -78,6 +78,8 @@
     "buttonPause": "Pause",
     "buttonDisplayBBox": "Erkennung anzeigen",
     "buttonHideBBox": "Erkennung verbergen",
+    "buttonDisplayCrop": "Nahaufnahme anzeigen",
+    "buttonHideCrop": "Nahaufnahme verbergen",
     "errorFetchImagesMessage": "Auf unserer Seite ist etwas schief gelaufen. Bitte versuchen Sie es später erneut.",
     "titleDetails": "Informationen zum Alarm",
     "titleButtonBackAlt": "Zurück zur Alarmliste",
