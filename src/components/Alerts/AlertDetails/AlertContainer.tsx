@@ -18,7 +18,6 @@ interface AlertContainerType {
   invalidateAndRefreshData: () => void;
   alert: AlertType;
   resetAlert: () => void;
-  isFullWidth?: boolean;
 }
 
 export const AlertContainer = ({
@@ -26,7 +25,6 @@ export const AlertContainer = ({
   invalidateAndRefreshData,
   alert,
   resetAlert,
-  isFullWidth = false,
 }: AlertContainerType) => {
   const theme = useTheme();
   const { t } = useTranslationPrefix('alerts');
@@ -97,7 +95,6 @@ export const AlertContainer = ({
               alert={alert}
               isLiveMode={isLiveMode}
               invalidateAndRefreshData={invalidateAndRefreshData}
-              isFullWidth={isFullWidth}
             />
           </Grid>
         </Grid>

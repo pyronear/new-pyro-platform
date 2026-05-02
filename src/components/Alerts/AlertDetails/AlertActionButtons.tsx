@@ -14,14 +14,11 @@ import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 import { SequenceLabelContainer } from '../AlertLabel/SequenceLabelContainer';
 import { OcclusionMaskModal } from '../OcclusionMaskModal/OcclusionMaskModal';
 
-export type ActionButtonsLayout = 'inline' | 'split';
-
 interface AlertActionButtonsType {
   sequence: SequenceWithCameraInfoType;
   alert: AlertType;
   isLiveMode: boolean;
   invalidateAndRefreshData: () => void;
-  layout?: ActionButtonsLayout;
 }
 
 export const AlertActionButtons = ({
@@ -29,22 +26,15 @@ export const AlertActionButtons = ({
   alert,
   isLiveMode,
   invalidateAndRefreshData,
-  layout = 'split',
 }: AlertActionButtonsType) => {
   const { t } = useTranslationPrefix('alerts');
   const [isOcclusionModalOpen, setIsOcclusionModalOpen] = useState(false);
-
-  const lgSizes: Record<ActionButtonsLayout, [number, number, number]> = {
-    inline: [4, 4, 4],
-    split: [6, 6, 12],
-  };
-  const [investigateLg, masksLg, treatLg] = lgSizes[layout];
 
   return (
     <>
       <Grid container spacing={2} direction={{ xs: 'column', lg: 'row' }}>
         {sequence.camera && (
-          <Grid size={{ xs: 12, lg: investigateLg }}>
+          <Grid size={{ xs: 12, lg: 6 }}>
             <ModalLiveWrapper cameraName={sequence.camera.name} alert={alert}>
               {(onClick) => (
                 <Button
@@ -61,7 +51,7 @@ export const AlertActionButtons = ({
             </ModalLiveWrapper>
           </Grid>
         )}
-        <Grid size={{ xs: 12, lg: masksLg }}>
+        <Grid size={{ xs: 12, lg: 6 }}>
           <Button
             color="secondary"
             variant="outlined"
@@ -73,7 +63,7 @@ export const AlertActionButtons = ({
             {t('occlusionMask.buttonManageMasks')}
           </Button>
         </Grid>
-        <Grid size={{ xs: 12, lg: treatLg }}>
+        <Grid size={12}>
           <SequenceLabelContainer
             sequence={sequence}
             isLiveMode={isLiveMode}
@@ -90,7 +80,7 @@ export const AlertActionButtons = ({
                 {t(isLiveMode ? 'buttonTreatAlert' : 'buttonModifyAlert')}
               </Button>
             )}
-          ></SequenceLabelContainer>
+          />
         </Grid>
       </Grid>
       <OcclusionMaskModal

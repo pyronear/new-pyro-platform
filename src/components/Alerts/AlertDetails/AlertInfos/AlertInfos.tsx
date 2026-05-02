@@ -17,7 +17,6 @@ interface AlertInfosType {
   invalidateAndRefreshData: () => void;
   sequence: SequenceWithCameraInfoType;
   alert: AlertType;
-  isFullWidth?: boolean;
 }
 
 export const AlertInfos = ({
@@ -25,7 +24,6 @@ export const AlertInfos = ({
   invalidateAndRefreshData,
   sequence,
   alert,
-  isFullWidth = false,
 }: AlertInfosType) => {
   const theme = useTheme();
   const { t } = useTranslationPrefix('alerts');
@@ -64,7 +62,6 @@ export const AlertInfos = ({
             alert={alert}
             isLiveMode={isLiveMode}
             invalidateAndRefreshData={invalidateAndRefreshData}
-            layout={isFullWidth ? 'inline' : 'split'}
           />
         </Grid>
       </Grid>
