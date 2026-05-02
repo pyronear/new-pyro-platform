@@ -130,7 +130,7 @@ export const DetectionImageWithBoundingBox = ({
           <img
             ref={imgRef}
             src={selectedDetection.url}
-            style={{ maxWidth: '100%' }}
+            style={{ maxWidth: '100%', maxHeight: '60vh' }}
             onLoad={handleImageLoad}
           />
           {displayBbox && currentBox && (

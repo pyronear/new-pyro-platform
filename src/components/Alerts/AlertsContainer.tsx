@@ -160,10 +160,10 @@ export const AlertsContainer = ({
             </Box>
           ) : (
             <Grid container height="100%">
-              <Grid size={{ sm: 4, md: 3 }} height="100%" overflow={'auto'}>
+              <Grid size={{ sm: 3, md: 2 }} height="100%" overflow={'auto'}>
                 {AlertsListComponent}
               </Grid>
-              <Grid size={{ sm: 8, md: 9 }} height={'100%'} overflow={'auto'}>
+              <Grid size={{ sm: 9, md: 10 }} height={'100%'} overflow={'auto'}>
                 {AlertDetailsComponent}
               </Grid>
             </Grid>

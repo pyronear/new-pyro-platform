@@ -5,9 +5,10 @@ import { useEffect, useState } from 'react';
 import {
   type AlertType,
   type SequenceWithCameraInfoType,
-} from '../../../utils/alerts';
-import { useTransientTooltip } from '../../../utils/useTransientTooltip';
-import { useTranslationPrefix } from '../../../utils/useTranslationPrefix';
+} from '@/utils/alerts';
+import { useTransientTooltip } from '@/utils/useTransientTooltip';
+import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
+
 import { AlertHeader } from './AlertHeader';
 import { AlertImages } from './AlertImages/AlertImages';
 import { AlertInfos } from './AlertInfos/AlertInfos';
@@ -49,7 +50,7 @@ export const AlertContainer = ({
     <>
       {selectedSequence && (
         <Grid container padding={{ xs: 1, sm: 2 }} spacing={{ xs: 1, sm: 2 }}>
-          <Grid size={{ xs: 12, lg: 9 }}>
+          <Grid size={{ xs: 12, lg: 8 }}>
             <AlertHeader
               alert={alert}
               selectedSequence={selectedSequence}
@@ -60,7 +61,7 @@ export const AlertContainer = ({
             />
           </Grid>
           <Grid
-            size={{ xs: 12, lg: 3 }}
+            size={{ xs: 12, lg: 4 }}
             container
             justifyContent="flex-end"
             alignItems="center"
@@ -85,10 +86,10 @@ export const AlertContainer = ({
               />
             </Tooltip>
           </Grid>
-          <Grid size={{ xs: 12, lg: 9 }}>
+          <Grid size={{ xs: 12, lg: 8 }}>
             <AlertImages sequence={selectedSequence} />
           </Grid>
-          <Grid size={{ xs: 12, lg: 3 }}>
+          <Grid size={{ xs: 12, lg: 4 }}>
             <AlertInfos
               sequence={selectedSequence}
               alert={alert}
