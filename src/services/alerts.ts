@@ -107,10 +107,13 @@ export const getAlertsByFilters = async (
 };
 
 export const getDetectionsBySequence = async (
-  sequenceId: number
+  sequenceId: number,
+  isDesc = true
 ): Promise<DetectionType[]> => {
   return apiInstance
-    .get(`/api/v1/sequences/${sequenceId.toString()}/detections`)
+    .get(`/api/v1/sequences/${sequenceId.toString()}/detections`, {
+      params: { desc: isDesc },
+    })
     .then((response: AxiosResponse) => {
       try {
         const result = apiDetectionListResponseSchema.safeParse(response.data);

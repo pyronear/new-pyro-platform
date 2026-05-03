@@ -115,6 +115,13 @@ export const getSequenceByCameraId = (alert: AlertType, cameraId: number) => {
   return alert.sequences.find((sequence) => sequence.camera?.id === cameraId);
 };
 
+export const getSequenceBySequenceId = (
+  alert: AlertType,
+  sequenceId: number
+) => {
+  return alert.sequences.find((sequence) => sequence.id === sequenceId);
+};
+
 export const hasNewAlertSince = (
   alertList: AlertTypeApi[],
   previousDataUpdatedAt: number

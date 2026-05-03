@@ -1,14 +1,14 @@
 import CachedIcon from '@mui/icons-material/Cached';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { Button, Popover } from '@mui/material';
+import { Button, List, Popover } from '@mui/material';
 import { type Dispatch, type SetStateAction, useState } from 'react';
 
-import { CamerasListSelectable } from '@/components/Common/Camera/CamerasListSelectable';
+import { CameraName } from '@/components/Common/Camera/CameraName';
+import SelectableItemList from '@/components/Common/Camera/SelectableItemList';
 import {
   type AlertType,
-  extractCameraListFromAlert,
-  getSequenceByCameraId,
+  getSequenceBySequenceId,
   type SequenceWithCameraInfoType,
 } from '@/utils/alerts';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
@@ -40,6 +40,13 @@ export const SequenceSelector = ({
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
 
+  const selectSequence = (newSequenceId: number) => {
+    const newSelectedSequence = getSequenceBySequenceId(alert, newSequenceId);
+    if (newSelectedSequence) {
+      setSelectedSequence(newSelectedSequence);
+    }
+  };
+
   return (
     <>
       <Button
@@ -62,19 +69,23 @@ export const SequenceSelector = ({
           horizontal: 'left',
         }}
       >
-        <CamerasListSelectable
-          cameras={extractCameraListFromAlert(alert)}
-          selectedCameraId={selectedSequence.camera?.id ?? null}
-          setSelectedCameraId={(newCameraId: number) => {
-            const newSelectedSequence = getSequenceByCameraId(
-              alert,
-              newCameraId
-            );
-            if (newSelectedSequence) {
-              setSelectedSequence(newSelectedSequence);
-            }
-          }}
-        />
+        <List>
+          {alert.sequences.map((sequence) => (
+            <SelectableItemList
+              selected={sequence.id == selectedSequence.id}
+              itemId={sequence.id}
+              onClick={selectSequence}
+              key={sequence.id}
+            >
+              {sequence.camera && (
+                <CameraName
+                  camera={sequence.camera}
+                  azimuth={sequence.azimuth}
+                />
+              )}
+            </SelectableItemList>
+          ))}
+        </List>
       </Popover>
     </>
   );
