@@ -8,7 +8,7 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { type FormEvent, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useAuth } from '../../context/useAuth';
@@ -39,8 +39,7 @@ const LoginForm = () => {
 
   const navigate = useNavigate();
 
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
     try {
       await login(username, password);
       await navigate('dashboard');
@@ -60,7 +59,7 @@ const LoginForm = () => {
       minHeight="100%"
     >
       <Paper sx={{ p: 4, width: 400 }}>
-        <form onSubmit={(e) => void handleSubmit(e)}>
+        <form action={handleSubmit}>
           <TextField
             label={t('username')}
             name="username"
