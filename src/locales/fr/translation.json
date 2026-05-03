@@ -184,7 +184,23 @@
     "mapOsm": "OpenStreetMap",
     "mapIgn": "IGN (France)",
     "mapSatellite": "Satellite",
-    "enableAudioAlerts": "Activer le son des alertes"
+    "enableAudioAlerts": "Activer le son des alertes",
+    "browserNotifications": {
+      "title": "Notifications du navigateur",
+      "unsupported": "Ce navigateur ne prend pas en charge les notifications push sur cet appareil.",
+      "denied": "Les notifications sont bloquées dans ce navigateur. Activez-les dans les réglages du navigateur pour abonner cet appareil.",
+      "unsubscribed": "Cet appareil ne reçoit pas de notifications push du navigateur.",
+      "subscribed": "Cet appareil est abonné et ouvrira directement l'alerte lorsque vous appuierez sur la notification.",
+      "enableButton": "Activer sur cet appareil",
+      "disableButton": "Désactiver sur cet appareil",
+      "loading": "Mise à jour...",
+      "errors": {
+        "unavailable": "Les notifications push ne sont pas encore configurées sur le serveur.",
+        "denied": "L'autorisation de notification a été refusée.",
+        "dismissed": "L'autorisation de notification n'a pas été accordée.",
+        "unknown": "Une erreur est survenue lors de la mise à jour des notifications du navigateur."
+      }
+    }
   },
   "map": {
     "layerControl": "Couches",

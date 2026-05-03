@@ -183,6 +183,22 @@
     "mapOsm": "OpenStreetMap",
     "mapIgn": "IGN (France)",
     "mapSatellite": "Satellit",
-    "enableAudioAlerts": "Audio-Warnungen aktivieren"
+    "enableAudioAlerts": "Audio-Warnungen aktivieren",
+    "browserNotifications": {
+      "title": "Browser-Benachrichtigungen",
+      "unsupported": "Dieser Browser unterstützt auf diesem Gerät keine Push-Benachrichtigungen.",
+      "denied": "Benachrichtigungen sind in diesem Browser blockiert. Aktiviere sie in den Browsereinstellungen, um dieses Gerät zu abonnieren.",
+      "unsubscribed": "Dieses Gerät empfängt keine Browser-Push-Benachrichtigungen.",
+      "subscribed": "Dieses Gerät ist abonniert und öffnet den Alarm direkt, wenn du auf die Benachrichtigung tippst.",
+      "enableButton": "Auf diesem Gerät aktivieren",
+      "disableButton": "Auf diesem Gerät deaktivieren",
+      "loading": "Wird aktualisiert...",
+      "errors": {
+        "unavailable": "Push-Benachrichtigungen sind auf dem Server noch nicht konfiguriert.",
+        "denied": "Die Benachrichtigungsberechtigung wurde verweigert.",
+        "dismissed": "Die Benachrichtigungsberechtigung wurde nicht erteilt.",
+        "unknown": "Beim Aktualisieren der Browser-Benachrichtigungen ist ein Fehler aufgetreten."
+      }
+    }
   }
 }
