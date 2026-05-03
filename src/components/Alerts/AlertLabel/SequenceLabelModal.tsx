@@ -83,6 +83,9 @@ export const SequenceLabelModal = ({
                   value={value}
                   control={<Radio />}
                   label={<SequenceLabelChip labelWildfire={value} />}
+                  sx={{
+                    paddingBottom: 1,
+                  }}
                 />
               ))}
             </RadioGroup>

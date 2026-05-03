@@ -72,7 +72,11 @@ export const SequenceLabelChip = ({
       sx={{
         '& .MuiChip-label': {
           font: theme.typography.body1,
+          display: 'block',
+          whiteSpace: 'normal',
         },
+        minHeight: '2rem',
+        height: 'auto',
       }}
     />
   );

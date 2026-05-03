@@ -1,5 +1,5 @@
 import ShareIcon from '@mui/icons-material/Share';
-import { Button, Grid, Tooltip, Typography } from '@mui/material';
+import { Button, Grid, Tooltip } from '@mui/material';
 import { useEffect, useState } from 'react';
 
 import {
@@ -75,7 +75,7 @@ export const AlertContainer = ({
                 variant="text"
                 onClick={handleShare}
               >
-                <Typography variant="body1">{t('buttonShare')}</Typography>
+                {t('buttonShare')}
               </Button>
             </Tooltip>
           </Grid>

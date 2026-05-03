@@ -11,7 +11,7 @@ export const ResponsiveButton = (props: ButtonProps) => {
           '& .MuiButton-startIcon': {
             margin: 0,
           },
-          '& .buttonText': {
+          '& .Mui-label': {
             display: 'none',
           },
         },
