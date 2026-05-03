@@ -1,5 +1,5 @@
 import ShareIcon from '@mui/icons-material/Share';
-import { Chip, Grid, Tooltip, useTheme } from '@mui/material';
+import { Button, Grid, Tooltip, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 
 import {
@@ -26,7 +26,6 @@ export const AlertContainer = ({
   alert,
   resetAlert,
 }: AlertContainerType) => {
-  const theme = useTheme();
   const { t } = useTranslationPrefix('alerts');
   const [selectedSequence, setSelectedSequence] =
     useState<SequenceWithCameraInfoType | null>(null);
@@ -71,19 +70,13 @@ export const AlertContainer = ({
               placement="top-end"
               title={t('shareLinkCopied')}
             >
-              <Chip
-                icon={<ShareIcon />}
-                label={t('buttonShare')}
-                variant="filled"
-                size="medium"
-                clickable
+              <Button
+                startIcon={<ShareIcon />}
+                variant="text"
                 onClick={handleShare}
-                sx={{
-                  '& .MuiChip-label': {
-                    font: theme.typography.body1,
-                  },
-                }}
-              />
+              >
+                <Typography variant="body1">{t('buttonShare')}</Typography>
+              </Button>
             </Tooltip>
           </Grid>
           <Grid size={{ xs: 12, lg: 8 }}>
