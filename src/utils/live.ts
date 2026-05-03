@@ -65,6 +65,8 @@ export interface MovementCommand {
   degrees?: number;
   speed?: number;
   direction?: CameraDirectionType;
+  coord_x?: number;
+  coord_y?: number;
 }
 
 export const getMoveToAzimuthFromAlert = (

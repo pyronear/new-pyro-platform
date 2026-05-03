@@ -3,6 +3,7 @@ import { type MouseEventHandler, type Ref, useState } from 'react';
 import type { CameraFullInfosType } from '@/utils/camera';
 import { SPEEDS } from '@/utils/live';
 
+import { useActionsOnCamera } from '../../context/useActionsOnCamera';
 import { FloatingActions } from '../StreamActions/FloatingActions';
 import { QuickActions } from '../StreamActions/QuickActions';
 
@@ -20,13 +21,18 @@ export const VideoStream = ({
   ref,
 }: VideoStreamProps) => {
   const [speedIndex, setSpeedIndex] = useState(1);
+  const { addStreamingAction } = useActionsOnCamera();
 
   const onClick: MouseEventHandler<HTMLVideoElement> = (e) => {
     const rect = e.currentTarget.getBoundingClientRect();
     if (rect.height && rect.width) {
       const x = (e.clientX - rect.left) / rect.width;
       const y = (e.clientY - rect.top) / rect.height;
-      console.log(`Left? : ${x}; Top? : ${y}`);
+      addStreamingAction({
+        type: 'MOVE_TO_COORDINATES',
+        id: camera.id,
+        params: { move: { coord_x: x, coord_y: y } },
+      });
     }
   };
 
@@ -42,12 +48,13 @@ export const VideoStream = ({
           ref={ref}
           playsInline
           autoPlay
-          onClick={onClick}
+          onClick={hasRotation ? onClick : undefined}
           style={{
             background: '#1e1e1e',
             width: '100%',
             height: '100%',
             display: display ? 'inline' : 'none',
+            cursor: display && hasRotation ? 'crosshair' : 'cursor',
           }}
         />
         {display && (
