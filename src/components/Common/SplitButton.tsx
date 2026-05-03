@@ -10,6 +10,8 @@ import Popper from '@mui/material/Popper';
 import type { ReactElement } from 'react';
 import { useRef, useState } from 'react';
 
+import ResponsiveButton from './ResponsiveButton';
+
 export interface SplitButtonOption {
   label: string;
   onClick?: () => void;
@@ -64,9 +66,9 @@ export const SplitButton = ({
         aria-label={label}
         size={size}
       >
-        <Button startIcon={startIcon} onClick={handleToggle}>
-          {label}
-        </Button>
+        <ResponsiveButton startIcon={startIcon} onClick={handleToggle}>
+          <span className="Mui-label">{label}</span>
+        </ResponsiveButton>
         <Button
           size={'small'}
           aria-controls={open ? 'split-button-menu' : undefined}
