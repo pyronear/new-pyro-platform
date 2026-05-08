@@ -1,0 +1,26 @@
+src/components/Common/Map/MapLayerControl.tsx
+  s_5e1aa7018194dd::t_0edf87a803c267 70
+  s_5e1aa7018194dd::t_4351ec8d610458 24
+  s_5e1aa7018194dd::t_48f7e3638ce6cd 56
+  s_5e1aa7018194dd::t_9730e06ca1c3e0 170-185
+src/components/Common/Map/OnfForestOverlay.tsx
+  s_5e1aa7018194dd::t_3cc4e8abd50c53 21
+  s_5e1aa7018194dd::t_eece2f594ae241 1-20,23-25
+  s_5e1aa7018194dd::t_7e5afd31f6d8bf 22
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.4",
+  "base_commit_sha": "27a34b2cd408ebccadc0ec1eeb49a3ccd8d1301d",
+  "prompts": {},
+  "sessions": {
+    "s_5e1aa7018194dd": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "13163b58-e706-417e-8bf7-d071a461ed62",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "Theo Rodrigues <theo.rodrigues@theodo.com>"
+    }
+  }
+}
