@@ -188,6 +188,7 @@
     "layerControl": "Capas",
     "baseLayer": "Capa base",
     "overlays": "Superposiciones",
-    "dfciGrid": "Cuadrícula DFCI"
+    "dfciGrid": "Cuadrícula DFCI",
+    "onfForest": "Parcelas forestales ONF"
   }
 }
