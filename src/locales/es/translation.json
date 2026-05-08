@@ -152,7 +152,20 @@
     "iconAlt": "No hay alertas que mostrar",
     "errorFetchSequencesMessage": "Se ha producido un error. Vuelva a intentarlo más tarde.",
     "dateField": "Fecha",
-    "loadMoreMessage": "Mostrar más alertas"
+    "loadMoreMessage": "Mostrar más alertas",
+    "export": {
+      "title": "Exportar",
+      "button": "Descargar CSV",
+      "modal": {
+        "title": "Exportar alertas",
+        "description": "Seleccione un intervalo de fechas para descargar las alertas correspondientes en formato CSV.",
+        "fromDate": "Desde",
+        "toDate": "Hasta",
+        "cancel": "Cancelar",
+        "confirm": "Descargar",
+        "errorMessage": "Se ha producido un error durante la exportación. Por favor, inténtelo de nuevo."
+      }
+    }
   },
   "live": {
     "errorFetchInfos": "Se ha producido un error. Vuelva a intentarlo más tarde.",
