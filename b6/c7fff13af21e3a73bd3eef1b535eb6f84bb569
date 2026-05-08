@@ -1,0 +1,19 @@
+src/utils/dates.ts
+  s_5e1aa7018194dd::t_bf697f4dedf706 70-80
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.1",
+  "base_commit_sha": "b6c7fff13af21e3a73bd3eef1b535eb6f84bb569",
+  "prompts": {},
+  "sessions": {
+    "s_5e1aa7018194dd": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "13163b58-e706-417e-8bf7-d071a461ed62",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "Theo Rodrigues <theo.rodrigues@theodo.com>"
+    }
+  }
+}
