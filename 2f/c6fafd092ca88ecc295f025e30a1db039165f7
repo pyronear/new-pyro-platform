@@ -1,0 +1,31 @@
+src/components/History/HistoryList/HistoryExport.tsx
+  s_5e1aa7018194dd::t_183cbe84e56369 1-15,17-29
+  s_5e1aa7018194dd::t_fe80397cc5fb8d 16
+src/components/History/HistoryList/HistoryFilters.tsx
+  s_5e1aa7018194dd::t_cdb190963e2e68 1
+  s_5e1aa7018194dd::t_3f8bf757d7f234 23,25-35,38-53
+  s_5e1aa7018194dd::t_c52cd53eb4e16c 24
+  s_5e1aa7018194dd::t_f76ad8a9161c89 7
+src/components/History/HistoryList/HistoryExportModal.tsx
+  s_5e1aa7018194dd::t_e9f09f3dddbbdc 1-17,23-24,26-44,46-50,52-68,70,72-74,76-81,83-85,87-112,114-120,122-127,129-135
+  s_5e1aa7018194dd::t_ec5df94d35de3d 18-22,25,45,51,69,71,75,82,86,113,121,128
+src/components/History/HistoryList/HistoryList.tsx
+  s_5e1aa7018194dd::t_50ad30ae1b22d2 46
+  s_5e1aa7018194dd::t_d4cce78e4818f9 14
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.1",
+  "base_commit_sha": "2fc6fafd092ca88ecc295f025e30a1db039165f7",
+  "prompts": {},
+  "sessions": {
+    "s_5e1aa7018194dd": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "13163b58-e706-417e-8bf7-d071a461ed62",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "Theo Rodrigues <theo.rodrigues@theodo.com>"
+    }
+  }
+}
