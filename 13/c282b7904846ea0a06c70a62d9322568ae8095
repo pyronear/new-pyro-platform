@@ -1,0 +1,19 @@
+src/utils/useMapLayers.ts
+  s_5e1aa7018194dd::t_e37f8486787475 39-57
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.4",
+  "base_commit_sha": "13c282b7904846ea0a06c70a62d9322568ae8095",
+  "prompts": {},
+  "sessions": {
+    "s_5e1aa7018194dd": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "13163b58-e706-417e-8bf7-d071a461ed62",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "Theo Rodrigues <theo.rodrigues@theodo.com>"
+    }
+  }
+}
