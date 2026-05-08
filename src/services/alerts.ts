@@ -106,6 +106,22 @@ export const getAlertsByFilters = async (
     });
 };
 
+export const exportAlerts = async (
+  fromDate: string,
+  toDate: string
+): Promise<Blob> => {
+  return apiInstance
+    .get('/api/v1/alerts/export', {
+      params: { from_date: fromDate, to_date: toDate },
+      responseType: 'blob',
+    })
+    .then((response: AxiosResponse<Blob>) => response.data)
+    .catch((err: unknown) => {
+      console.error(err);
+      throw err;
+    });
+};
+
 export const getDetectionsBySequence = async (
   sequenceId: number,
   isDesc = true
