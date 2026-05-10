@@ -25,8 +25,8 @@
  * @property {OnFailLoading} onFailLoading - called when there's no more call to WHEP endpoint.
  */
 
-const RETRY_PAUSE_IN_MS = 2000;
-const RETRY_NB_MAX = 20;
+const RETRY_PAUSE_IN_MS = 1000;
+const RETRY_NB_MAX = 5;
 
 /** WebRTC/WHEP reader. */
 export class MediaMTXWebRTCReader {

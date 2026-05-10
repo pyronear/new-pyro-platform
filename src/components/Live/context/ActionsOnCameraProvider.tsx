@@ -26,6 +26,7 @@ import {
   type StreamingAction,
 } from '../context/ActionsOnCameraContext';
 
+const MAX_RETRY_ON_ACTIONS = 3;
 const TIME_BETWEEN_START_AND_MOVE_MS = 3000;
 const LIVE_STREAMING_TIMEOUT_MS =
   appConfig.getConfig().LIVE_STREAMING_TIMEOUT_SECONDS * 1000;
@@ -48,6 +49,7 @@ export const ActionsOnCameraContextProvider: React.FC<{
 
   const { mutateAsync: startStreamingMutate, status: statusStart } =
     useMutation({
+      retry: MAX_RETRY_ON_ACTIONS,
       mutationFn: (params: {
         id: number;
         hasRotation: boolean;
@@ -72,6 +74,7 @@ export const ActionsOnCameraContextProvider: React.FC<{
     });
 
   const { mutateAsync: stopStreamingMutate, status: statusStop } = useMutation({
+    retry: MAX_RETRY_ON_ACTIONS,
     mutationFn: (params: { id: number; hasRotation: boolean }) =>
       params.hasRotation
         ? stopStreamingThenStartPatrol(params.id)
