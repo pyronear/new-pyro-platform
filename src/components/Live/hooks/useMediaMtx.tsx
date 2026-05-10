@@ -12,6 +12,7 @@ interface StreamVideoProps {
   urlStreaming: string;
   refVideo: RefObject<HTMLVideoElement | null>;
   id: number;
+  isStreamingTimeout: boolean;
 }
 
 export const StateStreaming = {
@@ -28,6 +29,7 @@ export const useMediaMtx = ({
   urlStreaming,
   refVideo,
   id,
+  isStreamingTimeout,
 }: StreamVideoProps) => {
   const [state, setState] = useState<number>(INITIAL_STATE);
 
@@ -37,12 +39,16 @@ export const useMediaMtx = ({
         url: urlStreaming,
         onError: (err: string) => {
           console.log(err);
-          setState((oldValue) =>
+          setState((oldValue) => {
             // Set to error state only if the video is initialized
-            oldValue === StateStreaming.IS_STREAMING
-              ? StateStreaming.TEMPORARY_ERROR
-              : oldValue
-          );
+            if (oldValue === StateStreaming.IN_CREATION) {
+              return StateStreaming.IN_CREATION;
+            } else {
+              return isStreamingTimeout
+                ? StateStreaming.FAILED
+                : StateStreaming.TEMPORARY_ERROR;
+            }
+          });
         },
         onTrack: (evt: RTCTrackEvent) => {
           // Signal from streaming is etablished
@@ -59,9 +65,9 @@ export const useMediaMtx = ({
     } else {
       return null;
     }
-  }, [refVideo, urlStreaming]);
+  }, [isStreamingTimeout, refVideo, urlStreaming]);
 
-  const start = useCallback(() => {
+  const restart = useCallback(() => {
     setState(INITIAL_STATE);
     if (reader) {
       reader.start();
@@ -82,5 +88,5 @@ export const useMediaMtx = ({
     };
   }, [reader, id]);
 
-  return { state, restart: start };
+  return { state, restart };
 };

@@ -26,7 +26,7 @@
  */
 
 const RETRY_PAUSE_IN_MS = 1000;
-const RETRY_NB_MAX = 5;
+const RETRY_NB_MAX = 20;
 
 /** WebRTC/WHEP reader. */
 export class MediaMTXWebRTCReader {

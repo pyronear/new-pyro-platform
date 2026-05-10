@@ -36,9 +36,14 @@ export const LiveStreamPanel = ({
   const id = camera.id;
   const { t } = useTranslationPrefix('live');
   const refVideo = useRef<HTMLVideoElement>(null);
-  const mediaMtx = useMediaMtx({ urlStreaming, refVideo, id: camera.id });
   const { addStreamingAction, isStreamingTimeout, statusStreamingVideo } =
     useActionsOnCamera();
+  const mediaMtx = useMediaMtx({
+    urlStreaming,
+    refVideo,
+    id: camera.id,
+    isStreamingTimeout,
+  });
 
   const initialMove = useMemo(
     () => getMoveToAzimuthFromAlert(camera, alert),
@@ -47,7 +52,7 @@ export const LiveStreamPanel = ({
   );
 
   const hasTemporaryError =
-    mediaMtx.state === StateStreaming.IS_STREAMING && !isStreamingTimeout;
+    mediaMtx.state === StateStreaming.TEMPORARY_ERROR && !isStreamingTimeout;
 
   const restartStreaming = () => {
     mediaMtx.restart();
@@ -98,8 +103,7 @@ export const LiveStreamPanel = ({
         <>
           {
             /* Streaming has been succesfully started with backendapi but mediamtx is not yet ready */
-            (mediaMtx.state === StateStreaming.IN_CREATION ||
-              mediaMtx.state == StateStreaming.TEMPORARY_ERROR) && (
+            mediaMtx.state === StateStreaming.IN_CREATION && (
               <Stack spacing={4}>
                 <Loader />
                 <Typography variant="body2">{t('loadingVideo')}</Typography>
