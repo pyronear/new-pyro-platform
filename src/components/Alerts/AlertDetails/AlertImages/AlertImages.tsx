@@ -1,6 +1,5 @@
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import DownloadIcon from '@mui/icons-material/Download';
-import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
@@ -10,6 +9,7 @@ import Typography from '@mui/material/Typography';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useCallback, useEffect, useState } from 'react';
 
+import { ResponsiveButton } from '@/components/Common/ResponsiveButton';
 import {
   SplitButton,
   type SplitButtonOption,
@@ -117,13 +117,15 @@ export const AlertImages = ({ sequence }: AlertImagesType) => {
             useFlexGap
             sx={{ flexWrap: 'wrap', rowGap: 1 }}
           >
-            <Button
+            <ResponsiveButton
               variant="outlined"
               onClick={() => setDisplayBbox((oldValue) => !oldValue)}
               startIcon={displayBbox ? <VisibilityOff /> : <Visibility />}
             >
-              {displayBbox ? t('buttonHideBBox') : t('buttonDisplayBBox')}
-            </Button>
+              <span className="Mui-label">
+                {displayBbox ? t('buttonHideBBox') : t('buttonDisplayBBox')}
+              </span>
+            </ResponsiveButton>
             <SplitButton
               label={t('buttonImageDownload')}
               options={downloadOptions}

@@ -206,6 +206,7 @@
     "layerControl": "Couches",
     "baseLayer": "Fond de carte",
     "overlays": "Surcouches",
-    "dfciGrid": "Carroyage DFCI"
+    "dfciGrid": "Carroyage DFCI",
+    "onfForest": "Parcelles forestières ONF"
   }
 }

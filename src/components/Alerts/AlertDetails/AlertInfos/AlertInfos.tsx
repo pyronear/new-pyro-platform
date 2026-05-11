@@ -1,25 +1,15 @@
-import PictureInPictureAltIcon from '@mui/icons-material/PictureInPictureAlt';
-import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
-import { Button, Divider, Grid, Typography } from '@mui/material';
+import { Divider, Grid, Typography } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import { useTheme } from '@mui/material/styles';
-import { useState } from 'react';
 
-import { ModalLiveWrapper } from '@/components/Live/ModalLiveWrapper';
 import {
   type AlertType,
-  countUnlabelledSequences,
-  formatAzimuth,
-  formatPosition,
-  formatPositionWithoutTronc,
   type SequenceWithCameraInfoType,
 } from '@/utils/alerts';
-import { formatIsoToDateTime } from '@/utils/dates';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
-import { SequenceLabelContainer } from '../../AlertLabel/SequenceLabelContainer';
-import { OcclusionMaskModal } from '../../OcclusionMaskModal/OcclusionMaskModal';
-import { AlertInfosSection } from './AlertInfosSection';
+import { AlertActionButtons } from '../AlertActionButtons';
+import { AlertInfosSections } from './AlertInfosSections';
 import AlertMap from './AlertMap';
 
 interface AlertInfosType {
@@ -37,7 +27,6 @@ export const AlertInfos = ({
 }: AlertInfosType) => {
   const theme = useTheme();
   const { t } = useTranslationPrefix('alerts');
-  const [isOcclusionModalOpen, setIsOcclusionModalOpen] = useState(false);
 
   return (
     <Paper
@@ -64,86 +53,18 @@ export const AlertInfos = ({
           justifyContent="space-between"
           flexGrow={1}
         >
-          <Grid container spacing={2} direction="column">
-            <AlertInfosSection
-              title={t('subtitleDate')}
-              withTextToCopy={formatIsoToDateTime(sequence.startedAt)}
-            >
-              {formatIsoToDateTime(sequence.startedAt)}
-            </AlertInfosSection>
-            <AlertInfosSection
-              title={t('subtitleAzimuth')}
-              withTextToCopy={sequence.azimuth.toString()}
-            >
-              {formatAzimuth(sequence.azimuth, 1)}
-            </AlertInfosSection>
-            <AlertInfosSection
-              title={t('subtitleCameraLocalisation')}
-              withTextToCopy={formatPositionWithoutTronc(
-                sequence.camera?.lat,
-                sequence.camera?.lon
-              )}
-            >
-              {formatPosition(sequence.camera?.lat, sequence.camera?.lon)}
-            </AlertInfosSection>
-            {alert.eventSmokeLocation && (
-              <AlertInfosSection
-                title={t('subtitleSmokeLocalisation')}
-                withTextToCopy={formatPositionWithoutTronc(
-                  ...alert.eventSmokeLocation
-                )}
-              >
-                {formatPosition(...alert.eventSmokeLocation)}
-              </AlertInfosSection>
-            )}
-          </Grid>
+          <AlertInfosSections sequence={sequence} alert={alert} />
           <Grid container flexGrow={1} minHeight={200}>
             <AlertMap alert={alert} />
           </Grid>
-          <Grid container spacing={2} direction="column">
-            {isLiveMode && sequence.camera && (
-              <ModalLiveWrapper cameraName={sequence.camera.name} alert={alert}>
-                {(onClick) => (
-                  <Button
-                    color="secondary"
-                    variant="outlined"
-                    startIcon={<SportsEsportsIcon />}
-                    onClick={onClick}
-                  >
-                    {t('buttonInvestigate')}
-                  </Button>
-                )}
-              </ModalLiveWrapper>
-            )}
-            <Button
-              color="secondary"
-              variant="outlined"
-              startIcon={<PictureInPictureAltIcon />}
-              onClick={() => setIsOcclusionModalOpen(true)}
-            >
-              {t('occlusionMask.buttonManageMasks')}
-            </Button>
-            <SequenceLabelContainer
-              sequence={sequence}
-              isLiveMode={isLiveMode}
-              invalidateAndRefreshData={invalidateAndRefreshData}
-              nbSequencesToBeLabelled={countUnlabelledSequences(
-                alert.sequences
-              )}
-              renderCustomButton={(onClick) => (
-                <Button color="secondary" variant="contained" onClick={onClick}>
-                  {t(isLiveMode ? 'buttonTreatAlert' : 'buttonModifyAlert')}
-                </Button>
-              )}
-            ></SequenceLabelContainer>
-          </Grid>
+          <AlertActionButtons
+            sequence={sequence}
+            alert={alert}
+            isLiveMode={isLiveMode}
+            invalidateAndRefreshData={invalidateAndRefreshData}
+          />
         </Grid>
       </Grid>
-      <OcclusionMaskModal
-        open={isOcclusionModalOpen}
-        onClose={() => setIsOcclusionModalOpen(false)}
-        sequence={sequence}
-      />
     </Paper>
   );
 };

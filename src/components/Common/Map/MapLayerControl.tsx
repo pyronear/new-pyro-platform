@@ -21,6 +21,7 @@ import { type BaseLayerType, useMapLayers } from '@/utils/useMapLayers';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
 import { DfciGridOverlay } from './DfciGridOverlay';
+import { OnfForestOverlay } from './OnfForestOverlay';
 
 interface LayerButtonProps {
   icon: React.ReactNode;
@@ -52,6 +53,7 @@ export const MapLayerControl = ({
   const { baseLayer, updateBaseLayer } = useMapLayers();
   const [expanded, setExpanded] = useState(false);
   const [dfciEnabled, setDfciEnabled] = useState(false);
+  const [onfForestEnabled, setOnfForestEnabled] = useState(false);
 
   const handleBaseLayerChange = (
     _: React.MouseEvent<HTMLElement>,
@@ -65,6 +67,7 @@ export const MapLayerControl = ({
   return (
     <>
       <DfciGridOverlay visible={dfciEnabled} />
+      <OnfForestOverlay visible={onfForestEnabled} />
 
       <Box
         sx={{
@@ -161,6 +164,22 @@ export const MapLayerControl = ({
                       label={
                         <Typography sx={{ m: 0 }} variant="body2">
                           {t('dfciGrid')}
+                        </Typography>
+                      }
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={onfForestEnabled}
+                          onChange={(e) =>
+                            setOnfForestEnabled(e.target.checked)
+                          }
+                          size="small"
+                        />
+                      }
+                      label={
+                        <Typography sx={{ m: 0 }} variant="body2">
+                          {t('onfForest')}
                         </Typography>
                       }
                     />

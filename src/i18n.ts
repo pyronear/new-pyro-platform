@@ -24,8 +24,7 @@ void i18n
     supportedLngs: ['en', 'fr', 'es', 'de'],
     fallbackLng: 'en',
     load: 'languageOnly',
-    interpolation: { escapeValue: false },
-    initImmediate: false,
+    initAsync: true,
   });
 
 export default i18n;

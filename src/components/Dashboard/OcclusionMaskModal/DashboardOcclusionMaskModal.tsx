@@ -30,6 +30,7 @@ import {
   deleteOcclusionMask,
   getOcclusionMasksByPose,
 } from '@/services/occlusionMasks';
+import { formatAzimuth } from '@/utils/alerts';
 import { getNonOverlappingMasksWithIds } from '@/utils/occlusionMasks';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
@@ -217,7 +218,7 @@ export const DashboardOcclusionMaskModal = ({
                       }
                       onClick={() => setSelectedPoseId(pose.id)}
                     >
-                      {pose.azimuth}°
+                      {formatAzimuth(pose.azimuth)}
                     </Button>
                   ))}
                 </ButtonGroup>
