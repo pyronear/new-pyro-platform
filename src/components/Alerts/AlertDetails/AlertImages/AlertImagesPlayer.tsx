@@ -1,21 +1,13 @@
 import PauseIcon from '@mui/icons-material/Pause';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import { Box, IconButton, Slider, Stack, useTheme } from '@mui/material';
-import {
-  type Dispatch,
-  type SetStateAction,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import type { DetectionType } from '@/services/alerts';
 import appConfig from '@/services/appConfig';
 import { convertIsoToUnix, formatIsoToTime } from '@/utils/dates';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
-import { AlertOrderButton } from './AlertOrderButton';
 import { DetectionImageWithBoundingBox } from './DetectionImageWithBoundingBox';
 
 interface AlertImagesPlayerType {
@@ -25,8 +17,6 @@ interface AlertImagesPlayerType {
   displayCrop: boolean;
   onSelectedDetectionChange: (detection: DetectionType | null) => void;
   firstConfidentDetectionIndex: number;
-  orderDetectionsByDesc: boolean;
-  setOrderDetectionsByDesc: Dispatch<SetStateAction<boolean>>;
 }
 
 const ALERTS_PLAYER_INTERVAL_MILLISECONDS =
@@ -39,8 +29,6 @@ export const AlertImagesPlayer = ({
   displayCrop,
   onSelectedDetectionChange,
   firstConfidentDetectionIndex,
-  orderDetectionsByDesc,
-  setOrderDetectionsByDesc,
 }: AlertImagesPlayerType) => {
   const [selectedDetection, setSelectedDetection] =
     useState<DetectionType | null>(null);
@@ -142,10 +130,6 @@ export const AlertImagesPlayer = ({
             >
               {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
             </IconButton>
-            <AlertOrderButton
-              orderDetectionsByDesc={orderDetectionsByDesc}
-              setOrderDetectionsByDesc={setOrderDetectionsByDesc}
-            />
             <Box sx={{ flexGrow: 1, width: '100%', mr: 2, px: 3, pt: 3 }}>
               <Slider
                 value={convertIsoToUnix(selectedDetection.created_at)}
