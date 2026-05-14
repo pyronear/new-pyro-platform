@@ -57,10 +57,11 @@ export const AlertImages = ({ sequence }: AlertImagesType) => {
     [t]
   );
 
-  const { detections, isLoading, isError } = useAllDetections({
-    sequenceId: sequence.id,
-    detectionsCount: sequence.detectionsCount,
-  });
+  const { detections, isLoading, isError, loadedCount, totalCount } =
+    useAllDetections({
+      sequenceId: sequence.id,
+      detectionsCount: sequence.detectionsCount,
+    });
 
   const invalidateAndRefreshData = useCallback(() => {
     void queryClient.invalidateQueries({
@@ -75,15 +76,12 @@ export const AlertImages = ({ sequence }: AlertImagesType) => {
       newLastSeenAt &&
       isStrictlyAfter(lastSeenAt, newLastSeenAt)
     ) {
-      // LastSeenAt has changed since last time
-      // Detections must be refreshed
       invalidateAndRefreshData();
     }
     setLastSeenAt(newLastSeenAt);
   }, [invalidateAndRefreshData, lastSeenAt, sequence.lastSeenAt]);
 
   useEffect(() => {
-    // Reset bbox state when the sequence changes
     setDisplayBbox(true);
     setDisplayCrop(true);
   }, [sequence.id]);
@@ -227,6 +225,9 @@ export const AlertImages = ({ sequence }: AlertImagesType) => {
     },
   ];
 
+  // The player needs at least one loaded page before mounting.
+  const hasAnyDetection = detections.length > 0;
+
   return (
     <Paper sx={{ height: '100% ', borderRadius: 6, padding: 2 }}>
       <Grid container direction="column" spacing={2}>
@@ -277,20 +278,19 @@ export const AlertImages = ({ sequence }: AlertImagesType) => {
         </Stack>
 
         <Divider flexItem />
-        {isLoading && detections.length === 0 && (
+        {isLoading && !hasAnyDetection && (
           <Grid container spacing={1}>
-            {/* One skeleton in place of the image, one skeleton in place of the timeline */}
             <Skeleton variant="rectangular" width="100%" height={400} />
             <Skeleton variant="rectangular" width="100%" height={80} />
           </Grid>
         )}
         <Grid sx={{ width: '100%' }}>
-          {isError && detections.length === 0 && (
+          {isError && !hasAnyDetection && (
             <Typography variant="body2">
               {t('errorFetchImagesMessage')}
             </Typography>
           )}
-          {detections.length > 0 && (
+          {hasAnyDetection && (
             <AlertImagesPlayer
               sequenceId={sequence.id}
               detections={detections}
@@ -300,6 +300,9 @@ export const AlertImages = ({ sequence }: AlertImagesType) => {
               firstConfidentDetectionIndex={getFirstConfidentDetectionIndex(
                 detections
               )}
+              loadedCount={loadedCount}
+              totalCount={totalCount}
+              isLoading={isLoading}
             />
           )}
         </Grid>
