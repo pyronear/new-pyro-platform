@@ -409,9 +409,6 @@ export const PyronearForestWatch = ({
           </g>
         </g>
 
-        {/* White band under the scene for the wordmark */}
-        <rect x="0" y="440" width="680" height="60" fill="#ffffff" />
-
         {/* Pyronear logo */}
         <g transform="translate(340 210) scale(1.15) translate(-340 -210)">
           <path
