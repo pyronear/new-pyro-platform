@@ -1,0 +1,25 @@
+src/locales/en/translation.json
+  s_533d6a1e953b99::t_5ac5fcad51a817 158
+src/locales/fr/translation.json
+  s_533d6a1e953b99::t_b37483538bc3f4 158
+src/locales/es/translation.json
+  s_533d6a1e953b99::t_81c249bf35e635 158
+src/locales/de/translation.json
+  s_533d6a1e953b99::t_2e009d32b78cd3 159
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.8",
+  "base_commit_sha": "d4cc17b09196ea8b97cd3a5a79d926e45f6aa718",
+  "prompts": {},
+  "sessions": {
+    "s_533d6a1e953b99": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4d2e14e9-2565-44e0-b183-3189ba42c147",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "Theo Rodrigues <theo.rodrigues@theodo.com>"
+    }
+  }
+}
