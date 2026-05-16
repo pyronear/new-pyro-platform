@@ -155,7 +155,7 @@
     "loadMoreMessage": "Afficher plus d'alertes",
     "export": {
       "title": "Export",
-      "button": "Télécharger le CSV",
+      "button": "Exporter les alertes",
       "modal": {
         "title": "Exporter les alertes",
         "description": "Sélectionnez une plage de dates pour télécharger les alertes correspondantes au format CSV.",

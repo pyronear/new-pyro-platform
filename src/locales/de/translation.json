@@ -156,7 +156,7 @@
     "loadMoreMessage": "Weitere Alarme laden",
     "export": {
       "title": "Export",
-      "button": "CSV herunterladen",
+      "button": "Alarme exportieren",
       "modal": {
         "title": "Alarme exportieren",
         "description": "Wählen Sie einen Datumsbereich aus, um die entsprechenden Alarme als CSV-Datei herunterzuladen.",

@@ -1,4 +1,3 @@
-import DownloadIcon from '@mui/icons-material/Download';
 import { Button, Stack, Typography } from '@mui/material';
 import { useState } from 'react';
 
@@ -17,7 +16,6 @@ export const HistoryExport = () => {
         <Button
           variant="contained"
           color="primary"
-          startIcon={<DownloadIcon />}
           onClick={() => setOpen(true)}
         >
           {t('button')}
