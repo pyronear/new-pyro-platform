@@ -15,7 +15,11 @@ export const DesktopTopbar = () => {
   const { t } = useTranslationPrefix('pages');
   const { token } = useAuth();
   const isLoggedIn = !!token;
-  const hasUnlabelledAlerts = useAlertsMenuBadge(isLoggedIn);
+  const unlabelledAlertsCount = useAlertsMenuBadge(isLoggedIn);
+  const alertsBadgeLabel =
+    unlabelledAlertsCount > 0
+      ? t('unlabeledAlertsBadge', { count: unlabelledAlertsCount })
+      : undefined;
 
   return (
     <>
@@ -37,7 +41,7 @@ export const DesktopTopbar = () => {
                   <NavigationLink
                     path="/alerts"
                     label={t('alerts')}
-                    hasBadge={hasUnlabelledAlerts}
+                    badgeLabel={alertsBadgeLabel}
                   />
                   <NavigationLink path="/dashboard" label={t('dashboard')} />
                   <NavigationLink path="/history" label={t('history')} />
