@@ -9,11 +9,13 @@ import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 import { NavigationLink } from './NavigationLink';
 import LanguageSwitcher from './Preferences/LanguageSwitcher';
 import { PreferencesButton } from './Preferences/PreferencesButton';
+import { useAlertsMenuBadge } from './useAlertsMenuBadge';
 
 export const DesktopTopbar = () => {
   const { t } = useTranslationPrefix('pages');
   const { token } = useAuth();
   const isLoggedIn = !!token;
+  const hasUnlabelledAlerts = useAlertsMenuBadge(isLoggedIn);
 
   return (
     <>
@@ -32,7 +34,11 @@ export const DesktopTopbar = () => {
               </Link>
               {isLoggedIn && (
                 <Stack direction="row" spacing={2}>
-                  <NavigationLink path="/alerts" label={t('alerts')} />
+                  <NavigationLink
+                    path="/alerts"
+                    label={t('alerts')}
+                    hasBadge={hasUnlabelledAlerts}
+                  />
                   <NavigationLink path="/dashboard" label={t('dashboard')} />
                   <NavigationLink path="/history" label={t('history')} />
                 </Stack>
