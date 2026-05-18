@@ -3,6 +3,7 @@ import type { PickerValue } from '@mui/x-date-pickers/internals';
 import { useState } from 'react';
 
 import i18n from '@/i18n';
+import { getDateFormat } from '@/utils/dateFormat';
 import { getNowMinusOneYear } from '@/utils/dates';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
@@ -12,17 +13,6 @@ interface HistoryFiltersType {
   filters: FiltersType;
   setFilters: React.Dispatch<React.SetStateAction<FiltersType>>;
 }
-
-const getDateFormat = (locale: string) => {
-  switch (locale) {
-    case 'fr':
-    case 'es':
-      return 'dd/MM/yyyy';
-    case 'en':
-    default:
-      return 'MM/dd/yyyy';
-  }
-};
 
 export const HistoryFilters = ({ filters, setFilters }: HistoryFiltersType) => {
   const { t } = useTranslationPrefix('history');

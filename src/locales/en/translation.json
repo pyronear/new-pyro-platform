@@ -152,7 +152,20 @@
     "iconAlt": "No alert to display",
     "errorFetchSequencesMessage": "Something went wrong on our side. Please try again later.",
     "dateField": "Date",
-    "loadMoreMessage": "Load more alerts"
+    "loadMoreMessage": "Load more alerts",
+    "export": {
+      "title": "Export alerts",
+      "description": "Download alerts and sequences for a selected period.",
+      "button": "Export CSV",
+      "modalTitle": "Export alerts as CSV",
+      "modalDescription": "Choose a start and end date. The CSV download starts automatically after confirmation.",
+      "fromDateField": "From date",
+      "toDateField": "To date",
+      "dateRangeError": "The end date must be on or after the start date.",
+      "downloadError": "The export could not be downloaded. Please try again.",
+      "cancelButton": "Cancel",
+      "downloadButton": "Download CSV"
+    }
   },
   "live": {
     "errorFetchInfos": "Something went wrong on our side. Please try again later.",

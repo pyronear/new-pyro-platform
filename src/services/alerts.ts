@@ -106,6 +106,24 @@ export const getAlertsByFilters = async (
     });
 };
 
+export const exportAlertsCsv = async (
+  fromDate: string,
+  toDate: string
+): Promise<AxiosResponse<Blob>> => {
+  return apiInstance
+    .get<Blob>('/api/v1/alerts/export', {
+      params: {
+        from_date: fromDate,
+        to_date: toDate,
+      },
+      responseType: 'blob',
+    })
+    .catch((err: unknown) => {
+      console.error(err);
+      throw err;
+    });
+};
+
 export const getDetectionsBySequence = async (
   sequenceId: number,
   isDesc = true

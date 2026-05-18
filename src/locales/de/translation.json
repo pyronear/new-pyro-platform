@@ -153,7 +153,20 @@
     "iconAlt": "Keine Warnung anzuzeigen",
     "errorFetchSequencesMessage": "Auf unserer Seite ist etwas schief gelaufen. Bitte versuchen Sie es später erneut.",
     "dateField": "Datum",
-    "loadMoreMessage": "Weitere Alarme laden"
+    "loadMoreMessage": "Weitere Alarme laden",
+    "export": {
+      "title": "Alarme exportieren",
+      "description": "Alarme und Sequenzen für einen ausgewählten Zeitraum herunterladen.",
+      "button": "CSV exportieren",
+      "modalTitle": "Alarme als CSV exportieren",
+      "modalDescription": "Wählen Sie ein Start- und Enddatum. Der CSV-Download startet nach der Bestätigung.",
+      "fromDateField": "Startdatum",
+      "toDateField": "Enddatum",
+      "dateRangeError": "Das Enddatum muss am oder nach dem Startdatum liegen.",
+      "downloadError": "Der Export konnte nicht heruntergeladen werden. Bitte versuchen Sie es erneut.",
+      "cancelButton": "Abbrechen",
+      "downloadButton": "CSV herunterladen"
+    }
   },
   "live": {
     "errorFetchInfos": "Auf unserer Seite ist etwas schief gelaufen. Bitte versuchen Sie es später erneut.",

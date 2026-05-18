@@ -11,6 +11,7 @@ import type { AlertType } from '../../../utils/alerts';
 import { type FiltersType } from '../../../utils/history.ts';
 import { useTranslationPrefix } from '../../../utils/useTranslationPrefix';
 import { AlertsCardsColumn } from '../../Alerts/AlertsList/AlertsCardsColumn.tsx';
+import { HistoryExportCsv } from './HistoryExportCsv.tsx';
 import { HistoryFilters } from './HistoryFilters.tsx';
 
 interface HistoryListType {
@@ -43,6 +44,10 @@ export const HistoryList = ({
     <Stack bgcolor={theme.palette.customBackground.light} height="100%">
       <Grid minHeight="55px" padding={{ xs: 1, sm: 2 }} alignContent="center">
         <Typography variant="h2">{t('title')}</Typography>
+      </Grid>
+      <Divider orientation="horizontal" flexItem />
+      <Grid padding={{ xs: 1, sm: 2 }}>
+        <HistoryExportCsv />
       </Grid>
       <Divider orientation="horizontal" flexItem />
       <Grid padding={{ xs: 1, sm: 2 }}>

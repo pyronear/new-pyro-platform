@@ -152,7 +152,20 @@
     "iconAlt": "Aucune alerte à afficher",
     "errorFetchSequencesMessage": "Une erreur inattendue est survenue. Veuillez réessayer plus tard.",
     "dateField": "Date",
-    "loadMoreMessage": "Afficher plus d'alertes"
+    "loadMoreMessage": "Afficher plus d'alertes",
+    "export": {
+      "title": "Exporter les alertes",
+      "description": "Télécharger les alertes et séquences pour une période donnée.",
+      "button": "Exporter CSV",
+      "modalTitle": "Exporter les alertes en CSV",
+      "modalDescription": "Choisissez une date de début et une date de fin. Le téléchargement du CSV démarre après validation.",
+      "fromDateField": "Date de début",
+      "toDateField": "Date de fin",
+      "dateRangeError": "La date de fin doit être postérieure ou égale à la date de début.",
+      "downloadError": "L'export n'a pas pu être téléchargé. Veuillez réessayer.",
+      "cancelButton": "Annuler",
+      "downloadButton": "Télécharger le CSV"
+    }
   },
   "live": {
     "errorFetchInfos": "Une erreur inattendue est survenue. Veuillez réessayer plus tard.",
