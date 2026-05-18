@@ -36,6 +36,25 @@ export const DFCI_LAYER_CONFIG: TileLayerConfig = {
   maxZoom: 18,
 };
 
+export interface WmsLayerConfig {
+  url: string;
+  layers: string;
+  attribution: string;
+  format: string;
+  transparent: boolean;
+  version: string;
+}
+
+export const ONF_FOREST_LAYER_CONFIG: WmsLayerConfig = {
+  url: 'https://data.geopf.fr/wms-v/ows',
+  layers: 'FORETS.PUBLIQUES',
+  attribution:
+    '&copy; <a href="https://www.onf.fr/">ONF</a> / <a href="https://www.ign.fr/">IGN</a>',
+  format: 'image/png',
+  transparent: true,
+  version: '1.3.0',
+};
+
 export const useMapLayers = () => {
   const { preferences, updatePreferences } = usePreferences();
 

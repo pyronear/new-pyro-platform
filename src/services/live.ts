@@ -127,7 +127,6 @@ export const moveCamera = async (
   return apiInstance
     .post(`/api/v1/cameras/${cameraId}/control/move`, null, {
       params: {
-        camera_ip: cameraId,
         direction,
         speed,
         pose_id: poseId,

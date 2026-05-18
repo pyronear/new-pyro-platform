@@ -201,6 +201,7 @@
     "layerControl": "Map Layers",
     "baseLayer": "Base Layer",
     "overlays": "Overlays",
-    "dfciGrid": "DFCI Grid"
+    "dfciGrid": "DFCI Grid",
+    "onfForest": "ONF forest parcels"
   }
 }
