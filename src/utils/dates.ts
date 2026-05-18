@@ -67,6 +67,17 @@ export const formatDateToApi = (date: DateTime) => {
   return date.toFormat('yyyy-MM-dd');
 };
 
+export const getLocalizedDateFormat = (locale: string) => {
+  switch (locale) {
+    case 'fr':
+    case 'es':
+      return 'dd/MM/yyyy';
+    case 'en':
+    default:
+      return 'MM/dd/yyyy';
+  }
+};
+
 export const formatUnixToTime = (dateNb: number) => {
   const date = unixToDatetime(dateNb);
   return date.toFormat(FORMAT_DISPLAY_TIME);
