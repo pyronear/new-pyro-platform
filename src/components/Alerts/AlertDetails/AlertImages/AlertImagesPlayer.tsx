@@ -1,6 +1,18 @@
+import AddIcon from '@mui/icons-material/Add';
 import PauseIcon from '@mui/icons-material/Pause';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import { Box, IconButton, Slider, Stack, useTheme } from '@mui/material';
+import RemoveIcon from '@mui/icons-material/Remove';
+import RestartAltIcon from '@mui/icons-material/RestartAlt';
+import {
+  Box,
+  ButtonGroup,
+  IconButton,
+  Slider,
+  Stack,
+  Tooltip,
+  Typography,
+  useTheme,
+} from '@mui/material';
 import {
   type Dispatch,
   type SetStateAction,
@@ -30,6 +42,10 @@ interface AlertImagesPlayerType {
 
 const ALERTS_PLAYER_INTERVAL_MILLISECONDS =
   appConfig.getConfig().ALERTS_PLAYER_INTERVAL_MILLISECONDS;
+const GAMMA_STEP = 0.2;
+const MIN_GAMMA = 0.4;
+const MAX_GAMMA = 2;
+const DEFAULT_GAMMA = 1;
 
 export const AlertImagesPlayer = ({
   sequenceId,
@@ -43,6 +59,7 @@ export const AlertImagesPlayer = ({
   const [selectedDetection, setSelectedDetection] =
     useState<DetectionType | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [gammaCorrection, setGammaCorrection] = useState(DEFAULT_GAMMA);
   const theme = useTheme();
   const { t } = useTranslationPrefix('alerts');
 
@@ -120,12 +137,25 @@ export const AlertImagesPlayer = ({
     setIsPlaying((prevIsPlaying) => !prevIsPlaying);
   };
 
+  const brightenImage = () => {
+    setGammaCorrection((oldValue) =>
+      Math.max(MIN_GAMMA, Number((oldValue - GAMMA_STEP).toFixed(1)))
+    );
+  };
+
+  const darkenImage = () => {
+    setGammaCorrection((oldValue) =>
+      Math.min(MAX_GAMMA, Number((oldValue + GAMMA_STEP).toFixed(1)))
+    );
+  };
+
   return (
     <>
       {selectedDetection && (
         <Stack direction="column" spacing={1}>
           <DetectionImageWithBoundingBox
             displayBbox={displayBbox}
+            gammaCorrection={gammaCorrection}
             sequenceId={sequenceId}
             selectedDetection={selectedDetection}
           />
@@ -143,6 +173,48 @@ export const AlertImagesPlayer = ({
               orderDetectionsByDesc={orderDetectionsByDesc}
               setOrderDetectionsByDesc={setOrderDetectionsByDesc}
             />
+            <Stack direction="row" spacing={1} alignItems="center">
+              <Typography variant="body2" whiteSpace="nowrap">
+                {t('gammaLabel', {
+                  value: gammaCorrection.toFixed(1),
+                })}
+              </Typography>
+              <ButtonGroup variant="outlined" size="small">
+                <Tooltip title={t('gammaBrighten')}>
+                  <span>
+                    <IconButton
+                      aria-label={t('gammaBrighten')}
+                      onClick={brightenImage}
+                      disabled={gammaCorrection <= MIN_GAMMA}
+                    >
+                      <AddIcon fontSize="small" />
+                    </IconButton>
+                  </span>
+                </Tooltip>
+                <Tooltip title={t('gammaDarken')}>
+                  <span>
+                    <IconButton
+                      aria-label={t('gammaDarken')}
+                      onClick={darkenImage}
+                      disabled={gammaCorrection >= MAX_GAMMA}
+                    >
+                      <RemoveIcon fontSize="small" />
+                    </IconButton>
+                  </span>
+                </Tooltip>
+                <Tooltip title={t('gammaReset')}>
+                  <span>
+                    <IconButton
+                      aria-label={t('gammaReset')}
+                      onClick={() => setGammaCorrection(DEFAULT_GAMMA)}
+                      disabled={gammaCorrection === DEFAULT_GAMMA}
+                    >
+                      <RestartAltIcon fontSize="small" />
+                    </IconButton>
+                  </span>
+                </Tooltip>
+              </ButtonGroup>
+            </Stack>
             <Box sx={{ flexGrow: 1, width: '100%', mr: 2, px: 3, pt: 3 }}>
               <Slider
                 value={convertIsoToUnix(selectedDetection.created_at)}

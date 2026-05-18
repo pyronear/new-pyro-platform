@@ -1,5 +1,5 @@
 import { useTheme } from '@mui/material';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
 import {
   MiniMap,
   type ReactZoomPanPinchContentRef,
@@ -41,16 +41,19 @@ interface BoundingBox {
 
 interface DetectionImageWithBoundingBoxProps {
   displayBbox: boolean;
+  gammaCorrection: number;
   selectedDetection: DetectionType;
   sequenceId: number;
 }
 
 export const DetectionImageWithBoundingBox = ({
   displayBbox,
+  gammaCorrection,
   selectedDetection,
   sequenceId,
 }: DetectionImageWithBoundingBoxProps) => {
   const theme = useTheme();
+  const gammaFilterId = useId().replace(/:/g, '');
   const wrapperRef = useRef<ReactZoomPanPinchContentRef | null>(null);
   const [currentBox, setCurrentBox] = useState<BoundingBox | null>(null);
   const shouldResetTransform = useRef(false);
@@ -83,6 +86,8 @@ export const DetectionImageWithBoundingBox = ({
           MINIMUM_ZOOM_AMOUNT_TO_DISPLAY_MINIMAP
     );
   };
+  const imageFilter =
+    gammaCorrection === 1 ? undefined : `url(#${gammaFilterId})`;
 
   return (
     <div
@@ -102,6 +107,16 @@ export const DetectionImageWithBoundingBox = ({
         ref={wrapperRef}
         onTransformed={updateMiniMapDisplay}
       >
+        <svg width="0" height="0" style={{ position: 'absolute' }}>
+          <filter id={gammaFilterId} colorInterpolationFilters="sRGB">
+            <feComponentTransfer>
+              <feFuncR type="gamma" amplitude="1" exponent={gammaCorrection} />
+              <feFuncG type="gamma" amplitude="1" exponent={gammaCorrection} />
+              <feFuncB type="gamma" amplitude="1" exponent={gammaCorrection} />
+            </feComponentTransfer>
+          </filter>
+        </svg>
+
         {shouldDisplayMiniMap && (
           <div
             style={{
@@ -120,6 +135,7 @@ export const DetectionImageWithBoundingBox = ({
                 style={{
                   maxWidth: '100%',
                   opacity: 0.5,
+                  filter: imageFilter,
                 }}
               />
             </MiniMap>
@@ -130,7 +146,7 @@ export const DetectionImageWithBoundingBox = ({
           <img
             ref={imgRef}
             src={selectedDetection.url}
-            style={{ maxWidth: '100%', maxHeight: '60vh' }}
+            style={{ maxWidth: '100%', maxHeight: '60vh', filter: imageFilter }}
             onLoad={handleImageLoad}
           />
           {displayBbox && currentBox && (
