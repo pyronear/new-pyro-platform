@@ -27,6 +27,7 @@ describe('alerts service', () => {
           to_date: '2026-05-03',
         },
         responseType: 'blob',
+        timeout: 30000,
       });
     });
   });

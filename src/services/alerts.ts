@@ -43,6 +43,7 @@ const apiAlertListResponseSchema = z.array(apiAlertResponseSchema);
 
 export type DetectionType = z.infer<typeof apiDetectionResponseSchema>;
 const apiDetectionListResponseSchema = z.array(apiDetectionResponseSchema);
+const ALERTS_EXPORT_TIMEOUT_MS = 30000;
 
 export const getAlertById = async (
   alertId: number
@@ -117,6 +118,7 @@ export const exportAlertsCsv = async (
         to_date: toDate,
       },
       responseType: 'blob',
+      timeout: ALERTS_EXPORT_TIMEOUT_MS,
     })
     .catch((err: unknown) => {
       console.error(err);
