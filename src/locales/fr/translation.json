@@ -75,6 +75,7 @@
     "buttonImageDownload": "Télécharger",
     "buttonImageDownloadOne": "Télécharger l'image actuelle",
     "buttonImageDownloadAll": "Télécharger toutes les images",
+    "buttonImageDownloadAllBbox": "Télécharger toutes les images avec les boîtes englobantes",
     "buttonPlay": "Play",
     "buttonPause": "Pause",
     "buttonDisplayBBox": "Afficher la détection",
