@@ -11,6 +11,7 @@ import {
   STATUS_LOADING,
   STATUS_SUCCESS,
 } from '../../services/axios';
+import type { CameraType } from '../../services/camera';
 import { type AlertType, isInTheList } from '../../utils/alerts';
 import { useIsMobile } from '../../utils/useIsMobile';
 import { useTranslationPrefix } from '../../utils/useTranslationPrefix';
@@ -26,6 +27,7 @@ interface AlertsContainerType {
   isRefreshing: boolean;
   invalidateAndRefreshData: () => void;
   alertsList: AlertType[];
+  camerasList: CameraType[];
   hasNewSequence: boolean;
 }
 
@@ -35,6 +37,7 @@ export const AlertsContainer = ({
   isRefreshing,
   invalidateAndRefreshData,
   alertsList,
+  camerasList,
   hasNewSequence,
 }: AlertsContainerType) => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -108,6 +111,7 @@ export const AlertsContainer = ({
     <AlertContainer
       isLiveMode={true}
       alert={selectedAlert}
+      camerasList={camerasList}
       resetAlert={resetSelectedAlert}
       invalidateAndRefreshData={invalidateAndRefreshData}
     />

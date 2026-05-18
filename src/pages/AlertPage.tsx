@@ -76,6 +76,7 @@ export const AlertPage = () => {
               <AlertContainer
                 isLiveMode={false}
                 alert={alert}
+                camerasList={cameraList ?? []}
                 resetAlert={() => void navigate(DEFAULT_ROUTE)}
                 invalidateAndRefreshData={invalidateAndRefreshData}
               />
@@ -86,6 +87,7 @@ export const AlertPage = () => {
                 <AlertContainer
                   isLiveMode={false}
                   alert={alert}
+                  camerasList={cameraList ?? []}
                   resetAlert={() => void navigate(DEFAULT_ROUTE)}
                   invalidateAndRefreshData={invalidateAndRefreshData}
                 />

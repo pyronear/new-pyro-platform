@@ -67,6 +67,7 @@ export const AlertsPage = () => {
       lastUpdate={dataUpdatedAt}
       invalidateAndRefreshData={invalidateAndRefreshData}
       alertsList={alertsList}
+      camerasList={cameraList ?? []}
       hasNewSequence={hasNewAlert}
     />
   );

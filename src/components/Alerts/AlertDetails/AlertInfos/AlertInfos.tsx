@@ -2,6 +2,7 @@ import { Divider, Grid, Typography } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import { useTheme } from '@mui/material/styles';
 
+import type { CameraType } from '@/services/camera';
 import {
   type AlertType,
   type SequenceWithCameraInfoType,
@@ -17,6 +18,7 @@ interface AlertInfosType {
   invalidateAndRefreshData: () => void;
   sequence: SequenceWithCameraInfoType;
   alert: AlertType;
+  camerasList: CameraType[];
 }
 
 export const AlertInfos = ({
@@ -24,6 +26,7 @@ export const AlertInfos = ({
   invalidateAndRefreshData,
   sequence,
   alert,
+  camerasList,
 }: AlertInfosType) => {
   const theme = useTheme();
   const { t } = useTranslationPrefix('alerts');
@@ -55,7 +58,7 @@ export const AlertInfos = ({
         >
           <AlertInfosSections sequence={sequence} alert={alert} />
           <Grid container flexGrow={1} minHeight={200}>
-            <AlertMap alert={alert} selectedSequenceId={sequence.id} />
+            <AlertMap alert={alert} selectedSequenceId={sequence.id}  camerasList={camerasList} />
           </Grid>
           <AlertActionButtons
             sequence={sequence}

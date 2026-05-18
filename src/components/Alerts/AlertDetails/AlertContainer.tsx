@@ -2,6 +2,7 @@ import ShareIcon from '@mui/icons-material/Share';
 import { Button, Grid, Tooltip } from '@mui/material';
 import { useEffect, useState } from 'react';
 
+import type { CameraType } from '@/services/camera';
 import {
   type AlertType,
   type SequenceWithCameraInfoType,
@@ -17,6 +18,7 @@ interface AlertContainerType {
   isLiveMode: boolean;
   invalidateAndRefreshData: () => void;
   alert: AlertType;
+  camerasList: CameraType[];
   resetAlert: () => void;
 }
 
@@ -24,6 +26,7 @@ export const AlertContainer = ({
   isLiveMode,
   invalidateAndRefreshData,
   alert,
+  camerasList,
   resetAlert,
 }: AlertContainerType) => {
   const { t } = useTranslationPrefix('alerts');
@@ -86,6 +89,7 @@ export const AlertContainer = ({
             <AlertInfos
               sequence={selectedSequence}
               alert={alert}
+              camerasList={camerasList}
               isLiveMode={isLiveMode}
               invalidateAndRefreshData={invalidateAndRefreshData}
             />

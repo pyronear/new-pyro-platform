@@ -95,6 +95,7 @@ export const HistoryPage = () => {
       setFilters={setFilters}
       status={status}
       alertsList={alertsList}
+      camerasList={cameraList ?? []}
       hasNextPage={hasNextPage}
       isFetchingNextPage={isFetchingNextPage}
       fetchNextPage={() => void fetchNextPage()}
