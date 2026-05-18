@@ -17,7 +17,8 @@
   "pages": {
     "dashboard": "Kamera-Dashboard",
     "alerts": "Live-Alarme",
-    "history": "Alarmverlauf"
+    "history": "Alarmverlauf",
+    "unlabeledAlertsBadge": "{{count}} unbeschriftet"
   },
   "topbar": {
     "menuLabel": "Menü"

@@ -1,14 +1,14 @@
-import { Badge, Typography, useTheme } from '@mui/material';
+import { Chip, Stack, Typography, useTheme } from '@mui/material';
 import { NavLink } from 'react-router-dom';
 
 interface NavigationLinkProps {
-  hasBadge?: boolean;
+  badgeLabel?: string;
   path: string;
   label: string;
 }
 
 export const NavigationLink = ({
-  hasBadge = false,
+  badgeLabel,
   path,
   label,
 }: NavigationLinkProps) => {
@@ -17,16 +17,7 @@ export const NavigationLink = ({
     <NavLink to={path} style={{ textDecoration: 'none' }}>
       {/* This style above prevents the default underline from the html tag <a> */}
       {({ isActive }) => (
-        <Badge
-          color="error"
-          invisible={!hasBadge}
-          variant="dot"
-          overlap="rectangular"
-          anchorOrigin={{
-            vertical: 'top',
-            horizontal: 'right',
-          }}
-        >
+        <Stack alignItems="center" spacing={0.25}>
           <Typography
             color={theme.palette.primary.contrastText}
             sx={{
@@ -43,7 +34,19 @@ export const NavigationLink = ({
           >
             {label}
           </Typography>
-        </Badge>
+          {badgeLabel && (
+            <Chip
+              color="error"
+              label={badgeLabel}
+              size="small"
+              sx={{
+                height: 18,
+                fontSize: '0.65rem',
+                fontWeight: 700,
+              }}
+            />
+          )}
+        </Stack>
       )}
     </NavLink>
   );

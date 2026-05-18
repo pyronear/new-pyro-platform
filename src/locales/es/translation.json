@@ -17,7 +17,8 @@
   "pages": {
     "dashboard": "Panel de cámaras",
     "alerts": "Alertas en vivo",
-    "history": "Histórico de alertas"
+    "history": "Histórico de alertas",
+    "unlabeledAlertsBadge": "{{count}} sin etiquetar"
   },
   "topbar": {
     "menuLabel": "Menú"
