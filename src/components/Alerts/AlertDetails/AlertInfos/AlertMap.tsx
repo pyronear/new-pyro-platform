@@ -13,6 +13,7 @@ import { buildVisionPolygon, DEFAULT_CAM_RANGE_KM } from '@/utils/cameraVision';
 
 interface AlertMap {
   alert: AlertType;
+  selectedSequence: SequenceWithCameraInfoType;
   height?: number | string;
 }
 
@@ -20,7 +21,7 @@ type SequenceWithCamera = SequenceWithCameraInfoType & {
   camera: NonNullable<SequenceWithCameraInfoType['camera']>;
 };
 
-const AlertMap = ({ alert, height = '100%' }: AlertMap) => {
+const AlertMap = ({ alert, selectedSequence, height = '100%' }: AlertMap) => {
   const [fullScreen, setFullScreen] = useState(false);
 
   useEffect(() => {
@@ -83,6 +84,7 @@ const AlertMap = ({ alert, height = '100%' }: AlertMap) => {
         {sequencesWithPolygons.map((sequence) => (
           <Fragment key={sequence.id}>
             <SequencePolygon
+              isHighlighted={sequence.id === selectedSequence.id}
               visionPolygonPoints={sequence.visionPolygonPoints}
             />
             <CameraMarker camera={sequence.camera} />
