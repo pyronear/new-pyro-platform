@@ -8,11 +8,13 @@ import { NavigationLink } from './NavigationLink';
 import LanguageSwitcher from './Preferences/LanguageSwitcher';
 
 interface MobileTopbarDrawerProps {
+  hasUnlabelledAlerts: boolean;
   isOpen: boolean;
   handleClose: () => void;
 }
 
 export const MobileTopbarDrawer = ({
+  hasUnlabelledAlerts,
   isOpen,
   handleClose,
 }: MobileTopbarDrawerProps) => {
@@ -31,7 +33,11 @@ export const MobileTopbarDrawer = ({
           <Divider sx={{ margin: 0 }} />
           <List>
             <ListItem>
-              <NavigationLink path="/alerts" label={t('alerts')} />
+              <NavigationLink
+                path="/alerts"
+                label={t('alerts')}
+                hasBadge={hasUnlabelledAlerts}
+              />
             </ListItem>
             <ListItem>
               <NavigationLink path="/dashboard" label={t('dashboard')} />
