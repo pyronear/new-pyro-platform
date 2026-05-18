@@ -24,5 +24,5 @@ export const useAlertsMenuBadge = (enabled: boolean) => {
       : false,
   });
 
-  return shouldFetchAlerts && (alertList?.length ?? 0) > 0;
+  return shouldFetchAlerts ? (alertList?.length ?? 0) : 0;
 };

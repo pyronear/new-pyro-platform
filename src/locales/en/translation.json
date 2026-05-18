@@ -17,7 +17,8 @@
   "pages": {
     "dashboard": "Camera dashboard",
     "alerts": "Live alerts",
-    "history": "History alerts"
+    "history": "History alerts",
+    "unlabeledAlertsBadge": "{{count}} unlabeled"
   },
   "topbar": {
     "menuLabel": "Menu"
