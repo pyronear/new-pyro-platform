@@ -1,5 +1,6 @@
 import L, { Map as LeafletMap } from 'leaflet';
-import { MapContainer, TileLayer } from 'react-leaflet';
+import { useEffect } from 'react';
+import { MapContainer, TileLayer, useMap } from 'react-leaflet';
 
 import { useMapLayers } from '@/utils/useMapLayers';
 
@@ -13,6 +14,50 @@ interface CameraMapProps {
   setMapRef?: (map: LeafletMap) => void;
   showLayerControl?: boolean;
 }
+
+const MapSizeInvalidator = () => {
+  const map = useMap();
+
+  useEffect(() => {
+    const container = map.getContainer();
+    const animationFrameIds = new Set<number>();
+
+    const invalidateMapSize = () => {
+      map.invalidateSize({ pan: false });
+    };
+
+    const scheduleInvalidateMapSize = () => {
+      const animationFrameId = window.requestAnimationFrame(() => {
+        animationFrameIds.delete(animationFrameId);
+        invalidateMapSize();
+      });
+      animationFrameIds.add(animationFrameId);
+    };
+
+    scheduleInvalidateMapSize();
+
+    if (typeof ResizeObserver === 'undefined') {
+      return () => {
+        animationFrameIds.forEach((animationFrameId) => {
+          window.cancelAnimationFrame(animationFrameId);
+        });
+      };
+    }
+
+    const resizeObserver = new ResizeObserver(scheduleInvalidateMapSize);
+
+    resizeObserver.observe(container);
+
+    return () => {
+      animationFrameIds.forEach((animationFrameId) => {
+        window.cancelAnimationFrame(animationFrameId);
+      });
+      resizeObserver.disconnect();
+    };
+  }, [map]);
+
+  return null;
+};
 
 export const TemplateMap = ({
   height = '100%',
@@ -41,6 +86,7 @@ export const TemplateMap = ({
         url={baseTileConfig.url}
         maxZoom={baseTileConfig.maxZoom}
       />
+      <MapSizeInvalidator />
 
       {children}
 
