@@ -153,7 +153,20 @@
     "iconAlt": "Keine Warnung anzuzeigen",
     "errorFetchSequencesMessage": "Auf unserer Seite ist etwas schief gelaufen. Bitte versuchen Sie es später erneut.",
     "dateField": "Datum",
-    "loadMoreMessage": "Weitere Alarme laden"
+    "loadMoreMessage": "Weitere Alarme laden",
+    "export": {
+      "title": "Export",
+      "button": "Alarme exportieren",
+      "modal": {
+        "title": "Alarme exportieren",
+        "description": "Wählen Sie einen Datumsbereich aus, um die entsprechenden Alarme als CSV-Datei herunterzuladen.",
+        "fromDate": "Von",
+        "toDate": "Bis",
+        "cancel": "Abbrechen",
+        "confirm": "Herunterladen",
+        "errorMessage": "Beim Export ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut."
+      }
+    }
   },
   "live": {
     "errorFetchInfos": "Auf unserer Seite ist etwas schief gelaufen. Bitte versuchen Sie es später erneut.",
