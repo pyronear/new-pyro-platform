@@ -17,7 +17,7 @@ export const NavigationLink = ({
     <NavLink to={path} style={{ textDecoration: 'none' }}>
       {/* This style above prevents the default underline from the html tag <a> */}
       {({ isActive }) => (
-        <Stack alignItems="center" spacing={0.25}>
+        <Stack direction="row" alignItems="center" spacing={0.75}>
           <Typography
             color={theme.palette.primary.contrastText}
             sx={{
