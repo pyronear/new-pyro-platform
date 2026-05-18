@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router';
 
 import {
   getUnlabelledLatestAlerts,
@@ -24,5 +24,5 @@ export const useAlertsMenuBadge = (enabled: boolean) => {
       : false,
   });
 
-  return shouldFetchAlerts && (alertList?.length ?? 0) > 0;
+  return shouldFetchAlerts ? (alertList?.length ?? 0) : 0;
 };
