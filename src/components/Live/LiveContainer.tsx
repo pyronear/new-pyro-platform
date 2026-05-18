@@ -49,6 +49,7 @@ export const LiveContainer = ({
   const isCameraSelected = !!selectedSite && !!selectedCamera;
 
   const changeCamera = (newSite: SiteType, newCameraId: number | null) => {
+    setIsStreamVideoInterrupted(false);
     setSelectedSite(newSite);
     setSelectedCameraId(newCameraId ?? getDefaultCameraIdBySite(newSite));
   };
@@ -114,6 +115,7 @@ export const LiveContainer = ({
           <Grid container spacing={2} flexGrow={1}>
             <Grid size={8}>
               <LiveStreamPanel
+                key={`${selectedSite.id}-${selectedCamera.id}`}
                 urlStreaming={urlStreaming}
                 setIsStreamVideoInterrupted={setIsStreamVideoInterrupted}
                 camera={selectedCamera}
