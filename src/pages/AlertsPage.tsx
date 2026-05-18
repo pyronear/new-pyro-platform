@@ -6,8 +6,11 @@ import { getUnlabelledLatestAlerts } from '@/services/alerts';
 import appConfig from '@/services/appConfig';
 import { STATUS_ERROR, STATUS_LOADING, STATUS_SUCCESS } from '@/services/axios';
 import { getCameraList } from '@/services/camera';
-import { type AlertType, mapListAlertApiToAlertType } from '@/utils/alerts';
-import { isDateToday } from '@/utils/dates';
+import {
+  type AlertType,
+  filterAlertsStartedToday,
+  mapListAlertApiToAlertType,
+} from '@/utils/alerts';
 import { useDetectNewSequences as useDetectNewAlerts } from '@/utils/useDetectNewSequences';
 
 const ALERTS_LIST_REFRESH_INTERVAL_SECONDS =
@@ -32,7 +35,7 @@ export const AlertsPage = () => {
   });
 
   const todayAlerts = useMemo(
-    () => (alertList ?? []).filter((alert) => isDateToday(alert.started_at)),
+    () => filterAlertsStartedToday(alertList ?? []),
     [alertList]
   );
 

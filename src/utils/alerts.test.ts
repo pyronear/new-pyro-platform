@@ -1,6 +1,7 @@
 import {
   type AlertType,
   extractCameraListFromAlert,
+  filterAlertsStartedToday,
   formatAzimuth,
   formatPosition,
   hasNewAlertSince,
@@ -165,5 +166,67 @@ describe('hasNewSequenceSince', () => {
       1740476223000
     ); //2025-02-25T09:37:03
     expect(result).toBeTruthy();
+  });
+});
+
+describe('filterAlertsStartedToday', () => {
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
+  it('should exclude previous-day alerts even if they are within the last 24 hours', () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date('2025-02-26T10:00:00.000Z'));
+
+    const result = filterAlertsStartedToday([
+      {
+        id: 1,
+        started_at: '2025-02-25T22:30:00',
+        sequences: [],
+        organization_id: 0,
+        lat: null,
+        lon: null,
+        last_seen_at: '',
+      },
+      {
+        id: 2,
+        started_at: '2025-02-26T08:30:00',
+        sequences: [],
+        organization_id: 0,
+        lat: null,
+        lon: null,
+        last_seen_at: '',
+      },
+    ]);
+
+    expect(result.map((alert) => alert.id)).toStrictEqual([2]);
+  });
+
+  it('should use the local calendar day when filtering UTC alert timestamps', () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date('2025-02-25T23:30:00.000Z'));
+
+    const result = filterAlertsStartedToday([
+      {
+        id: 1,
+        started_at: '2025-02-25T22:30:00',
+        sequences: [],
+        organization_id: 0,
+        lat: null,
+        lon: null,
+        last_seen_at: '',
+      },
+      {
+        id: 2,
+        started_at: '2025-02-25T23:30:00',
+        sequences: [],
+        organization_id: 0,
+        lat: null,
+        lon: null,
+        last_seen_at: '',
+      },
+    ]);
+
+    expect(result.map((alert) => alert.id)).toStrictEqual([2]);
   });
 });
