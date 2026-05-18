@@ -4,6 +4,8 @@ import * as z from 'zod/v4';
 import { convertIsoToUnix } from '../utils/dates';
 import { apiInstance } from './axios';
 
+export const UNLABELLED_ALERTS_QUERY_KEY = ['unlabelledAlerts'];
+
 const apiSequenceResponseSchema = z.object({
   id: z.number(),
   camera_id: z.number(),

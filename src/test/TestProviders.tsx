@@ -1,4 +1,5 @@
 import { ThemeProvider } from '@mui/material';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 
@@ -11,14 +12,24 @@ interface ProvidersProps {
 }
 
 const TestProviders = ({ children }: ProvidersProps) => {
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        retry: false,
+      },
+    },
+  });
+
   return (
-    <AuthProvider>
-      <PreferencesProvider>
-        <BrowserRouter>
-          <ThemeProvider theme={theme}>{children}</ThemeProvider>
-        </BrowserRouter>
-      </PreferencesProvider>
-    </AuthProvider>
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <PreferencesProvider>
+          <BrowserRouter>
+            <ThemeProvider theme={theme}>{children}</ThemeProvider>
+          </BrowserRouter>
+        </PreferencesProvider>
+      </AuthProvider>
+    </QueryClientProvider>
   );
 };
 
