@@ -24,6 +24,7 @@ export const AlertsPage = () => {
     queryKey: ['unlabelledAlerts'],
     queryFn: getUnlabelledLatestAlerts,
     refetchInterval: ALERTS_LIST_REFRESH_INTERVAL_SECONDS * 1000,
+    refetchIntervalInBackground: true,
   });
 
   const { status: statusCameras, data: cameraList } = useQuery({
