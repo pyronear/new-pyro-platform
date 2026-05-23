@@ -41,6 +41,7 @@ export const DesktopTopbar = () => {
                   <NavigationLink
                     path="/alerts"
                     label={t('alerts')}
+                    badgeContent={unlabelledAlertsCount}
                     badgeLabel={alertsBadgeLabel}
                   />
                   <NavigationLink path="/dashboard" label={t('dashboard')} />
