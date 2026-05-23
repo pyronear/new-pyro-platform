@@ -40,6 +40,7 @@ export const MobileTopbarDrawer = ({
               <NavigationLink
                 path="/alerts"
                 label={t('alerts')}
+                badgeContent={unlabelledAlertsCount}
                 badgeLabel={alertsBadgeLabel}
               />
             </ListItem>
