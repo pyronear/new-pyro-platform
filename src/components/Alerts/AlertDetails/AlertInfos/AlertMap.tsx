@@ -8,14 +8,13 @@ import CameraMarker from '@/components/Common/Map/CameraMarker';
 import FirePositionMarkerMap from '@/components/Common/Map/FirePositionMarkerMap';
 import { SequencePolygon } from '@/components/Common/Map/SequencePolygon';
 import TemplateMap from '@/components/Common/Map/TemplateMap';
-import type { CameraType } from '@/services/camera';
+import { useCameraList } from '@/context/useCameraList';
 import type { AlertType, SequenceWithCameraInfoType } from '@/utils/alerts';
 import { buildVisionPolygon, DEFAULT_CAM_RANGE_KM } from '@/utils/cameraVision';
 
 interface AlertMap {
   alert: AlertType;
   selectedSequenceId: number;
-  camerasList: CameraType[];
   height?: number | string;
 }
 
@@ -23,8 +22,20 @@ type SequenceWithCamera = SequenceWithCameraInfoType & {
   camera: NonNullable<SequenceWithCameraInfoType['camera']>;
 };
 
-const AlertMap = ({ alert, selectedSequenceId, camerasList, height = '100%' }: AlertMap) => {
+const isSameCamera = (
+  camera: SequenceWithCamera['camera'],
+  organizationCamera: SequenceWithCamera['camera']
+) => {
+  return (
+    camera.id === organizationCamera.id ||
+    (camera.lat === organizationCamera.lat &&
+      camera.lon === organizationCamera.lon)
+  );
+};
+
+const AlertMap = ({ alert, selectedSequenceId, height = '100%' }: AlertMap) => {
   const [fullScreen, setFullScreen] = useState(false);
+  const camerasList = useCameraList();
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -56,16 +67,6 @@ const AlertMap = ({ alert, selectedSequenceId, camerasList, height = '100%' }: A
         ),
       }));
   }, [alert]);
-
-  const activeCameraIds = useMemo(
-    () => new Set(sequencesWithPolygons.map((sequence) => sequence.camera.id)),
-    [sequencesWithPolygons]
-  );
-
-  const inactiveCameras = useMemo(
-    () => camerasList.filter((camera) => !activeCameraIds.has(camera.id)),
-    [activeCameraIds, camerasList]
-  );
 
   const bounds = useMemo(() => {
     const allPolygonPoints = sequencesWithPolygons
@@ -105,9 +106,16 @@ const AlertMap = ({ alert, selectedSequenceId, camerasList, height = '100%' }: A
             <CameraMarker camera={sequence.camera} />
           </Fragment>
         ))}
-        {inactiveCameras.map((camera) => (
-          <CameraMarker key={camera.id} camera={camera} />
-        ))}
+        {camerasList
+          .filter(
+            (camera) =>
+              !sequencesWithPolygons.some((sequence) =>
+                isSameCamera(sequence.camera, camera)
+              )
+          )
+          .map((camera) => (
+            <CameraMarker key={camera.id} camera={camera} variant="secondary" />
+          ))}
         {sequencesWithPolygons.length > 1 && (
           <FirePositionMarkerMap alert={alert} />
         )}

@@ -5,20 +5,26 @@ import { Marker, Popup } from 'react-leaflet';
 
 import type { CameraType } from '../../../services/camera';
 import { useTranslationPrefix } from '../../../utils/useTranslationPrefix';
-import { cameraIcon } from './Icons';
+import { cameraIcon, secondaryCameraIcon } from './Icons';
 
 interface CameraMarkerType {
   camera: CameraType;
   markerRefs?: RefObject<Map<number, LeafletMarker>>;
   onClick?: () => void;
+  variant?: 'primary' | 'secondary';
 }
 
-const CameraMarker = ({ camera, markerRefs, onClick }: CameraMarkerType) => {
+const CameraMarker = ({
+  camera,
+  markerRefs,
+  onClick,
+  variant = 'primary',
+}: CameraMarkerType) => {
   const { t } = useTranslationPrefix('alerts');
   return (
     <Marker
       position={[camera.lat, camera.lon]}
-      icon={cameraIcon}
+      icon={variant === 'secondary' ? secondaryCameraIcon : cameraIcon}
       ref={(m) => {
         if (markerRefs === undefined) return;
         if (m) markerRefs.current.set(camera.id, m);

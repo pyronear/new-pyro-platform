@@ -5,6 +5,7 @@ import {
 } from '@tanstack/react-query';
 import { useCallback, useMemo, useState } from 'react';
 
+import { CameraListProvider } from '@/context/CameraListProvider';
 import { getAlertsByFilters } from '@/services/alerts';
 import appConfig from '@/services/appConfig';
 import { STATUS_ERROR, STATUS_LOADING, STATUS_SUCCESS } from '@/services/axios';
@@ -89,17 +90,18 @@ export const HistoryPage = () => {
   }, [statusSequences, statusCameras, isQuerySequencesEnabled]);
 
   return (
-    <HistoryContainer
-      isQuerySequencesEnabled={isQuerySequencesEnabled}
-      filters={filters}
-      setFilters={setFilters}
-      status={status}
-      alertsList={alertsList}
-      camerasList={cameraList ?? []}
-      hasNextPage={hasNextPage}
-      isFetchingNextPage={isFetchingNextPage}
-      fetchNextPage={() => void fetchNextPage()}
-      invalidateAndRefreshData={invalidateAndRefreshData}
-    />
+    <CameraListProvider camerasList={cameraList ?? []}>
+      <HistoryContainer
+        isQuerySequencesEnabled={isQuerySequencesEnabled}
+        filters={filters}
+        setFilters={setFilters}
+        status={status}
+        alertsList={alertsList}
+        hasNextPage={hasNextPage}
+        isFetchingNextPage={isFetchingNextPage}
+        fetchNextPage={() => void fetchNextPage()}
+        invalidateAndRefreshData={invalidateAndRefreshData}
+      />
+    </CameraListProvider>
   );
 };

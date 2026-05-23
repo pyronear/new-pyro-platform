@@ -10,7 +10,6 @@ import {
   STATUS_LOADING,
   STATUS_SUCCESS,
 } from '../../services/axios';
-import type { CameraType } from '../../services/camera';
 import type { AlertType } from '../../utils/alerts';
 import type { FiltersType } from '../../utils/history.ts';
 import { useIsMobile } from '../../utils/useIsMobile';
@@ -23,7 +22,6 @@ interface HistoryContainerType {
   isQuerySequencesEnabled: boolean;
   status: ResponseStatus;
   alertsList: AlertType[];
-  camerasList: CameraType[];
   filters: FiltersType;
   setFilters: React.Dispatch<React.SetStateAction<FiltersType>>;
   hasNextPage: boolean;
@@ -36,7 +34,6 @@ export const HistoryContainer = ({
   isQuerySequencesEnabled,
   status,
   alertsList,
-  camerasList,
   filters,
   setFilters,
   hasNextPage,
@@ -86,7 +83,6 @@ export const HistoryContainer = ({
     <AlertContainer
       isLiveMode={false}
       alert={selectedAlert}
-      camerasList={camerasList}
       resetAlert={() => {
         setSelectedAlert(null);
       }}
