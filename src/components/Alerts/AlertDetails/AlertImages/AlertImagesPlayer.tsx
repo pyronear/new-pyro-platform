@@ -1,7 +1,9 @@
+import FastForwardIcon from '@mui/icons-material/FastForward';
+import FastRewindIcon from '@mui/icons-material/FastRewind';
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import PauseIcon from '@mui/icons-material/Pause';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import SkipNextIcon from '@mui/icons-material/SkipNext';
-import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
 import {
   Box,
   Button,
@@ -18,6 +20,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { DetectionType } from '@/services/alerts';
 import appConfig from '@/services/appConfig';
 import { convertIsoToUnix, formatIsoToTime } from '@/utils/dates';
+import { useIsMobile } from '@/utils/useIsMobile';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
 import { DetectionImageWithBoundingBox } from './DetectionImageWithBoundingBox';
@@ -25,6 +28,7 @@ import { useImagePreloader } from './useImagePreloader';
 
 const PRELOAD_FRAMES_BACKWARD = 5;
 const PRELOAD_FRAMES_FORWARD = 20;
+const JUMP_FRAMES = 10;
 const PLAYBACK_SPEED_OPTIONS = [1, 2, 4] as const;
 type PlaybackSpeed = (typeof PLAYBACK_SPEED_OPTIONS)[number];
 
@@ -59,6 +63,7 @@ export const AlertImagesPlayer = ({
   const [playbackSpeed, setPlaybackSpeed] = useState<PlaybackSpeed>(1);
   const [speedAnchorEl, setSpeedAnchorEl] = useState<null | HTMLElement>(null);
   const theme = useTheme();
+  const isMobile = useIsMobile();
   const { t } = useTranslationPrefix('alerts');
 
   const selectedDetection: DetectionType | undefined = detections[currentIndex];
@@ -90,16 +95,17 @@ export const AlertImagesPlayer = ({
   );
 
   const hasAutoSeekedRef = useRef(false);
+  const rootRef = useRef<HTMLDivElement>(null);
 
-  const stepBackward = useCallback(() => {
-    setIsPlaying(false);
-    setCurrentIndex((idx) => Math.max(0, idx - 1));
-  }, []);
-
-  const stepForward = useCallback(() => {
-    setIsPlaying(false);
-    setCurrentIndex((idx) => Math.min(detections.length - 1, idx + 1));
-  }, [detections.length]);
+  const step = useCallback(
+    (delta: number) => {
+      setIsPlaying(false);
+      setCurrentIndex((idx) =>
+        Math.min(detections.length - 1, Math.max(0, idx + delta))
+      );
+    },
+    [detections.length]
+  );
 
   const togglePlay = useCallback(() => {
     setIsPlaying((prev) => !prev);
@@ -149,6 +155,58 @@ export const AlertImagesPlayer = ({
     };
   }, [isPlaying, playbackSpeed, detections.length]);
 
+  // Keyboard shortcuts. We listen in the capture phase so we run before the
+  // focused control's own handler, then stop the event: this makes us the sole
+  // authority for these keys (no double-handling) and keeps behavior identical
+  // regardless of which control the user last clicked. The slider's native
+  // arrow keys would otherwise scrub without pausing, and a focused button
+  // would activate on Space.
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.ctrlKey || event.metaKey || event.altKey) return;
+      const target = event.target as HTMLElement | null;
+
+      // Let real text fields and open popup menus keep their own key handling.
+      if (
+        target?.matches('textarea, [contenteditable="true"]') ||
+        (target?.matches('input') &&
+          (target as HTMLInputElement).type !== 'range') ||
+        target?.closest('[role="menu"], [role="listbox"], [role="dialog"]')
+      ) {
+        return;
+      }
+
+      // Only act for the player itself or when nothing in particular is focused
+      // (body) — never steal keys from other interactive controls on the page.
+      const inPlayer = rootRef.current?.contains(target) ?? false;
+      const noFocus =
+        target === document.body || target === document.documentElement;
+      if (!inPlayer && !noFocus) return;
+
+      switch (event.key) {
+        case 'ArrowLeft':
+          event.preventDefault();
+          event.stopPropagation();
+          step(-1);
+          break;
+        case 'ArrowRight':
+          event.preventDefault();
+          event.stopPropagation();
+          step(1);
+          break;
+        case ' ':
+          event.preventDefault();
+          event.stopPropagation();
+          togglePlay();
+          break;
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown, true);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown, true);
+    };
+  }, [step, togglePlay]);
+
   const onChangeSlider = (_event: Event, newValue: unknown) => {
     if (typeof newValue !== 'number') return;
     const targetIndex = marks.findIndex((mark) => mark.value === newValue);
@@ -166,7 +224,7 @@ export const AlertImagesPlayer = ({
   if (!selectedDetection) return null;
 
   return (
-    <Stack direction="column" spacing={1}>
+    <Stack direction="column" spacing={1} ref={rootRef}>
       <DetectionImageWithBoundingBox
         displayBbox={displayBbox}
         displayCrop={displayCrop}
@@ -182,13 +240,22 @@ export const AlertImagesPlayer = ({
         sx={{ flexWrap: 'wrap', rowGap: 1 }}
       >
         <IconButton
-          onClick={stepBackward}
+          onClick={() => step(-JUMP_FRAMES)}
+          aria-label={t('buttonJumpBackward')}
+          disabled={currentIndex === 0}
+          size="large"
+          sx={{ border: `1px solid ${theme.palette.grey[500]}` }}
+        >
+          <FastRewindIcon />
+        </IconButton>
+        <IconButton
+          onClick={() => step(-1)}
           aria-label={t('buttonStepBackward')}
           disabled={currentIndex === 0}
           size="large"
           sx={{ border: `1px solid ${theme.palette.grey[500]}` }}
         >
-          <SkipPreviousIcon />
+          <KeyboardArrowLeftIcon />
         </IconButton>
         <IconButton
           onClick={togglePlay}
@@ -199,13 +266,22 @@ export const AlertImagesPlayer = ({
           {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
         </IconButton>
         <IconButton
-          onClick={stepForward}
+          onClick={() => step(1)}
           aria-label={t('buttonStepForward')}
           disabled={currentIndex >= detections.length - 1}
           size="large"
           sx={{ border: `1px solid ${theme.palette.grey[500]}` }}
         >
-          <SkipNextIcon />
+          <KeyboardArrowRightIcon />
+        </IconButton>
+        <IconButton
+          onClick={() => step(JUMP_FRAMES)}
+          aria-label={t('buttonJumpForward')}
+          disabled={currentIndex >= detections.length - 1}
+          size="large"
+          sx={{ border: `1px solid ${theme.palette.grey[500]}` }}
+        >
+          <FastForwardIcon />
         </IconButton>
         <Button
           onClick={(event) => setSpeedAnchorEl(event.currentTarget)}
@@ -242,8 +318,8 @@ export const AlertImagesPlayer = ({
             </MenuItem>
           ))}
         </Menu>
-        <Typography variant="body2" sx={{ minWidth: 110 }}>
-          {`${(currentIndex + 1).toString()} / ${detections.length.toString()} · ${formatIsoToTime(selectedDetection.created_at)}`}
+        <Typography variant="body2" sx={{ whiteSpace: 'nowrap' }}>
+          {`${(currentIndex + 1).toString()} / ${detections.length.toString()}`}
         </Typography>
         {loadedCount < totalCount &&
           (isLoading ? (
@@ -261,7 +337,16 @@ export const AlertImagesPlayer = ({
               {t('partialLoadError', { missing: totalCount - loadedCount })}
             </Typography>
           ))}
-        <Box sx={{ flexGrow: 1, width: '100%', mr: 2, px: 3, pt: 3 }}>
+        <Box
+          sx={{
+            flexGrow: 1,
+            width: isMobile ? '100%' : 'auto',
+            minWidth: isMobile ? '100%' : 240,
+            mr: 2,
+            px: 3,
+            py: 3,
+          }}
+        >
           <Slider
             value={convertIsoToUnix(selectedDetection.created_at)}
             onChange={onChangeSlider}
@@ -274,6 +359,21 @@ export const AlertImagesPlayer = ({
             sx={{
               verticalAlign: 'middle',
               color: theme.palette.primary.light,
+              '& .MuiSlider-rail': {
+                height: 8,
+              },
+              '& .MuiSlider-track': {
+                height: 8,
+              },
+              '& .MuiSlider-mark': {
+                height: 12,
+                width: 2,
+                backgroundColor: theme.palette.primary.light,
+                opacity: 0.32,
+              },
+              '& .MuiSlider-markActive': {
+                opacity: 1,
+              },
               '& .MuiSlider-markLabel': {
                 m: 0,
                 fontSize: '0.8rem',
