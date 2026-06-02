@@ -79,6 +79,8 @@
     "buttonPause": "Pause",
     "buttonStepBackward": "Previous frame",
     "buttonStepForward": "Next frame",
+    "buttonJumpBackward": "Back 10 frames",
+    "buttonJumpForward": "Forward 10 frames",
     "buttonPlaybackSpeed": "Playback speed",
     "loadingProgress": "Loading {{progress}}%",
     "partialLoadError": "Failed to load {{missing}} image(s)",

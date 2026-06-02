@@ -79,6 +79,8 @@
     "buttonPause": "Pause",
     "buttonStepBackward": "Vorheriges Bild",
     "buttonStepForward": "Nächstes Bild",
+    "buttonJumpBackward": "10 Bilder zurück",
+    "buttonJumpForward": "10 Bilder vor",
     "buttonPlaybackSpeed": "Wiedergabegeschwindigkeit",
     "loadingProgress": "Lädt {{progress}}%",
     "partialLoadError": "Laden von {{missing}} Bild(ern) fehlgeschlagen",
