@@ -20,7 +20,6 @@ import { useActionsOnCamera } from './context/useActionsOnCamera';
 import { useDataSitesLive } from './hooks/useDataSitesLive';
 import { HeadRow } from './LiveContent/HeadRow/HeadRow';
 import { LiveControlPanel } from './LiveContent/LiveControlPanel';
-import LiveErrorSnackbar from './LiveContent/LiveErrorSnackbar';
 import { LiveStreamPanel } from './LiveContent/LiveStreamPanel';
 
 interface LiveContainerProps {
@@ -101,7 +100,6 @@ export const LiveContainer = ({
 
   return (
     <>
-      <LiveErrorSnackbar />
       <Stack height="100%">
         <HeadRow
           onClose={onClose}
