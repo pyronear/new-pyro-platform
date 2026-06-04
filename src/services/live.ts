@@ -3,7 +3,18 @@ import * as z from 'zod/v4';
 
 import type { MovementCommand } from '@/utils/live';
 
+import appConfig from './appConfig';
 import { apiInstance } from './axios';
+
+// Camera control commands block on the Pi until the PTZ/zoom motor settles,
+// which can far exceed the global API timeout. Zoom is the slowest (settle up
+// to ~10s), so it gets its own, longer timeout.
+const controlTimeout = () => ({
+  timeout: appConfig.getConfig().CAMERA_CONTROL_TIMEOUT_MS,
+});
+const zoomTimeout = () => ({
+  timeout: appConfig.getConfig().CAMERA_ZOOM_TIMEOUT_MS,
+});
 
 const apiCameraInfosResponseSchema = z.object({
   ip: z.string(),
@@ -105,7 +116,11 @@ export const zoomCamera = async (
   level: number
 ): Promise<void> => {
   return apiInstance
-    .post(`/api/v1/cameras/${cameraId}/control/zoom/${level}`)
+    .post(
+      `/api/v1/cameras/${cameraId}/control/zoom/${level}`,
+      null,
+      zoomTimeout()
+    )
     .then(() => {
       return;
     })
@@ -126,6 +141,7 @@ export const moveCamera = async (
 ): Promise<void> => {
   return apiInstance
     .post(`/api/v1/cameras/${cameraId}/control/move`, null, {
+      ...controlTimeout(),
       params: {
         direction,
         speed,
@@ -167,7 +183,7 @@ export const moveCameraToAAzimuth = async (
 
 export const stopCamera = async (cameraId: number): Promise<void> => {
   return apiInstance
-    .post(`/api/v1/cameras/${cameraId}/control/stop`)
+    .post(`/api/v1/cameras/${cameraId}/control/stop`, null, controlTimeout())
     .then(() => {
       return;
     })
