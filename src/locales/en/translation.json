@@ -74,6 +74,7 @@
     "buttonImageDownload": "Download",
     "buttonImageDownloadOne": "Download the current image",
     "buttonImageDownloadAll": "Download all images",
+    "buttonImageDownloadAllBbox": "Download all images with bounding boxes",
     "buttonPlay": "Play",
     "buttonPause": "Pause",
     "buttonDisplayBBox": "Display the detection",
@@ -154,7 +155,20 @@
     "iconAlt": "No alert to display",
     "errorFetchSequencesMessage": "Something went wrong on our side. Please try again later.",
     "dateField": "Date",
-    "loadMoreMessage": "Load more alerts"
+    "loadMoreMessage": "Load more alerts",
+    "export": {
+      "title": "Export",
+      "button": "Export alerts",
+      "modal": {
+        "title": "Export alerts",
+        "description": "Select a date range to download the corresponding alerts as a CSV file.",
+        "fromDate": "From",
+        "toDate": "To",
+        "cancel": "Cancel",
+        "confirm": "Download",
+        "errorMessage": "An error occurred during the export. Please try again."
+      }
+    }
   },
   "live": {
     "errorFetchInfos": "Something went wrong on our side. Please try again later.",
@@ -190,6 +204,7 @@
     "layerControl": "Map Layers",
     "baseLayer": "Base Layer",
     "overlays": "Overlays",
-    "dfciGrid": "DFCI Grid"
+    "dfciGrid": "DFCI Grid",
+    "onfForest": "ONF forest parcels"
   }
 }

@@ -1,17 +1,17 @@
 import VideocamOutlinedIcon from '@mui/icons-material/VideocamOutlined';
 import {
+  Box,
   CardActionArea,
   CardContent,
-  Grid,
   Stack,
   Typography,
   useTheme,
 } from '@mui/material';
 import Card from '@mui/material/Card';
 
-import { type AlertType, formatAzimuth } from '@//utils/alerts';
-import { formatIsoToDate, formatIsoToTime } from '@//utils/dates';
 import { CameraName } from '@/components/Common/Camera/CameraName';
+import { type AlertType, formatAzimuth } from '@/utils/alerts';
+import { formatIsoToDate, formatIsoToTime } from '@/utils/dates';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
 import { SequenceLabelChip } from '../AlertLabel/SequenceLabelChip';
@@ -49,54 +49,62 @@ export const AlertCard = ({
           },
         }}
       >
-        <CardContent>
-          <Grid container marginBottom="1rem" justifyContent="space-between">
-            <Grid>
-              <Typography variant="caption">
-                {formatIsoToDate(alert.startedAt)}
-              </Typography>
-            </Grid>
-            {isLiveMode && (
-              <Grid>
-                <AlertStartedTimeAgo alert={alert} />
-              </Grid>
-            )}
-          </Grid>
+        <CardContent sx={{ p: 1.5, '&:last-child': { pb: 1.5 } }}>
+          <Stack
+            direction="row"
+            justifyContent="space-between"
+            alignItems="center"
+            marginBottom={0.5}
+          >
+            <Typography variant="caption">
+              {formatIsoToDate(alert.startedAt)}
+            </Typography>
+            {isLiveMode && <AlertStartedTimeAgo alert={alert} />}
+          </Stack>
           <Stack
             direction="row"
             alignItems="center"
             spacing={1}
-            marginBottom={1}
+            marginBottom={0.5}
           >
             <VideocamOutlinedIcon fontSize="small" />
             <Typography variant="h3">{t('prefixCardDetection')}</Typography>
           </Stack>
-          <Stack spacing={1}>
+          <Stack spacing={0.75}>
             {alert.sequences.map((sequence) => (
-              <Stack
-                direction="row"
-                key={sequence.id}
-                justifyContent="space-between"
-                alignItems="center"
-              >
-                <Stack direction="row" spacing={1} alignItems="center">
+              <Stack key={sequence.id} spacing={0.25}>
+                <Stack
+                  direction="row"
+                  spacing={1}
+                  alignItems="center"
+                  sx={{ minWidth: 0 }}
+                >
                   <SequenceLabelChip
                     isSmall
                     labelWildfire={sequence.labelWildfire}
                   />
-                  {sequence.camera && <CameraName camera={sequence.camera} />}
+                  {sequence.camera && (
+                    <Box
+                      sx={{
+                        minWidth: 0,
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap',
+                      }}
+                    >
+                      <CameraName camera={sequence.camera} />
+                    </Box>
+                  )}
                 </Stack>
-
                 <Stack
                   direction="row"
                   spacing={1}
-                  justifyContent="end"
-                  flexGrow={1}
+                  justifyContent="flex-end"
+                  alignItems="center"
                 >
                   <Typography variant="caption" fontWeight={500}>
                     {formatAzimuth(sequence.azimuth)}
                   </Typography>
-
                   <Typography variant="caption">
                     {formatIsoToTime(sequence.startedAt)}
                   </Typography>

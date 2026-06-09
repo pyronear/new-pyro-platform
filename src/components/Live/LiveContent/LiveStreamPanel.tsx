@@ -1,4 +1,3 @@
-import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import {
@@ -7,24 +6,19 @@ import {
   useEffect,
   useMemo,
   useRef,
-  useState,
 } from 'react';
 
 import { Loader } from '@/components/Common/Loader';
-import { STATUS_ERROR, STATUS_LOADING, STATUS_SUCCESS } from '@/services/axios';
+import { STATUS_ERROR, STATUS_SUCCESS } from '@/services/axios';
 import { type AlertType } from '@/utils/alerts';
 import type { CameraFullInfosType } from '@/utils/camera';
-import {
-  calculateHasRotation,
-  getMoveToAzimuthFromAlert,
-  SPEEDS,
-} from '@/utils/live';
+import { calculateHasRotation, getMoveToAzimuthFromAlert } from '@/utils/live';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
 import { useActionsOnCamera } from '../context/useActionsOnCamera';
 import { StateStreaming, useMediaMtx } from '../hooks/useMediaMtx';
-import { FloatingActions } from './StreamActions/FloatingActions';
-import { QuickActions } from './StreamActions/QuickActions';
+import { RelaunchVideoButton } from './VideoStream/RelaunchVideoButton';
+import { VideoStream } from './VideoStream/VideoStream';
 
 interface LiveStreamPanelProps {
   urlStreaming: string;
@@ -39,13 +33,17 @@ export const LiveStreamPanel = ({
   setIsStreamVideoInterrupted,
   alert,
 }: LiveStreamPanelProps) => {
-  const [speedIndex, setSpeedIndex] = useState(1);
   const id = camera.id;
   const { t } = useTranslationPrefix('live');
   const refVideo = useRef<HTMLVideoElement>(null);
-  const mediaMtx = useMediaMtx({ urlStreaming, refVideo, id: camera.id });
   const { addStreamingAction, isStreamingTimeout, statusStreamingVideo } =
     useActionsOnCamera();
+  const mediaMtx = useMediaMtx({
+    urlStreaming,
+    refVideo,
+    id: camera.id,
+    isStreamingTimeout,
+  });
 
   const initialMove = useMemo(
     () => getMoveToAzimuthFromAlert(camera, alert),
@@ -53,9 +51,8 @@ export const LiveStreamPanel = ({
     []
   );
 
-  const mediaMtxInterrupted =
-    mediaMtx.state === StateStreaming.WITH_ERROR ||
-    mediaMtx.state === StateStreaming.STOPPED;
+  const hasTemporaryError =
+    mediaMtx.state === StateStreaming.TEMPORARY_ERROR && !isStreamingTimeout;
 
   const restartStreaming = () => {
     mediaMtx.restart();
@@ -88,87 +85,61 @@ export const LiveStreamPanel = ({
   }, [hasRotation, initialMove, id, addStreamingAction]);
 
   useEffect(() => {
-    setIsStreamVideoInterrupted(mediaMtxInterrupted);
-  }, [mediaMtxInterrupted, setIsStreamVideoInterrupted]);
-
-  const setNextSpeed = () =>
-    setSpeedIndex((oldIndex) =>
-      oldIndex === SPEEDS.length - 1 ? 0 : oldIndex + 1
+    setIsStreamVideoInterrupted(
+      mediaMtx.state === StateStreaming.FAILED ||
+        mediaMtx.state === StateStreaming.STOPPED
     );
+  }, [mediaMtx, setIsStreamVideoInterrupted]);
 
   return (
     <Stack spacing={1} height="100%" p={2}>
-      {statusStreamingVideo === STATUS_ERROR && (
-        <Typography variant="body2">{t('errorNoStreaming')}</Typography>
-      )}
-      {!isStreamingTimeout && mediaMtx.state === StateStreaming.WITH_ERROR && (
-        <Stack spacing={4}>
-          <Loader />
-          <Typography variant="body2">{t('errorTmpMediaMtx')}</Typography>
-        </Stack>
-      )}
-      {!isStreamingTimeout && mediaMtx.state === StateStreaming.STOPPED && (
-        <Typography variant="body2">{t('errorFinalMediaMtx')}</Typography>
-      )}
-      {isStreamingTimeout && mediaMtxInterrupted && (
-        <Stack spacing={4} alignItems="center">
-          <Typography variant="body2">
-            {t('errorInteruptedMediaMtx')}
-          </Typography>
-          <div>
-            <Button variant="contained" onClick={restartStreaming}>
-              {t('relaunchStreamButton')}
-            </Button>
-          </div>
-        </Stack>
-      )}
-      {(statusStreamingVideo === STATUS_LOADING ||
-        (statusStreamingVideo === STATUS_SUCCESS &&
-          mediaMtx.state === StateStreaming.IN_CREATION)) && (
-        <Stack spacing={4}>
-          <Loader />
-          <Typography variant="body2">{t('loadingVideo')}</Typography>
-        </Stack>
-      )}
       {
-        <>
-          <div style={{ position: 'relative', flexGrow: 1 }}>
-            <video
-              ref={refVideo}
-              playsInline
-              autoPlay
-              style={{
-                background: '#1e1e1e',
-                width: '100%',
-                height: '100%',
-                display:
-                  statusStreamingVideo === STATUS_SUCCESS &&
-                  mediaMtx.state === StateStreaming.IS_STREAMING
-                    ? 'inline'
-                    : 'none',
-              }}
-            />
-            {statusStreamingVideo === STATUS_SUCCESS &&
-              mediaMtx.state === StateStreaming.IS_STREAMING && (
-                <FloatingActions
-                  cameraId={id}
-                  cameraType={camera.type}
-                  speed={SPEEDS[speedIndex].speed}
-                />
-              )}
-          </div>
-          {statusStreamingVideo === STATUS_SUCCESS &&
-            hasRotation &&
-            mediaMtx.state === StateStreaming.IS_STREAMING && (
-              <QuickActions
-                cameraId={id}
-                poses={camera.poses ?? []}
-                speedName={SPEEDS[speedIndex].name}
-                nextSpeed={setNextSpeed}
-              />
-            )}
-        </>
+        /* Streaming couldn't be started with backendapi : error with no retry */
+        statusStreamingVideo === STATUS_ERROR && (
+          <Typography variant="body2">{t('errorNoStreaming')}</Typography>
+        )
       }
+      {statusStreamingVideo === STATUS_SUCCESS && (
+        <>
+          {
+            /* Streaming has been succesfully started with backendapi but mediamtx is not yet ready */
+            mediaMtx.state === StateStreaming.IN_CREATION && (
+              <Stack spacing={4}>
+                <Loader />
+                <Typography variant="body2">{t('loadingVideo')}</Typography>
+              </Stack>
+            )
+          }
+          {
+            /* Streaming has been succesfully started with backendapi but mediamtx has failed */
+            !isStreamingTimeout && mediaMtx.state === StateStreaming.FAILED && (
+              <RelaunchVideoButton
+                errorMessage={t('errorFinalMediaMtx')}
+                restartStreaming={restartStreaming}
+              />
+            )
+          }
+          {
+            /* Streaming has been succesfully started with backendapi but mediamtx is timeout */
+            isStreamingTimeout && mediaMtx.state === StateStreaming.FAILED && (
+              <RelaunchVideoButton
+                errorMessage={t('errorInteruptedMediaMtx')}
+                restartStreaming={restartStreaming}
+              />
+            )
+          }
+        </>
+      )}
+      {/* Streaming has been started with backendapi and mediamtx is connected */}
+      <VideoStream
+        ref={refVideo}
+        camera={camera}
+        hasRotation={hasRotation}
+        display={
+          statusStreamingVideo === STATUS_SUCCESS &&
+          (mediaMtx.state === StateStreaming.IS_STREAMING || hasTemporaryError)
+        }
+      />
     </Stack>
   );
 };

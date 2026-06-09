@@ -18,6 +18,7 @@ export const AlertInfosSection = ({
     <Paper
       sx={{
         padding: 1,
+        height: '100%',
       }}
     >
       <Stack direction="row" justifyContent="space-between" alignItems="center">

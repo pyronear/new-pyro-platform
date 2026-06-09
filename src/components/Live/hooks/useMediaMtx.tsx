@@ -12,21 +12,26 @@ interface StreamVideoProps {
   urlStreaming: string;
   refVideo: RefObject<HTMLVideoElement | null>;
   id: number;
+  isStreamingTimeout: boolean;
 }
 
 export const StateStreaming = {
   IN_CREATION: 0, // StartStreaming command launched, waiting for the data to arrive to the broadcast url
   IS_STREAMING: 1, // The reader is broadcasting data
-  WITH_ERROR: 2, // Temporary failure in broadcasting data
-  STOPPED: 3, // The reader has failed and will not try again de connect the broadcast url
+  TEMPORARY_ERROR: 2, // Temporary failure in broadcasting data
+  FAILED: 3, // The reader has failed loading and will not try again de connect the broadcast url
+  STOPPED: 4, // The reader is stopped and will not try again de connect the broadcast url
 };
+
+const INITIAL_STATE = StateStreaming.IN_CREATION;
 
 export const useMediaMtx = ({
   urlStreaming,
   refVideo,
   id,
+  isStreamingTimeout,
 }: StreamVideoProps) => {
-  const [state, setState] = useState<number>(StateStreaming.IN_CREATION);
+  const [state, setState] = useState<number>(INITIAL_STATE);
 
   const reader = useMemo(() => {
     if (urlStreaming) {
@@ -34,16 +39,19 @@ export const useMediaMtx = ({
         url: urlStreaming,
         onError: (err: string) => {
           console.log(err);
-          setState((oldValue) =>
+          setState((oldValue) => {
             // Set to error state only if the video is initialized
-            oldValue === StateStreaming.IS_STREAMING
-              ? StateStreaming.WITH_ERROR
-              : oldValue
-          );
+            if (oldValue === StateStreaming.IN_CREATION) {
+              return StateStreaming.IN_CREATION;
+            } else {
+              return isStreamingTimeout
+                ? StateStreaming.FAILED
+                : StateStreaming.TEMPORARY_ERROR;
+            }
+          });
         },
         onTrack: (evt: RTCTrackEvent) => {
           // Signal from streaming is etablished
-
           setState(StateStreaming.IS_STREAMING);
           if (refVideo.current) {
             refVideo.current.srcObject = evt.streams[0];
@@ -51,23 +59,25 @@ export const useMediaMtx = ({
         },
         onFailLoading: () => {
           console.error('failed loading stream');
-          setState(StateStreaming.STOPPED);
+          setState(StateStreaming.FAILED);
         },
       });
     } else {
       return null;
     }
-  }, [refVideo, urlStreaming]);
+  }, [isStreamingTimeout, refVideo, urlStreaming]);
 
   const restart = useCallback(() => {
-    setState(StateStreaming.IN_CREATION);
-    reader?.start();
+    setState(INITIAL_STATE);
+    if (reader) {
+      reader.start();
+    }
   }, [reader]);
 
   useEffect(() => {
     // Clean up reader
     if (reader && id) {
-      setState(StateStreaming.IN_CREATION);
+      setState(INITIAL_STATE);
       reader.start();
     }
     return () => {
