@@ -1,6 +1,6 @@
 import {
-  CropFree,
   CropOriginal,
+  HideImage,
   Visibility,
   VisibilityOff,
 } from '@mui/icons-material';
@@ -267,7 +267,7 @@ export const AlertImages = ({ sequence }: AlertImagesType) => {
             <ResponsiveButton
               variant="outlined"
               onClick={() => setDisplayCrop((oldValue) => !oldValue)}
-              startIcon={displayCrop ? <CropFree /> : <CropOriginal />}
+              startIcon={displayCrop ? <HideImage /> : <CropOriginal />}
             >
               <span className="Mui-label">
                 {displayCrop ? t('buttonHideCrop') : t('buttonDisplayCrop')}
