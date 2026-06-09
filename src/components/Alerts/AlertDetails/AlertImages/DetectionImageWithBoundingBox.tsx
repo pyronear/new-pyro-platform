@@ -155,7 +155,7 @@ export const DetectionImageWithBoundingBox = ({
             alt=""
             style={{
               position: 'absolute',
-              top: 20,
+              bottom: 20,
               ...(cropOnLeft ? { left: 20 } : { right: 20 }),
               width: 150,
               zIndex: 2,
