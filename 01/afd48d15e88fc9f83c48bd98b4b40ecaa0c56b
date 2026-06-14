@@ -1,0 +1,24 @@
+src/components/Common/Map/TemplateMap.tsx
+  s_2b9746f7af5b84::t_a4b14dcd0b7489 18-22,28-29,36-37,48-49,58,63-64
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "01afd48d15e88fc9f83c48bd98b4b40ecaa0c56b",
+  "prompts": {},
+  "humans": {
+    "h_9eefa7d4ac679f": {
+      "author": "Theo Rodrigues <theo.rodrigues@theodo.com>"
+    }
+  },
+  "sessions": {
+    "s_2b9746f7af5b84": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "466fafa7-3bf4-4df0-a4b5-fb2a92168f32",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Theo Rodrigues <theo.rodrigues@theodo.com>"
+    }
+  }
+}
