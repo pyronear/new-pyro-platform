@@ -35,7 +35,7 @@ const apiDetectionResponseSchema = z.object({
   others_bboxes: z.nullable(z.string()),
   created_at: z.iso.datetime({ local: true }),
   url: z.string(),
-  crop_url: z.nullable(z.string()).optional(),
+  crop_url: z.string().nullish(),
 });
 
 export type SequenceTypeApi = z.infer<typeof apiSequenceResponseSchema>;
