@@ -9,6 +9,7 @@ import {
   STATUS_SUCCESS,
 } from '@/services/axios';
 import {
+  clickToMoveCamera,
   moveCamera,
   moveCameraToAAzimuth,
   startStreaming,
@@ -126,6 +127,18 @@ export const ActionsOnCameraContextProvider: React.FC<{
             action.params.move?.poseId,
             action.params.move?.degrees
           );
+        case 'MOVE_TO_COORDINATES':
+          if (
+            action.params.move?.coord_x != undefined &&
+            action.params.move.coord_y != undefined
+          ) {
+            return clickToMoveCamera(
+              action.id,
+              action.params.move.coord_x,
+              action.params.move.coord_y
+            );
+          }
+          return Promise.resolve();
         case 'MOVE_TO_AZIMUTH':
           if (action.params.move != undefined) {
             return moveCameraToAAzimuth(action.id, action.params.move);
