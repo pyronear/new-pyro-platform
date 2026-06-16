@@ -8,6 +8,7 @@ export interface StreamingAction {
     | 'STOP_STREAMING'
     | 'MOVE'
     | 'MOVE_TO_AZIMUTH'
+    | 'MOVE_TO_COORDINATES'
     | 'STOP'
     | 'ZOOM';
   id: number;

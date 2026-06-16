@@ -17,17 +17,23 @@ export const FloatingActions = ({
   speed,
 }: FloatingActionsProps) => {
   return (
-    <Stack
-      sx={{ position: 'absolute', bottom: 0, padding: 1, width: '100%' }}
-      justifyContent="space-between"
-      alignItems="stretch"
-      direction="row"
-      spacing={1}
-    >
-      {calculateHasRotation(cameraType) && (
-        <NavigationButtons cameraId={cameraId} speed={speed} />
-      )}
-      {calculateHasZoom(cameraType) && <ZoomButtons cameraId={cameraId} />}
-    </Stack>
+    <>
+      <Stack sx={{ position: 'absolute', bottom: 0, left: 0, padding: 1 }}>
+        {calculateHasRotation(cameraType) && (
+          <NavigationButtons cameraId={cameraId} speed={speed} />
+        )}
+      </Stack>
+      <Stack
+        sx={{
+          position: 'absolute',
+          bottom: 0,
+          right: 0,
+          padding: 1,
+          height: 160,
+        }}
+      >
+        {calculateHasZoom(cameraType) && <ZoomButtons cameraId={cameraId} />}
+      </Stack>
+    </>
   );
 };
