@@ -8,15 +8,21 @@ import { NavigationLink } from './NavigationLink';
 import LanguageSwitcher from './Preferences/LanguageSwitcher';
 
 interface MobileTopbarDrawerProps {
+  unlabelledAlertsCount: number;
   isOpen: boolean;
   handleClose: () => void;
 }
 
 export const MobileTopbarDrawer = ({
+  unlabelledAlertsCount,
   isOpen,
   handleClose,
 }: MobileTopbarDrawerProps) => {
   const { t } = useTranslationPrefix('pages');
+  const alertsBadgeLabel =
+    unlabelledAlertsCount > 0
+      ? t('unlabeledAlertsBadge', { count: unlabelledAlertsCount })
+      : undefined;
 
   return (
     <Drawer open={isOpen} onClose={handleClose} onClick={handleClose}>
@@ -31,7 +37,12 @@ export const MobileTopbarDrawer = ({
           <Divider sx={{ margin: 0 }} />
           <List>
             <ListItem>
-              <NavigationLink path="/alerts" label={t('alerts')} />
+              <NavigationLink
+                path="/alerts"
+                label={t('alerts')}
+                badgeContent={unlabelledAlertsCount}
+                badgeLabel={alertsBadgeLabel}
+              />
             </ListItem>
             <ListItem>
               <NavigationLink path="/dashboard" label={t('dashboard')} />
