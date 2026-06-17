@@ -8,6 +8,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { DEFAULT_ROUTE } from '@/App';
 import { AlertContainer } from '@/components/Alerts/AlertDetails/AlertContainer';
 import { Loader } from '@/components/Common/Loader';
+import { CameraListProvider } from '@/context/CameraListProvider';
 import { getAlertById } from '@/services/alerts';
 import { STATUS_ERROR, STATUS_LOADING, STATUS_SUCCESS } from '@/services/axios';
 import { getCameraList } from '@/services/camera';
@@ -70,7 +71,7 @@ export const AlertPage = () => {
           <ErrorPage />
         ))}
       {status === STATUS_SUCCESS && alert && (
-        <>
+        <CameraListProvider camerasList={cameraList ?? []}>
           {isMobile ? (
             <Box height={'100%'} overflow={'auto'}>
               <AlertContainer
@@ -92,7 +93,7 @@ export const AlertPage = () => {
               </Grid>
             </Grid>
           )}
-        </>
+        </CameraListProvider>
       )}
     </>
   );

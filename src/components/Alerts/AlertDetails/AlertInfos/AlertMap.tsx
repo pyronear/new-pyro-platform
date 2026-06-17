@@ -2,12 +2,14 @@ import CloseFullscreenIcon from '@mui/icons-material/CloseFullscreen';
 import FullscreenIcon from '@mui/icons-material/Fullscreen';
 import { Box } from '@mui/material';
 import L from 'leaflet';
-import { Fragment, useEffect, useMemo, useState } from 'react';
+import { Fragment, useCallback, useEffect, useMemo, useState } from 'react';
 
 import CameraMarker from '@/components/Common/Map/CameraMarker';
 import FirePositionMarkerMap from '@/components/Common/Map/FirePositionMarkerMap';
 import { SequencePolygon } from '@/components/Common/Map/SequencePolygon';
 import TemplateMap from '@/components/Common/Map/TemplateMap';
+import { useCameraList } from '@/context/useCameraList';
+import type { CameraType } from '@/services/camera.ts';
 import type { AlertType, SequenceWithCameraInfoType } from '@/utils/alerts';
 import { buildVisionPolygon, DEFAULT_CAM_RANGE_KM } from '@/utils/cameraVision';
 
@@ -23,6 +25,7 @@ type SequenceWithCamera = SequenceWithCameraInfoType & {
 
 const AlertMap = ({ alert, selectedSequenceId, height = '100%' }: AlertMap) => {
   const [fullScreen, setFullScreen] = useState(false);
+  const camerasList = useCameraList();
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -55,13 +58,25 @@ const AlertMap = ({ alert, selectedSequenceId, height = '100%' }: AlertMap) => {
       }));
   }, [alert]);
 
+  const isIncludedInAlert = useCallback(
+    (camera: CameraType) => {
+      return sequencesWithPolygons.some(
+        (sequence) => camera.id === sequence.camera.id
+      );
+    },
+    [sequencesWithPolygons]
+  );
+
   const bounds = useMemo(() => {
     const allPolygonPoints = sequencesWithPolygons
       .map((polygon) => polygon.visionPolygonPoints)
       .flatMap((p) => p);
+    const allCameraPoints = camerasList.map(
+      (camera) => [camera.lat, camera.lon] as L.LatLngExpression
+    );
 
-    return L.latLngBounds(allPolygonPoints);
-  }, [sequencesWithPolygons]);
+    return L.latLngBounds([...allPolygonPoints, ...allCameraPoints]);
+  }, [camerasList, sequencesWithPolygons]);
 
   return (
     <div
@@ -90,6 +105,11 @@ const AlertMap = ({ alert, selectedSequenceId, height = '100%' }: AlertMap) => {
             <CameraMarker camera={sequence.camera} />
           </Fragment>
         ))}
+        {camerasList
+          .filter((camera) => !isIncludedInAlert(camera))
+          .map((camera) => (
+            <CameraMarker key={camera.id} camera={camera} variant="secondary" />
+          ))}
         {sequencesWithPolygons.length > 1 && (
           <FirePositionMarkerMap alert={alert} />
         )}

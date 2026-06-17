@@ -2,6 +2,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useCallback, useMemo } from 'react';
 
 import { AlertsContainer } from '@/components/Alerts/AlertsContainer';
+import { CameraListProvider } from '@/context/CameraListProvider';
 import { getUnlabelledLatestAlerts } from '@/services/alerts';
 import appConfig from '@/services/appConfig';
 import { STATUS_ERROR, STATUS_LOADING, STATUS_SUCCESS } from '@/services/axios';
@@ -61,13 +62,15 @@ export const AlertsPage = () => {
   }, [statusSequences, statusCameras]);
 
   return (
-    <AlertsContainer
-      status={status}
-      isRefreshing={isFetching}
-      lastUpdate={dataUpdatedAt}
-      invalidateAndRefreshData={invalidateAndRefreshData}
-      alertsList={alertsList}
-      hasNewSequence={hasNewAlert}
-    />
+    <CameraListProvider camerasList={cameraList ?? []}>
+      <AlertsContainer
+        status={status}
+        isRefreshing={isFetching}
+        lastUpdate={dataUpdatedAt}
+        invalidateAndRefreshData={invalidateAndRefreshData}
+        alertsList={alertsList}
+        hasNewSequence={hasNewAlert}
+      />
+    </CameraListProvider>
   );
 };
