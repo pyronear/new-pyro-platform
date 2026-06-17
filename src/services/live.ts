@@ -176,6 +176,24 @@ export const stopCamera = async (cameraId: number): Promise<void> => {
       throw err;
     });
 };
+export const clickToMoveCamera = async (
+  cameraId: number,
+  x: number,
+  y: number
+): Promise<void> => {
+  return apiInstance
+    .post(`/api/v1/cameras/${cameraId}/control/click_to_move`, {
+      click_x: x,
+      click_y: y,
+    })
+    .then(() => {
+      return;
+    })
+    .catch((err: unknown) => {
+      console.error(err);
+      throw err;
+    });
+};
 
 const apiSitesLiveAccessResponseSchema = z.record(
   z.string(),

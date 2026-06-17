@@ -35,6 +35,7 @@ const apiDetectionResponseSchema = z.object({
   others_bboxes: z.nullable(z.string()),
   created_at: z.iso.datetime({ local: true }),
   url: z.string(),
+  crop_url: z.string().nullish(),
 });
 
 export type SequenceTypeApi = z.infer<typeof apiSequenceResponseSchema>;
@@ -106,13 +107,29 @@ export const getAlertsByFilters = async (
     });
 };
 
+export const exportAlerts = async (
+  fromDate: string,
+  toDate: string
+): Promise<Blob> => {
+  return apiInstance
+    .get('/api/v1/alerts/export', {
+      params: { from_date: fromDate, to_date: toDate },
+      responseType: 'blob',
+    })
+    .then((response: AxiosResponse<Blob>) => response.data)
+    .catch((err: unknown) => {
+      console.error(err);
+      throw err;
+    });
+};
+
 export const getDetectionsBySequence = async (
   sequenceId: number,
   isDesc = true
 ): Promise<DetectionType[]> => {
   return apiInstance
     .get(`/api/v1/sequences/${sequenceId.toString()}/detections`, {
-      params: { desc: isDesc },
+      params: { with_crop: true, desc: isDesc },
     })
     .then((response: AxiosResponse) => {
       try {
