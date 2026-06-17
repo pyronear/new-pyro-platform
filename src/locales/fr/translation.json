@@ -75,10 +75,13 @@
     "buttonImageDownload": "Télécharger",
     "buttonImageDownloadOne": "Télécharger l'image actuelle",
     "buttonImageDownloadAll": "Télécharger toutes les images",
+    "buttonImageDownloadAllBbox": "Télécharger toutes les images avec les boîtes englobantes",
     "buttonPlay": "Play",
     "buttonPause": "Pause",
     "buttonDisplayBBox": "Afficher la détection",
     "buttonHideBBox": "Masquer la détection",
+    "buttonDisplayCrop": "Afficher le gros plan",
+    "buttonHideCrop": "Masquer le gros plan",
     "errorFetchImagesMessage": "Une erreur inattendue est survenue. Veuillez réessayer plus tard.",
     "titleDetails": "Détail de l'alerte",
     "subtitleDate": "Date & Heure",
@@ -152,7 +155,20 @@
     "iconAlt": "Aucune alerte à afficher",
     "errorFetchSequencesMessage": "Une erreur inattendue est survenue. Veuillez réessayer plus tard.",
     "dateField": "Date",
-    "loadMoreMessage": "Afficher plus d'alertes"
+    "loadMoreMessage": "Afficher plus d'alertes",
+    "export": {
+      "title": "Export",
+      "button": "Exporter les alertes",
+      "modal": {
+        "title": "Exporter les alertes",
+        "description": "Sélectionnez une plage de dates pour télécharger les alertes correspondantes au format CSV.",
+        "fromDate": "Du",
+        "toDate": "Au",
+        "cancel": "Annuler",
+        "confirm": "Télécharger",
+        "errorMessage": "Une erreur s'est produite pendant l'export. Veuillez réessayer."
+      }
+    }
   },
   "live": {
     "errorFetchInfos": "Une erreur inattendue est survenue. Veuillez réessayer plus tard.",

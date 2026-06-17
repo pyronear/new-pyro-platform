@@ -33,7 +33,12 @@ export const ZoomButtons = ({ cameraId }: ZoomButtonsProps) => {
     <Stack
       spacing={1}
       alignItems="center"
-      sx={{ backgroundColor: '#fff', borderRadius: 2, padding: '4px' }}
+      sx={{
+        backgroundColor: '#fff',
+        borderRadius: 2,
+        padding: '4px',
+        height: '100%',
+      }}
     >
       <ZoomInIcon />
       <Slider
