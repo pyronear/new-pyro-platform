@@ -3,8 +3,9 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import { Fab, Stack } from '@mui/material';
+import { Stack } from '@mui/material';
 
+import { FabLoading } from '@/components/Live/LiveContent/StreamActions/FabLoading.tsx';
 import { type CameraDirectionType } from '@/services/live';
 
 import { useActionsOnCamera } from '../../context/useActionsOnCamera';
@@ -38,23 +39,23 @@ export const NavigationButtons = ({
 
   return (
     <Stack alignItems="center">
-      <Fab onClick={() => onClickMove('Up')} size="medium">
+      <FabLoading onClick={() => onClickMove('Up')}>
         <KeyboardArrowUpIcon />
-      </Fab>
+      </FabLoading>
       <Stack direction="row" spacing={1} alignItems="center">
-        <Fab onClick={() => onClickMove('Left')} size="medium">
+        <FabLoading onClick={() => onClickMove('Left')}>
           <KeyboardArrowLeftIcon />
-        </Fab>
-        <Fab size="small" onClick={onClickStop}>
+        </FabLoading>
+        <FabLoading isSmall onClick={onClickStop}>
           <CircleIcon />
-        </Fab>
-        <Fab onClick={() => onClickMove('Right')} size="medium">
+        </FabLoading>
+        <FabLoading onClick={() => onClickMove('Right')}>
           <KeyboardArrowRightIcon />
-        </Fab>
+        </FabLoading>
       </Stack>
-      <Fab onClick={() => onClickMove('Down')} size="medium">
+      <FabLoading onClick={() => onClickMove('Down')}>
         <KeyboardArrowDownIcon />
-      </Fab>
+      </FabLoading>
     </Stack>
   );
 };
