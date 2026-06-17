@@ -55,7 +55,7 @@ export const AlertInfos = ({
         >
           <AlertInfosSections sequence={sequence} alert={alert} />
           <Grid container flexGrow={1} minHeight={200}>
-            <AlertMap alert={alert} selectedSequenceId={sequence.id}  />
+            <AlertMap alert={alert} selectedSequenceId={sequence.id} />
           </Grid>
           <AlertActionButtons
             sequence={sequence}

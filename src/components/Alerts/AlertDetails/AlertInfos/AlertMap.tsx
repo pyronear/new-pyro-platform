@@ -2,13 +2,14 @@ import CloseFullscreenIcon from '@mui/icons-material/CloseFullscreen';
 import FullscreenIcon from '@mui/icons-material/Fullscreen';
 import { Box } from '@mui/material';
 import L from 'leaflet';
-import { Fragment, useEffect, useMemo, useState } from 'react';
+import { Fragment, useCallback, useEffect, useMemo, useState } from 'react';
 
 import CameraMarker from '@/components/Common/Map/CameraMarker';
 import FirePositionMarkerMap from '@/components/Common/Map/FirePositionMarkerMap';
 import { SequencePolygon } from '@/components/Common/Map/SequencePolygon';
 import TemplateMap from '@/components/Common/Map/TemplateMap';
 import { useCameraList } from '@/context/useCameraList';
+import type { CameraType } from '@/services/camera.ts';
 import type { AlertType, SequenceWithCameraInfoType } from '@/utils/alerts';
 import { buildVisionPolygon, DEFAULT_CAM_RANGE_KM } from '@/utils/cameraVision';
 
@@ -20,17 +21,6 @@ interface AlertMap {
 
 type SequenceWithCamera = SequenceWithCameraInfoType & {
   camera: NonNullable<SequenceWithCameraInfoType['camera']>;
-};
-
-const isSameCamera = (
-  camera: SequenceWithCamera['camera'],
-  organizationCamera: SequenceWithCamera['camera']
-) => {
-  return (
-    camera.id === organizationCamera.id ||
-    (camera.lat === organizationCamera.lat &&
-      camera.lon === organizationCamera.lon)
-  );
 };
 
 const AlertMap = ({ alert, selectedSequenceId, height = '100%' }: AlertMap) => {
@@ -67,6 +57,15 @@ const AlertMap = ({ alert, selectedSequenceId, height = '100%' }: AlertMap) => {
         ),
       }));
   }, [alert]);
+
+  const isIncludedInAlert = useCallback(
+    (camera: CameraType) => {
+      return sequencesWithPolygons.some(
+        (sequence) => camera.id === sequence.camera.id
+      );
+    },
+    [sequencesWithPolygons]
+  );
 
   const bounds = useMemo(() => {
     const allPolygonPoints = sequencesWithPolygons
@@ -107,12 +106,7 @@ const AlertMap = ({ alert, selectedSequenceId, height = '100%' }: AlertMap) => {
           </Fragment>
         ))}
         {camerasList
-          .filter(
-            (camera) =>
-              !sequencesWithPolygons.some((sequence) =>
-                isSameCamera(sequence.camera, camera)
-              )
-          )
+          .filter((camera) => !isIncludedInAlert(camera))
           .map((camera) => (
             <CameraMarker key={camera.id} camera={camera} variant="secondary" />
           ))}
