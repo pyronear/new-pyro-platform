@@ -3,10 +3,12 @@ import type { LatLng } from 'leaflet';
 import { Polygon } from 'react-leaflet';
 
 interface CameraViewPolygonProps {
+  isHighlighted?: boolean;
   visionPolygonPoints: LatLng[];
 }
 
 export const SequencePolygon = ({
+  isHighlighted = true,
   visionPolygonPoints,
 }: CameraViewPolygonProps) => {
   const theme = useTheme();
@@ -15,10 +17,10 @@ export const SequencePolygon = ({
       positions={visionPolygonPoints}
       pathOptions={{
         color: theme.palette.error.main,
-        opacity: 0.5,
+        opacity: isHighlighted ? 0.9 : 0.45,
         fillColor: theme.palette.error.main,
-        fillOpacity: 0.2,
-        weight: 3,
+        fillOpacity: isHighlighted ? 0.35 : 0.15,
+        weight: isHighlighted ? 4 : 2,
       }}
     />
   );
