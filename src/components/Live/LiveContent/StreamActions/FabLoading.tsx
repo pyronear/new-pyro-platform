@@ -1,8 +1,8 @@
-import { Fab } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
+import Fab from '@mui/material/Fab';
 import { useEffect, useState } from 'react';
 
-const LOADING_TIMER_MS = 1000;
+import { LOADING_ACTION_BUTTON_TIMER_MS } from '@/utils/live.ts';
 
 interface FabLoadingProps {
   onClick: () => void;
@@ -16,25 +16,25 @@ export const FabLoading = ({
   children,
 }: FabLoadingProps) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [timeout, setTimeout] = useState<number | null>(null);
+  const [timeoutId, setTimeoutId] = useState<number | null>(null);
 
   const onClickWithLoading = () => {
     setIsLoading(true);
-    setTimeout(
+    setTimeoutId(
       window.setTimeout(() => {
         setIsLoading(false);
-      }, LOADING_TIMER_MS)
+      }, LOADING_ACTION_BUTTON_TIMER_MS)
     );
     onClick();
   };
 
   useEffect(() => {
     return () => {
-      if (timeout != null) {
-        window.clearTimeout(timeout);
+      if (timeoutId != null) {
+        window.clearTimeout(timeoutId);
       }
     };
-  }, [timeout]);
+  }, [timeoutId]);
 
   return (
     <Fab size={isSmall ? 'small' : 'medium'} onClick={onClickWithLoading}>

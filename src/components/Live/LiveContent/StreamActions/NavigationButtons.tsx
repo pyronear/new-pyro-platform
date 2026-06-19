@@ -3,7 +3,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import { Stack } from '@mui/material';
+import Stack from '@mui/material/Stack';
 
 import { FabLoading } from '@/components/Live/LiveContent/StreamActions/FabLoading.tsx';
 import { type CameraDirectionType } from '@/services/live';
