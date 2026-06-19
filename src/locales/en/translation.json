@@ -198,7 +198,23 @@
     "mapOsm": "OpenStreetMap",
     "mapIgn": "IGN (France)",
     "mapSatellite": "Satellite",
-    "enableAudioAlerts": "Enable Audio Alerts"
+    "enableAudioAlerts": "Enable Audio Alerts",
+    "browserNotifications": {
+      "title": "Browser notifications",
+      "unsupported": "This browser does not support push notifications on this device.",
+      "denied": "Notifications are blocked in this browser. Enable them in browser settings to subscribe this device.",
+      "unsubscribed": "This device is not receiving browser push notifications.",
+      "subscribed": "This device is subscribed and will open the alert directly when you tap the notification.",
+      "enableButton": "Enable on this device",
+      "disableButton": "Disable on this device",
+      "loading": "Updating...",
+      "errors": {
+        "unavailable": "Push notifications are not configured on the server yet.",
+        "denied": "Notification permission was denied.",
+        "dismissed": "Notification permission was not granted.",
+        "unknown": "Something went wrong while updating browser notifications."
+      }
+    }
   },
   "map": {
     "layerControl": "Map Layers",

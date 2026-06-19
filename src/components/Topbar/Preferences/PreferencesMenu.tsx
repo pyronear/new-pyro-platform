@@ -17,6 +17,7 @@ import { useAuth } from '@/context/useAuth';
 import { usePreferences } from '@/context/usePreferences';
 
 import { AlertVolumeToggle } from './AlertVolumeToggle';
+import { BrowserPushNotificationsSection } from './BrowserPushNotificationsSection';
 
 interface PreferencesMenuProps {
   anchorEl: null | HTMLElement;
@@ -93,6 +94,10 @@ export const PreferencesMenu: React.FC<PreferencesMenuProps> = ({
               onToggle={handleAudioAlertsToggle}
             />
           </Stack>
+
+          <Divider />
+
+          <BrowserPushNotificationsSection />
 
           {
             <>
