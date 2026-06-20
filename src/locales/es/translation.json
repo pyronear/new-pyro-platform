@@ -198,7 +198,9 @@
     "mapOsm": "OpenStreetMap",
     "mapIgn": "IGN (Francia)",
     "mapSatellite": "Satélite",
-    "enableAudioAlerts": "Activar el sonido de las alertas"
+    "enableAudioAlerts": "Activar el sonido de las alertas",
+    "userGuide": "Guía del usuario",
+    "userGuideUrl": "https://pyronear.notion.site/Guide-d-utilisation-plateforme-Pyronear-376425b63668818ebd17da60b20cc770"
   },
   "map": {
     "layerControl": "Capas",

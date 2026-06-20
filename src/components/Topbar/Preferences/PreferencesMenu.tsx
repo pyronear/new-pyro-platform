@@ -1,5 +1,6 @@
 import LogoutIcon from '@mui/icons-material/Logout';
 import MapIcon from '@mui/icons-material/Map';
+import MenuBookIcon from '@mui/icons-material/MenuBook';
 import SatelliteAltIcon from '@mui/icons-material/SatelliteAlt';
 import TerrainIcon from '@mui/icons-material/Terrain';
 import {
@@ -83,15 +84,28 @@ export const PreferencesMenu: React.FC<PreferencesMenuProps> = ({
               </ToggleButton>
             </ToggleButtonGroup>
           </Stack>
-
           <Divider />
-
           <Stack spacing={1}>
             <Typography>{t('preferences.enableAudioAlerts')}</Typography>
             <AlertVolumeToggle
               isActive={preferences.audio.alertsEnabled}
               onToggle={handleAudioAlertsToggle}
             />
+          </Stack>
+
+          <Divider />
+
+          <Stack spacing={1}>
+            <Button
+              href={t('preferences.userGuideUrl')}
+              target="_blank"
+              rel="noopener noreferrer"
+              variant="outlined"
+              startIcon={<MenuBookIcon />}
+              fullWidth
+            >
+              {t('preferences.userGuide')}
+            </Button>
           </Stack>
 
           {
