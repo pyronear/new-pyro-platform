@@ -11,6 +11,7 @@ window.AppConfig = {
   ALERTS_PLAYER_CONFIDENCE_THRESHOLD: 0.15,
   ALERTS_SOUND_FILE: 'notification-alert.mp3',
   ALERTS_CAMERA_RANGE_KM: 30,
-  USER_GUIDE_URL: 'https://pyronear.notion.site/Guide-d-utilisation-plateforme-Pyronear-376425b63668818ebd17da60b20cc770',
+  USER_GUIDE_URL:
+    'https://pyronear.notion.site/Guide-d-utilisation-plateforme-Pyronear-376425b63668818ebd17da60b20cc770',
   HISTORY_NB_ALERTS_PER_PAGE: 15,
 };
