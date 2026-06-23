@@ -16,6 +16,7 @@ import { useTranslation } from 'react-i18next';
 
 import { useAuth } from '@/context/useAuth';
 import { usePreferences } from '@/context/usePreferences';
+import appConfig from '@/services/appConfig';
 
 import { AlertVolumeToggle } from './AlertVolumeToggle';
 
@@ -95,9 +96,9 @@ export const PreferencesMenu: React.FC<PreferencesMenuProps> = ({
 
           <Divider />
 
-          <Stack spacing={1}>
+          <Stack>
             <Button
-              href={t('preferences.userGuideUrl')}
+              href={appConfig.getConfig().USER_GUIDE_URL}
               target="_blank"
               rel="noopener noreferrer"
               variant="outlined"

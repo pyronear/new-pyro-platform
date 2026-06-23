@@ -200,7 +200,6 @@
     "mapIgn": "IGN (France)",
     "mapSatellite": "Satellit",
     "enableAudioAlerts": "Audio-Warnungen aktivieren",
-    "userGuide": "Benutzerhandbuch",
-    "userGuideUrl": "https://pyronear.notion.site/Guide-d-utilisation-plateforme-Pyronear-376425b63668818ebd17da60b20cc770"
+    "userGuide": "Benutzerhandbuch"
   }
 }

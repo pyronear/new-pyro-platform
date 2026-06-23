@@ -201,8 +201,7 @@
     "mapIgn": "IGN (France)",
     "mapSatellite": "Satellite",
     "enableAudioAlerts": "Activer le son des alertes",
-    "userGuide": "Guide utilisateur",
-    "userGuideUrl": "https://pyronear.notion.site/Guide-d-utilisation-plateforme-Pyronear-376425b63668818ebd17da60b20cc770"
+    "userGuide": "Guide utilisateur"
   },
   "map": {
     "layerControl": "Couches",
