@@ -198,7 +198,8 @@
     "mapOsm": "OpenStreetMap",
     "mapIgn": "IGN (France)",
     "mapSatellite": "Satellite",
-    "enableAudioAlerts": "Enable Audio Alerts"
+    "enableAudioAlerts": "Enable Audio Alerts",
+    "userGuide": "User guide"
   },
   "map": {
     "layerControl": "Map Layers",

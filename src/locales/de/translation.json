@@ -199,6 +199,7 @@
     "mapOsm": "OpenStreetMap",
     "mapIgn": "IGN (France)",
     "mapSatellite": "Satellit",
-    "enableAudioAlerts": "Audio-Warnungen aktivieren"
+    "enableAudioAlerts": "Audio-Warnungen aktivieren",
+    "userGuide": "Benutzerhandbuch"
   }
 }
