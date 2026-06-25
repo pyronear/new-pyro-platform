@@ -13,9 +13,9 @@ window.AppConfig = {
   ALERTS_CAMERA_RANGE_KM: 30,
   USER_GUIDE_URLS: {
     fr: 'https://pyronear.notion.site/Guide-d-utilisation-plateforme-Pyronear-376425b63668818ebd17da60b20cc770',
-    en: "https://pyronear.notion.site/Pyronear-Platform-User-Guide-389425b6366881da906ee38e93524db2",
-    de: "https://pyronear.notion.site/Pyronear-Plattform-Benutzerhandbuch-389425b63668816abf44e8679fb9dd35",
-    es: "https://pyronear.notion.site/Gu-a-de-uso-de-la-plataforma-Pyronear-389425b6366881e69fd6f6f1a414814d"
+    en: 'https://pyronear.notion.site/Pyronear-Platform-User-Guide-389425b6366881da906ee38e93524db2',
+    de: 'https://pyronear.notion.site/Pyronear-Plattform-Benutzerhandbuch-389425b63668816abf44e8679fb9dd35',
+    es: 'https://pyronear.notion.site/Gu-a-de-uso-de-la-plataforma-Pyronear-389425b6366881e69fd6f6f1a414814d',
   },
   HISTORY_NB_ALERTS_PER_PAGE: 15,
 };

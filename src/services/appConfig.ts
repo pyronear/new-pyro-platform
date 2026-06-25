@@ -14,7 +14,7 @@ export interface AppConfigType {
   readonly ALERTS_PLAYER_CONFIDENCE_THRESHOLD: number;
   readonly ALERTS_SOUND_FILE: string;
   readonly ALERTS_CAMERA_RANGE_KM: number;
-  readonly USER_GUIDE_URLS: { [key: string]: string };
+  readonly USER_GUIDE_URLS: Record<string, string>;
 
   readonly HISTORY_NB_ALERTS_PER_PAGE: number;
 }
