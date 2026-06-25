@@ -14,7 +14,7 @@ export interface AppConfigType {
   readonly ALERTS_PLAYER_CONFIDENCE_THRESHOLD: number;
   readonly ALERTS_SOUND_FILE: string;
   readonly ALERTS_CAMERA_RANGE_KM: number;
-  readonly USER_GUIDE_URL: string;
+  readonly USER_GUIDE_URLS: { [key: string]: string };
 
   readonly HISTORY_NB_ALERTS_PER_PAGE: number;
 }
@@ -53,7 +53,7 @@ export class AppConfig {
       // @ts-expect-error config is fetched from a JS file
       ALERTS_CAMERA_RANGE_KM: window.AppConfig?.ALERTS_CAMERA_RANGE_KM ?? 30,
       // @ts-expect-error config is fetched from a JS file
-      USER_GUIDE_URL: window.AppConfig?.USER_GUIDE_URL,
+      USER_GUIDE_URLS: window.AppConfig?.USER_GUIDE_URLS,
       // @ts-expect-error config is fetched from a JS file
       HISTORY_NB_ALERTS_PER_PAGE: window.AppConfig?.HISTORY_NB_ALERTS_PER_PAGE,
     };

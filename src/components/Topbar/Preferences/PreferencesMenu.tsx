@@ -12,6 +12,7 @@ import {
   Typography,
 } from '@mui/material';
 import { Stack } from '@mui/material';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { useAuth } from '@/context/useAuth';
@@ -47,6 +48,12 @@ export const PreferencesMenu: React.FC<PreferencesMenuProps> = ({
       updatePreferences({ map: { baseLayer: value } });
     }
   };
+
+  const { i18n } = useTranslation();
+  const userGuideUrl = useMemo(() => {
+    const urls = appConfig.getConfig().USER_GUIDE_URLS;
+    return urls[i18n.language] || urls.en;
+  }, [i18n.language]);
 
   return (
     <>
@@ -98,7 +105,7 @@ export const PreferencesMenu: React.FC<PreferencesMenuProps> = ({
 
           <Stack>
             <Button
-              href={appConfig.getConfig().USER_GUIDE_URL}
+              href={userGuideUrl}
               target="_blank"
               rel="noopener noreferrer"
               variant="outlined"
