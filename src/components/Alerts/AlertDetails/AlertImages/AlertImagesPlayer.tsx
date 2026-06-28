@@ -318,9 +318,6 @@ export const AlertImagesPlayer = ({
             </MenuItem>
           ))}
         </Menu>
-        <Typography variant="body2" sx={{ whiteSpace: 'nowrap' }}>
-          {`${(currentIndex + 1).toString()} / ${detections.length.toString()}`}
-        </Typography>
         {loadedCount < totalCount &&
           (isLoading ? (
             <Typography
