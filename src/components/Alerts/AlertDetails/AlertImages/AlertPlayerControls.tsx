@@ -17,52 +17,32 @@ import {
 } from '@mui/material';
 import { useState } from 'react';
 
-import type { DetectionType } from '@/services/alerts';
 import { convertIsoToUnix, formatIsoToTime } from '@/utils/dates';
 import { useIsMobile } from '@/utils/useIsMobile';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
+import { PLAYBACK_SPEED_OPTIONS } from './context/AlertPlayerContext';
+import { useAlertPlayer } from './context/useAlertPlayer';
+
 const JUMP_FRAMES = 10;
-const PLAYBACK_SPEED_OPTIONS = [1, 2, 4] as const;
-export type PlaybackSpeed = (typeof PLAYBACK_SPEED_OPTIONS)[number];
 
-interface SliderMark {
-  value: number;
-  id: number;
-  label: string | null;
-}
+export const AlertPlayerControls = () => {
+  const {
+    detections,
+    currentIndex,
+    isPlaying,
+    playbackSpeed,
+    selectedDetection,
+    marks,
+    loadedCount,
+    totalCount,
+    isLoading,
+    step,
+    togglePlay,
+    setPlaybackSpeed,
+    seekToValue,
+  } = useAlertPlayer();
 
-interface AlertImagesPlayerControlsType {
-  detections: DetectionType[];
-  currentIndex: number;
-  isPlaying: boolean;
-  onStep: (delta: number) => void;
-  onTogglePlay: () => void;
-  playbackSpeed: PlaybackSpeed;
-  onPlaybackSpeedChange: (speed: PlaybackSpeed) => void;
-  selectedDetection: DetectionType;
-  marks: SliderMark[];
-  onChangeSlider: (event: Event, newValue: unknown) => void;
-  loadedCount: number;
-  totalCount: number;
-  isLoading: boolean;
-}
-
-export const AlertImagesPlayerControls = ({
-  detections,
-  currentIndex,
-  isPlaying,
-  onStep,
-  onTogglePlay,
-  playbackSpeed,
-  onPlaybackSpeedChange,
-  selectedDetection,
-  marks,
-  onChangeSlider,
-  loadedCount,
-  totalCount,
-  isLoading,
-}: AlertImagesPlayerControlsType) => {
   const [speedAnchorEl, setSpeedAnchorEl] = useState<null | HTMLElement>(null);
   const theme = useTheme();
   const isMobile = useIsMobile();
@@ -73,6 +53,12 @@ export const AlertImagesPlayerControls = ({
   const loadProgress =
     totalCount > 0 ? Math.round((loadedCount / totalCount) * 100) : 100;
 
+  const onChangeSlider = (_event: Event, newValue: unknown) => {
+    if (typeof newValue === 'number') {
+      seekToValue(newValue);
+    }
+  };
+
   return (
     <Stack
       direction="row"
@@ -82,7 +68,7 @@ export const AlertImagesPlayerControls = ({
       sx={{ flexWrap: 'wrap', rowGap: 1 }}
     >
       <IconButton
-        onClick={() => onStep(-JUMP_FRAMES)}
+        onClick={() => step(-JUMP_FRAMES)}
         aria-label={t('buttonJumpBackward')}
         disabled={currentIndex === 0}
         size="large"
@@ -91,7 +77,7 @@ export const AlertImagesPlayerControls = ({
         <FastRewindIcon />
       </IconButton>
       <IconButton
-        onClick={() => onStep(-1)}
+        onClick={() => step(-1)}
         aria-label={t('buttonStepBackward')}
         disabled={currentIndex === 0}
         size="large"
@@ -100,7 +86,7 @@ export const AlertImagesPlayerControls = ({
         <KeyboardArrowLeftIcon />
       </IconButton>
       <IconButton
-        onClick={onTogglePlay}
+        onClick={togglePlay}
         aria-label={t(isPlaying ? 'buttonPause' : 'buttonPlay')}
         size="large"
         sx={{ border: `1px solid ${theme.palette.grey[500]}` }}
@@ -108,7 +94,7 @@ export const AlertImagesPlayerControls = ({
         {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
       </IconButton>
       <IconButton
-        onClick={() => onStep(1)}
+        onClick={() => step(1)}
         aria-label={t('buttonStepForward')}
         disabled={currentIndex >= detections.length - 1}
         size="large"
@@ -117,7 +103,7 @@ export const AlertImagesPlayerControls = ({
         <KeyboardArrowRightIcon />
       </IconButton>
       <IconButton
-        onClick={() => onStep(JUMP_FRAMES)}
+        onClick={() => step(JUMP_FRAMES)}
         aria-label={t('buttonJumpForward')}
         disabled={currentIndex >= detections.length - 1}
         size="large"
@@ -152,7 +138,7 @@ export const AlertImagesPlayerControls = ({
             key={speed}
             selected={speed === playbackSpeed}
             onClick={() => {
-              onPlaybackSpeedChange(speed);
+              setPlaybackSpeed(speed);
               setSpeedAnchorEl(null);
             }}
           >

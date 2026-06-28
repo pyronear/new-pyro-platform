@@ -1,16 +1,23 @@
 import { Stack } from '@mui/material';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import {
+  type ReactNode,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 
 import type { DetectionType } from '@/services/alerts';
 import appConfig from '@/services/appConfig';
 import { convertIsoToUnix, formatIsoToTime } from '@/utils/dates';
 
+import { useImagePreloader } from '../useImagePreloader';
 import {
-  AlertImagesPlayerControls,
+  AlertPlayerContext,
+  type AlertPlayerContextType,
   type PlaybackSpeed,
-} from './AlertImagesPlayerControls';
-import { DetectionImageWithBoundingBox } from './DetectionImageWithBoundingBox';
-import { useImagePreloader } from './useImagePreloader';
+} from './AlertPlayerContext';
 
 const PRELOAD_FRAMES_BACKWARD = 5;
 const PRELOAD_FRAMES_FORWARD = 20;
@@ -18,29 +25,27 @@ const PRELOAD_FRAMES_FORWARD = 20;
 const ALERTS_PLAYER_INTERVAL_MILLISECONDS =
   appConfig.getConfig().ALERTS_PLAYER_INTERVAL_MILLISECONDS;
 
-interface AlertImagesPlayerType {
+interface AlertPlayerProviderProps {
   sequenceId: number;
   detections: DetectionType[]; // chronological order, oldest first
-  displayBbox: boolean;
-  displayCrop: boolean;
-  onSelectedDetectionChange: (detection: DetectionType | null) => void;
   firstConfidentDetectionIndex: number;
   loadedCount: number;
   totalCount: number;
   isLoading: boolean;
+  onSelectedDetectionChange: (detection: DetectionType | null) => void;
+  children: ReactNode;
 }
 
-export const AlertImagesPlayer = ({
+export const AlertPlayerProvider = ({
   sequenceId,
   detections,
-  displayBbox,
-  displayCrop,
-  onSelectedDetectionChange,
   firstConfidentDetectionIndex,
   loadedCount,
   totalCount,
   isLoading,
-}: AlertImagesPlayerType) => {
+  onSelectedDetectionChange,
+  children,
+}: AlertPlayerProviderProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [playbackSpeed, setPlaybackSpeed] = useState<PlaybackSpeed>(1);
@@ -89,6 +94,16 @@ export const AlertImagesPlayer = ({
   const togglePlay = useCallback(() => {
     setIsPlaying((prev) => !prev);
   }, []);
+
+  const seekToValue = useCallback(
+    (value: number) => {
+      const targetIndex = marks.findIndex((mark) => mark.value === value);
+      if (targetIndex >= 0) {
+        setCurrentIndex(targetIndex);
+      }
+    },
+    [marks]
+  );
 
   useEffect(() => {
     hasAutoSeekedRef.current = false;
@@ -186,41 +201,48 @@ export const AlertImagesPlayer = ({
     };
   }, [step, togglePlay]);
 
-  const onChangeSlider = (_event: Event, newValue: unknown) => {
-    if (typeof newValue !== 'number') return;
-    const targetIndex = marks.findIndex((mark) => mark.value === newValue);
-    if (targetIndex >= 0) {
-      setCurrentIndex(targetIndex);
-    }
-  };
+  const value = useMemo<AlertPlayerContextType | undefined>(() => {
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    if (!selectedDetection) return undefined;
+    return {
+      sequenceId,
+      detections,
+      loadedCount,
+      totalCount,
+      isLoading,
+      currentIndex,
+      isPlaying,
+      playbackSpeed,
+      selectedDetection,
+      marks,
+      step,
+      togglePlay,
+      setPlaybackSpeed,
+      seekToValue,
+    };
+  }, [
+    sequenceId,
+    detections,
+    loadedCount,
+    totalCount,
+    isLoading,
+    currentIndex,
+    isPlaying,
+    playbackSpeed,
+    selectedDetection,
+    marks,
+    step,
+    togglePlay,
+    seekToValue,
+  ]);
 
-  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-  if (!selectedDetection) return null;
+  if (!value) return null;
 
   return (
-    <Stack direction="column" spacing={1} ref={rootRef}>
-      <DetectionImageWithBoundingBox
-        displayBbox={displayBbox}
-        displayCrop={displayCrop}
-        sequenceId={sequenceId}
-        selectedDetection={selectedDetection}
-      />
-
-      <AlertImagesPlayerControls
-        detections={detections}
-        currentIndex={currentIndex}
-        isPlaying={isPlaying}
-        onStep={step}
-        onTogglePlay={togglePlay}
-        playbackSpeed={playbackSpeed}
-        onPlaybackSpeedChange={setPlaybackSpeed}
-        selectedDetection={selectedDetection}
-        marks={marks}
-        onChangeSlider={onChangeSlider}
-        loadedCount={loadedCount}
-        totalCount={totalCount}
-        isLoading={isLoading}
-      />
-    </Stack>
+    <AlertPlayerContext value={value}>
+      <Stack direction="column" spacing={1} ref={rootRef}>
+        {children}
+      </Stack>
+    </AlertPlayerContext>
   );
 };

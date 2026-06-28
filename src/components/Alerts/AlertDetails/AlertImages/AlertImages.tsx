@@ -26,7 +26,7 @@ import { formatIsoToTime, isStrictlyAfter } from '@/utils/dates';
 import { getFirstConfidentDetectionIndex } from '@/utils/detections';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
-import { AlertImagesPlayer } from './AlertImagesPlayer';
+import { AlertPlayer } from './AlertPlayer';
 import { useAllDetections } from './useAllDetections';
 
 interface AlertImagesType {
@@ -295,11 +295,9 @@ export const AlertImages = ({ sequence }: AlertImagesType) => {
             </Typography>
           )}
           {hasAnyDetection && (
-            <AlertImagesPlayer
+            <AlertPlayer
               sequenceId={sequence.id}
               detections={detections}
-              displayBbox={displayBbox}
-              displayCrop={displayCrop}
               onSelectedDetectionChange={setCurrentDetection}
               firstConfidentDetectionIndex={getFirstConfidentDetectionIndex(
                 detections
@@ -307,7 +305,13 @@ export const AlertImages = ({ sequence }: AlertImagesType) => {
               loadedCount={loadedCount}
               totalCount={totalCount}
               isLoading={isLoading}
-            />
+            >
+              <AlertPlayer.Image
+                displayBbox={displayBbox}
+                displayCrop={displayCrop}
+              />
+              <AlertPlayer.Controls />
+            </AlertPlayer>
           )}
         </Grid>
       </Grid>
