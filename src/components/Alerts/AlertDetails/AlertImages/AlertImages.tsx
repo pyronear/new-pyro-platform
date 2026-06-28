@@ -76,12 +76,15 @@ export const AlertImages = ({ sequence }: AlertImagesType) => {
       newLastSeenAt &&
       isStrictlyAfter(lastSeenAt, newLastSeenAt)
     ) {
+      // LastSeenAt has changed since last time
+      // Detections must be refreshed
       invalidateAndRefreshData();
     }
     setLastSeenAt(newLastSeenAt);
   }, [invalidateAndRefreshData, lastSeenAt, sequence.lastSeenAt]);
 
   useEffect(() => {
+    // Reset bbox state when the sequence changes
     setDisplayBbox(true);
     setDisplayCrop(true);
   }, [sequence.id]);
@@ -280,6 +283,7 @@ export const AlertImages = ({ sequence }: AlertImagesType) => {
         <Divider flexItem />
         {isLoading && !hasAnyDetection && (
           <Grid container spacing={1}>
+            {/* One skeleton in place of the image, one skeleton in place of the timeline */}
             <Skeleton variant="rectangular" width="100%" height={400} />
             <Skeleton variant="rectangular" width="100%" height={80} />
           </Grid>
