@@ -77,6 +77,13 @@
     "buttonImageDownloadAllBbox": "Download all images with bounding boxes",
     "buttonPlay": "Play",
     "buttonPause": "Pause",
+    "buttonStepBackward": "Previous frame",
+    "buttonStepForward": "Next frame",
+    "buttonJumpBackward": "Back 10 frames",
+    "buttonJumpForward": "Forward 10 frames",
+    "buttonPlaybackSpeed": "Playback speed",
+    "loadingProgress": "Loading {{progress}}%",
+    "partialLoadError": "Failed to load {{missing}} image(s)",
     "buttonDisplayBBox": "Display the detection",
     "buttonHideBBox": "Hide the detection",
     "buttonDisplayCrop": "Show close-up",
@@ -141,11 +148,6 @@
       "detectionImageAlt": "Detection",
       "deleting": "Deleting...",
       "adding": "Adding..."
-    },
-    "detectionsOrder": {
-      "buttonLabel": "Sort detections",
-      "recentFirst": "Display oldest first",
-      "latestFirst": "Display newest first"
     }
   },
   "history": {
