@@ -15,6 +15,7 @@ import {
   type AlertType,
   type SequenceWithCameraInfoType,
 } from '@/utils/alerts';
+import { SNACKBAR_AUTO_HIDE_DURATION_MS } from '@/utils/snackbar';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
 interface SequenceUnmatchContainerProps {
@@ -22,8 +23,6 @@ interface SequenceUnmatchContainerProps {
   sequence: SequenceWithCameraInfoType;
   invalidateAndRefreshData: () => void;
 }
-
-const DURATION_SNACKBAR_MS = 5000;
 
 export const SequenceUnmatchContainer = ({
   alert,
@@ -102,7 +101,7 @@ export const SequenceUnmatchContainer = ({
       </Dialog>
       <Snackbar
         open={snackbarStatus !== null}
-        autoHideDuration={DURATION_SNACKBAR_MS}
+        autoHideDuration={SNACKBAR_AUTO_HIDE_DURATION_MS}
         onClose={closeSnackbar}
       >
         <Alert
