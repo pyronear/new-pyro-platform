@@ -51,7 +51,9 @@ export const AlertsPage = () => {
   );
 
   const invalidateAndRefreshData = useCallback(() => {
-    void queryClient.invalidateQueries({ queryKey: ['unlabelledAlerts'] });
+    void queryClient.invalidateQueries({
+      queryKey: UNLABELLED_ALERTS_QUERY_KEY,
+    });
   }, [queryClient]);
 
   const status = useMemo(() => {
