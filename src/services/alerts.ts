@@ -172,3 +172,27 @@ export const labelBySequenceId = async (
       throw err;
     });
 };
+
+export const unmatchSequenceFromAlert = async (
+  sequenceId: number,
+  alertId: number
+) => {
+  return apiInstance
+    .post(`/api/v1/alerts/${alertId}/sequences/${sequenceId}/unmatch`)
+    .then((response: AxiosResponse) => {
+      try {
+        if (response.data === null) {
+          return true;
+        }
+
+        const result = apiAlertResponseSchema.safeParse(response.data);
+        return result.success;
+      } catch {
+        throw new Error('INVALID_API_RESPONSE');
+      }
+    })
+    .catch((err: unknown) => {
+      console.error(err);
+      throw err;
+    });
+};
