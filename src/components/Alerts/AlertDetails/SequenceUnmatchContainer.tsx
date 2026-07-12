@@ -23,6 +23,8 @@ interface SequenceUnmatchContainerProps {
   invalidateAndRefreshData: () => void;
 }
 
+const DURATION_SNACKBAR_MS = 5000;
+
 export const SequenceUnmatchContainer = ({
   alert,
   sequence,
@@ -63,6 +65,7 @@ export const SequenceUnmatchContainer = ({
       setIsDialogOpen(false);
     }
   };
+  const closeSnackbar = () => setSnackbarStatus(null);
 
   return (
     <>
@@ -99,13 +102,13 @@ export const SequenceUnmatchContainer = ({
       </Dialog>
       <Snackbar
         open={snackbarStatus !== null}
-        autoHideDuration={5000}
-        onClose={() => setSnackbarStatus(null)}
+        autoHideDuration={DURATION_SNACKBAR_MS}
+        onClose={closeSnackbar}
       >
         <Alert
           severity={snackbarStatus ?? 'error'}
           variant="filled"
-          onClose={() => setSnackbarStatus(null)}
+          onClose={closeSnackbar}
           sx={{ width: '100%' }}
         >
           {t(
