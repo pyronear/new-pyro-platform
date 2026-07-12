@@ -108,7 +108,10 @@ export const MobileDashboardMapView = ({
     setDragHeight(nextHeight);
   };
 
-  const handleDrawerPointerUp = (event: PointerEvent<HTMLButtonElement>) => {
+  const finishDrawerDrag = (
+    event: PointerEvent<HTMLButtonElement>,
+    skipNextClick: boolean
+  ) => {
     const drag = drawerDragRef.current;
     if (drag === null) return;
 
@@ -117,11 +120,21 @@ export const MobileDashboardMapView = ({
     }
 
     drawerDragRef.current = null;
-    skipDrawerClickRef.current = drag.hasMoved;
+    skipDrawerClickRef.current = skipNextClick && drag.hasMoved;
     setDrawerPosition(
       getClosestDrawerPosition(drag.currentHeight, drag.snapHeights)
     );
     setDragHeight(null);
+  };
+
+  const handleDrawerPointerUp = (event: PointerEvent<HTMLButtonElement>) => {
+    finishDrawerDrag(event, true);
+  };
+
+  const handleDrawerPointerCancel = (
+    event: PointerEvent<HTMLButtonElement>
+  ) => {
+    finishDrawerDrag(event, false);
   };
 
   const handleDrawerClick = () => {
@@ -182,7 +195,7 @@ export const MobileDashboardMapView = ({
             aria-label="Resize camera list"
             component="button"
             onClick={handleDrawerClick}
-            onPointerCancel={handleDrawerPointerUp}
+            onPointerCancel={handleDrawerPointerCancel}
             onPointerDown={handleDrawerPointerDown}
             onPointerMove={handleDrawerPointerMove}
             onPointerUp={handleDrawerPointerUp}

@@ -147,6 +147,26 @@ describe('MobileDashboardMapView', () => {
     expect(drawer).toHaveStyle({ height: '50%' });
   });
 
+  it('does not discard the next tap after a cancelled drag', () => {
+    const { drawer, handle } = renderMobileMapView();
+
+    fireEvent(
+      handle,
+      new MouseEvent('pointerdown', { bubbles: true, clientY: 400 })
+    );
+    fireEvent(
+      handle,
+      new MouseEvent('pointermove', { bubbles: true, clientY: 390 })
+    );
+    fireEvent(
+      handle,
+      new MouseEvent('pointercancel', { bubbles: true, clientY: 390 })
+    );
+
+    fireEvent.click(handle);
+    expect(drawer).toHaveStyle({ height: 'calc(100% - 48px)' });
+  });
+
   it('opens the drawer to half-height when a map marker is selected from peek', () => {
     const { drawer, handle, onSelectCamera } = renderMobileMapView();
 
