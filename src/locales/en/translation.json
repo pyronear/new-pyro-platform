@@ -93,6 +93,16 @@
     "buttonModifyAlert": "Modify the alert",
     "buttonShare": "Share",
     "shareLinkCopied": "Alert link copied to clipboard",
+    "unmatch": {
+      "button": "Unmatch sequence",
+      "title": "Unmatch sequence from {{cameraName}}?",
+      "description": "This cannot be undone. The sequence will be removed from this alert and may create a new alert.",
+      "buttonCancel": "Cancel",
+      "buttonConfirm": "Unmatch",
+      "buttonLoading": "Unmatching...",
+      "success": "Sequence unmatched",
+      "error": "Unable to unmatch the sequence. Please try again."
+    },
     "copyText": "Copied",
     "blinkingMode": {
       "buttonBlinkingView": "Switch to blinking view",

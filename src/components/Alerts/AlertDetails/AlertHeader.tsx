@@ -71,6 +71,7 @@ export const AlertHeader = ({
               alert={alert}
               selectedSequence={selectedSequence}
               setSelectedSequence={setSelectedSequence}
+              invalidateAndRefreshData={invalidateAndRefreshData}
             />
           </div>
         </Stack>
@@ -99,6 +100,7 @@ export const AlertHeader = ({
             alert={alert}
             selectedSequence={selectedSequence}
             setSelectedSequence={setSelectedSequence}
+            invalidateAndRefreshData={invalidateAndRefreshData}
           />
         </Stack>
       )}
