@@ -40,6 +40,7 @@
     "inactiveCameraMsg": "Cámara inactiva",
     "liveButton": "Iniciar transmisión en directo",
     "maskButton": "Gestionar máscaras de oclusión",
+    "drawerResizeLabel": "Cambiar el tamaño de la lista de cámaras",
     "occlusionMask": {
       "title": "Gestionar máscaras de oclusión para {{cameraName}}",
       "selectPose": "Seleccionar pose",

@@ -4,6 +4,12 @@ import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest';
 import type { CameraType } from '../../services/camera';
 import { MobileDashboardMapView } from './MobileDashboardMapView';
 
+vi.mock('../../utils/useTranslationPrefix', () => ({
+  useTranslationPrefix: () => ({
+    t: (key: string) => `translated-${key}`,
+  }),
+}));
+
 vi.mock('./CameraCard/CameraCard', () => ({
   CameraCard: ({
     camera,
@@ -62,7 +68,9 @@ const renderMobileMapView = () => {
     />
   );
 
-  const handle = screen.getByRole('button', { name: 'Resize camera list' });
+  const handle = screen.getByRole('button', {
+    name: 'translated-drawerResizeLabel',
+  });
   const drawer = handle.parentElement;
   const mapContainer = drawer?.parentElement;
 

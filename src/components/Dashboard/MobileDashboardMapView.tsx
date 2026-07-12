@@ -3,6 +3,7 @@ import type { Map as LeafletMap, Marker as LeafletMarker } from 'leaflet';
 import { type PointerEvent, type RefObject, useRef, useState } from 'react';
 
 import type { CameraType } from '../../services/camera';
+import { useTranslationPrefix } from '../../utils/useTranslationPrefix';
 import { CameraCard } from './CameraCard/CameraCard';
 import CamerasMap from './CamerasMap';
 
@@ -58,6 +59,7 @@ export const MobileDashboardMapView = ({
   cardRefs,
   onSelectCamera,
 }: MobileDashboardMapViewProps) => {
+  const { t } = useTranslationPrefix('dashboard');
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const drawerDragRef = useRef<{
     currentHeight: number;
@@ -192,7 +194,7 @@ export const MobileDashboardMapView = ({
           })}
         >
           <Box
-            aria-label="Resize camera list"
+            aria-label={t('drawerResizeLabel')}
             component="button"
             onClick={handleDrawerClick}
             onPointerCancel={handleDrawerPointerCancel}

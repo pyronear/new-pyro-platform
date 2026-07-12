@@ -40,6 +40,7 @@
     "inactiveCameraMsg": "Inactive camera",
     "liveButton": "Start live streaming",
     "maskButton": "Manage occlusion masks",
+    "drawerResizeLabel": "Resize camera list",
     "occlusionMask": {
       "title": "Manage occlusion masks for {{cameraName}}",
       "selectPose": "Select pose",
