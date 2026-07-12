@@ -5,6 +5,7 @@ import {
   UNLABELLED_ALERTS_QUERY_KEY,
 } from '@/services/alerts';
 import appConfig from '@/services/appConfig';
+import { isDateToday } from '@/utils/dates';
 
 const ALERTS_LIST_REFRESH_INTERVAL_SECONDS =
   appConfig.getConfig().ALERTS_LIST_REFRESH_INTERVAL_SECONDS;
@@ -14,10 +15,9 @@ export const useAlertsMenuBadge = (enabled: boolean) => {
     queryKey: UNLABELLED_ALERTS_QUERY_KEY,
     queryFn: getUnlabelledLatestAlerts,
     enabled,
-    refetchInterval: enabled
-      ? ALERTS_LIST_REFRESH_INTERVAL_SECONDS * 1000
-      : false,
+    refetchInterval: ALERTS_LIST_REFRESH_INTERVAL_SECONDS * 1000,
   });
 
-  return enabled ? (alertList?.length ?? 0) : 0;
+  return (alertList ?? []).filter((alert) => isDateToday(alert.started_at))
+    .length;
 };
