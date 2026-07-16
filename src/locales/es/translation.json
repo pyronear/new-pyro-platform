@@ -78,6 +78,13 @@
     "buttonImageDownloadAllBbox": "Descargar todas las imágenes con bounding boxes",
     "buttonPlay": "Play",
     "buttonPause": "Pause",
+    "buttonStepBackward": "Imagen anterior",
+    "buttonStepForward": "Imagen siguiente",
+    "buttonJumpBackward": "Retroceder 10 imágenes",
+    "buttonJumpForward": "Avanzar 10 imágenes",
+    "buttonPlaybackSpeed": "Velocidad de reproducción",
+    "loadingProgress": "Cargando {{progress}}%",
+    "partialLoadError": "Error al cargar {{missing}} imagen(es)",
     "buttonDisplayBBox": "Mostrar la detección",
     "buttonHideBBox": "Ocultar la detección",
     "buttonDisplayCrop": "Mostrar primer plano",
@@ -142,11 +149,6 @@
       "detectionImageAlt": "Detección",
       "deleting": "Eliminando...",
       "adding": "Agregando..."
-    },
-    "detectionsOrder": {
-      "buttonLabel": "Ordenar detecciones",
-      "recentFirst": "Mostrar primero las más antiguas",
-      "latestFirst": "Mostrar primero las más recientes"
     }
   },
   "history": {
