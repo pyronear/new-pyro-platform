@@ -10,6 +10,7 @@ import type { CameraType } from '../../services/camera';
 import { useIsMobile } from '../../utils/useIsMobile';
 import { CameraCard } from './CameraCard/CameraCard';
 import CamerasMap from './CamerasMap';
+import { MobileDashboardMapView } from './MobileDashboardMapView';
 
 interface ViewMapProps {
   lastUpdate: number;
@@ -25,6 +26,7 @@ export const DashboardMapView = ({ cameraList }: ViewMapProps) => {
   const cardRefs = useRef(new Map<number, HTMLDivElement>());
 
   const [selectedCameraId, setSelectedCameraId] = useState<number | null>(null);
+
   useEffect(() => {
     const selectedCamera = cameraList.find(({ id }) => id === selectedCameraId);
     if (mapRef === null || selectedCamera === undefined) return;
@@ -45,16 +47,22 @@ export const DashboardMapView = ({ cameraList }: ViewMapProps) => {
     }
   }, [selectedCameraId, mapRef, cameraList]);
 
+  if (isMobile) {
+    return (
+      <MobileDashboardMapView
+        cameraList={cameraList}
+        selectedCameraId={selectedCameraId}
+        setMapRef={setMapRef}
+        markerRefs={markerRefs}
+        cardRefs={cardRefs}
+        onSelectCamera={setSelectedCameraId}
+      />
+    );
+  }
+
   return (
-    <Stack direction={isMobile ? 'column-reverse' : 'row'} height="100%">
-      <Grid
-        size={!isMobile && 3}
-        p={{ xs: 1, sm: 2 }}
-        flex={1}
-        sx={{
-          overflowY: 'auto',
-        }}
-      >
+    <Stack direction="row" height="100%">
+      <Grid p={{ xs: 1, sm: 2 }} flex={1} size={3} sx={{ overflowY: 'auto' }}>
         <Stack spacing={{ xs: 1, sm: 2 }} height={'100%'}>
           {cameraList.map((camera) => (
             <CameraCard
@@ -71,7 +79,7 @@ export const DashboardMapView = ({ cameraList }: ViewMapProps) => {
           ))}
         </Stack>
       </Grid>
-      <Grid size={!isMobile && 9} p={{ xs: 1, sm: 2 }} flex={2}>
+      <Grid p={{ xs: 1, sm: 2 }} flex={2} size={9}>
         {cameraList.length > 0 && (
           <CamerasMap
             cameras={cameraList}
