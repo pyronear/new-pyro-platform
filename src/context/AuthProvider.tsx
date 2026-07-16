@@ -1,7 +1,8 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { getToken } from '../services/auth';
 import { apiInstance } from '../services/axios';
+import { syncExistingBrowserPushSubscription } from '../services/pushNotifications';
 import {
   clearAuthToken,
   clearAuthUsername,
@@ -42,8 +43,19 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const logout = useCallback(() => {
     clearAuthToken();
     clearAuthUsername();
+    delete apiInstance.defaults.headers.common.Authorization;
     setToken(null);
   }, [setToken]);
+
+  useEffect(() => {
+    if (!token) {
+      return;
+    }
+
+    void syncExistingBrowserPushSubscription().catch((error: unknown) => {
+      console.error('Failed to sync browser push subscription:', error);
+    });
+  }, [token]);
 
   const contextValue = useMemo(
     () => ({ token, login, logout, username }),
