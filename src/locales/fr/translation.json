@@ -40,6 +40,7 @@
     "inactiveCameraMsg": "Caméra inactive",
     "liveButton": "Activer la levée de doute",
     "maskButton": "Gérer les masques d'occlusion",
+    "drawerResizeLabel": "Redimensionner la liste des caméras",
     "occlusionMask": {
       "title": "Gérer les masques d'occlusion pour {{cameraName}}",
       "selectPose": "Sélectionner la pose",

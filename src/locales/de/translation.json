@@ -40,6 +40,7 @@
     "inactiveCameraMsg": "Inaktive Kamera",
     "liveButton": "Live-Streaming starten",
     "maskButton": "Verdeckungsmasken verwalten",
+    "drawerResizeLabel": "Größe der Kameraliste ändern",
     "occlusionMask": {
       "title": "Verdeckungsmasken für {{cameraName}} verwalten",
       "selectPose": "Pose auswählen",
