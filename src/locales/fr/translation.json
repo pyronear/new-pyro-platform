@@ -203,7 +203,8 @@
     "mapOsm": "OpenStreetMap",
     "mapIgn": "IGN (France)",
     "mapSatellite": "Satellite",
-    "enableAudioAlerts": "Activer le son des alertes"
+    "enableAudioAlerts": "Activer le son des alertes",
+    "userGuide": "Guide utilisateur"
   },
   "map": {
     "layerControl": "Couches",

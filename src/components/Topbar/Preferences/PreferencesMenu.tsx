@@ -1,5 +1,7 @@
 import LogoutIcon from '@mui/icons-material/Logout';
 import MapIcon from '@mui/icons-material/Map';
+import MenuBookIcon from '@mui/icons-material/MenuBook';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import SatelliteAltIcon from '@mui/icons-material/SatelliteAlt';
 import TerrainIcon from '@mui/icons-material/Terrain';
 import {
@@ -11,10 +13,12 @@ import {
   Typography,
 } from '@mui/material';
 import { Stack } from '@mui/material';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { useAuth } from '@/context/useAuth';
 import { usePreferences } from '@/context/usePreferences';
+import appConfig from '@/services/appConfig';
 
 import { AlertVolumeToggle } from './AlertVolumeToggle';
 
@@ -45,6 +49,12 @@ export const PreferencesMenu: React.FC<PreferencesMenuProps> = ({
       updatePreferences({ map: { baseLayer: value } });
     }
   };
+
+  const { i18n } = useTranslation();
+  const userGuideUrl = useMemo(() => {
+    const urls = appConfig.getConfig().USER_GUIDE_URLS;
+    return urls[i18n.language] || urls.en;
+  }, [i18n.language]);
 
   return (
     <>
@@ -83,15 +93,29 @@ export const PreferencesMenu: React.FC<PreferencesMenuProps> = ({
               </ToggleButton>
             </ToggleButtonGroup>
           </Stack>
-
           <Divider />
-
           <Stack spacing={1}>
             <Typography>{t('preferences.enableAudioAlerts')}</Typography>
             <AlertVolumeToggle
               isActive={preferences.audio.alertsEnabled}
               onToggle={handleAudioAlertsToggle}
             />
+          </Stack>
+
+          <Divider />
+
+          <Stack>
+            <Button
+              href={userGuideUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              variant="outlined"
+              startIcon={<MenuBookIcon />}
+              endIcon={<OpenInNewIcon />}
+              fullWidth
+            >
+              {t('preferences.userGuide')}
+            </Button>
           </Stack>
 
           {
