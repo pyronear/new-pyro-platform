@@ -1,6 +1,7 @@
 import LogoutIcon from '@mui/icons-material/Logout';
 import MapIcon from '@mui/icons-material/Map';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import SatelliteAltIcon from '@mui/icons-material/SatelliteAlt';
 import TerrainIcon from '@mui/icons-material/Terrain';
 import {
@@ -110,6 +111,7 @@ export const PreferencesMenu: React.FC<PreferencesMenuProps> = ({
               rel="noopener noreferrer"
               variant="outlined"
               startIcon={<MenuBookIcon />}
+              endIcon={<OpenInNewIcon />}
               fullWidth
             >
               {t('preferences.userGuide')}
