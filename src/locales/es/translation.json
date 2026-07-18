@@ -201,7 +201,8 @@
     "mapOsm": "OpenStreetMap",
     "mapIgn": "IGN (Francia)",
     "mapSatellite": "Satélite",
-    "enableAudioAlerts": "Activar el sonido de las alertas"
+    "enableAudioAlerts": "Activar el sonido de las alertas",
+    "userGuide": "Guía del usuario"
   },
   "map": {
     "layerControl": "Capas",
