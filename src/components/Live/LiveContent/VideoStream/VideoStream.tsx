@@ -97,8 +97,7 @@ export const VideoStream = ({
       </div>
       {display && hasRotation && (
         <QuickActions
-          cameraId={camera.id}
-          poses={camera.poses ?? []}
+          camera={camera}
           speedName={SPEEDS[speedIndex].name}
           nextSpeed={setNextSpeed}
         />

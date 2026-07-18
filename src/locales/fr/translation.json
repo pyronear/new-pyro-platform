@@ -194,6 +194,8 @@
     "tooltipSpeed": "Vitesse de déplacément de la caméra",
     "tooltipPrerecordedAzimuths": "Azimuths pré-enregistrés de la caméra",
     "tooltipCustomAzimuths": "Azimuth personnalisé de la caméra",
+    "tooltipAutofocus": "Régler automatiquement le focus de la caméra",
+    "tooltipScreenshot": "Capturer une image Haute Définition de la vue en cours",
     "errorOnActionStreaming": "Une erreur inattendue est survenue en contactant la caméra",
     "relaunchStreamButton": "Relancer"
   },
