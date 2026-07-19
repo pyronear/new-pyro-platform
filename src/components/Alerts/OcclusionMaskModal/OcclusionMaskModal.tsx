@@ -12,6 +12,7 @@ import {
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { BboxOverlay } from '@/components/Common/BboxOverlay';
+import { getDetectionsBySequence } from '@/services/alerts';
 import {
   createOcclusionMask,
   deleteAllOcclusionMasksByPose,
@@ -28,8 +29,6 @@ import {
 } from '@/utils/occlusionMasks';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
-import { useAllDetections } from '../AlertDetails/AlertImages/useAllDetections';
-
 interface OcclusionMaskModalProps {
   open: boolean;
   onClose: () => void;
@@ -44,14 +43,15 @@ export const OcclusionMaskModal = ({
   const { t } = useTranslationPrefix('alerts.occlusionMask');
   const queryClient = useQueryClient();
 
+  // Query for detections data
   const {
-    detections: detectionsData,
+    data: detectionsData = [],
     isLoading: isLoadingDetections,
-    isError: hasDetectionsError,
-  } = useAllDetections({
-    sequenceId: sequence.id,
-    // Passing 0 when the modal is closed short-circuits the page fan-out.
-    detectionsCount: open ? sequence.detectionsCount : 0,
+    error: detectionsError,
+  } = useQuery({
+    queryKey: ['detections', sequence.id],
+    queryFn: () => getDetectionsBySequence(sequence.id),
+    enabled: open && !!sequence.id,
   });
 
   // Query for existing occlusion masks
@@ -117,8 +117,8 @@ export const OcclusionMaskModal = ({
   const imageUrl = highestDetection?.url ?? '';
   const isLoading = isLoadingDetections || isLoadingMasks;
 
-  if (hasDetectionsError) {
-    console.error('Error loading detections for sequence', sequence.id);
+  if (detectionsError) {
+    console.error('Error loading detections:', detectionsError);
   }
 
   return (

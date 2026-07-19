@@ -26,7 +26,6 @@ export interface SequenceWithCameraInfoType {
   azimuth: number;
   coneAngle: number;
   labelWildfire: LabelWildfireValues;
-  detectionsCount: number;
 }
 
 /*
@@ -55,7 +54,6 @@ export const mapOneAlertApiToAlertType = (
         azimuth: sequence.sequence_azimuth,
         coneAngle: sequence.cone_angle,
         labelWildfire: (sequence.is_wildfire as LabelWildfireValues) ?? null,
-        detectionsCount: sequence.detections_count,
       })),
   };
 };
