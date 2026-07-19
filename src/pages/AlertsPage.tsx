@@ -1,7 +1,9 @@
+import Typography from '@mui/material/Typography';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useCallback, useMemo } from 'react';
 
 import { AlertsContainer } from '@/components/Alerts/AlertsContainer';
+import { Loader } from '@/components/Common/Loader';
 import { CameraListProvider } from '@/context/CameraListProvider';
 import { getUnlabelledLatestAlerts } from '@/services/alerts';
 import appConfig from '@/services/appConfig';
@@ -10,11 +12,13 @@ import { getCameraList } from '@/services/camera';
 import { type AlertType, mapListAlertApiToAlertType } from '@/utils/alerts';
 import { isDateToday } from '@/utils/dates';
 import { useDetectNewSequences as useDetectNewAlerts } from '@/utils/useDetectNewSequences';
+import { useTranslationPrefix } from '@/utils/useTranslationPrefix.ts';
 
 const ALERTS_LIST_REFRESH_INTERVAL_SECONDS =
   appConfig.getConfig().ALERTS_LIST_REFRESH_INTERVAL_SECONDS;
 
 export const AlertsPage = () => {
+  const { t } = useTranslationPrefix('alerts');
   const queryClient = useQueryClient();
   const {
     isFetching,
@@ -63,14 +67,21 @@ export const AlertsPage = () => {
 
   return (
     <CameraListProvider camerasList={cameraList ?? []}>
-      <AlertsContainer
-        status={status}
-        isRefreshing={isFetching}
-        lastUpdate={dataUpdatedAt}
-        invalidateAndRefreshData={invalidateAndRefreshData}
-        alertsList={alertsList}
-        hasNewSequence={hasNewAlert}
-      />
+      {status == STATUS_LOADING && <Loader />}
+      {status == STATUS_ERROR && (
+        <Typography variant="body2">
+          {t('errorFetchSequencesMessage')}
+        </Typography>
+      )}
+      {status == STATUS_SUCCESS && (
+        <AlertsContainer
+          isRefreshing={isFetching}
+          lastUpdate={dataUpdatedAt}
+          invalidateAndRefreshData={invalidateAndRefreshData}
+          alertsList={alertsList}
+          hasNewSequence={hasNewAlert}
+        />
+      )}
     </CameraListProvider>
   );
 };
