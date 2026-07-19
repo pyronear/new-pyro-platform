@@ -11,7 +11,7 @@ import Paper from '@mui/material/Paper';
 import Skeleton from '@mui/material/Skeleton';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import { useQueryClient } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import JSZip from 'jszip';
 import { useCallback, useEffect, useState } from 'react';
 
@@ -20,14 +20,13 @@ import {
   SplitButton,
   type SplitButtonOption,
 } from '@/components/Common/SplitButton';
-import { type DetectionType } from '@/services/alerts';
+import { type DetectionType, getDetectionsBySequence } from '@/services/alerts';
 import type { SequenceWithCameraInfoType } from '@/utils/alerts';
 import { formatIsoToTime, isStrictlyAfter } from '@/utils/dates';
 import { getFirstConfidentDetectionIndex } from '@/utils/detections';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
-import { AlertPlayer } from './AlertPlayer';
-import { useAllDetections } from './useAllDetections';
+import { AlertImagesPlayer } from './AlertImagesPlayer';
 
 interface AlertImagesType {
   sequence: SequenceWithCameraInfoType;
@@ -38,6 +37,7 @@ export const AlertImages = ({ sequence }: AlertImagesType) => {
   const [lastSeenAt, setLastSeenAt] = useState<string | null>(null);
   const [displayBbox, setDisplayBbox] = useState(true);
   const [displayCrop, setDisplayCrop] = useState(true);
+  const [orderDetectionsByDesc, setOrderDetectionsByDesc] = useState(true);
   const [currentDetection, setCurrentDetection] =
     useState<DetectionType | null>(null);
   const queryClient = useQueryClient();
@@ -57,17 +57,22 @@ export const AlertImages = ({ sequence }: AlertImagesType) => {
     [t]
   );
 
-  const { detections, isLoading, isError, loadedCount, totalCount } =
-    useAllDetections({
-      sequenceId: sequence.id,
-      detectionsCount: sequence.detectionsCount,
-    });
+  const {
+    isPending,
+    isError,
+    isSuccess,
+    data: detectionsList,
+  } = useQuery({
+    queryKey: ['detections', sequence.id, orderDetectionsByDesc],
+    queryFn: async () => {
+      return await getDetectionsBySequence(sequence.id, orderDetectionsByDesc);
+    },
+    refetchOnWindowFocus: false,
+  });
 
   const invalidateAndRefreshData = useCallback(() => {
-    void queryClient.invalidateQueries({
-      queryKey: ['detections', sequence.id],
-    });
-  }, [queryClient, sequence.id]);
+    void queryClient.invalidateQueries({ queryKey: ['detections'] });
+  }, [queryClient]);
 
   useEffect(() => {
     const newLastSeenAt = sequence.lastSeenAt;
@@ -153,11 +158,11 @@ export const AlertImages = ({ sequence }: AlertImagesType) => {
   };
 
   const downloadAllImages = async () => {
-    if (detections.length === 0) return;
+    if (!detectionsList || detectionsList.length === 0) return;
 
     const zip = new JSZip();
 
-    const fetchPromises = detections.map(async (detection) => {
+    const fetchPromises = detectionsList.map(async (detection) => {
       const response = await fetch(detection.url);
       const blob = await response.blob();
       const extension = detection.url.split('.').pop()?.split('?')[0] ?? 'jpg';
@@ -176,11 +181,11 @@ export const AlertImages = ({ sequence }: AlertImagesType) => {
   };
 
   const downloadAllImagesWithBbox = async () => {
-    if (detections.length === 0) return;
+    if (!detectionsList || detectionsList.length === 0) return;
 
     const zip = new JSZip();
 
-    const fetchPromises = detections.map(async (detection) => {
+    const fetchPromises = detectionsList.map(async (detection) => {
       const response = await fetch(detection.url);
       const blob = await response.blob();
       const extension = detection.url.split('.').pop()?.split('?')[0] ?? 'jpg';
@@ -219,17 +224,14 @@ export const AlertImages = ({ sequence }: AlertImagesType) => {
     {
       label: t('buttonImageDownloadAll'),
       onClick: () => void downloadAllImages(),
-      disabled: detections.length === 0,
+      disabled: !detectionsList || detectionsList.length === 0,
     },
     {
       label: t('buttonImageDownloadAllBbox'),
       onClick: () => void downloadAllImagesWithBbox(),
-      disabled: detections.length === 0,
+      disabled: !detectionsList || detectionsList.length === 0,
     },
   ];
-
-  // The player needs at least one loaded page before mounting.
-  const hasAnyDetection = detections.length > 0;
 
   return (
     <Paper sx={{ height: '100% ', borderRadius: 6, padding: 2 }}>
@@ -281,7 +283,7 @@ export const AlertImages = ({ sequence }: AlertImagesType) => {
         </Stack>
 
         <Divider flexItem />
-        {isLoading && !hasAnyDetection && (
+        {isPending && (
           <Grid container spacing={1}>
             {/* One skeleton in place of the image, one skeleton in place of the timeline */}
             <Skeleton variant="rectangular" width="100%" height={400} />
@@ -289,29 +291,24 @@ export const AlertImages = ({ sequence }: AlertImagesType) => {
           </Grid>
         )}
         <Grid sx={{ width: '100%' }}>
-          {isError && !hasAnyDetection && (
+          {isError && (
             <Typography variant="body2">
               {t('errorFetchImagesMessage')}
             </Typography>
           )}
-          {hasAnyDetection && (
-            <AlertPlayer
+          {isSuccess && (
+            <AlertImagesPlayer
               sequenceId={sequence.id}
-              detections={detections}
+              detections={detectionsList}
+              displayBbox={displayBbox}
+              displayCrop={displayCrop}
               onSelectedDetectionChange={setCurrentDetection}
               firstConfidentDetectionIndex={getFirstConfidentDetectionIndex(
-                detections
+                detectionsList
               )}
-              loadedCount={loadedCount}
-              totalCount={totalCount}
-              isLoading={isLoading}
-            >
-              <AlertPlayer.Image
-                displayBbox={displayBbox}
-                displayCrop={displayCrop}
-              />
-              <AlertPlayer.Controls />
-            </AlertPlayer>
+              orderDetectionsByDesc={orderDetectionsByDesc}
+              setOrderDetectionsByDesc={setOrderDetectionsByDesc}
+            />
           )}
         </Grid>
       </Grid>
