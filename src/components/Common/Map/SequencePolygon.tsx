@@ -5,11 +5,13 @@ import { Polygon } from 'react-leaflet';
 interface CameraViewPolygonProps {
   isHighlighted?: boolean;
   visionPolygonPoints: LatLng[];
+  onClick?: () => void;
 }
 
 export const SequencePolygon = ({
   isHighlighted = true,
   visionPolygonPoints,
+  onClick,
 }: CameraViewPolygonProps) => {
   const theme = useTheme();
   return (
@@ -19,9 +21,16 @@ export const SequencePolygon = ({
         color: theme.palette.error.main,
         opacity: isHighlighted ? 0.9 : 0.45,
         fillColor: theme.palette.error.main,
-        fillOpacity: isHighlighted ? 0.35 : 0.15,
+        fillOpacity: isHighlighted ? 0.3 : 0.15,
         weight: isHighlighted ? 4 : 2,
       }}
+      eventHandlers={
+        onClick
+          ? {
+              click: onClick,
+            }
+          : undefined
+      }
     />
   );
 };
