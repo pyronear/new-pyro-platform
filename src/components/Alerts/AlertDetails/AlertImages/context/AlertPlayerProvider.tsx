@@ -137,8 +137,9 @@ export const AlertPlayerProvider = ({
     const interval = window.setInterval(() => {
       setCurrentIndex((idx) => {
         if (idx >= detections.length - 1) {
-          // Relaunch player
-          return 0;
+          // Stop at the end; user can scrub back manually.
+          setIsPlaying(false);
+          return idx;
         }
         return idx + 1;
       });
