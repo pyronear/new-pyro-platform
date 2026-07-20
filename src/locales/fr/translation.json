@@ -17,7 +17,8 @@
   "pages": {
     "dashboard": "Caméras",
     "alerts": "Alertes en cours",
-    "history": "Historique des alertes"
+    "history": "Historique des alertes",
+    "unlabeledAlertsBadge": "{{count}} à étiqueter"
   },
   "topbar": {
     "menuLabel": "Menu"
