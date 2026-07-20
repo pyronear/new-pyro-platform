@@ -7,6 +7,7 @@
     "showPassword": "Afficher le mot de passe",
     "hidePassword": "Cacher le mot de passe",
     "logout": "Se déconnecter",
+    "sessionExpired": "Votre session a expiré. Veuillez vous reconnecter.",
     "errors": {
       "INVALID_CREDENTIALS": "Nom d'utilisateur ou mot de passe incorrect.",
       "SERVER_ERROR": "Une erreur inattendue est survenue. Veuillez réessayer plus tard.",
