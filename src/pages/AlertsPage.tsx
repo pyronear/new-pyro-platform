@@ -1,5 +1,9 @@
-import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { useCallback, useMemo } from 'react';
+import {
+  useInfiniteQuery,
+  useQuery,
+  useQueryClient,
+} from '@tanstack/react-query';
+import { useCallback, useEffect, useMemo } from 'react';
 
 import { AlertsContainer } from '@/components/Alerts/AlertsContainer';
 import { CameraListProvider } from '@/context/CameraListProvider';
@@ -13,6 +17,7 @@ import { useDetectNewSequences as useDetectNewAlerts } from '@/utils/useDetectNe
 
 const ALERTS_LIST_REFRESH_INTERVAL_SECONDS =
   appConfig.getConfig().ALERTS_LIST_REFRESH_INTERVAL_SECONDS;
+const UNLABELLED_ALERTS_PAGE_SIZE = 100;
 
 export const AlertsPage = () => {
   const queryClient = useQueryClient();
@@ -20,10 +25,22 @@ export const AlertsPage = () => {
     isFetching,
     dataUpdatedAt,
     status: statusSequences,
-    data: alertList,
-  } = useQuery({
+    data: alertPages,
+    hasNextPage,
+    isFetchingNextPage,
+    fetchNextPage,
+  } = useInfiniteQuery({
     queryKey: ['unlabelledAlerts'],
-    queryFn: getUnlabelledLatestAlerts,
+    queryFn: async ({ pageParam }) =>
+      await getUnlabelledLatestAlerts(
+        UNLABELLED_ALERTS_PAGE_SIZE,
+        pageParam * UNLABELLED_ALERTS_PAGE_SIZE
+      ),
+    initialPageParam: 0,
+    getNextPageParam: (lastPage, _allPages, lastPageParam) =>
+      lastPage.length === UNLABELLED_ALERTS_PAGE_SIZE
+        ? lastPageParam + 1
+        : undefined,
     refetchInterval: ALERTS_LIST_REFRESH_INTERVAL_SECONDS * 1000,
   });
 
@@ -32,8 +49,16 @@ export const AlertsPage = () => {
     queryFn: getCameraList,
   });
 
+  useEffect(() => {
+    if (hasNextPage && !isFetchingNextPage) {
+      void fetchNextPage();
+    }
+  }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
+
+  const alertList = useMemo(() => alertPages?.pages.flat() ?? [], [alertPages]);
+
   const todayAlerts = useMemo(
-    () => (alertList ?? []).filter((alert) => isDateToday(alert.started_at)),
+    () => alertList.filter((alert) => isDateToday(alert.started_at)),
     [alertList]
   );
 
