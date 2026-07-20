@@ -94,6 +94,16 @@
     "buttonModifyAlert": "Alarm ändern",
     "buttonShare": "Teilen",
     "shareLinkCopied": "Alarm-Link in die Zwischenablage kopiert",
+    "unmatch": {
+      "button": "Sequenz trennen",
+      "title": "Sequenz von {{cameraName}} trennen?",
+      "description": "Dies kann nicht rückgängig gemacht werden. Die Sequenz wird aus diesem Alarm entfernt und kann einen neuen Alarm erstellen.",
+      "buttonCancel": "Abbrechen",
+      "buttonConfirm": "Trennen",
+      "buttonLoading": "Wird getrennt...",
+      "success": "Sequenz getrennt",
+      "error": "Die Sequenz konnte nicht getrennt werden. Bitte versuchen Sie es erneut."
+    },
     "copyText": "Kopiert",
     "blinkingMode": {
       "buttonBlinkingView": "Zur Blinkanzeige wechseln",

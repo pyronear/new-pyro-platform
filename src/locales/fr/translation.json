@@ -94,6 +94,16 @@
     "buttonModifyAlert": "Modifier l'alerte",
     "buttonShare": "Partager",
     "shareLinkCopied": "Lien de l'alerte copié dans le presse-papier",
+    "unmatch": {
+      "button": "Dissocier la séquence",
+      "title": "Dissocier la séquence de {{cameraName}} ?",
+      "description": "Cette action est irréversible. La séquence sera retirée de cette alerte et pourra créer une nouvelle alerte.",
+      "buttonCancel": "Annuler",
+      "buttonConfirm": "Dissocier",
+      "buttonLoading": "Dissociation...",
+      "success": "Séquence dissociée",
+      "error": "Impossible de dissocier la séquence. Veuillez réessayer."
+    },
     "copyText": "Copié",
     "blinkingMode": {
       "buttonBlinkingView": "Passer en vue clignotante",

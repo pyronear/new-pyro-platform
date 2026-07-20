@@ -1,14 +1,14 @@
 import Alert from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
 
+import { SNACKBAR_AUTO_HIDE_DURATION_MS } from '@/utils/snackbar';
+
 interface SequenceLabelSnackbarProps {
   open: boolean;
   handleClose: () => void;
   isSuccess: boolean | null;
   message: string;
 }
-
-const DURATION_SNACKBAR_MS = 5000;
 
 export const SequenceLabelSnackbar = ({
   open,
@@ -19,7 +19,7 @@ export const SequenceLabelSnackbar = ({
   return (
     <Snackbar
       open={open}
-      autoHideDuration={DURATION_SNACKBAR_MS}
+      autoHideDuration={SNACKBAR_AUTO_HIDE_DURATION_MS}
       onClose={handleClose}
     >
       <Alert

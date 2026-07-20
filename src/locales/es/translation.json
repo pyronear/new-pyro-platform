@@ -94,6 +94,16 @@
     "buttonModifyAlert": "Modificar la alerta",
     "buttonShare": "Compartir",
     "shareLinkCopied": "Enlace de la alerta copiado al portapapeles",
+    "unmatch": {
+      "button": "Desvincular secuencia",
+      "title": "¿Desvincular la secuencia de {{cameraName}}?",
+      "description": "Esta acción no se puede deshacer. La secuencia se eliminará de esta alerta y puede crear una nueva alerta.",
+      "buttonCancel": "Cancelar",
+      "buttonConfirm": "Desvincular",
+      "buttonLoading": "Desvinculando...",
+      "success": "Secuencia desvinculada",
+      "error": "No se ha podido desvincular la secuencia. Vuelva a intentarlo."
+    },
     "copyText": "Copiado",
     "blinkingMode": {
       "buttonBlinkingView": "Cambiar a vista parpadeante",
