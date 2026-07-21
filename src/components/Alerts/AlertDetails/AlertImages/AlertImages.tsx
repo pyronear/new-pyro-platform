@@ -243,7 +243,12 @@ export const AlertImages = ({ sequence }: AlertImagesType) => {
           spacing={{ xs: 1, sm: 2 }}
           minHeight={35}
           useFlexGap
-          sx={{ flexWrap: 'wrap', rowGap: 1 }}
+          sx={{
+            flexWrap: 'wrap',
+            rowGap: 1,
+            position: 'relative',
+            zIndex: 10,
+          }}
         >
           <Typography variant="h2">
             {formatIsoToTime(sequence.startedAt)}
