@@ -1,8 +1,14 @@
-import { useQueries } from '@tanstack/react-query';
+import {
+  type InfiniteData,
+  type QueryKey,
+  useInfiniteQuery,
+} from '@tanstack/react-query';
+import { useEffect } from 'react';
 
 import { type DetectionType, getDetectionsPage } from '@/services/alerts';
+import appConfig from '@/services/appConfig.ts';
 
-const DEFAULT_PAGE_SIZE = 100;
+const DEFAULT_PAGE_SIZE = appConfig.getConfig().ALERTS_PLAYER_BUFFER_SIZE;
 
 interface UseAllDetectionsParams {
   sequenceId: number;
@@ -25,20 +31,37 @@ export const useAllDetections = ({
 }: UseAllDetectionsParams): UseAllDetectionsResult => {
   const pageCount = Math.ceil(detectionsCount / pageSize);
 
-  const queries = useQueries({
-    queries: Array.from({ length: pageCount }, (_, pageIndex) => {
-      const offset = pageIndex * pageSize;
-      return {
-        queryKey: ['detections', sequenceId, offset] as const,
-        queryFn: () => getDetectionsPage(sequenceId, offset, pageSize),
-        refetchOnWindowFocus: false,
-      };
-    }),
-  });
+  console.log(pageCount);
+  const { data, isLoading, isError, fetchNextPage, hasNextPage } =
+    useInfiniteQuery<
+      DetectionType[],
+      Error,
+      InfiniteData<DetectionType[]>,
+      QueryKey,
+      number
+    >({
+      getNextPageParam: (
+        _lastPage: unknown,
+        _allPages: unknown,
+        lastPageParam: number
+      ) => {
+        return lastPageParam < pageCount - 1 ? lastPageParam + 1 : undefined;
+      },
+      queryKey: ['detections', sequenceId] as const,
+      initialPageParam: 0,
+      maxPages: pageCount,
+      refetchOnWindowFocus: false,
+      queryFn: ({ pageParam }) =>
+        getDetectionsPage(sequenceId, pageParam * pageSize, pageSize),
+    });
 
-  const detections = queries.flatMap((q) => q.data ?? []);
-  const isLoading = queries.some((q) => q.isLoading);
-  const isError = queries.some((q) => q.isError);
+  useEffect(() => {
+    if (hasNextPage && !isLoading) {
+      void fetchNextPage();
+    }
+  }, [fetchNextPage, hasNextPage, isLoading]);
+
+  const detections: DetectionType[] = data?.pages.flatMap((q) => q) ?? [];
 
   return {
     detections,
