@@ -2,8 +2,9 @@ import {
   type InfiniteData,
   type QueryKey,
   useInfiniteQuery,
+  useQueryClient,
 } from '@tanstack/react-query';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 
 import { type DetectionType, getDetectionsPage } from '@/services/alerts';
 import appConfig from '@/services/appConfig.ts';
@@ -20,8 +21,10 @@ interface UseAllDetectionsResult {
   detections: DetectionType[];
   isLoading: boolean;
   isError: boolean;
+  hasNextPage: boolean;
   loadedCount: number;
   totalCount: number;
+  invalidateAndRefreshData: () => void;
 }
 
 export const useAllDetections = ({
@@ -29,10 +32,16 @@ export const useAllDetections = ({
   detectionsCount,
   pageSize = DEFAULT_PAGE_SIZE,
 }: UseAllDetectionsParams): UseAllDetectionsResult => {
+  const queryClient = useQueryClient();
   const pageCount = Math.ceil(detectionsCount / pageSize);
 
-  console.log(pageCount);
-  const { data, isLoading, isError, fetchNextPage, hasNextPage } =
+  const invalidateAndRefreshData = useCallback(() => {
+    void queryClient.invalidateQueries({
+      queryKey: ['detections', sequenceId],
+    });
+  }, [queryClient, sequenceId]);
+
+  const { data, isLoading, isFetching, isError, fetchNextPage, hasNextPage } =
     useInfiniteQuery<
       DetectionType[],
       Error,
@@ -49,25 +58,27 @@ export const useAllDetections = ({
       },
       queryKey: ['detections', sequenceId] as const,
       initialPageParam: 0,
-      maxPages: pageCount,
+      enabled: !pageCount,
       refetchOnWindowFocus: false,
       queryFn: ({ pageParam }) =>
         getDetectionsPage(sequenceId, pageParam * pageSize, pageSize),
     });
 
   useEffect(() => {
-    if (hasNextPage && !isLoading) {
+    if (hasNextPage && !isFetching && !isError) {
       void fetchNextPage();
     }
-  }, [fetchNextPage, hasNextPage, isLoading]);
+  }, [fetchNextPage, hasNextPage, isError, isFetching, isLoading]);
 
-  const detections: DetectionType[] = data?.pages.flatMap((q) => q) ?? [];
+  const detections: DetectionType[] = data?.pages.flat() ?? [];
 
   return {
     detections,
     isLoading,
+    hasNextPage,
     isError,
     loadedCount: detections.length,
     totalCount: detectionsCount,
+    invalidateAndRefreshData,
   };
 };
