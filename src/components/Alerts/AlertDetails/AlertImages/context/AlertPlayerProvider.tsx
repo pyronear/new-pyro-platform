@@ -11,6 +11,7 @@ import {
 import type { DetectionType } from '@/services/alerts';
 import appConfig from '@/services/appConfig';
 import { convertIsoToUnix, formatIsoToTime } from '@/utils/dates';
+import { getFirstConfidentDetectionIndex } from '@/utils/detections.ts';
 
 import { useImagePreloader } from '../useImagePreloader';
 import {
@@ -28,7 +29,6 @@ const ALERTS_PLAYER_INTERVAL_MILLISECONDS =
 interface AlertPlayerProviderProps {
   sequenceId: number;
   detections: DetectionType[]; // chronological order, oldest first
-  firstConfidentDetectionIndex: number;
   loadedCount: number;
   totalCount: number;
   isLoading: boolean;
@@ -39,7 +39,6 @@ interface AlertPlayerProviderProps {
 export const AlertPlayerProvider = ({
   sequenceId,
   detections,
-  firstConfidentDetectionIndex,
   loadedCount,
   totalCount,
   isLoading,
@@ -104,6 +103,9 @@ export const AlertPlayerProvider = ({
     },
     [marks]
   );
+
+  const firstConfidentDetectionIndex =
+    getFirstConfidentDetectionIndex(detections);
 
   useEffect(() => {
     hasAutoSeekedRef.current = false;

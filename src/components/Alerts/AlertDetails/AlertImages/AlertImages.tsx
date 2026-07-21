@@ -4,17 +4,15 @@ import Paper from '@mui/material/Paper';
 import Skeleton from '@mui/material/Skeleton';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import { useQueryClient } from '@tanstack/react-query';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import AlertImagesActions from '@/components/Alerts/AlertDetails/AlertImages/AlertImagesActions.tsx';
 import { type DetectionType } from '@/services/alerts';
 import type { SequenceWithCameraInfoType } from '@/utils/alerts';
 import { formatIsoToTime, isStrictlyAfter } from '@/utils/dates';
-import { getFirstConfidentDetectionIndex } from '@/utils/detections';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
-import { AlertPlayer } from './AlertPlayer';
+import { AlertPlayer } from './player/AlertPlayer';
 import { useAllDetections } from './useAllDetections';
 
 interface AlertImagesType {
@@ -28,19 +26,19 @@ export const AlertImages = ({ sequence }: AlertImagesType) => {
   const [displayCrop, setDisplayCrop] = useState(true);
   const [currentDetection, setCurrentDetection] =
     useState<DetectionType | null>(null);
-  const queryClient = useQueryClient();
 
-  const { detections, isLoading, isError, loadedCount, totalCount } =
-    useAllDetections({
-      sequenceId: sequence.id,
-      detectionsCount: sequence.detectionsCount,
-    });
-
-  const invalidateAndRefreshData = useCallback(() => {
-    void queryClient.invalidateQueries({
-      queryKey: ['detections', sequence.id],
-    });
-  }, [queryClient, sequence.id]);
+  const {
+    detections,
+    isLoading,
+    isError,
+    hasNextPage,
+    loadedCount,
+    totalCount,
+    invalidateAndRefreshData,
+  } = useAllDetections({
+    sequenceId: sequence.id,
+    detectionsCount: sequence.detectionsCount,
+  });
 
   useEffect(() => {
     // Refresh detections list if sequence has been updated
@@ -118,9 +116,6 @@ export const AlertImages = ({ sequence }: AlertImagesType) => {
               sequenceId={sequence.id}
               detections={detections}
               onSelectedDetectionChange={setCurrentDetection}
-              firstConfidentDetectionIndex={getFirstConfidentDetectionIndex(
-                detections
-              )}
               loadedCount={loadedCount}
               totalCount={totalCount}
               isLoading={isLoading}
@@ -129,7 +124,7 @@ export const AlertImages = ({ sequence }: AlertImagesType) => {
                 displayBbox={displayBbox}
                 displayCrop={displayCrop}
               />
-              <AlertPlayer.Controls />
+              <AlertPlayer.Controls hasNextPage={hasNextPage} />
             </AlertPlayer>
           )}
         </Grid>

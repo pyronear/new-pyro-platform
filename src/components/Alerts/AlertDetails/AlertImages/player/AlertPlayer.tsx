@@ -2,14 +2,13 @@ import type { ReactNode } from 'react';
 
 import type { DetectionType } from '@/services/alerts';
 
+import { AlertPlayerProvider } from '../context/AlertPlayerProvider';
 import { AlertPlayerControls } from './AlertPlayerControls';
 import { AlertPlayerImage } from './AlertPlayerImage';
-import { AlertPlayerProvider } from './context/AlertPlayerProvider';
 
 interface AlertPlayerProps {
   sequenceId: number;
   detections: DetectionType[]; // chronological order, oldest first
-  firstConfidentDetectionIndex: number;
   loadedCount: number;
   totalCount: number;
   isLoading: boolean;

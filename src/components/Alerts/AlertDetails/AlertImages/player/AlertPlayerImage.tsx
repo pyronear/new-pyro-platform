@@ -7,62 +7,27 @@ import {
   TransformWrapper,
 } from 'react-zoom-pan-pinch';
 
-import type { DetectionType } from '@//services/alerts';
+import {
+  type BoundingBox,
+  parseBboxCoords,
+  parseDetectionBox,
+} from '@/utils/detections.ts';
+
+import { useAlertPlayer } from '../context/useAlertPlayer';
+
+interface AlertPlayerImageProps {
+  displayBbox: boolean;
+  displayCrop: boolean;
+}
 
 const MINIMUM_ZOOM_AMOUNT_TO_DISPLAY_MINIMAP = 1.4;
 
-const parseBboxCoords = (
-  bbox: string
-): { x1: number; y1: number; x2: number; y2: number } | null => {
-  const match = /\(([^)]+)\)/.exec(bbox);
-  if (!match) {
-    return null;
-  }
-  const [x1, y1, x2, y2] = match[1].split(',').map(parseFloat);
-  return { x1, y1, x2, y2 };
-};
-
-const parseDetectionBox = (
-  detection: DetectionType | null
-): BoundingBox | null => {
-  if (detection === null) {
-    return null;
-  }
-
-  const coords = parseBboxCoords(detection.bbox);
-  if (!coords) {
-    return null;
-  }
-
-  const { x1, y1, x2, y2 } = coords;
-  return {
-    left: `${100 * x1}%`,
-    top: `${100 * y1}%`,
-    width: `${100 * (x2 - x1)}%`,
-    height: `${100 * (y2 - y1)}%`,
-  };
-};
-
-interface BoundingBox {
-  left: string;
-  top: string;
-  width: string;
-  height: string;
-}
-
-interface DetectionImageWithBoundingBoxProps {
-  displayBbox: boolean;
-  displayCrop: boolean;
-  selectedDetection: DetectionType;
-  sequenceId: number;
-}
-
-export const DetectionImageWithBoundingBox = ({
+export const AlertPlayerImage = ({
   displayBbox,
   displayCrop,
-  selectedDetection,
-  sequenceId,
-}: DetectionImageWithBoundingBoxProps) => {
+}: AlertPlayerImageProps) => {
+  const { sequenceId, selectedDetection } = useAlertPlayer();
+
   const theme = useTheme();
   const wrapperRef = useRef<ReactZoomPanPinchContentRef | null>(null);
   const [currentBox, setCurrentBox] = useState<BoundingBox | null>(null);
