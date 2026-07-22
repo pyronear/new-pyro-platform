@@ -26,7 +26,13 @@ import { useAlertPlayer } from './context/useAlertPlayer';
 
 const JUMP_FRAMES = 10;
 
-export const AlertPlayerControls = () => {
+interface AlertPlayerControlsProps {
+  hasNextPage: boolean;
+}
+
+export const AlertPlayerControls = ({
+  hasNextPage,
+}: AlertPlayerControlsProps) => {
   const {
     detections,
     currentIndex,
@@ -147,7 +153,7 @@ export const AlertPlayerControls = () => {
         ))}
       </Menu>
       {loadedCount < totalCount &&
-        (isLoading ? (
+        (isLoading || hasNextPage ? (
           <Typography
             variant="body2"
             sx={{ color: theme.palette.text.secondary }}
