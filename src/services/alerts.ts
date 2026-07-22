@@ -1,7 +1,6 @@
 import type { AxiosResponse } from 'axios';
 import * as z from 'zod/v4';
 
-import { convertIsoToUnix } from '../utils/dates';
 import { apiInstance } from './axios';
 
 const apiSequenceResponseSchema = z.object({
@@ -13,6 +12,7 @@ const apiSequenceResponseSchema = z.object({
   is_wildfire: z.nullable(z.string()),
   started_at: z.nullable(z.iso.datetime({ local: true })),
   last_seen_at: z.nullable(z.string()),
+  detections_count: z.number().int().nonnegative(),
 });
 
 const apiAlertResponseSchema = z.object({
@@ -123,23 +123,18 @@ export const exportAlerts = async (
     });
 };
 
-export const getDetectionsBySequence = async (
+export const getDetectionsPage = async (
   sequenceId: number,
-  isDesc = true
+  offset: number,
+  limit: number
 ): Promise<DetectionType[]> => {
   return apiInstance
     .get(`/api/v1/sequences/${sequenceId.toString()}/detections`, {
-      params: { with_crop: true, desc: isDesc },
+      params: { offset, limit, desc: false, with_crop: true },
     })
     .then((response: AxiosResponse) => {
       try {
         const result = apiDetectionListResponseSchema.safeParse(response.data);
-        if (result.data) {
-          result.data.sort(
-            (d1, d2) =>
-              convertIsoToUnix(d1.created_at) - convertIsoToUnix(d2.created_at)
-          );
-        }
         return result.data ?? [];
       } catch {
         throw new Error('INVALID_API_RESPONSE');

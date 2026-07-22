@@ -78,6 +78,13 @@
     "buttonImageDownloadAllBbox": "Alle Bilder mit Begrenzungsrahmen herunterladen",
     "buttonPlay": "Abspielen",
     "buttonPause": "Pause",
+    "buttonStepBackward": "Vorheriges Bild",
+    "buttonStepForward": "Nächstes Bild",
+    "buttonJumpBackward": "10 Bilder zurück",
+    "buttonJumpForward": "10 Bilder vor",
+    "buttonPlaybackSpeed": "Wiedergabegeschwindigkeit",
+    "loadingProgress": "Lädt {{progress}}%",
+    "partialLoadError": "Laden von {{missing}} Bild(ern) fehlgeschlagen",
     "buttonDisplayBBox": "Erkennung anzeigen",
     "buttonHideBBox": "Erkennung verbergen",
     "buttonDisplayCrop": "Nahaufnahme anzeigen",
@@ -143,11 +150,6 @@
       "detectionImageAlt": "Erkennung",
       "deleting": "Wird gelöscht...",
       "adding": "Wird hinzugefügt..."
-    },
-    "detectionsOrder": {
-      "buttonLabel": "Erkennungen sortieren",
-      "recentFirst": "Älteste zuerst anzeigen",
-      "latestFirst": "Neueste zuerst anzeigen"
     }
   },
   "history": {
