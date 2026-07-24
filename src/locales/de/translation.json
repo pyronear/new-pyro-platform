@@ -191,6 +191,8 @@
     "tooltipSpeed": "Kamerabewegungsgeschwindigkeit",
     "tooltipPrerecordedAzimuths": "Voraufgezeichnete Azimute für die Kamera",
     "tooltipCustomAzimuths": "Benutzerdefinierter Azimut für die Kamera",
+    "tooltipAutofocus": "Den Fokus der Kamera automatisch einstellen",
+    "tooltipScreenshot": "Ein hochauflösendes Bild der aktuellen Ansicht aufnehmen",
     "errorOnActionStreaming": "Ein unerwarteter Fehler ist beim Versuch, die Kamera zu kontaktieren, aufgetreten",
     "relaunchStreamButton": "Neu starten"
   },

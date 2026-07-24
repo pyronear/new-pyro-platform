@@ -195,6 +195,37 @@ export const clickToMoveCamera = async (
     });
 };
 
+export const capture = async (cameraId: number): Promise<string | null> => {
+  return apiInstance
+    .get(`/api/v1/cameras/${cameraId}/capture`, {
+      headers: { 'Content-Type': 'image/jpeg' },
+      responseType: 'blob',
+    })
+    .then((response) => {
+      if (response.data) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+        return URL.createObjectURL(response.data);
+      }
+      return null;
+    })
+    .catch((err: unknown) => {
+      console.error(err);
+      throw err;
+    });
+};
+
+export const autofocus = async (cameraId: number): Promise<void> => {
+  return apiInstance
+    .post(`/api/v1/cameras/${cameraId}/focus/autofocus`)
+    .then(() => {
+      return;
+    })
+    .catch((err: unknown) => {
+      console.error(err);
+      throw err;
+    });
+};
+
 const apiSitesLiveAccessResponseSchema = z.record(
   z.string(),
   z.array(z.string())

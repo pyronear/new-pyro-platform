@@ -190,6 +190,8 @@
     "tooltipSpeed": "Camera movement speed",
     "tooltipPrerecordedAzimuths": "Pre-recorded azimuths for the camera",
     "tooltipCustomAzimuths": "Custom azimuth for the camera",
+    "tooltipAutofocus": "Automatically adjust the camera focus",
+    "tooltipScreenshot": "Capture a high-definition image of the current view",
     "errorOnActionStreaming": "An unexpected error happened when try to contact camera",
     "relaunchStreamButton": "Relaunch"
   },
