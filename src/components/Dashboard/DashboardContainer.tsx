@@ -56,13 +56,22 @@ export const DashboardContainer = ({
             <Typography variant="body2">{t('noCameraMessage')}</Typography>
           )}
           {cameraList.length != 0 && (
-            <Stack height="100%">
+            <Stack
+              sx={{
+                height: '100%',
+                maxHeight: '100%',
+                overflow: 'hidden',
+                display: 'flex',
+                flexDirection: 'column',
+              }}
+            >
               <Stack
                 justifyContent="space-between"
                 flexDirection={isMobile ? 'column-reverse' : 'row'}
                 bgcolor={theme.palette.customBackground.light}
                 borderBottom={`1px solid ${theme.palette.divider}`}
                 p={2}
+                flexShrink={0}
               >
                 <Tabs value={indexTab} onChange={handleChange}>
                   <Tab icon={<GridViewIcon />} aria-label="gridViewIcon" />
@@ -74,8 +83,9 @@ export const DashboardContainer = ({
                   isRefreshing={isRefreshing}
                 />
               </Stack>
+
               {indexTab === TAB_CARDS && (
-                <Box flexGrow={1} overflow="hidden">
+                <Box flex={1} minHeight={0} overflow="hidden">
                   <DashboardCardsView
                     lastUpdate={lastUpdate}
                     isRefreshing={isRefreshing}
@@ -84,8 +94,14 @@ export const DashboardContainer = ({
                   />
                 </Box>
               )}
+
               {indexTab === TAB_MAP && (
-                <Box flexGrow={1} overflow="hidden">
+                <Box
+                  flex={1}
+                  minHeight={0}
+                  overflow="hidden"
+                  position="relative"
+                >
                   <DashboardMapView
                     lastUpdate={lastUpdate}
                     isRefreshing={isRefreshing}
