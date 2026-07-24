@@ -25,8 +25,8 @@ interface DashboardContainerProps {
   cameraList: CameraType[] | undefined;
 }
 
-const TAB_CARDS = 0;
-const TAB_MAP = 1;
+const TAB_MAP = 0;
+const TAB_CARDS = 1;
 
 export const DashboardContainer = ({
   status,
@@ -65,8 +65,8 @@ export const DashboardContainer = ({
                 p={2}
               >
                 <Tabs value={indexTab} onChange={handleChange}>
-                  <Tab icon={<GridViewIcon />} aria-label="gridViewIcon" />
                   <Tab icon={<MapIcon />} aria-label="mapIcon" />
+                  <Tab icon={<GridViewIcon />} aria-label="gridViewIcon" />
                 </Tabs>
                 <LastUpdateButton
                   lastUpdate={lastUpdate}
