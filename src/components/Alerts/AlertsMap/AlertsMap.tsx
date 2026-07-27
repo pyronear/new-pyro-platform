@@ -1,5 +1,8 @@
+import { Button } from '@mui/material';
+import Typography from '@mui/material/Typography';
 import L from 'leaflet';
 import { Fragment, useMemo } from 'react';
+import { Popup } from 'react-leaflet';
 
 import CameraMarker from '@/components/Common/Map/CameraMarker.tsx';
 import FirePositionMarkerMap from '@/components/Common/Map/FirePositionMarkerMap.tsx';
@@ -16,12 +19,14 @@ interface AlertsMapProps {
   alertsList: AlertType[];
   selectedAlert: AlertType | null;
   setSelectedAlert: (newAlert: AlertType) => void;
+  changeView: () => void;
 }
 
 export const AlertsMap = ({
   alertsList,
   selectedAlert,
   setSelectedAlert,
+  changeView,
 }: AlertsMapProps) => {
   const camerasList = useCameraList();
 
@@ -67,7 +72,24 @@ export const AlertsMap = ({
                 isHighlighted={sequence.id == selectedAlert?.id}
                 visionPolygonPoints={sequence.visionPolygonPoints}
                 onClick={() => setSelectedAlert(alert)}
-              />
+              >
+                <Popup>
+                  <div>
+                    <div>
+                      <Typography
+                        variant="caption"
+                        sx={{ fontWeight: 'bold', mb: 1 }}
+                      >
+                        Détecté par {sequence.camera?.name}
+                      </Typography>
+                    </div>
+
+                    <div>
+                      <Button onClick={changeView}>Afficher le détail</Button>
+                    </div>
+                  </div>
+                </Popup>
+              </SequencePolygon>
               {alert.sequences.length > 1 && (
                 <FirePositionMarkerMap alert={alert} />
               )}

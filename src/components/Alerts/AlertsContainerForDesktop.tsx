@@ -1,6 +1,4 @@
-import ImageIcon from '@mui/icons-material/Image';
-import MapIcon from '@mui/icons-material/Map';
-import { Stack, Tab, Tabs, useTheme } from '@mui/material';
+import { Stack } from '@mui/material';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import { useState } from 'react';
@@ -22,9 +20,6 @@ interface AlertsContainerType {
   resetSelectedAlert: () => void;
 }
 
-const TAB_DETAILS = 0;
-const TAB_MAP = 1;
-
 export const AlertsContainerForDesktop = ({
   lastUpdate,
   isRefreshing,
@@ -34,11 +29,11 @@ export const AlertsContainerForDesktop = ({
   setSelectedAlert,
   resetSelectedAlert,
 }: AlertsContainerType) => {
-  const theme = useTheme();
-  const [indexTab, setIndexTab] = useState(0);
+  const [isDetailsView, setDetailsView] = useState(true);
 
-  const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
-    setIndexTab(newValue);
+  const changeView = () => {
+    console.log('click');
+    setDetailsView((prev) => !prev);
   };
 
   return (
@@ -51,6 +46,8 @@ export const AlertsContainerForDesktop = ({
           lastUpdate={lastUpdate}
           isRefreshing={isRefreshing}
           invalidateAndRefreshData={invalidateAndRefreshData}
+          changeView={changeView}
+          isDetailsView={isDetailsView}
         />
       </Grid>
       <Grid size={{ sm: 9, md: 10 }} height="100%" overflow="auto">
@@ -69,29 +66,17 @@ export const AlertsContainerForDesktop = ({
         )}
         {alertsList.length != 0 && (
           <Stack height="100%">
-            <Stack
-              justifyContent="space-between"
-              flexDirection={'row'}
-              bgcolor={theme.palette.customBackground.light}
-              borderBottom={`1px solid ${theme.palette.divider}`}
-              borderLeft={`1px solid ${theme.palette.divider}`}
-              p={2}
-            >
-              <Tabs value={indexTab} onChange={handleChange}>
-                <Tab icon={<ImageIcon />} aria-label="detailsViewIcon" />
-                <Tab icon={<MapIcon />} aria-label="mapIcon" />
-              </Tabs>
-            </Stack>
-            {indexTab === TAB_MAP && (
+            {!isDetailsView && (
               <Box flexGrow={1} overflow="hidden">
                 <AlertsMap
                   alertsList={alertsList}
                   selectedAlert={selectedAlert}
                   setSelectedAlert={setSelectedAlert}
+                  changeView={changeView}
                 />
               </Box>
             )}
-            {indexTab === TAB_DETAILS && (
+            {isDetailsView && (
               <Box flexGrow={1} overflow="hidden">
                 {selectedAlert && (
                   <AlertContainer

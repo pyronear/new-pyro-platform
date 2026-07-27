@@ -3,12 +3,14 @@ import type { LatLng } from 'leaflet';
 import { Polygon } from 'react-leaflet';
 
 interface CameraViewPolygonProps {
+  children?: React.ReactNode;
   isHighlighted?: boolean;
   visionPolygonPoints: LatLng[];
   onClick?: () => void;
 }
 
 export const SequencePolygon = ({
+  children,
   isHighlighted = true,
   visionPolygonPoints,
   onClick,
@@ -31,6 +33,8 @@ export const SequencePolygon = ({
             }
           : undefined
       }
-    />
+    >
+      {children}
+    </Polygon>
   );
 };
