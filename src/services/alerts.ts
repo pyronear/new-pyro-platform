@@ -64,9 +64,12 @@ export const getAlertById = async (
     });
 };
 
-export const getUnlabelledLatestAlerts = async (): Promise<AlertTypeApi[]> => {
+export const getUnlabelledLatestAlerts = async (
+  limit?: number,
+  offset?: number
+): Promise<AlertTypeApi[]> => {
   return apiInstance
-    .get('/api/v1/alerts/unlabeled/latest')
+    .get('/api/v1/alerts/unlabeled/latest', { params: { limit, offset } })
     .then((response: AxiosResponse) => {
       try {
         const result = apiAlertListResponseSchema.safeParse(response.data);
