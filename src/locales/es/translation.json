@@ -99,7 +99,6 @@
       "description": "Esta acción no se puede deshacer. La secuencia se eliminará de esta alerta y puede crear una nueva alerta.",
       "buttonCancel": "Cancelar",
       "buttonConfirm": "Desvincular",
-      "buttonLoading": "Desvinculando...",
       "success": "Secuencia desvinculada",
       "error": "No se ha podido desvincular la secuencia. Vuelva a intentarlo."
     },

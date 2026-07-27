@@ -99,7 +99,6 @@
       "description": "This cannot be undone. The sequence will be removed from this alert and may create a new alert.",
       "buttonCancel": "Cancel",
       "buttonConfirm": "Unmatch",
-      "buttonLoading": "Unmatching...",
       "success": "Sequence unmatched",
       "error": "Unable to unmatch the sequence. Please try again."
     },

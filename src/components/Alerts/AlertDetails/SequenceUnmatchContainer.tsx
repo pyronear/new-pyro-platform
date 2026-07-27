@@ -93,9 +93,9 @@ export const SequenceUnmatchContainer = ({
             color="error"
             variant="contained"
             onClick={() => unmatchMutation.mutate()}
-            disabled={isPending}
+            loading={isPending}
           >
-            {t(isPending ? 'unmatch.buttonLoading' : 'unmatch.buttonConfirm')}
+            {t('unmatch.buttonConfirm')}
           </Button>
         </DialogActions>
       </Dialog>

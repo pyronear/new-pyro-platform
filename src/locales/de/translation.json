@@ -99,7 +99,6 @@
       "description": "Dies kann nicht rückgängig gemacht werden. Die Sequenz wird aus diesem Alarm entfernt und kann einen neuen Alarm erstellen.",
       "buttonCancel": "Abbrechen",
       "buttonConfirm": "Trennen",
-      "buttonLoading": "Wird getrennt...",
       "success": "Sequenz getrennt",
       "error": "Die Sequenz konnte nicht getrennt werden. Bitte versuchen Sie es erneut."
     },

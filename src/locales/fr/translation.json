@@ -99,7 +99,6 @@
       "description": "Cette action est irréversible. La séquence sera retirée de cette alerte et pourra créer une nouvelle alerte.",
       "buttonCancel": "Annuler",
       "buttonConfirm": "Dissocier",
-      "buttonLoading": "Dissociation...",
       "success": "Séquence dissociée",
       "error": "Impossible de dissocier la séquence. Veuillez réessayer."
     },
