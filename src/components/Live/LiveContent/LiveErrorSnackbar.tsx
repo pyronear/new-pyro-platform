@@ -1,15 +1,15 @@
 import { Alert, Snackbar } from '@mui/material';
 
-import { useActionsOnCamera } from '../context/useActionsOnCamera';
+import { SNACKBAR_AUTO_HIDE_DURATION_MS } from '@/utils/snackbar';
 
-const DURATION_SNACKBAR_IN_MS = 5000;
+import { useActionsOnCamera } from '../context/useActionsOnCamera';
 
 export const LiveErrorSnackbar = () => {
   const { errorStreamingAction, resetErrorOnAction } = useActionsOnCamera();
   return (
     <Snackbar
       open={!!errorStreamingAction}
-      autoHideDuration={DURATION_SNACKBAR_IN_MS}
+      autoHideDuration={SNACKBAR_AUTO_HIDE_DURATION_MS}
       onClose={resetErrorOnAction}
     >
       <Alert
