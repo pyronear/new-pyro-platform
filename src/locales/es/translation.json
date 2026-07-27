@@ -40,6 +40,7 @@
     "inactiveCameraMsg": "Cámara inactiva",
     "liveButton": "Iniciar transmisión en directo",
     "maskButton": "Gestionar máscaras de oclusión",
+    "drawerResizeLabel": "Cambiar el tamaño de la lista de cámaras",
     "occlusionMask": {
       "title": "Gestionar máscaras de oclusión para {{cameraName}}",
       "selectPose": "Seleccionar pose",
@@ -207,7 +208,8 @@
     "mapOsm": "OpenStreetMap",
     "mapIgn": "IGN (Francia)",
     "mapSatellite": "Satélite",
-    "enableAudioAlerts": "Activar el sonido de las alertas"
+    "enableAudioAlerts": "Activar el sonido de las alertas",
+    "userGuide": "Guía del usuario"
   },
   "map": {
     "layerControl": "Capas",

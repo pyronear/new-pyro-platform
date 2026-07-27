@@ -6,6 +6,7 @@ import { type AlertType, getSequenceByCameraId } from './alerts';
 import type { CameraFullInfosType, SiteType } from './camera';
 
 const TYPE_PTZ = 'ptz';
+export const LOADING_ACTION_BUTTON_TIMER_MS = 1000;
 
 export const calculateHasZoom = (cameraType: string | undefined) => {
   return cameraType === TYPE_PTZ;

@@ -40,6 +40,7 @@
     "inactiveCameraMsg": "Inaktive Kamera",
     "liveButton": "Live-Streaming starten",
     "maskButton": "Verdeckungsmasken verwalten",
+    "drawerResizeLabel": "Größe der Kameraliste ändern",
     "occlusionMask": {
       "title": "Verdeckungsmasken für {{cameraName}} verwalten",
       "selectPose": "Pose auswählen",
@@ -208,6 +209,7 @@
     "mapOsm": "OpenStreetMap",
     "mapIgn": "IGN (France)",
     "mapSatellite": "Satellit",
-    "enableAudioAlerts": "Audio-Warnungen aktivieren"
+    "enableAudioAlerts": "Audio-Warnungen aktivieren",
+    "userGuide": "Benutzerhandbuch"
   }
 }
