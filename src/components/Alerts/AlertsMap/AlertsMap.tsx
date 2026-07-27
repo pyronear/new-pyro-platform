@@ -1,12 +1,10 @@
-import { Button } from '@mui/material';
-import Typography from '@mui/material/Typography';
 import L from 'leaflet';
 import { Fragment, useMemo } from 'react';
-import { Popup } from 'react-leaflet';
 
 import CameraMarker from '@/components/Common/Map/CameraMarker.tsx';
 import FirePositionMarkerMap from '@/components/Common/Map/FirePositionMarkerMap.tsx';
 import { SequencePolygon } from '@/components/Common/Map/SequencePolygon.tsx';
+import { SequencePopup } from '@/components/Common/Map/SequencePopup.tsx';
 import TemplateMap from '@/components/Common/Map/TemplateMap.tsx';
 import { useCameraList } from '@/context/useCameraList.ts';
 import type { AlertType } from '@/utils/alerts.ts';
@@ -19,14 +17,14 @@ interface AlertsMapProps {
   alertsList: AlertType[];
   selectedAlert: AlertType | null;
   setSelectedAlert: (newAlert: AlertType) => void;
-  changeView: () => void;
+  closeMap: () => void;
 }
 
 export const AlertsMap = ({
   alertsList,
   selectedAlert,
   setSelectedAlert,
-  changeView,
+  closeMap,
 }: AlertsMapProps) => {
   const camerasList = useCameraList();
 
@@ -55,12 +53,16 @@ export const AlertsMap = ({
     .map((seq) => seq.camera?.id);
 
   const bounds = useMemo(() => {
+    const allPolygonPoints = alertsWithPolygons
+      .flatMap((alert) => alert.sequences)
+      .map((polygon) => polygon.visionPolygonPoints)
+      .flatMap((p) => p);
     const allCameraPoints = camerasList.map(
       (camera) => [camera.lat, camera.lon] as L.LatLngExpression
     );
 
-    return L.latLngBounds(allCameraPoints);
-  }, [camerasList]);
+    return L.latLngBounds([...allPolygonPoints, ...allCameraPoints]);
+  }, [alertsWithPolygons, camerasList]);
 
   return (
     <TemplateMap bounds={bounds} showLayerControl>
@@ -73,22 +75,7 @@ export const AlertsMap = ({
                 visionPolygonPoints={sequence.visionPolygonPoints}
                 onClick={() => setSelectedAlert(alert)}
               >
-                <Popup>
-                  <div>
-                    <div>
-                      <Typography
-                        variant="caption"
-                        sx={{ fontWeight: 'bold', mb: 1 }}
-                      >
-                        Détecté par {sequence.camera?.name}
-                      </Typography>
-                    </div>
-
-                    <div>
-                      <Button onClick={changeView}>Afficher le détail</Button>
-                    </div>
-                  </div>
-                </Popup>
+                <SequencePopup sequence={sequence} closeMap={closeMap} />
               </SequencePolygon>
               {alert.sequences.length > 1 && (
                 <FirePositionMarkerMap alert={alert} />

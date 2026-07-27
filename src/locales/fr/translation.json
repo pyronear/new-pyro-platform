@@ -93,6 +93,7 @@
     "buttonTreatAlert": "Acquitter l'alerte",
     "buttonModifyAlert": "Modifier l'alerte",
     "buttonShare": "Partager",
+    "buttonDisplayDetail": "Afficher le détail",
     "shareLinkCopied": "Lien de l'alerte copié dans le presse-papier",
     "unmatch": {
       "button": "Dissocier la séquence",

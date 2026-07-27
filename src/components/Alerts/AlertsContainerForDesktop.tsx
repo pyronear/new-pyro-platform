@@ -32,7 +32,6 @@ export const AlertsContainerForDesktop = ({
   const [isDetailsView, setDetailsView] = useState(true);
 
   const changeView = () => {
-    console.log('click');
     setDetailsView((prev) => !prev);
   };
 
@@ -72,7 +71,7 @@ export const AlertsContainerForDesktop = ({
                   alertsList={alertsList}
                   selectedAlert={selectedAlert}
                   setSelectedAlert={setSelectedAlert}
-                  changeView={changeView}
+                  closeMap={changeView}
                 />
               </Box>
             )}

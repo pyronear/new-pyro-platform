@@ -93,6 +93,7 @@
     "buttonTreatAlert": "Alarm bearbeiten",
     "buttonModifyAlert": "Alarm ändern",
     "buttonShare": "Teilen",
+    "buttonDisplayDetail": "Details anzeigen",
     "shareLinkCopied": "Alarm-Link in die Zwischenablage kopiert",
     "unmatch": {
       "button": "Sequenz trennen",
