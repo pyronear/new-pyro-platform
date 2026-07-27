@@ -33,12 +33,7 @@ export const SequencePopup = ({ sequence, closeMap }: SequencePopupProps) => {
           </Stack>
           {sequence.camera && <CameraName camera={sequence.camera} />}
         </Stack>
-        <Stack
-          direction="row"
-          spacing={1}
-          justifyContent="flex-end"
-          alignItems="center"
-        >
+        <Stack direction="row" spacing={1} alignItems="center">
           <Typography variant="caption" fontWeight={500}>
             {formatAzimuth(sequence.azimuth)}
           </Typography>
