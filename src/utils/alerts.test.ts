@@ -91,7 +91,6 @@ describe('extractCameraListFromAlert', () => {
           coneAngle: 0,
           labelWildfire: null,
           startedAt: null,
-          detectionsCount: 0,
         },
         {
           id: 2,
@@ -102,7 +101,6 @@ describe('extractCameraListFromAlert', () => {
           coneAngle: 0,
           labelWildfire: null,
           startedAt: null,
-          detectionsCount: 0,
         },
       ],
     };

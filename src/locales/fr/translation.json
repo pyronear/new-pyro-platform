@@ -79,13 +79,6 @@
     "buttonImageDownloadAllBbox": "Télécharger toutes les images avec les boîtes englobantes",
     "buttonPlay": "Play",
     "buttonPause": "Pause",
-    "buttonStepBackward": "Image précédente",
-    "buttonStepForward": "Image suivante",
-    "buttonJumpBackward": "Reculer de 10 images",
-    "buttonJumpForward": "Avancer de 10 images",
-    "buttonPlaybackSpeed": "Vitesse de lecture",
-    "loadingProgress": "Chargement {{progress}}%",
-    "partialLoadError": "Échec du chargement de {{missing}} image(s)",
     "buttonDisplayBBox": "Afficher la détection",
     "buttonHideBBox": "Masquer la détection",
     "buttonDisplayCrop": "Afficher le gros plan",
@@ -101,6 +94,15 @@
     "buttonModifyAlert": "Modifier l'alerte",
     "buttonShare": "Partager",
     "shareLinkCopied": "Lien de l'alerte copié dans le presse-papier",
+    "unmatch": {
+      "button": "Dissocier la séquence",
+      "title": "Dissocier la séquence de {{cameraName}} ?",
+      "description": "Cette action est irréversible. La séquence sera retirée de cette alerte et pourra créer une nouvelle alerte.",
+      "buttonCancel": "Annuler",
+      "buttonConfirm": "Dissocier",
+      "success": "Séquence dissociée",
+      "error": "Impossible de dissocier la séquence. Veuillez réessayer."
+    },
     "copyText": "Copié",
     "blinkingMode": {
       "buttonBlinkingView": "Passer en vue clignotante",
@@ -149,6 +151,11 @@
       "detectionImageAlt": "Détection",
       "deleting": "Suppression...",
       "adding": "Ajout..."
+    },
+    "detectionsOrder": {
+      "buttonLabel": "Trier les détections",
+      "recentFirst": "Afficher les plus anciennes en premier",
+      "latestFirst": "Afficher  les plus récentes en premier"
     }
   },
   "history": {

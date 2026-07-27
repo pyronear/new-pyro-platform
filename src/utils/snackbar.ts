@@ -1,0 +1,1 @@
+export const SNACKBAR_AUTO_HIDE_DURATION_MS = 5000;

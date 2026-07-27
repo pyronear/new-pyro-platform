@@ -78,13 +78,6 @@
     "buttonImageDownloadAllBbox": "Descargar todas las imágenes con bounding boxes",
     "buttonPlay": "Play",
     "buttonPause": "Pause",
-    "buttonStepBackward": "Imagen anterior",
-    "buttonStepForward": "Imagen siguiente",
-    "buttonJumpBackward": "Retroceder 10 imágenes",
-    "buttonJumpForward": "Avanzar 10 imágenes",
-    "buttonPlaybackSpeed": "Velocidad de reproducción",
-    "loadingProgress": "Cargando {{progress}}%",
-    "partialLoadError": "Error al cargar {{missing}} imagen(es)",
     "buttonDisplayBBox": "Mostrar la detección",
     "buttonHideBBox": "Ocultar la detección",
     "buttonDisplayCrop": "Mostrar primer plano",
@@ -101,6 +94,15 @@
     "buttonModifyAlert": "Modificar la alerta",
     "buttonShare": "Compartir",
     "shareLinkCopied": "Enlace de la alerta copiado al portapapeles",
+    "unmatch": {
+      "button": "Desvincular secuencia",
+      "title": "¿Desvincular la secuencia de {{cameraName}}?",
+      "description": "Esta acción no se puede deshacer. La secuencia se eliminará de esta alerta y puede crear una nueva alerta.",
+      "buttonCancel": "Cancelar",
+      "buttonConfirm": "Desvincular",
+      "success": "Secuencia desvinculada",
+      "error": "No se ha podido desvincular la secuencia. Vuelva a intentarlo."
+    },
     "copyText": "Copiado",
     "blinkingMode": {
       "buttonBlinkingView": "Cambiar a vista parpadeante",
@@ -149,6 +151,11 @@
       "detectionImageAlt": "Detección",
       "deleting": "Eliminando...",
       "adding": "Agregando..."
+    },
+    "detectionsOrder": {
+      "buttonLabel": "Ordenar detecciones",
+      "recentFirst": "Mostrar primero las más antiguas",
+      "latestFirst": "Mostrar primero las más recientes"
     }
   },
   "history": {

@@ -1,27 +1,14 @@
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
-import Slide from '@mui/material/Slide';
-import Typography from '@mui/material/Typography';
-import { useCallback, useEffect, useMemo, useRef } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
-import {
-  type ResponseStatus,
-  STATUS_ERROR,
-  STATUS_LOADING,
-  STATUS_SUCCESS,
-} from '../../services/axios';
-import { type AlertType, isInTheList } from '../../utils/alerts';
-import { useIsMobile } from '../../utils/useIsMobile';
-import { useTranslationPrefix } from '../../utils/useTranslationPrefix';
-import { Loader } from '../Common/Loader';
-import { AlertContainer } from './AlertDetails/AlertContainer';
-import { AlertsList } from './AlertsList/AlertsList';
+import { AlertsContainerForDesktop } from '@/components/Alerts/AlertsContainerForDesktop.tsx';
+import { AlertsContainerForMobile } from '@/components/Alerts/AlertsContainerForMobile.tsx';
+import { type AlertType, isInTheList } from '@/utils/alerts';
+import { useIsMobile } from '@/utils/useIsMobile';
+
 import { useAlertSoundToggle } from './AlertsSound/useAlertSoundToggle';
-import { PyronearForestWatch } from './PyronearForestWatch';
 
 interface AlertsContainerType {
-  status: ResponseStatus;
   lastUpdate: number;
   isRefreshing: boolean;
   invalidateAndRefreshData: () => void;
@@ -30,7 +17,6 @@ interface AlertsContainerType {
 }
 
 export const AlertsContainer = ({
-  status,
   lastUpdate,
   isRefreshing,
   invalidateAndRefreshData,
@@ -39,8 +25,6 @@ export const AlertsContainer = ({
 }: AlertsContainerType) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const isMobile = useIsMobile();
-  const containerRef = useRef<HTMLElement>(null);
-  const { t } = useTranslationPrefix('alerts');
   const { playSound } = useAlertSoundToggle();
 
   const selectedAlert = useMemo(
@@ -93,82 +77,28 @@ export const AlertsContainer = ({
     setSelectedAlert,
   ]);
 
-  const AlertsListComponent = (
-    <AlertsList
-      alerts={alertsList}
-      selectedAlert={selectedAlert}
-      setSelectedAlert={setSelectedAlert}
-      lastUpdate={lastUpdate}
-      isRefreshing={isRefreshing}
-      invalidateAndRefreshData={invalidateAndRefreshData}
-    />
-  );
-
-  const AlertDetailsComponent = selectedAlert ? (
-    <AlertContainer
-      isLiveMode={true}
-      alert={selectedAlert}
-      resetAlert={resetSelectedAlert}
-      invalidateAndRefreshData={invalidateAndRefreshData}
-    />
-  ) : (
-    <Box
-      height="100%"
-      width="100%"
-      display="flex"
-      alignItems="stretch"
-      justifyContent="stretch"
-    >
-      <PyronearForestWatch
-        style={{ width: '100%', height: '100%', display: 'flex' }}
-      />
-    </Box>
-  );
-
   return (
     <>
-      {status == STATUS_LOADING && <Loader />}
-      {status == STATUS_ERROR && (
-        <Typography variant="body2">
-          {t('errorFetchSequencesMessage')}
-        </Typography>
-      )}
-      {status == STATUS_SUCCESS && (
-        <>
-          {isMobile ? (
-            <Box ref={containerRef} height={'100%'}>
-              <Slide
-                direction={'right'}
-                in={!selectedAlert}
-                mountOnEnter
-                unmountOnExit
-                container={containerRef.current}
-              >
-                <Box height={'100%'}>{AlertsListComponent}</Box>
-              </Slide>
-              <Slide
-                direction={'left'}
-                in={!!selectedAlert}
-                mountOnEnter
-                unmountOnExit
-                container={containerRef.current}
-              >
-                <Box height={'100%'} overflow={'auto'}>
-                  {AlertDetailsComponent}
-                </Box>
-              </Slide>
-            </Box>
-          ) : (
-            <Grid container height="100%">
-              <Grid size={{ sm: 3, md: 2 }} height="100%" overflow={'auto'}>
-                {AlertsListComponent}
-              </Grid>
-              <Grid size={{ sm: 9, md: 10 }} height={'100%'} overflow={'auto'}>
-                {AlertDetailsComponent}
-              </Grid>
-            </Grid>
-          )}
-        </>
+      {isMobile ? (
+        <AlertsContainerForMobile
+          alertsList={alertsList}
+          selectedAlert={selectedAlert}
+          setSelectedAlert={setSelectedAlert}
+          resetSelectedAlert={resetSelectedAlert}
+          lastUpdate={lastUpdate}
+          isRefreshing={isRefreshing}
+          invalidateAndRefreshData={invalidateAndRefreshData}
+        />
+      ) : (
+        <AlertsContainerForDesktop
+          alertsList={alertsList}
+          selectedAlert={selectedAlert}
+          setSelectedAlert={setSelectedAlert}
+          resetSelectedAlert={resetSelectedAlert}
+          lastUpdate={lastUpdate}
+          isRefreshing={isRefreshing}
+          invalidateAndRefreshData={invalidateAndRefreshData}
+        />
       )}
     </>
   );

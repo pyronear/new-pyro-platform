@@ -12,7 +12,7 @@ import { useIsMobile } from '@/utils/useIsMobile';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
 import { SequenceLabelContainer } from '../AlertLabel/SequenceLabelContainer';
-import { SequenceSelector } from './SequenceSelector';
+import { AlertSequenceControls } from './AlertSequenceControls';
 
 interface AlertHeaderType {
   isLiveMode: boolean;
@@ -38,29 +38,6 @@ export const AlertHeader = ({
 
   const camera = selectedSequence.camera;
 
-  const Title = (
-    <Typography variant="h1">
-      {camera?.name ?? t('defaultCameraName')}
-    </Typography>
-  );
-
-  const SequenceLabel = (
-    <SequenceLabelContainer
-      sequence={selectedSequence}
-      isLiveMode={isLiveMode}
-      invalidateAndRefreshData={invalidateAndRefreshData}
-      nbSequencesToBeLabelled={countUnlabelledSequences(alert.sequences)}
-    />
-  );
-
-  const SequenceSelectorComponent = alert.sequences.length > 1 && (
-    <SequenceSelector
-      alert={alert}
-      setSelectedSequence={setSelectedSequence}
-      selectedSequence={selectedSequence}
-    />
-  );
-
   return (
     <>
       {isMobile ? (
@@ -77,10 +54,26 @@ export const AlertHeader = ({
             >
               <ArrowBackIcon />
             </IconButton>
-            {Title}
-            {SequenceLabel}
+            <Typography variant="h1">
+              {camera?.name ?? t('defaultCameraName')}
+            </Typography>
+            <SequenceLabelContainer
+              sequence={selectedSequence}
+              isLiveMode={isLiveMode}
+              invalidateAndRefreshData={invalidateAndRefreshData}
+              nbSequencesToBeLabelled={countUnlabelledSequences(
+                alert.sequences
+              )}
+            />
           </Stack>
-          <div style={{ alignSelf: 'center' }}>{SequenceSelectorComponent}</div>
+          <div style={{ alignSelf: 'center' }}>
+            <AlertSequenceControls
+              alert={alert}
+              selectedSequence={selectedSequence}
+              setSelectedSequence={setSelectedSequence}
+              invalidateAndRefreshData={invalidateAndRefreshData}
+            />
+          </div>
         </Stack>
       ) : (
         <Stack
@@ -91,10 +84,24 @@ export const AlertHeader = ({
         >
           <Stack direction="row" spacing={1} alignItems="center">
             <img src={smallLogo} height="26px" width="26px" />
-            {Title}
-            {SequenceLabel}
+            <Typography variant="h1">
+              {camera?.name ?? t('defaultCameraName')}
+            </Typography>
+            <SequenceLabelContainer
+              sequence={selectedSequence}
+              isLiveMode={isLiveMode}
+              invalidateAndRefreshData={invalidateAndRefreshData}
+              nbSequencesToBeLabelled={countUnlabelledSequences(
+                alert.sequences
+              )}
+            />
           </Stack>
-          {SequenceSelectorComponent}
+          <AlertSequenceControls
+            alert={alert}
+            selectedSequence={selectedSequence}
+            setSelectedSequence={setSelectedSequence}
+            invalidateAndRefreshData={invalidateAndRefreshData}
+          />
         </Stack>
       )}
     </>
