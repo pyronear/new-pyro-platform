@@ -1,3 +1,4 @@
+import type { SnackbarCloseReason } from '@mui/material';
 import {
   type MouseEventHandler,
   type Ref,
@@ -6,8 +7,9 @@ import {
   useState,
 } from 'react';
 
+import { HelperSnackbar } from '@/components/Live/LiveContent/StreamActions/HelperSnackbar.tsx';
 import type { CameraFullInfosType } from '@/utils/camera';
-import { LOADING_ACTION_BUTTON_TIMER_MS, MIN_ZOOM, SPEEDS } from '@/utils/live';
+import { LOADING_ACTION_BUTTON_TIMER_MS, MIN_ZOOM } from '@/utils/live';
 
 import { useActionsOnCamera } from '../../context/useActionsOnCamera';
 import { FloatingActions } from '../StreamActions/FloatingActions';
@@ -26,8 +28,8 @@ export const VideoStream = ({
   hasRotation,
   ref,
 }: VideoStreamProps) => {
-  const [speedIndex, setSpeedIndex] = useState(1);
   const [zoom, setZoom] = useState(MIN_ZOOM);
+  const [openHelper, setOpenHelper] = useState(true);
   const [timeoutId, setTimeoutId] = useState<number | null>(null);
   const [cursor, setCursor] = useState('cursor');
   const { addStreamingAction } = useActionsOnCamera();
@@ -72,10 +74,16 @@ export const VideoStream = ({
     }
   };
 
-  const setNextSpeed = () =>
-    setSpeedIndex((oldIndex) =>
-      oldIndex === SPEEDS.length - 1 ? 0 : oldIndex + 1
-    );
+  const handleCloseSnackbar = (
+    _event?: React.SyntheticEvent | Event,
+    reason?: SnackbarCloseReason
+  ) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpenHelper(false);
+  };
 
   return (
     <>
@@ -94,21 +102,28 @@ export const VideoStream = ({
           }}
         />
         {display && (
-          <FloatingActions
-            cameraId={camera.id}
-            cameraType={camera.type}
-            speed={SPEEDS[speedIndex].speed}
-            zoom={zoom}
-            setZoom={setZoom}
-          />
+          <>
+            {hasRotation && (
+              <HelperSnackbar
+                open={openHelper}
+                handleClose={handleCloseSnackbar}
+              />
+            )}
+            <FloatingActions
+              cameraId={camera.id}
+              cameraType={camera.type}
+              zoom={zoom}
+              setZoom={setZoom}
+            />
+          </>
         )}
       </div>
-      {display && hasRotation && (
+      {display && (
         <QuickActions
           camera={camera}
-          speedName={SPEEDS[speedIndex].name}
-          nextSpeed={setNextSpeed}
           zoom={zoom}
+          hasRotation={hasRotation}
+          handleOpenHelper={() => setOpenHelper(true)}
         />
       )}
     </>

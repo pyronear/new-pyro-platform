@@ -181,6 +181,7 @@
     }
   },
   "live": {
+    "clickToMoveHint": "Haga clic en un punto de la imagen para mover la cámara hacia allí",
     "errorFetchInfos": "Se ha producido un error. Vuelva a intentarlo más tarde.",
     "errorNoAccess": "No se encontró ningún sitio con esta cuenta. Póngase en contacto con su administrador.",
     "errorCallSite": "Se ha producido un error al conectarse al sitio. Inténtelo de nuevo más tarde.",
@@ -196,7 +197,6 @@
     "errorInteruptedMediaMtx": "Interrupción de la transmisión de vídeo.",
     "errorFinalMediaMtx": "El streaming de vídeo ha fallado. Inténtalo de nuevo más tarde.",
     "loadingVideo": "Cargando vídeo...",
-    "tooltipSpeed": "Velocidad de desplazamiento de la cámara",
     "tooltipPrerecordedAzimuths": "Azimuts pregrabados para la cámara",
     "tooltipCustomAzimuths": "Azimut personalizado para la cámara",
     "tooltipAutofocus": "Ajustar automáticamente el enfoque de la cámara",

@@ -181,6 +181,7 @@
     }
   },
   "live": {
+    "clickToMoveHint": "Cliquez sur un point de l'image pour y déplacer la caméra",
     "errorFetchInfos": "Une erreur inattendue est survenue. Veuillez réessayer plus tard.",
     "errorNoAccess": "Aucun site accessible depuis votre compte. Veuillez contacter votre administateur",
     "errorCallSite": "Une erreur s'est produite lors de la connexion au site. Veuillez réessayer plus tard.",
@@ -198,7 +199,6 @@
     "errorInteruptedMediaMtx": "Flux vidéo interrompu.",
     "errorFinalMediaMtx": "Flux vidéo en erreur. Veuillez réessayer plus tard.",
     "loadingVideo": "Chargement de la vidéo...",
-    "tooltipSpeed": "Vitesse de déplacément de la caméra",
     "tooltipPrerecordedAzimuths": "Azimuths pré-enregistrés de la caméra",
     "tooltipCustomAzimuths": "Azimuth personnalisé de la caméra",
     "tooltipAutofocus": "Régler automatiquement le focus de la caméra",
