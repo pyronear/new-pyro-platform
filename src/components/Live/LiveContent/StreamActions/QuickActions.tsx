@@ -18,7 +18,7 @@ import {
 import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
 
-import { autofocus, capture } from '@/services/live.ts';
+import { capture, zoomCamera } from '@/services/live.ts';
 import type { CameraFullInfosType } from '@/utils/camera.ts';
 import { dateNowFormattedForFilename } from '@/utils/dates.ts';
 import { getMoveToAzimuth, isAzimuthValid } from '@/utils/live';
@@ -30,12 +30,14 @@ interface QuickActionsProps {
   camera: CameraFullInfosType;
   speedName: number;
   nextSpeed: () => void;
+  zoom: number;
 }
 
 export const QuickActions = ({
   camera,
   speedName,
   nextSpeed,
+  zoom,
 }: QuickActionsProps) => {
   const theme = useTheme();
   const { t } = useTranslationPrefix('live');
@@ -67,7 +69,6 @@ export const QuickActions = ({
 
   const captureAndDownload = () => {
     return capture(cameraId).then((url) => {
-      console.log(url);
       if (url) {
         const link = document.createElement('a');
         link.href = url;
@@ -95,7 +96,7 @@ export const QuickActions = ({
 
   const { mutate: onClickAutofocus, isPending: isAutoFocusInProgess } =
     useMutation({
-      mutationFn: () => autofocus(cameraId),
+      mutationFn: () => zoomCamera(cameraId, zoom),
     });
 
   return (

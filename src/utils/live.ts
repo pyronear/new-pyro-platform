@@ -7,6 +7,8 @@ import type { CameraFullInfosType, SiteType } from './camera';
 
 const TYPE_PTZ = 'ptz';
 export const LOADING_ACTION_BUTTON_TIMER_MS = 1000;
+export const MIN_ZOOM = 0;
+export const MAX_ZOOM = 64;
 
 export const calculateHasZoom = (cameraType: string | undefined) => {
   return cameraType === TYPE_PTZ;

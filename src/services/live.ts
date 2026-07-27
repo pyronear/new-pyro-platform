@@ -214,18 +214,6 @@ export const capture = async (cameraId: number): Promise<string | null> => {
     });
 };
 
-export const autofocus = async (cameraId: number): Promise<void> => {
-  return apiInstance
-    .post(`/api/v1/cameras/${cameraId}/focus/autofocus`)
-    .then(() => {
-      return;
-    })
-    .catch((err: unknown) => {
-      console.error(err);
-      throw err;
-    });
-};
-
 const apiSitesLiveAccessResponseSchema = z.record(
   z.string(),
   z.array(z.string())

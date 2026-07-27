@@ -9,12 +9,16 @@ interface FloatingActionsProps {
   cameraId: number;
   cameraType?: string;
   speed: number;
+  zoom: number;
+  setZoom: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export const FloatingActions = ({
   cameraId,
   cameraType = '',
   speed,
+  zoom,
+  setZoom,
 }: FloatingActionsProps) => {
   return (
     <>
@@ -32,7 +36,9 @@ export const FloatingActions = ({
           height: 160,
         }}
       >
-        {calculateHasZoom(cameraType) && <ZoomButtons cameraId={cameraId} />}
+        {calculateHasZoom(cameraType) && (
+          <ZoomButtons cameraId={cameraId} zoom={zoom} setZoom={setZoom} />
+        )}
       </Stack>
     </>
   );
