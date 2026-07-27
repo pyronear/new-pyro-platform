@@ -5,6 +5,7 @@ import appConfig from '@/services/appConfig';
 const CAMERAS_INACTIVITY_THRESHOLD_MINUTES =
   appConfig.getConfig().CAMERAS_INACTIVITY_THRESHOLD_MINUTES;
 
+const FORMAT_FILENAME = 'yyyyMMdd-HHmmss';
 const FORMAT_DISPLAY_DATETIME = 'dd/MM/yyyy HH:mm:ss';
 const FORMAT_DISPLAY_DATE = 'dd/MM/yyyy';
 const FORMAT_DISPLAY_TIME = 'HH:mm:ss';
@@ -17,6 +18,11 @@ const isoToDatetime = (dateStr: string) => {
 const unixToDatetime = (dateNb: number) => {
   const dateMoment = DateTime.fromMillis(dateNb, { zone: 'utc' });
   return dateMoment.setZone('local');
+};
+
+export const dateNowFormattedForFilename = () => {
+  const now = DateTime.now().setZone('local');
+  return now.toFormat(FORMAT_FILENAME);
 };
 
 export const isCameraActive = (lastContactDateStr: string | null) => {

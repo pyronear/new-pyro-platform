@@ -1,7 +1,9 @@
 import { renderHook } from '@testing-library/react';
+import { DateTime, Settings } from 'luxon';
 
 import { providersWrapper } from '../test/renderWithProviders';
 import {
+  dateNowFormattedForFilename,
   formatIsoToDate,
   formatIsoToDateTime,
   formatIsoToTime,
@@ -284,5 +286,21 @@ describe('isDateToday', () => {
   it('should return true if date is now', () => {
     const result = isDateToday(new Date().toISOString());
     expect(result).toBeTruthy();
+  });
+});
+
+describe('nowDateForFilename', () => {
+  it('should return formatted date', () => {
+    // Given
+    const expectedNow = DateTime.fromISO('2025-02-25T09:37:03.172325', {
+      zone: 'local',
+    });
+    Settings.now = () => expectedNow.toMillis();
+
+    // When
+    const result = dateNowFormattedForFilename();
+
+    // Then
+    expect(result).toEqual('20250225-093703');
   });
 });

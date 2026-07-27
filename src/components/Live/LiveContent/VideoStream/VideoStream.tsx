@@ -7,7 +7,7 @@ import {
 } from 'react';
 
 import type { CameraFullInfosType } from '@/utils/camera';
-import { LOADING_ACTION_BUTTON_TIMER_MS, SPEEDS } from '@/utils/live';
+import { LOADING_ACTION_BUTTON_TIMER_MS, MIN_ZOOM, SPEEDS } from '@/utils/live';
 
 import { useActionsOnCamera } from '../../context/useActionsOnCamera';
 import { FloatingActions } from '../StreamActions/FloatingActions';
@@ -27,6 +27,7 @@ export const VideoStream = ({
   ref,
 }: VideoStreamProps) => {
   const [speedIndex, setSpeedIndex] = useState(1);
+  const [zoom, setZoom] = useState(MIN_ZOOM);
   const [timeoutId, setTimeoutId] = useState<number | null>(null);
   const [cursor, setCursor] = useState('cursor');
   const { addStreamingAction } = useActionsOnCamera();
@@ -34,6 +35,11 @@ export const VideoStream = ({
   const defaultCursor = useMemo(() => {
     return display && hasRotation ? 'crosshair' : 'cursor';
   }, [display, hasRotation]);
+
+  useEffect(() => {
+    // Reinitialize zoom level
+    setZoom(MIN_ZOOM);
+  }, [camera.id]);
 
   useEffect(() => {
     setCursor(defaultCursor);
@@ -92,15 +98,17 @@ export const VideoStream = ({
             cameraId={camera.id}
             cameraType={camera.type}
             speed={SPEEDS[speedIndex].speed}
+            zoom={zoom}
+            setZoom={setZoom}
           />
         )}
       </div>
       {display && hasRotation && (
         <QuickActions
-          cameraId={camera.id}
-          poses={camera.poses ?? []}
+          camera={camera}
           speedName={SPEEDS[speedIndex].name}
           nextSpeed={setNextSpeed}
+          zoom={zoom}
         />
       )}
     </>
