@@ -123,7 +123,7 @@ export const VideoStream = ({
           camera={camera}
           zoom={zoom}
           hasRotation={hasRotation}
-          handleOpenHelper={() => setOpenHelper(true)}
+          handleHelper={() => setOpenHelper((oldValue) => !oldValue)}
         />
       )}
     </>
