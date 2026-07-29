@@ -216,6 +216,7 @@ export const ActionsOnCameraContextProvider: React.FC<{
       resetErrorOnAction,
       errorStreamingAction: errorOnAction,
       statusStreamingVideo,
+      isOneActionLoading,
     }),
     [
       addActionToQueue,
@@ -223,6 +224,7 @@ export const ActionsOnCameraContextProvider: React.FC<{
       resetErrorOnAction,
       errorOnAction,
       statusStreamingVideo,
+      isOneActionLoading,
     ]
   );
 

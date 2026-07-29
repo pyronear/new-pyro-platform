@@ -24,6 +24,7 @@ interface ActionsOnCameraContextType {
   resetErrorOnAction: () => void;
   errorStreamingAction: string | null;
   statusStreamingVideo: string;
+  isOneActionLoading: boolean;
 }
 
 export const ActionsOnCameraContext = createContext<

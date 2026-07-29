@@ -1,5 +1,6 @@
 import { Stack, useTheme } from '@mui/material';
 
+import type { CameraAzimuthType } from '@/services/live.ts';
 import { type AlertType, getSequenceByCameraId } from '@/utils/alerts';
 import type { CameraFullInfosType, SiteType } from '@/utils/camera';
 
@@ -12,6 +13,7 @@ interface LiveControlPanelProps {
   selectedSite: SiteType;
   selectedCamera: CameraFullInfosType | null;
   changeCamera: (newSite: SiteType, newCameraId: number | null) => void;
+  liveAzimuth: CameraAzimuthType | null;
   alert?: AlertType;
 }
 
@@ -20,6 +22,7 @@ export const LiveControlPanel = ({
   selectedSite,
   changeCamera,
   selectedCamera,
+  liveAzimuth,
   alert,
 }: LiveControlPanelProps) => {
   const theme = useTheme();
@@ -54,7 +57,11 @@ export const LiveControlPanel = ({
 
       <div style={{ flexGrow: 1 }}>
         {selectedCamera && (
-          <LiveMap camera={selectedCamera} sequence={currentSequence} />
+          <LiveMap
+            camera={selectedCamera}
+            sequence={currentSequence}
+            liveAzimuth={liveAzimuth}
+          />
         )}
       </div>
     </Stack>

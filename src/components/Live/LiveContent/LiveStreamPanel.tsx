@@ -8,10 +8,15 @@ import {
   useRef,
 } from 'react';
 
+import AzimuthAxis from '@/components/Common/AzimuthAxis/AzimuthAxis.tsx';
 import { Loader } from '@/components/Common/Loader';
 import { STATUS_ERROR, STATUS_SUCCESS } from '@/services/axios';
+import type { CameraAzimuthType } from '@/services/live.ts';
 import { type AlertType } from '@/utils/alerts';
-import type { CameraFullInfosType } from '@/utils/camera';
+import {
+  type CameraFullInfosType,
+  DEFAULT_ANGLE_OF_VIEW,
+} from '@/utils/camera';
 import { calculateHasRotation, getMoveToAzimuthFromAlert } from '@/utils/live';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
@@ -23,6 +28,8 @@ import { VideoStream } from './VideoStream/VideoStream';
 interface LiveStreamPanelProps {
   urlStreaming: string;
   camera: CameraFullInfosType;
+  liveAzimuth: CameraAzimuthType | null;
+  isLoadingAzimuth: boolean;
   alert?: AlertType;
   setIsStreamVideoInterrupted: Dispatch<SetStateAction<boolean>>;
 }
@@ -30,14 +37,19 @@ interface LiveStreamPanelProps {
 export const LiveStreamPanel = ({
   urlStreaming,
   camera,
+  liveAzimuth,
   setIsStreamVideoInterrupted,
   alert,
 }: LiveStreamPanelProps) => {
   const id = camera.id;
   const { t } = useTranslationPrefix('live');
   const refVideo = useRef<HTMLVideoElement>(null);
-  const { addStreamingAction, isStreamingTimeout, statusStreamingVideo } =
-    useActionsOnCamera();
+  const {
+    addStreamingAction,
+    isStreamingTimeout,
+    statusStreamingVideo,
+    isOneActionLoading,
+  } = useActionsOnCamera();
   const mediaMtx = useMediaMtx({
     urlStreaming,
     refVideo,
@@ -131,6 +143,18 @@ export const LiveStreamPanel = ({
         </>
       )}
       {/* Streaming has been started with backendapi and mediamtx is connected */}
+      {statusStreamingVideo === STATUS_SUCCESS &&
+        mediaMtx.state === StateStreaming.IS_STREAMING && (
+          <AzimuthAxis
+            center={liveAzimuth?.azimuth_deg ?? 0}
+            range={camera.angle_of_view ?? DEFAULT_ANGLE_OF_VIEW}
+            isLoading={
+              isOneActionLoading ||
+              (liveAzimuth?.moving ?? false) ||
+              !liveAzimuth?.azimuth_deg
+            }
+          />
+        )}
       <VideoStream
         ref={refVideo}
         camera={camera}

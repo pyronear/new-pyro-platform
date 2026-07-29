@@ -48,6 +48,34 @@ export const getCamerasInfos = async (
     });
 };
 
+const apiCameraAzimuthResponseSchema = z.object({
+  camera_ip: z.string(),
+  azimuth_deg: z.number().nullable(),
+  source: z.string(),
+  moving: z.boolean(),
+  zoom: z.number().nullish(),
+  // Calibrated horizontal FOV at the current zoom, from the device tables.
+  h_fov_deg: z.number().nullish(),
+});
+
+export type CameraAzimuthType = z.infer<typeof apiCameraAzimuthResponseSchema>;
+
+export const getCameraAzimuth = async (
+  cameraId: number
+): Promise<CameraAzimuthType | null> => {
+  return apiInstance
+    .get(`/api/v1/cameras/${cameraId}/control/azimuth`)
+    .then((response: AxiosResponse) => {
+      const result = apiCameraAzimuthResponseSchema.safeParse(response.data);
+      return result.success ? result.data : null;
+    })
+    .catch(() => {
+      // Polled every few seconds: swallow errors so a device outage hides
+      // the cone (null) instead of freezing it on the last known azimuth.
+      return null;
+    });
+};
+
 export const startStreaming = async (cameraId: number): Promise<void> => {
   return apiInstance
     .post(`/api/v1/cameras/${cameraId}/stream/start`)

@@ -72,7 +72,7 @@ export const countUnlabelledSequences = (
 ) => sequences.filter((sequence) => sequence.labelWildfire === null).length;
 
 export const formatAzimuth = (azimuth: number | null, precision = 0) => {
-  return azimuth ? `${azimuth.toFixed(precision)}°` : '';
+  return azimuth != null ? `${azimuth.toFixed(precision)}°` : '';
 };
 
 export const formatPositionWithoutTronc = (
