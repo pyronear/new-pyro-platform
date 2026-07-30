@@ -4,7 +4,7 @@ import { Polygon, Tooltip } from 'react-leaflet';
 
 import { formatAzimuth } from '@/utils/alerts.ts';
 
-interface CameraLiveConePolygonProps {
+interface CameraViewLivePolygonProps {
   azimuth: number;
   visionPolygonPoints: LatLng[];
 }
@@ -13,10 +13,10 @@ interface CameraLiveConePolygonProps {
  * Red cone showing where the camera is currently pointing (live azimuth).
  * Dashed border to distinguish it from the plain detection sequence cone.
  */
-export const CameraLiveConePolygon = ({
+const CameraViewLivePolygon = ({
   azimuth,
   visionPolygonPoints,
-}: CameraLiveConePolygonProps) => {
+}: CameraViewLivePolygonProps) => {
   const theme = useTheme();
   return (
     <Polygon
@@ -34,3 +34,5 @@ export const CameraLiveConePolygon = ({
     </Polygon>
   );
 };
+
+export default CameraViewLivePolygon;

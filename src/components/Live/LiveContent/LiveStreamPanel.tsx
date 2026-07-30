@@ -29,7 +29,7 @@ interface LiveStreamPanelProps {
   urlStreaming: string;
   camera: CameraFullInfosType;
   liveAzimuth: CameraAzimuthType | null;
-  isLoadingAzimuth: boolean;
+  isAzimuthLoading: boolean;
   alert?: AlertType;
   setIsStreamVideoInterrupted: Dispatch<SetStateAction<boolean>>;
 }
@@ -38,18 +38,16 @@ export const LiveStreamPanel = ({
   urlStreaming,
   camera,
   liveAzimuth,
+  isAzimuthLoading,
   setIsStreamVideoInterrupted,
   alert,
 }: LiveStreamPanelProps) => {
   const id = camera.id;
   const { t } = useTranslationPrefix('live');
   const refVideo = useRef<HTMLVideoElement>(null);
-  const {
-    addStreamingAction,
-    isStreamingTimeout,
-    statusStreamingVideo,
-    isOneActionLoading,
-  } = useActionsOnCamera();
+  const { addStreamingAction, isStreamingTimeout, statusStreamingVideo } =
+    useActionsOnCamera();
+
   const mediaMtx = useMediaMtx({
     urlStreaming,
     refVideo,
@@ -148,11 +146,7 @@ export const LiveStreamPanel = ({
           <AzimuthAxis
             center={liveAzimuth?.azimuth_deg ?? 0}
             range={camera.angle_of_view ?? DEFAULT_ANGLE_OF_VIEW}
-            isLoading={
-              isOneActionLoading ||
-              (liveAzimuth?.moving ?? false) ||
-              !liveAzimuth?.azimuth_deg
-            }
+            isLoading={isAzimuthLoading}
           />
         )}
       <VideoStream

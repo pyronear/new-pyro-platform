@@ -101,7 +101,7 @@ export const LiveContainer = ({
 
   // Live camera orientation, polled from the device through the API. The
   // azimuth is null until the camera has a reference (first preset move).
-  const { data: liveAzimuth, isFetching: isLoadingAzimuth } = useQuery({
+  const { data: liveAzimuth } = useQuery({
     queryKey: ['cameraAzimuth', selectedCamera?.id],
     queryFn: () => selectedCamera && getCameraAzimuth(selectedCamera.id),
     refetchInterval: isCameraMoving
@@ -118,6 +118,7 @@ export const LiveContainer = ({
     });
   }, [queryClient, selectedCamera?.id]);
 
+  // If one action is triggered on camera, invalidate azimuth immediatly
   useEffect(() => {
     if (isOneActionLoading) {
       invalidateAndRefreshAzimuthCamera();
@@ -132,6 +133,11 @@ export const LiveContainer = ({
     statusSitesFetch == STATUS_SUCCESS &&
     statusCamerasFetchFromSite == STATUS_SUCCESS &&
     isCameraSelected;
+
+  const isAzimuthLoading =
+    isOneActionLoading ||
+    (liveAzimuth?.moving ?? false) ||
+    !liveAzimuth?.azimuth_deg;
 
   return (
     <>
@@ -151,7 +157,7 @@ export const LiveContainer = ({
                 setIsStreamVideoInterrupted={setIsStreamVideoInterrupted}
                 camera={selectedCamera}
                 liveAzimuth={liveAzimuth}
-                isLoadingAzimuth={isLoadingAzimuth}
+                isAzimuthLoading={isAzimuthLoading}
                 alert={alert}
               />
             </Grid>

@@ -1,8 +1,8 @@
 import L from 'leaflet';
 import { useMemo } from 'react';
 
-import { CameraLiveConePolygon } from '@/components/Common/Map/CameraLiveConePolygon';
 import CameraMarker from '@/components/Common/Map/CameraMarker';
+import CameraViewLivePolygon from '@/components/Common/Map/CameraViewLivePolygon.tsx';
 import { CameraViewPolygon } from '@/components/Common/Map/CameraViewPolygon';
 import { SequencePolygon } from '@/components/Common/Map/SequencePolygon';
 import TemplateMap from '@/components/Common/Map/TemplateMap';
@@ -73,7 +73,7 @@ export const LiveMap = ({ camera, liveAzimuth, sequence }: LiveMapProps) => {
         <SequencePolygon visionPolygonPoints={sequencePolygon} />
       )}
       {liveAzimuth?.azimuth_deg && liveCone && (
-        <CameraLiveConePolygon
+        <CameraViewLivePolygon
           azimuth={liveAzimuth.azimuth_deg}
           visionPolygonPoints={liveCone}
         />
