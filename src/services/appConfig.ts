@@ -9,8 +9,9 @@ export interface AppConfigType {
 
   readonly CAMERAS_INACTIVITY_THRESHOLD_MINUTES: number;
   readonly CAMERAS_LIST_REFRESH_INTERVAL_MINUTES: number;
-
   readonly ALERTS_LIST_REFRESH_INTERVAL_SECONDS: number;
+  readonly MOVING_AZIMUTH_REFETCH_INTERVAL_SECONDS: number;
+  readonly STABLE_AZIMUTH_REFETCH_INTERVAL_SECONDS: number;
   readonly ALERTS_PLAYER_INTERVAL_MILLISECONDS: number;
   readonly ALERTS_PLAYER_CONFIDENCE_THRESHOLD: number;
   readonly ALERTS_SOUND_FILE: string;
@@ -45,6 +46,12 @@ export class AppConfig {
       ALERTS_LIST_REFRESH_INTERVAL_SECONDS:
         // @ts-expect-error config is fetched from a JS file
         window.AppConfig?.ALERTS_LIST_REFRESH_INTERVAL_SECONDS,
+      MOVING_AZIMUTH_REFETCH_INTERVAL_SECONDS:
+        // @ts-expect-error config is fetched from a JS file
+        window.AppConfig?.MOVING_AZIMUTH_REFETCH_INTERVAL_SECONDS,
+      STABLE_AZIMUTH_REFETCH_INTERVAL_SECONDS:
+        // @ts-expect-error config is fetched from a JS file
+        window.AppConfig?.STABLE_AZIMUTH_REFETCH_INTERVAL_SECONDS,
       ALERTS_PLAYER_INTERVAL_MILLISECONDS:
         // @ts-expect-error config is fetched from a JS file
         window.AppConfig?.ALERTS_PLAYER_INTERVAL_MILLISECONDS,

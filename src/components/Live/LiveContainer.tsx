@@ -3,6 +3,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { Loader } from '@/components/Common/Loader';
+import appConfig from '@/services/appConfig.ts';
 import { STATUS_ERROR, STATUS_LOADING, STATUS_SUCCESS } from '@/services/axios';
 import { getCameraAzimuth, getCamerasInfos } from '@/services/live';
 import { type AlertType } from '@/utils/alerts';
@@ -22,9 +23,10 @@ import { HeadRow } from './LiveContent/HeadRow/HeadRow';
 import { LiveControlPanel } from './LiveContent/LiveControlPanel';
 import { LiveStreamPanel } from './LiveContent/LiveStreamPanel';
 
-// TODO : add to config file
-const MOVING_AZIMUTH_REFETCH_INTERVAL_MS = 2000;
-const STABLE_AZIMUTH_REFETCH_INTERVAL_MS = 30000;
+const MOVING_AZIMUTH_REFETCH_INTERVAL_MS =
+  appConfig.getConfig().MOVING_AZIMUTH_REFETCH_INTERVAL_SECONDS * 1000;
+const STABLE_AZIMUTH_REFETCH_INTERVAL_MS =
+  appConfig.getConfig().STABLE_AZIMUTH_REFETCH_INTERVAL_SECONDS * 1000;
 
 interface LiveContainerProps {
   onClose: () => void;
