@@ -6,10 +6,9 @@ export interface StreamingAction {
   type:
     | 'START_STREAMING'
     | 'STOP_STREAMING'
-    | 'MOVE'
+    | 'MOVE_TO_POSE'
     | 'MOVE_TO_AZIMUTH'
     | 'MOVE_TO_COORDINATES'
-    | 'STOP'
     | 'ZOOM';
   id: number;
   params: {

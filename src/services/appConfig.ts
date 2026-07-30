@@ -3,6 +3,7 @@
 export interface AppConfigType {
   readonly API_URL: string;
   readonly API_TIMEOUT_MS: number;
+  readonly CAMERA_CONTROL_TIMEOUT_MS: number;
   readonly LIVE_STREAMING_MEDIA_URL: string;
   readonly LIVE_STREAMING_TIMEOUT_SECONDS: number;
 
@@ -26,6 +27,8 @@ export class AppConfig {
       API_URL: window.AppConfig?.API_URL,
       // @ts-expect-error config is fetched from a JS file
       API_TIMEOUT_MS: window.AppConfig?.API_TIMEOUT_MS,
+      // @ts-expect-error config is fetched from a JS file
+      CAMERA_CONTROL_TIMEOUT_MS: window.AppConfig?.CAMERA_CONTROL_TIMEOUT_MS,
       // @ts-expect-error config is fetched from a JS file
       LIVE_STREAMING_MEDIA_URL: window.AppConfig?.LIVE_STREAMING_MEDIA_URL,
 

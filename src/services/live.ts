@@ -1,9 +1,16 @@
 import type { AxiosResponse } from 'axios';
 import * as z from 'zod/v4';
 
+import appConfig from '@/services/appConfig.ts';
 import type { MovementCommand } from '@/utils/live';
 
 import { apiInstance } from './axios';
+
+// Camera movement endpoints block server-side while the camera physically
+// moves (preset travel, timed rotation, zoom settle), so they need a longer
+// timeout than the global API default.
+const CAMERA_CONTROL_TIMEOUT_MS =
+  appConfig.getConfig().CAMERA_CONTROL_TIMEOUT_MS;
 
 const apiCameraInfosResponseSchema = z.object({
   ip: z.string(),
@@ -105,7 +112,9 @@ export const zoomCamera = async (
   level: number
 ): Promise<void> => {
   return apiInstance
-    .post(`/api/v1/cameras/${cameraId}/control/zoom/${level}`)
+    .post(`/api/v1/cameras/${cameraId}/control/zoom/${level}`, null, {
+      timeout: CAMERA_CONTROL_TIMEOUT_MS,
+    })
     .then(() => {
       return;
     })
@@ -132,6 +141,7 @@ export const moveCamera = async (
         pose_id: poseId,
         degrees,
       },
+      timeout: CAMERA_CONTROL_TIMEOUT_MS,
     })
     .then(() => {
       return;
@@ -165,27 +175,20 @@ export const moveCameraToAAzimuth = async (
   });
 };
 
-export const stopCamera = async (cameraId: number): Promise<void> => {
-  return apiInstance
-    .post(`/api/v1/cameras/${cameraId}/control/stop`)
-    .then(() => {
-      return;
-    })
-    .catch((err: unknown) => {
-      console.error(err);
-      throw err;
-    });
-};
 export const clickToMoveCamera = async (
   cameraId: number,
   x: number,
   y: number
 ): Promise<void> => {
   return apiInstance
-    .post(`/api/v1/cameras/${cameraId}/control/click_to_move`, {
-      click_x: x,
-      click_y: y,
-    })
+    .post(
+      `/api/v1/cameras/${cameraId}/control/click_to_move`,
+      {
+        click_x: x,
+        click_y: y,
+      },
+      { timeout: CAMERA_CONTROL_TIMEOUT_MS }
+    )
     .then(() => {
       return;
     })

@@ -1,71 +1,36 @@
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import CameraEnhanceIcon from '@mui/icons-material/CameraEnhance';
 import ExploreOutlinedIcon from '@mui/icons-material/ExploreOutlined';
-import SearchIcon from '@mui/icons-material/Search';
-import SpeedIcon from '@mui/icons-material/Speed';
-import {
-  Button,
-  ButtonGroup,
-  Divider,
-  IconButton,
-  InputAdornment,
-  OutlinedInput,
-  Stack,
-  Tooltip,
-  Typography,
-  useTheme,
-} from '@mui/material';
+import GamepadIcon from '@mui/icons-material/Gamepad';
+import { Collapse, Divider, IconButton, Stack, Tooltip } from '@mui/material';
 import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
 
+import { CustomAzimuthField } from '@/components/Live/LiveContent/StreamActions/CustomAzimuthField.tsx';
+import { PosesButtons } from '@/components/Live/LiveContent/StreamActions/PosesButtons.tsx';
 import { capture, zoomCamera } from '@/services/live.ts';
 import type { CameraFullInfosType } from '@/utils/camera.ts';
 import { dateNowFormattedForFilename } from '@/utils/dates.ts';
-import { getMoveToAzimuth, isAzimuthValid } from '@/utils/live';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
-import { useActionsOnCamera } from '../../context/useActionsOnCamera';
-
 interface QuickActionsProps {
+  hasRotation: boolean;
   camera: CameraFullInfosType;
-  speedName: number;
-  nextSpeed: () => void;
   zoom: number;
+  handleHelper: () => void;
 }
 
 export const QuickActions = ({
+  hasRotation,
   camera,
-  speedName,
-  nextSpeed,
   zoom,
+  handleHelper,
 }: QuickActionsProps) => {
-  const theme = useTheme();
   const { t } = useTranslationPrefix('live');
-  const { addStreamingAction } = useActionsOnCamera();
-  const [azimuthToGo, setAzimuthToGo] = useState<string>('');
-  const isAzimuthToGoInvalid = !isAzimuthValid(azimuthToGo);
+  const [displayPoses, setDisplayPoses] = useState<boolean>(true);
+
   const cameraId = camera.id;
   const poses = camera.poses ?? [];
-
-  const onClickDirection = (pose: number) => {
-    addStreamingAction({
-      type: 'MOVE',
-      id: cameraId,
-      params: { move: { poseId: pose } },
-    });
-  };
-
-  const onClickAzimuth = () => {
-    const azimuthToGoInt = Number(azimuthToGo);
-    if (!Number.isNaN(azimuthToGoInt)) {
-      const move = getMoveToAzimuth(azimuthToGoInt, poses) ?? undefined;
-      addStreamingAction({
-        type: 'MOVE_TO_AZIMUTH',
-        id: cameraId,
-        params: { move },
-      });
-    }
-  };
 
   const captureAndDownload = () => {
     return capture(cameraId).then((url) => {
@@ -105,64 +70,10 @@ export const QuickActions = ({
       direction="row"
       spacing={2}
       sx={{
-        padding: 1,
-        backgroundColor: theme.palette.customBackground.light,
-        borderRadius: '4px',
+        paddingY: 1,
+        paddingX: 2,
       }}
     >
-      <Tooltip title={t('tooltipSpeed')}>
-        <Stack direction="row" alignItems="center">
-          <SpeedIcon />
-          <Button onClick={nextSpeed} sx={{ minWidth: '50px' }}>
-            x{speedName}
-          </Button>
-        </Stack>
-      </Tooltip>
-
-      <Stack direction="row" spacing={2} alignItems="center">
-        <ExploreOutlinedIcon />
-        <Tooltip title={t('tooltipPrerecordedAzimuths')}>
-          <ButtonGroup>
-            {poses
-              .filter((pose) => pose.patrol_id != null)
-              .sort((p1, p2) => (p1.patrol_id ?? 0) - (p2.patrol_id ?? 0))
-              .map((pose) => (
-                <Button
-                  key={pose.id}
-                  onClick={() =>
-                    pose.patrol_id != null && onClickDirection(pose.patrol_id)
-                  }
-                >
-                  <Typography p="2px">{pose.azimuth}°</Typography>
-                </Button>
-              ))}
-          </ButtonGroup>
-        </Tooltip>
-        <Tooltip title={t('tooltipCustomAzimuths')}>
-          <OutlinedInput
-            value={azimuthToGo}
-            size="small"
-            placeholder="0"
-            color="primary"
-            sx={{ width: '105px', paddingRight: 0 }}
-            endAdornment={
-              <InputAdornment position="end">
-                <p>°</p>
-                <IconButton
-                  disabled={!azimuthToGo || isAzimuthToGoInvalid}
-                  onClick={onClickAzimuth}
-                >
-                  <SearchIcon />
-                </IconButton>
-              </InputAdornment>
-            }
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-              setAzimuthToGo(event.target.value);
-            }}
-            error={isAzimuthToGoInvalid}
-          />
-        </Tooltip>
-      </Stack>
       <Tooltip title={t('tooltipAutofocus')}>
         <IconButton
           color="primary"
@@ -181,6 +92,31 @@ export const QuickActions = ({
           <CameraEnhanceIcon />
         </IconButton>
       </Tooltip>
+      {hasRotation && (
+        <IconButton color="primary" onClick={handleHelper}>
+          <GamepadIcon />
+        </IconButton>
+      )}
+      {hasRotation && (
+        <Stack direction="row" spacing={1} alignItems="center">
+          <IconButton
+            color="primary"
+            onClick={() => setDisplayPoses((old) => !old)}
+          >
+            <ExploreOutlinedIcon color="primary" />
+          </IconButton>
+          <Collapse orientation="horizontal" in={displayPoses}>
+            <Stack direction="row" spacing={2} alignItems="center">
+              <Tooltip title={t('tooltipPrerecordedAzimuths')}>
+                <PosesButtons cameraId={cameraId} poses={poses} />
+              </Tooltip>
+              <Tooltip title={t('tooltipCustomAzimuths')}>
+                <CustomAzimuthField cameraId={cameraId} poses={poses} />
+              </Tooltip>
+            </Stack>
+          </Collapse>
+        </Stack>
+      )}
     </Stack>
   );
 };

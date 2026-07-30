@@ -182,6 +182,7 @@
     }
   },
   "live": {
+    "clickToMoveHint": "Klicken Sie auf eine Stelle im Bild, um die Kamera dorthin zu bewegen",
     "errorFetchInfos": "Auf unserer Seite ist etwas schief gelaufen. Bitte versuchen Sie es später erneut.",
     "errorNoAccess": "Mit diesem Konto wurde keine Website gefunden. Bitte kontaktieren Sie Ihren Administrator",
     "errorCallSite": "Beim Kontaktieren der Website ist etwas schief gelaufen. Bitte versuchen Sie es später erneut.",
@@ -197,7 +198,6 @@
     "errorInteruptedMediaMtx": "Videostream unterbrochen.",
     "errorFinalMediaMtx": "Videostream fehlgeschlagen. Bitte versuchen Sie es später erneut.",
     "loadingVideo": "Video wird geladen...",
-    "tooltipSpeed": "Kamerabewegungsgeschwindigkeit",
     "tooltipPrerecordedAzimuths": "Voraufgezeichnete Azimute für die Kamera",
     "tooltipCustomAzimuths": "Benutzerdefinierter Azimut für die Kamera",
     "tooltipAutofocus": "Den Fokus der Kamera automatisch einstellen",

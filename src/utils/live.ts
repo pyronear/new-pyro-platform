@@ -18,17 +18,6 @@ export const calculateHasRotation = (cameraType: string | undefined) => {
   return cameraType === TYPE_PTZ;
 };
 
-interface SpeedCameraMove {
-  speed: number;
-  name: number;
-}
-
-export const SPEEDS: SpeedCameraMove[] = [
-  { name: 0.5, speed: 1 },
-  { name: 1, speed: 5 },
-  { name: 2, speed: 10 },
-];
-
 export const calculateLiveStreamingUrl = (site: SiteType | null) => {
   return site
     ? `${appConfig.getConfig().LIVE_STREAMING_MEDIA_URL}/${site.id}/whep`

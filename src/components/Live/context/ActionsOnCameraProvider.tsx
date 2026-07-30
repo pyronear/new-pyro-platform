@@ -13,7 +13,6 @@ import {
   moveCamera,
   moveCameraToAAzimuth,
   startStreaming,
-  stopCamera,
   stopPatrolThenStartStreaming,
   stopStreaming,
   stopStreamingThenStartPatrol,
@@ -119,13 +118,12 @@ export const ActionsOnCameraContextProvider: React.FC<{
             id: action.id,
             hasRotation: action.params.hasRotation ?? false,
           });
-        case 'MOVE':
+        case 'MOVE_TO_POSE':
           return moveCamera(
             action.id,
-            action.params.move?.direction,
-            action.params.move?.speed,
-            action.params.move?.poseId,
-            action.params.move?.degrees
+            undefined,
+            undefined,
+            action.params.move?.poseId
           );
         case 'MOVE_TO_COORDINATES':
           if (
@@ -144,8 +142,6 @@ export const ActionsOnCameraContextProvider: React.FC<{
             return moveCameraToAAzimuth(action.id, action.params.move);
           }
           return Promise.resolve();
-        case 'STOP':
-          return stopCamera(action.id);
         case 'ZOOM':
           if (action.params.zoom != undefined) {
             return zoomCamera(action.id, action.params.zoom);

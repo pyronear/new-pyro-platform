@@ -89,7 +89,7 @@ export const aggregateSiteData = (
   };
 };
 
-const DEFAULT_ANGLE_OF_VIEW = 1;
+export const DEFAULT_ANGLE_OF_VIEW = 1;
 
 interface CameraWithPolygons extends Omit<CameraType, 'poses'> {
   poses: (PoseCameraType & {
