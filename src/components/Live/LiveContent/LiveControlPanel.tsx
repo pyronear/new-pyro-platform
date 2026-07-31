@@ -14,6 +14,7 @@ interface LiveControlPanelProps {
   selectedCamera: CameraFullInfosType | null;
   changeCamera: (newSite: SiteType, newCameraId: number | null) => void;
   liveAzimuth: CameraAzimuthType | null;
+  isAzimuthLoading: boolean;
   alert?: AlertType;
 }
 
@@ -23,6 +24,7 @@ export const LiveControlPanel = ({
   changeCamera,
   selectedCamera,
   liveAzimuth,
+  isAzimuthLoading,
   alert,
 }: LiveControlPanelProps) => {
   const theme = useTheme();
@@ -61,6 +63,7 @@ export const LiveControlPanel = ({
             camera={selectedCamera}
             sequence={currentSequence}
             liveAzimuth={liveAzimuth}
+            isAzimuthLoading={isAzimuthLoading}
           />
         )}
       </div>

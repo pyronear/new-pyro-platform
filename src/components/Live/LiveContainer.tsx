@@ -169,6 +169,7 @@ export const LiveContainer = ({
                 selectedSite={selectedSite}
                 selectedCamera={selectedCamera}
                 liveAzimuth={liveAzimuth}
+                isAzimuthLoading={isAzimuthLoading}
                 changeCamera={changeCamera}
                 alert={alert}
               />

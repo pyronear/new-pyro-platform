@@ -19,10 +19,16 @@ import { buildVisionPolygon, DEFAULT_CAM_RANGE_KM } from '@/utils/cameraVision';
 interface LiveMapProps {
   camera: CameraFullInfosType;
   liveAzimuth: CameraAzimuthType | null;
+  isAzimuthLoading: boolean;
   sequence?: SequenceWithCameraInfoType;
 }
 
-export const LiveMap = ({ camera, liveAzimuth, sequence }: LiveMapProps) => {
+export const LiveMap = ({
+  camera,
+  liveAzimuth,
+  isAzimuthLoading,
+  sequence,
+}: LiveMapProps) => {
   const cameraWithPolygons = useMemo(
     () => buildPolygonsFromCamera(camera),
     [camera]
@@ -76,6 +82,7 @@ export const LiveMap = ({ camera, liveAzimuth, sequence }: LiveMapProps) => {
         <CameraViewLivePolygon
           azimuth={liveAzimuth.azimuth_deg}
           visionPolygonPoints={liveCone}
+          isLoading={isAzimuthLoading}
         />
       )}
     </TemplateMap>

@@ -1,3 +1,5 @@
+import './live.css';
+
 import { useTheme } from '@mui/material';
 import type { LatLng } from 'leaflet';
 import { Polygon, Tooltip } from 'react-leaflet';
@@ -5,7 +7,8 @@ import { Polygon, Tooltip } from 'react-leaflet';
 import { formatAzimuth } from '@/utils/alerts.ts';
 
 interface CameraViewLivePolygonProps {
-  azimuth: number;
+  azimuth: number | null;
+  isLoading: boolean;
   visionPolygonPoints: LatLng[];
 }
 
@@ -15,6 +18,7 @@ interface CameraViewLivePolygonProps {
  */
 const CameraViewLivePolygon = ({
   azimuth,
+  isLoading,
   visionPolygonPoints,
 }: CameraViewLivePolygonProps) => {
   const theme = useTheme();
@@ -22,6 +26,7 @@ const CameraViewLivePolygon = ({
     <Polygon
       positions={visionPolygonPoints}
       pathOptions={{
+        className: isLoading ? 'loading-cone' : undefined,
         color: theme.palette.error.main,
         opacity: 0.9,
         fillColor: theme.palette.error.main,
@@ -30,7 +35,7 @@ const CameraViewLivePolygon = ({
         dashArray: '6 6',
       }}
     >
-      <Tooltip>{formatAzimuth(azimuth)}</Tooltip>
+      {azimuth != null && <Tooltip>{formatAzimuth(azimuth)}</Tooltip>}
     </Polygon>
   );
 };
