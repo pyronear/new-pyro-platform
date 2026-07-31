@@ -145,7 +145,11 @@ export const LiveStreamPanel = ({
         mediaMtx.state === StateStreaming.IS_STREAMING && (
           <AzimuthAxis
             center={liveAzimuth?.azimuth_deg ?? 0}
-            range={camera.angle_of_view ?? DEFAULT_ANGLE_OF_VIEW}
+            range={
+              liveAzimuth?.h_fov_deg ??
+              camera.angle_of_view ??
+              DEFAULT_ANGLE_OF_VIEW
+            }
             isLoading={isAzimuthLoading}
           />
         )}

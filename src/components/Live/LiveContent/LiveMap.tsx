@@ -72,7 +72,7 @@ export const LiveMap = ({ camera, liveAzimuth, sequence }: LiveMapProps) => {
       {sequencePolygon && (
         <SequencePolygon visionPolygonPoints={sequencePolygon} />
       )}
-      {liveAzimuth?.azimuth_deg && liveCone && (
+      {liveAzimuth?.azimuth_deg != null && liveCone && (
         <CameraViewLivePolygon
           azimuth={liveAzimuth.azimuth_deg}
           visionPolygonPoints={liveCone}
