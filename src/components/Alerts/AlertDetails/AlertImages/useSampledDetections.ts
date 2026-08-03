@@ -95,7 +95,7 @@ export const useSampledDetections = ({
       .flat()
       .sort(
         (d1, d2) =>
-          convertIsoToUnix(d1.created_at) - convertIsoToUnix(d2.created_at)
+          convertIsoToUnix(d1.recorded_at) - convertIsoToUnix(d2.recorded_at)
       ) ?? [];
 
   return {

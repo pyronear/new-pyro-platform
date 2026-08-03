@@ -165,13 +165,13 @@ export const AlertPlayerControls = ({
         }}
       >
         <Slider
-          value={convertIsoToUnix(selectedDetection.created_at)}
+          value={convertIsoToUnix(selectedDetection.recorded_at)}
           onChange={onChangeSlider}
           min={marks[0].value}
           max={marks[marks.length - 1].value}
           step={null}
           valueLabelDisplay={isPlaying ? 'off' : 'on'}
-          valueLabelFormat={formatIsoToTime(selectedDetection.created_at)}
+          valueLabelFormat={formatIsoToTime(selectedDetection.recorded_at)}
           marks={marks}
           sx={{
             verticalAlign: 'middle',
