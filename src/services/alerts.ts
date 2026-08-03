@@ -34,6 +34,7 @@ const apiDetectionResponseSchema = z.object({
   bbox: z.string(),
   others_bboxes: z.nullable(z.string()),
   created_at: z.iso.datetime({ local: true }),
+  recorded_at: z.iso.datetime({ local: true }),
   url: z.string(),
   crop_url: z.string().nullish(),
 });
@@ -137,7 +138,8 @@ export const getDetectionsBySequence = async (
         if (result.data) {
           result.data.sort(
             (d1, d2) =>
-              convertIsoToUnix(d1.created_at) - convertIsoToUnix(d2.created_at)
+              convertIsoToUnix(d1.recorded_at) -
+              convertIsoToUnix(d2.recorded_at)
           );
         }
         return result.data ?? [];
