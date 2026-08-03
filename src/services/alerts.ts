@@ -34,6 +34,7 @@ const apiDetectionResponseSchema = z.object({
   bbox: z.string(),
   others_bboxes: z.nullable(z.string()),
   created_at: z.iso.datetime({ local: true }),
+  recorded_at: z.iso.datetime({ local: true }),
   url: z.string(),
   crop_url: z.string().nullish(),
 });
