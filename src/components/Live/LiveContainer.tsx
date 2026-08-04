@@ -1,10 +1,11 @@
 import { Grid, Stack, Typography } from '@mui/material';
-import { useQuery } from '@tanstack/react-query';
-import { useEffect, useMemo, useState } from 'react';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { Loader } from '@/components/Common/Loader';
+import appConfig from '@/services/appConfig.ts';
 import { STATUS_ERROR, STATUS_LOADING, STATUS_SUCCESS } from '@/services/axios';
-import { getCamerasInfos } from '@/services/live';
+import { getCameraAzimuth, getCamerasInfos } from '@/services/live';
 import { type AlertType } from '@/utils/alerts';
 import {
   aggregateSiteData,
@@ -22,6 +23,11 @@ import { HeadRow } from './LiveContent/HeadRow/HeadRow';
 import { LiveControlPanel } from './LiveContent/LiveControlPanel';
 import { LiveStreamPanel } from './LiveContent/LiveStreamPanel';
 
+const MOVING_AZIMUTH_REFETCH_INTERVAL_MS =
+  appConfig.getConfig().MOVING_AZIMUTH_REFETCH_INTERVAL_SECONDS * 1000;
+const STABLE_AZIMUTH_REFETCH_INTERVAL_MS =
+  appConfig.getConfig().STABLE_AZIMUTH_REFETCH_INTERVAL_SECONDS * 1000;
+
 interface LiveContainerProps {
   onClose: () => void;
   cameraName: string;
@@ -33,13 +39,15 @@ export const LiveContainer = ({
   cameraName,
   alert,
 }: LiveContainerProps) => {
+  const queryClient = useQueryClient();
   const { t } = useTranslationPrefix('live');
   const { statusSitesFetch, sites } = useDataSitesLive(alert);
-  const { isStreamingTimeout } = useActionsOnCamera();
+  const { isStreamingTimeout, isOneActionLoading } = useActionsOnCamera();
   const [isStreamVideoInterrupted, setIsStreamVideoInterrupted] =
     useState<boolean>(false);
   const [selectedSite, setSelectedSite] = useState<SiteType | null>(null);
   const [selectedCameraId, setSelectedCameraId] = useState<number | null>(null);
+  const [isCameraMoving, setIsMoving] = useState<boolean>(false);
 
   const selectedCamera = useMemo(() => {
     return selectedSite?.cameras.find((c) => c.id === selectedCameraId) ?? null;
@@ -93,10 +101,45 @@ export const LiveContainer = ({
     },
   });
 
+  // Live camera orientation, polled from the device through the API. The
+  // azimuth is null until the camera has a reference (first preset move).
+  const { data: liveAzimuth } = useQuery({
+    queryKey: ['cameraAzimuth', selectedCamera?.id],
+    queryFn: () => selectedCamera && getCameraAzimuth(selectedCamera.id),
+    refetchInterval: isCameraMoving
+      ? MOVING_AZIMUTH_REFETCH_INTERVAL_MS
+      : STABLE_AZIMUTH_REFETCH_INTERVAL_MS,
+    initialData: null,
+    retry: false,
+    enabled: !!selectedCamera,
+  });
+
+  const invalidateAndRefreshAzimuthCamera = useCallback(() => {
+    void queryClient.invalidateQueries({
+      queryKey: ['cameraAzimuth', selectedCamera?.id],
+    });
+  }, [queryClient, selectedCamera?.id]);
+
+  // If one action is triggered on camera, invalidate azimuth immediatly
+  useEffect(() => {
+    if (isOneActionLoading) {
+      invalidateAndRefreshAzimuthCamera();
+    }
+  }, [invalidateAndRefreshAzimuthCamera, isOneActionLoading]);
+
+  useEffect(() => {
+    setIsMoving(liveAzimuth?.moving ?? false);
+  }, [liveAzimuth]);
+
   const isStreamingLaunched =
     statusSitesFetch == STATUS_SUCCESS &&
     statusCamerasFetchFromSite == STATUS_SUCCESS &&
     isCameraSelected;
+
+  const isAzimuthLoading =
+    isOneActionLoading ||
+    (liveAzimuth?.moving ?? false) ||
+    !liveAzimuth?.azimuth_deg;
 
   return (
     <>
@@ -115,6 +158,8 @@ export const LiveContainer = ({
                 urlStreaming={urlStreaming}
                 setIsStreamVideoInterrupted={setIsStreamVideoInterrupted}
                 camera={selectedCamera}
+                liveAzimuth={liveAzimuth}
+                isAzimuthLoading={isAzimuthLoading}
                 alert={alert}
               />
             </Grid>
@@ -123,6 +168,7 @@ export const LiveContainer = ({
                 sites={sites}
                 selectedSite={selectedSite}
                 selectedCamera={selectedCamera}
+                liveAzimuth={liveAzimuth}
                 changeCamera={changeCamera}
                 alert={alert}
               />
