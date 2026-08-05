@@ -136,10 +136,7 @@ export const LiveContainer = ({
     statusCamerasFetchFromSite == STATUS_SUCCESS &&
     isCameraSelected;
 
-  const isAzimuthLoading =
-    isOneActionLoading ||
-    (liveAzimuth?.moving ?? false) ||
-    !liveAzimuth?.azimuth_deg;
+  const isAzimuthLoading = isCameraMoving || liveAzimuth?.azimuth_deg == null;
 
   return (
     <>
