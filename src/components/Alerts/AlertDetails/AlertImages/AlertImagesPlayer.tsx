@@ -51,11 +51,11 @@ export const AlertImagesPlayer = ({
   const marks = useMemo(
     () =>
       detections.map((d, i) => ({
-        value: convertIsoToUnix(d.created_at),
+        value: convertIsoToUnix(d.recorded_at),
         id: d.id,
         label:
           i == 0 || i == detections.length - 1
-            ? formatIsoToTime(d.created_at)
+            ? formatIsoToTime(d.recorded_at)
             : null,
       })),
     [detections]
@@ -148,13 +148,15 @@ export const AlertImagesPlayer = ({
             />
             <Box sx={{ flexGrow: 1, width: '100%', mr: 2, px: 3, pt: 3 }}>
               <Slider
-                value={convertIsoToUnix(selectedDetection.created_at)}
+                value={convertIsoToUnix(selectedDetection.recorded_at)}
                 onChange={onChangeSlider}
                 min={Math.min(...marks.map((mark) => mark.value))}
                 max={Math.max(...marks.map((mark) => mark.value))}
                 step={null}
                 valueLabelDisplay={isPlaying ? 'off' : 'on'}
-                valueLabelFormat={formatIsoToTime(selectedDetection.created_at)}
+                valueLabelFormat={formatIsoToTime(
+                  selectedDetection.recorded_at
+                )}
                 marks={marks}
                 sx={{
                   verticalAlign: 'middle',
