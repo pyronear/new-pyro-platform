@@ -30,7 +30,7 @@ export const isAzimuthValid = (azimuthStr: string) => {
   }
   const azimuthNb = Number(azimuthStr);
   if (Number.isInteger(azimuthNb)) {
-    return azimuthNb > 0 && azimuthNb < 360;
+    return azimuthNb >= 0 && azimuthNb < 360;
   }
   return false;
 };
