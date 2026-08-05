@@ -4,12 +4,13 @@ import {
   useInfiniteQuery,
   useQueryClient,
 } from '@tanstack/react-query';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 
 import { type DetectionType, getDetectionsPage } from '@/services/alerts';
-import appConfig from '@/services/appConfig.ts';
-
-const DEFAULT_PAGE_SIZE = appConfig.getConfig().ALERTS_PLAYER_BUFFER_SIZE;
+import {
+  calculateDetectionsPages,
+  calculateNbDetectionsToLoad,
+} from '@/utils/detections.ts';
 
 interface UseAllDetectionsParams {
   sequenceId: number;
@@ -27,13 +28,21 @@ interface UseAllDetectionsResult {
   invalidateAndRefreshData: () => void;
 }
 
+/**
+ * Hook to retrieve at most {DEFAULT_PAGE_SIZE * MAX_PAGE_COUNT} detections
+ * - the first {DEFAULT_PAGE_SIZE} detections
+ * - the last {DEFAULT_PAGE_SIZE} detections
+ * - one middle page : using sampling if there is more than {DEFAULT_PAGE_SIZE} detections
+ */
 export const useAllDetections = ({
   sequenceId,
   detectionsCount,
-  pageSize = DEFAULT_PAGE_SIZE,
 }: UseAllDetectionsParams): UseAllDetectionsResult => {
   const queryClient = useQueryClient();
-  const pageCount = Math.ceil(detectionsCount / pageSize);
+  const pages = useMemo(
+    () => calculateDetectionsPages(detectionsCount),
+    [detectionsCount]
+  );
 
   const invalidateAndRefreshData = useCallback(() => {
     void queryClient.invalidateQueries({
@@ -54,14 +63,21 @@ export const useAllDetections = ({
         _allPages: unknown,
         lastPageParam: number
       ) => {
-        return lastPageParam < pageCount - 1 ? lastPageParam + 1 : undefined;
+        return lastPageParam < pages.length - 1 ? lastPageParam + 1 : undefined;
       },
       queryKey: ['detections', sequenceId] as const,
       initialPageParam: 0,
-      enabled: !pageCount,
+      enabled: !!pages.length,
       refetchOnWindowFocus: false,
-      queryFn: ({ pageParam }) =>
-        getDetectionsPage(sequenceId, pageParam * pageSize, pageSize),
+      queryFn: ({ pageParam }) => {
+        const page = pages[pageParam];
+        return getDetectionsPage(
+          sequenceId,
+          page.offset,
+          page.limit,
+          page.sampling
+        );
+      },
     });
 
   useEffect(() => {
@@ -78,7 +94,7 @@ export const useAllDetections = ({
     hasNextPage,
     isError,
     loadedCount: detections.length,
-    totalCount: detectionsCount,
+    totalCount: calculateNbDetectionsToLoad(pages),
     invalidateAndRefreshData,
   };
 };
