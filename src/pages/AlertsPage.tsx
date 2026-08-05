@@ -5,7 +5,10 @@ import { useCallback, useMemo } from 'react';
 import { AlertsContainer } from '@/components/Alerts/AlertsContainer';
 import { Loader } from '@/components/Common/Loader';
 import { CameraListProvider } from '@/context/CameraListProvider';
-import { getUnlabelledLatestAlerts } from '@/services/alerts';
+import {
+  getUnlabelledLatestAlerts,
+  UNLABELLED_ALERTS_QUERY_KEY,
+} from '@/services/alerts';
 import appConfig from '@/services/appConfig';
 import { STATUS_ERROR, STATUS_LOADING, STATUS_SUCCESS } from '@/services/axios';
 import { getCameraList } from '@/services/camera';
@@ -26,7 +29,7 @@ export const AlertsPage = () => {
     status: statusSequences,
     data: alertList,
   } = useQuery({
-    queryKey: ['unlabelledAlerts'],
+    queryKey: UNLABELLED_ALERTS_QUERY_KEY,
     queryFn: getUnlabelledLatestAlerts,
     refetchInterval: ALERTS_LIST_REFRESH_INTERVAL_SECONDS * 1000,
   });
@@ -52,7 +55,9 @@ export const AlertsPage = () => {
   );
 
   const invalidateAndRefreshData = useCallback(() => {
-    void queryClient.invalidateQueries({ queryKey: ['unlabelledAlerts'] });
+    void queryClient.invalidateQueries({
+      queryKey: UNLABELLED_ALERTS_QUERY_KEY,
+    });
   }, [queryClient]);
 
   const status = useMemo(() => {
