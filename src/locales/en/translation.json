@@ -7,6 +7,7 @@
     "showPassword": "Show password",
     "hidePassword": "Hide password",
     "logout": "Logout",
+    "sessionExpired": "Your session has expired. Please log in again.",
     "errors": {
       "INVALID_CREDENTIALS": "Invalid username or password.",
       "SERVER_ERROR": "Something went wrong on our side. Please try again later.",

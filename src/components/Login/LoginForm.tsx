@@ -1,5 +1,6 @@
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import {
+  Alert,
   Box,
   Button,
   IconButton,
@@ -16,7 +17,7 @@ import { LoginError } from '../../services/auth';
 import { useTranslationPrefix } from '../../utils/useTranslationPrefix';
 
 const LoginForm = () => {
-  const { login } = useAuth();
+  const { clearExpiredSession, hasExpiredSession, login } = useAuth();
   const { t } = useTranslationPrefix('login');
 
   const [username, setUsername] = useState('');
@@ -41,6 +42,7 @@ const LoginForm = () => {
 
   const handleSubmit = async () => {
     try {
+      clearExpiredSession();
       await login(username, password);
       await navigate('dashboard');
     } catch (e) {
@@ -59,6 +61,11 @@ const LoginForm = () => {
       minHeight="100%"
     >
       <Paper sx={{ p: 4, width: 400 }}>
+        {hasExpiredSession && (
+          <Alert severity="warning" sx={{ mb: 2 }}>
+            {t('sessionExpired')}
+          </Alert>
+        )}
         <form action={handleSubmit}>
           <TextField
             label={t('username')}
