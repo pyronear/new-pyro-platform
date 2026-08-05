@@ -27,7 +27,7 @@ import {
 } from '../context/ActionsOnCameraContext';
 
 const MAX_RETRY_ON_ACTIONS = 3;
-const TIME_BETWEEN_START_AND_MOVE_MS = 3000;
+const TIME_BETWEEN_START_AND_MOVE_MS = 5000;
 const LIVE_STREAMING_TIMEOUT_MS =
   appConfig.getConfig().LIVE_STREAMING_TIMEOUT_SECONDS * 1000;
 
@@ -47,6 +47,15 @@ export const ActionsOnCameraContextProvider: React.FC<{
   >(null);
   const { t } = useTranslationPrefix('live');
 
+  const createAwaitPromise = () =>
+    new Promise((resolve) => {
+      setTimerBeforeInitialMove(
+        window.setTimeout(() => {
+          resolve(null);
+        }, TIME_BETWEEN_START_AND_MOVE_MS)
+      );
+    });
+
   const { mutateAsync: startStreamingMutate, status: statusStart } =
     useMutation({
       retry: MAX_RETRY_ON_ACTIONS,
@@ -54,23 +63,26 @@ export const ActionsOnCameraContextProvider: React.FC<{
         id: number;
         hasRotation: boolean;
         initialMove?: MovementCommand;
-      }) =>
-        params.hasRotation
-          ? stopPatrolThenStartStreaming(params.id).then(() => {
-              if (params.initialMove) {
-                // fix: wait a few seconds before calling for move
-                // (problem in the pi)
-                setTimerBeforeInitialMove(
-                  window.setTimeout(
+      }) => {
+        if (params.hasRotation) {
+          return (
+            stopPatrolThenStartStreaming(params.id)
+              // fix: wait a few seconds before calling for move
+              // (problem in the pi)
+              .then(() => {
+                if (params.initialMove) {
+                  return createAwaitPromise().then(
                     () =>
                       params.initialMove &&
-                      moveCameraToAAzimuth(params.id, params.initialMove),
-                    TIME_BETWEEN_START_AND_MOVE_MS
-                  )
-                );
-              }
-            })
-          : startStreaming(params.id),
+                      moveCameraToAAzimuth(params.id, params.initialMove)
+                  );
+                }
+              })
+          );
+        } else {
+          return startStreaming(params.id);
+        }
+      },
     });
 
   const { mutateAsync: stopStreamingMutate, status: statusStop } = useMutation({

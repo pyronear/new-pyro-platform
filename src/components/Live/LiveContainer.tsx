@@ -128,8 +128,8 @@ export const LiveContainer = ({
   }, [invalidateAndRefreshAzimuthCamera, isOneActionLoading]);
 
   useEffect(() => {
-    setIsMoving(liveAzimuth?.moving ?? false);
-  }, [liveAzimuth]);
+    setIsMoving(isOneActionLoading || (liveAzimuth?.moving ?? false));
+  }, [isOneActionLoading, liveAzimuth]);
 
   const isStreamingLaunched =
     statusSitesFetch == STATUS_SUCCESS &&
