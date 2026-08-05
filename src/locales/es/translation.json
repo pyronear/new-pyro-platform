@@ -93,6 +93,7 @@
     "buttonTreatAlert": "Descartar la alerta",
     "buttonModifyAlert": "Modificar la alerta",
     "buttonShare": "Compartir",
+    "buttonDisplayDetail": "Ver detalles",
     "shareLinkCopied": "Enlace de la alerta copiado al portapapeles",
     "unmatch": {
       "button": "Desvincular secuencia",
