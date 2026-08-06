@@ -1,9 +1,13 @@
 import { z } from 'zod';
 
+export const BASE_LAYERS = ['osm', 'ign', 'satellite', 'topo_ign'] as const;
+
+export type BaseLayerType = (typeof BASE_LAYERS)[number];
+
 export const UserPreferencesSchema = z.object({
   language: z.enum(['en', 'es', 'fr']),
   map: z.object({
-    baseLayer: z.enum(['osm', 'ign', 'satellite']),
+    baseLayer: z.enum(BASE_LAYERS),
   }),
   audio: z.object({
     alertsEnabled: z.boolean(),

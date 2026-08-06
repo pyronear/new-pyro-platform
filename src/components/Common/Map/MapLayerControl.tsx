@@ -17,7 +17,11 @@ import {
 } from '@mui/material';
 import { useState } from 'react';
 
-import { type BaseLayerType, useMapLayers } from '@/utils/useMapLayers';
+import {
+  type BaseLayerType,
+  isTopoIgnAvailable,
+  useMapLayers,
+} from '@/utils/useMapLayers';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
 import { DfciGridOverlay } from './DfciGridOverlay';
@@ -54,6 +58,7 @@ export const MapLayerControl = ({
   const [expanded, setExpanded] = useState(false);
   const [dfciEnabled, setDfciEnabled] = useState(false);
   const [onfForestEnabled, setOnfForestEnabled] = useState(false);
+  const topoIgnAvailable = isTopoIgnAvailable();
 
   const handleBaseLayerChange = (
     _: React.MouseEvent<HTMLElement>,
@@ -137,6 +142,14 @@ export const MapLayerControl = ({
                       label={tPrefs('mapIgn')}
                     />
                   </ToggleButton>
+                  {topoIgnAvailable && (
+                    <ToggleButton value="topo_ign">
+                      <LayerButton
+                        icon={<TerrainIcon fontSize="small" />}
+                        label={tPrefs('mapTopoIgn')}
+                      />
+                    </ToggleButton>
+                  )}
                   <ToggleButton value="satellite">
                     <LayerButton
                       icon={<SatelliteAltIcon fontSize="small" />}
