@@ -5,17 +5,15 @@ import { useCallback, useMemo } from 'react';
 import { AlertsContainer } from '@/components/Alerts/AlertsContainer';
 import { Loader } from '@/components/Common/Loader';
 import { CameraListProvider } from '@/context/CameraListProvider';
-import { getUnlabelledLatestAlerts } from '@/services/alerts';
-import appConfig from '@/services/appConfig';
+import {
+  getUnlabelledLatestAlerts,
+  UNLABELLED_ALERTS_QUERY_KEY,
+} from '@/services/alerts';
 import { STATUS_ERROR, STATUS_LOADING, STATUS_SUCCESS } from '@/services/axios';
 import { getCameraList } from '@/services/camera';
 import { type AlertType, mapListAlertApiToAlertType } from '@/utils/alerts';
 import { isDateToday } from '@/utils/dates';
-import { useDetectNewSequences as useDetectNewAlerts } from '@/utils/useDetectNewSequences';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix.ts';
-
-const ALERTS_LIST_REFRESH_INTERVAL_SECONDS =
-  appConfig.getConfig().ALERTS_LIST_REFRESH_INTERVAL_SECONDS;
 
 export const AlertsPage = () => {
   const { t } = useTranslationPrefix('alerts');
@@ -26,10 +24,8 @@ export const AlertsPage = () => {
     status: statusSequences,
     data: alertList,
   } = useQuery({
-    queryKey: ['unlabelledAlerts'],
+    queryKey: UNLABELLED_ALERTS_QUERY_KEY,
     queryFn: getUnlabelledLatestAlerts,
-    refetchInterval: ALERTS_LIST_REFRESH_INTERVAL_SECONDS * 1000,
-    refetchIntervalInBackground: true,
   });
 
   const { status: statusCameras, data: cameraList } = useQuery({
@@ -47,13 +43,10 @@ export const AlertsPage = () => {
     [todayAlerts, cameraList]
   );
 
-  const { hasNewSequence: hasNewAlert } = useDetectNewAlerts(
-    todayAlerts,
-    dataUpdatedAt
-  );
-
   const invalidateAndRefreshData = useCallback(() => {
-    void queryClient.invalidateQueries({ queryKey: ['unlabelledAlerts'] });
+    void queryClient.invalidateQueries({
+      queryKey: UNLABELLED_ALERTS_QUERY_KEY,
+    });
   }, [queryClient]);
 
   const status = useMemo(() => {
@@ -80,7 +73,6 @@ export const AlertsPage = () => {
           lastUpdate={dataUpdatedAt}
           invalidateAndRefreshData={invalidateAndRefreshData}
           alertsList={alertsList}
-          hasNewSequence={hasNewAlert}
         />
       )}
     </CameraListProvider>
