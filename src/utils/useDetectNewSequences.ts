@@ -1,27 +1,34 @@
-import { useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 
 import type { AlertTypeApi } from '@/services/alerts';
-import { hasNewAlertSince } from '@/utils/alerts';
+import { getLatestAlertStartedAt } from '@/utils/alerts';
 
 export const useDetectNewSequences = (
   alertList: AlertTypeApi[],
-  dataUpdatedAt: number
+  hasFetched: boolean
 ) => {
-  const previousDataUpdatedAtRef = useRef<number>(0);
+  const latestSeenStartedAtRef = useRef<number | null>(null);
 
-  const hasNewSequence = useMemo(() => {
-    if (alertList.length === 0) {
-      previousDataUpdatedAtRef.current = dataUpdatedAt;
-      return false;
+  const latestStartedAt = useMemo(
+    () => getLatestAlertStartedAt(alertList),
+    [alertList]
+  );
+
+  const previousLatestStartedAt = latestSeenStartedAtRef.current;
+  const hasNewSequence =
+    hasFetched &&
+    previousLatestStartedAt !== null &&
+    latestStartedAt > previousLatestStartedAt;
+
+  useEffect(() => {
+    if (!hasFetched) {
+      return;
     }
-
-    const previousDataUpdatedAt = previousDataUpdatedAtRef.current;
-
-    const hasNewSequence = hasNewAlertSince(alertList, previousDataUpdatedAt);
-
-    previousDataUpdatedAtRef.current = dataUpdatedAt;
-    return hasNewSequence;
-  }, [alertList, dataUpdatedAt]);
+    latestSeenStartedAtRef.current = Math.max(
+      latestSeenStartedAtRef.current ?? 0,
+      latestStartedAt
+    );
+  }, [hasFetched, latestStartedAt]);
 
   return { hasNewSequence };
 };

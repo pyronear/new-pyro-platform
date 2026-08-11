@@ -24,7 +24,6 @@ export const AlertSoundMonitor = () => {
 const AuthenticatedAlertSoundMonitor = () => {
   const {
     data: alertList,
-    dataUpdatedAt,
     isFetchedAfterMount,
   } = useQuery({
     queryKey: UNLABELLED_ALERTS_QUERY_KEY,
@@ -37,8 +36,8 @@ const AuthenticatedAlertSoundMonitor = () => {
     [alertList]
   );
   const { hasNewSequence: hasNewAlert } = useDetectNewAlerts(
-    isFetchedAfterMount ? todayAlerts : [],
-    isFetchedAfterMount ? dataUpdatedAt : 0
+    todayAlerts,
+    isFetchedAfterMount
   );
   const { playSound } = useAlertSoundToggle();
 
