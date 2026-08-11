@@ -21,7 +21,8 @@
     "unlabeledAlertsBadge": "{{count}} unlabeled"
   },
   "topbar": {
-    "menuLabel": "Menu"
+    "menuLabel": "Menu",
+    "menuLabelWithAlerts": "Menu, {{count}} unlabeled"
   },
   "common": {
     "lastUpdate": "Last update:"

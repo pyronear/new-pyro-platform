@@ -1,6 +1,7 @@
 import MenuIcon from '@mui/icons-material/Menu';
 import {
   AppBar,
+  Badge,
   IconButton,
   Slide,
   Stack,
@@ -38,17 +39,38 @@ export const MobileTopbar = () => {
           <Toolbar disableGutters>
             <Stack flexGrow={1} direction="row" paddingX="1rem">
               {isLoggedIn && (
-                <IconButton
-                  edge="start"
-                  color="inherit"
-                  aria-label={t('menuLabel')}
-                  size="small"
-                  onClick={() => {
-                    setIsDrawerOpen(true);
+                /* The drawer is closed by default, so the count has to reach
+                   the button that opens it to be of any use. */
+                <Badge
+                  badgeContent={unlabelledAlertsCount}
+                  color="error"
+                  invisible={!unlabelledAlertsCount}
+                  sx={{
+                    '& .MuiBadge-badge': {
+                      fontWeight: 700,
+                      right: 2,
+                      top: 2,
+                    },
                   }}
                 >
-                  <MenuIcon />
-                </IconButton>
+                  <IconButton
+                    edge="start"
+                    color="inherit"
+                    aria-label={
+                      unlabelledAlertsCount > 0
+                        ? t('menuLabelWithAlerts', {
+                            count: unlabelledAlertsCount,
+                          })
+                        : t('menuLabel')
+                    }
+                    size="small"
+                    onClick={() => {
+                      setIsDrawerOpen(true);
+                    }}
+                  >
+                    <MenuIcon />
+                  </IconButton>
+                </Badge>
               )}
               <img height="30px" src={logo} alt="Logo" />
             </Stack>
