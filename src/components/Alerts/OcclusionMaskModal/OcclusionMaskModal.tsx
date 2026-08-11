@@ -28,7 +28,7 @@ import {
 } from '@/utils/occlusionMasks';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
-import { useAllDetections } from '../AlertDetails/AlertImages/useAllDetections';
+import { useSampledDetections } from '../AlertDetails/AlertImages/useSampledDetections.ts';
 
 interface OcclusionMaskModalProps {
   open: boolean;
@@ -48,7 +48,7 @@ export const OcclusionMaskModal = ({
     detections: detectionsData,
     isLoading: isLoadingDetections,
     isError: hasDetectionsError,
-  } = useAllDetections({
+  } = useSampledDetections({
     sequenceId: sequence.id,
     // Passing 0 when the modal is closed short-circuits the page fan-out.
     detectionsCount: open ? sequence.detectionsCount : 0,

@@ -56,9 +56,6 @@ export const AlertPlayerControls = ({
 
   const speedMenuOpen = Boolean(speedAnchorEl);
 
-  const loadProgress =
-    totalCount > 0 ? Math.round((loadedCount / totalCount) * 100) : 100;
-
   const onChangeSlider = (_event: Event, newValue: unknown) => {
     if (typeof newValue === 'number') {
       seekToValue(newValue);
@@ -152,19 +149,11 @@ export const AlertPlayerControls = ({
           </MenuItem>
         ))}
       </Menu>
-      {loadedCount < totalCount &&
-        (isLoading || hasNextPage ? (
-          <Typography
-            variant="body2"
-            sx={{ color: theme.palette.text.secondary }}
-          >
-            {t('loadingProgress', { progress: loadProgress })}
-          </Typography>
-        ) : (
-          <Typography variant="body2" sx={{ color: theme.palette.error.main }}>
-            {t('partialLoadError', { missing: totalCount - loadedCount })}
-          </Typography>
-        ))}
+      {loadedCount < totalCount && !isLoading && !hasNextPage && (
+        <Typography variant="body2" sx={{ color: theme.palette.error.main }}>
+          {t('partialLoadError', { missing: totalCount - loadedCount })}
+        </Typography>
+      )}
       <Box
         sx={{
           flexGrow: 1,

@@ -13,7 +13,7 @@ import { formatIsoToTime, isStrictlyAfter } from '@/utils/dates';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
 import { AlertPlayer } from './player/AlertPlayer';
-import { useAllDetections } from './useAllDetections';
+import { useSampledDetections } from './useSampledDetections.ts';
 
 interface AlertImagesType {
   sequence: SequenceWithCameraInfoType;
@@ -35,7 +35,7 @@ export const AlertImages = ({ sequence }: AlertImagesType) => {
     loadedCount,
     totalCount,
     invalidateAndRefreshData,
-  } = useAllDetections({
+  } = useSampledDetections({
     sequenceId: sequence.id,
     detectionsCount: sequence.detectionsCount,
   });

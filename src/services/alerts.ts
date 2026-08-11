@@ -125,13 +125,14 @@ export const exportAlerts = async (
 
 export const getDetectionsPage = async (
   sequenceId: number,
-  offset: number,
   limit: number,
-  sampling = 1
+  sampling: number,
+  desc: boolean,
+  offset?: number
 ): Promise<DetectionType[]> => {
   return apiInstance
     .get(`/api/v1/sequences/${sequenceId.toString()}/detections`, {
-      params: { offset, limit, desc: false, with_crop: true, sampling },
+      params: { offset, limit, sampling, desc, with_crop: true },
     })
     .then((response: AxiosResponse) => {
       try {

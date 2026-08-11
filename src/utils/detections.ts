@@ -5,8 +5,6 @@ import { parseBboxes } from '@/utils/occlusionMasks';
 const ALERTS_PLAYER_CONFIDENCE_THRESHOLD: number =
   appConfig.getConfig().ALERTS_PLAYER_CONFIDENCE_THRESHOLD;
 
-const DEFAULT_PAGE_SIZE = appConfig.getConfig().ALERTS_PLAYER_BUFFER_SIZE;
-
 export interface BoundingBox {
   left: string;
   top: string;
@@ -64,60 +62,53 @@ export const parseDetectionBox = (
   };
 };
 
-export const calculateDetectionsPages = (detectionsCount: number): Page[] => {
+export const calculateDetectionsPages = (
+  detectionsCount: number,
+  pageSize: number
+): Page[] => {
   const pages: Page[] = [];
   if (!detectionsCount) {
     return pages;
   }
   // Add the first N detections
-  const limitFirstPage = Math.min(DEFAULT_PAGE_SIZE, detectionsCount);
+  const limitFirstPage = Math.min(pageSize, detectionsCount);
   pages.push({
-    offset: 0,
     limit: limitFirstPage,
     sampling: 1,
+    desc: false,
   });
-  const hasOnlyOnePage = detectionsCount <= DEFAULT_PAGE_SIZE;
-  if (hasOnlyOnePage) {
-    return pages;
-  }
-
-  // Add the last N detections
-  const offsetOtherPage = Math.max(
-    limitFirstPage,
-    detectionsCount - DEFAULT_PAGE_SIZE
-  );
-  pages.push({
-    offset: offsetOtherPage,
-    limit: detectionsCount,
-    sampling: 1,
-  });
-  if (limitFirstPage != offsetOtherPage) {
+  if (detectionsCount > 2 * pageSize) {
     // Add the N detections in the middle
-    const detectionsInTheMiddle = offsetOtherPage - limitFirstPage;
+    const detectionsInTheMiddle = detectionsCount - 2 * pageSize;
+
     pages.push({
       offset: limitFirstPage,
-      limit: offsetOtherPage,
-      sampling:
-        detectionsInTheMiddle <= DEFAULT_PAGE_SIZE
-          ? 1
-          : Math.ceil(detectionsInTheMiddle / DEFAULT_PAGE_SIZE),
+      limit: Math.min(detectionsInTheMiddle, pageSize),
+      sampling: Math.ceil(detectionsInTheMiddle / pageSize),
+      desc: false,
     });
   }
 
-  return pages.sort((a, b) => a.offset - b.offset);
+  if (detectionsCount > pageSize) {
+    // Add the last N detections
+    const limitLastPage = Math.min(detectionsCount - pageSize, pageSize);
+    pages.push({
+      limit: limitLastPage,
+      sampling: 1,
+      desc: true,
+    });
+  }
+
+  return pages;
 };
 
 export const calculateNbDetectionsToLoad = (pages: Page[]) => {
-  let count = 0;
-  if (pages.length == 0) {
-    return count;
-  }
-  count += pages[0].limit;
-  return count;
+  return pages.reduce((count, page) => count + page.limit, 0);
 };
 
 export interface Page {
-  offset: number;
+  offset?: number;
   limit: number;
   sampling: number;
+  desc: boolean;
 }

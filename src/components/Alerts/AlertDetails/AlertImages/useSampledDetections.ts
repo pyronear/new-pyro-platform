@@ -7,18 +7,19 @@ import {
 import { useCallback, useEffect, useMemo } from 'react';
 
 import { type DetectionType, getDetectionsPage } from '@/services/alerts';
+import appConfig from '@/services/appConfig.ts';
+import { convertIsoToUnix } from '@/utils/dates.ts';
 import {
   calculateDetectionsPages,
   calculateNbDetectionsToLoad,
 } from '@/utils/detections.ts';
 
-interface UseAllDetectionsParams {
+interface UseSampledDetectionsParams {
   sequenceId: number;
   detectionsCount: number;
-  pageSize?: number;
 }
 
-interface UseAllDetectionsResult {
+interface UseSampledDetectionsResult {
   detections: DetectionType[];
   isLoading: boolean;
   isError: boolean;
@@ -28,19 +29,21 @@ interface UseAllDetectionsResult {
   invalidateAndRefreshData: () => void;
 }
 
+const DEFAULT_PAGE_SIZE = appConfig.getConfig().ALERTS_PLAYER_BUFFER_SIZE;
+
 /**
  * Hook to retrieve at most {DEFAULT_PAGE_SIZE * MAX_PAGE_COUNT} detections
  * - the first {DEFAULT_PAGE_SIZE} detections
  * - the last {DEFAULT_PAGE_SIZE} detections
  * - one middle page : using sampling if there is more than {DEFAULT_PAGE_SIZE} detections
  */
-export const useAllDetections = ({
+export const useSampledDetections = ({
   sequenceId,
   detectionsCount,
-}: UseAllDetectionsParams): UseAllDetectionsResult => {
+}: UseSampledDetectionsParams): UseSampledDetectionsResult => {
   const queryClient = useQueryClient();
   const pages = useMemo(
-    () => calculateDetectionsPages(detectionsCount),
+    () => calculateDetectionsPages(detectionsCount, DEFAULT_PAGE_SIZE),
     [detectionsCount]
   );
 
@@ -73,9 +76,10 @@ export const useAllDetections = ({
         const page = pages[pageParam];
         return getDetectionsPage(
           sequenceId,
-          page.offset,
           page.limit,
-          page.sampling
+          page.sampling,
+          page.desc,
+          page.offset
         );
       },
     });
@@ -86,7 +90,13 @@ export const useAllDetections = ({
     }
   }, [fetchNextPage, hasNextPage, isError, isFetching, isLoading]);
 
-  const detections: DetectionType[] = data?.pages.flat() ?? [];
+  const detections: DetectionType[] =
+    data?.pages
+      .flat()
+      .sort(
+        (d1, d2) =>
+          convertIsoToUnix(d1.created_at) - convertIsoToUnix(d2.created_at)
+      ) ?? [];
 
   return {
     detections,

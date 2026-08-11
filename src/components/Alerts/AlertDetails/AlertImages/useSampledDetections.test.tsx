@@ -3,9 +3,10 @@ import { renderHook, waitFor } from '@testing-library/react';
 import { type ReactNode } from 'react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
+import type { DetectionType } from '@/services/alerts';
 import * as alertsService from '@/services/alerts';
 
-import { useAllDetections } from './useAllDetections';
+import { useSampledDetections } from './useSampledDetections.ts';
 
 vi.mock('@/services/alerts', async () => {
   const actual =
@@ -42,30 +43,30 @@ const newClient = () =>
     defaultOptions: { queries: { retry: false } },
   });
 
-describe('useAllDetections', () => {
+describe('useSampledDetections', () => {
   beforeEach(() => {
     vi.mocked(alertsService.getDetectionsPage).mockReset();
   });
 
-  it('issues one parallel query per page and concatenates results in order', async () => {
-    const page1 = [makeDetection(1), makeDetection(2)];
-    const page2 = [makeDetection(3)];
-    vi.mocked(alertsService.getDetectionsPage).mockImplementation(
-      (_id, offset) => Promise.resolve(offset === 0 ? page1 : page2)
-    );
+  it('issues one sequential query per page and concatenates results in order', async () => {
+    const page1: DetectionType[] = [makeDetection(1), makeDetection(2)];
+    const page2: DetectionType[] = [makeDetection(3)];
+    vi.mocked(alertsService.getDetectionsPage)
+      .mockResolvedValueOnce(page1)
+      .mockResolvedValueOnce(page2);
 
     const { result } = renderHook(
       () =>
-        useAllDetections({
+        useSampledDetections({
           sequenceId: 42,
           detectionsCount: 3,
-          pageSize: 2,
         }),
       { wrapper: wrapper(newClient()) }
     );
 
     await waitFor(() => {
-      expect(result.current.isLoading).toBe(false);
+      expect(alertsService.getDetectionsPage).toBeCalled();
+      expect(result.current.hasNextPage).toBe(false);
     });
 
     expect(result.current.detections.map((d) => d.id)).toEqual([1, 2, 3]);
@@ -80,10 +81,10 @@ describe('useAllDetections', () => {
   it('returns empty list and not-loading when detectionsCount is 0', async () => {
     const { result } = renderHook(
       () =>
-        useAllDetections({
+        useSampledDetections({
           sequenceId: 42,
           detectionsCount: 0,
-          pageSize: 100,
+          //pageSize: 100,
         }),
       { wrapper: wrapper(newClient()) }
     );
@@ -111,10 +112,10 @@ describe('useAllDetections', () => {
 
     const { result } = renderHook(
       () =>
-        useAllDetections({
+        useSampledDetections({
           sequenceId: 42,
           detectionsCount: 3,
-          pageSize: 2,
+          //pageSize: 2,
         }),
       { wrapper: wrapper(newClient()) }
     );
