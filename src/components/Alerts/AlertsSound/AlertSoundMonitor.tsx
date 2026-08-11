@@ -25,6 +25,7 @@ const AuthenticatedAlertSoundMonitor = () => {
   const {
     data: alertList,
     isFetchedAfterMount,
+    isSuccess,
   } = useQuery({
     queryKey: UNLABELLED_ALERTS_QUERY_KEY,
     queryFn: getUnlabelledLatestAlerts,
@@ -35,9 +36,12 @@ const AuthenticatedAlertSoundMonitor = () => {
     () => (alertList ?? []).filter((alert) => isDateToday(alert.started_at)),
     [alertList]
   );
+  // A failed fetch also flips isFetchedAfterMount, so success is checked too:
+  // otherwise an erroring first poll would take its baseline from the stale
+  // pre-mount data and announce alerts that predate this session.
   const { hasNewSequence: hasNewAlert } = useDetectNewAlerts(
     todayAlerts,
-    isFetchedAfterMount
+    isSuccess && isFetchedAfterMount
   );
   const { playSound } = useAlertSoundToggle();
 
