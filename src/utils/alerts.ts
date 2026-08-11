@@ -122,18 +122,17 @@ export const getSequenceBySequenceId = (
   return alert.sequences.find((sequence) => sequence.id === sequenceId);
 };
 
-export const hasNewAlertSince = (
-  alertList: AlertTypeApi[],
-  previousDataUpdatedAt: number
-) => {
-  if (previousDataUpdatedAt === 0) return false;
-  return alertList.some((sequence) => {
-    if (!sequence.started_at) {
-      return false;
-    }
-    const sequenceCreationTime = convertIsoToUnix(sequence.started_at) * 1000;
-    return sequenceCreationTime > previousDataUpdatedAt;
-  });
+/*
+ * Returned in server time so that callers can compare successive API responses
+ * without involving the client clock, which may drift from the server's.
+ * Unparseable dates are skipped rather than propagated, as a single NaN would
+ * make every later comparison false and silence the alerts it feeds.
+ */
+export const getLatestAlertStartedAt = (alertList: AlertTypeApi[]) => {
+  return alertList.reduce((latest, alert) => {
+    const startedAt = convertIsoToUnix(alert.started_at);
+    return Number.isFinite(startedAt) ? Math.max(latest, startedAt) : latest;
+  }, 0);
 };
 
 export const isInTheList = (
