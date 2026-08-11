@@ -126,7 +126,9 @@ const AlertImagesActions = ({
     const zip = new JSZip();
 
     const fetchPromises = detections.map(async (detection) => {
-      const response = await fetch(detection.url);
+      // Bypass the browser cache: the <img> tags load the same URLs without
+      // CORS, and reusing those cached responses here fails the CORS check
+      const response = await fetch(detection.url, { cache: 'reload' });
       const blob = await response.blob();
       const extension = detection.url.split('.').pop()?.split('?')[0] ?? 'jpg';
       // Format: YYYY-MM-DDTHH-MM-SS_DETECTION_ID.extension
@@ -149,7 +151,9 @@ const AlertImagesActions = ({
     const zip = new JSZip();
 
     const fetchPromises = detections.map(async (detection) => {
-      const response = await fetch(detection.url);
+      // Bypass the browser cache: the <img> tags load the same URLs without
+      // CORS, and reusing those cached responses here fails the CORS check
+      const response = await fetch(detection.url, { cache: 'reload' });
       const blob = await response.blob();
       const extension = detection.url.split('.').pop()?.split('?')[0] ?? 'jpg';
       // Format: YYYY-MM-DDTHH-MM-SS_DETECTION_ID.extension
