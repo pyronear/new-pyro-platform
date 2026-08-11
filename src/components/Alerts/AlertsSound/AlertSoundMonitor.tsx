@@ -17,10 +17,18 @@ const ALERTS_LIST_REFRESH_INTERVAL_SECONDS =
 
 export const AlertSoundMonitor = () => {
   const { token } = useAuth();
-  const { data: alertList, dataUpdatedAt } = useQuery({
+
+  return token ? <AuthenticatedAlertSoundMonitor key={token} /> : null;
+};
+
+const AuthenticatedAlertSoundMonitor = () => {
+  const {
+    data: alertList,
+    dataUpdatedAt,
+    isFetchedAfterMount,
+  } = useQuery({
     queryKey: UNLABELLED_ALERTS_QUERY_KEY,
     queryFn: getUnlabelledLatestAlerts,
-    enabled: !!token,
     refetchInterval: ALERTS_LIST_REFRESH_INTERVAL_SECONDS * 1000,
     refetchIntervalInBackground: true,
   });
@@ -29,8 +37,8 @@ export const AlertSoundMonitor = () => {
     [alertList]
   );
   const { hasNewSequence: hasNewAlert } = useDetectNewAlerts(
-    todayAlerts,
-    dataUpdatedAt
+    isFetchedAfterMount ? todayAlerts : [],
+    isFetchedAfterMount ? dataUpdatedAt : 0
   );
   const { playSound } = useAlertSoundToggle();
 
