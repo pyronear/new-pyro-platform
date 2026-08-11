@@ -21,7 +21,8 @@
     "unlabeledAlertsBadge": "{{count}} sin etiquetar"
   },
   "topbar": {
-    "menuLabel": "Menú"
+    "menuLabel": "Menú",
+    "menuLabelWithAlerts": "Menú, {{count}} sin etiquetar"
   },
   "common": {
     "lastUpdate": "Última actualización:"

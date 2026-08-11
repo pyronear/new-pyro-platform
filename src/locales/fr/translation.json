@@ -21,7 +21,8 @@
     "unlabeledAlertsBadge": "{{count}} à étiqueter"
   },
   "topbar": {
-    "menuLabel": "Menu"
+    "menuLabel": "Menu",
+    "menuLabelWithAlerts": "Menu, {{count}} à étiqueter"
   },
   "common": {
     "lastUpdate": "Dernière mise à jour :"
