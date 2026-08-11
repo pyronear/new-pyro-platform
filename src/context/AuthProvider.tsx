@@ -1,3 +1,4 @@
+import { useQueryClient } from '@tanstack/react-query';
 import React, { useCallback, useMemo, useState } from 'react';
 
 import { getToken } from '../services/auth';
@@ -27,23 +28,33 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     return existingToken;
   });
 
+  /*
+   * Every cached response is scoped to the organization of the account that
+   * fetched it, so it must not outlive that account's session: observers held
+   * outside the protected routes keep their queries alive past logout, and
+   * would otherwise serve the previous user's alerts to the next one.
+   */
+  const queryClient = useQueryClient();
+
   const login = useCallback(
     async (username: string, password: string) => {
       const { token } = await getToken(username, password);
       apiInstance.defaults.headers.common.Authorization = `Bearer ${token}`;
+      queryClient.clear();
       setAuthToken(token);
       setAuthUsername(username);
       setToken(token);
       setUsername(username);
     },
-    [setToken]
+    [setToken, queryClient]
   );
 
   const logout = useCallback(() => {
+    queryClient.clear();
     clearAuthToken();
     clearAuthUsername();
     setToken(null);
-  }, [setToken]);
+  }, [setToken, queryClient]);
 
   const contextValue = useMemo(
     () => ({ token, login, logout, username }),
