@@ -58,7 +58,7 @@ const LAYER_CONFIGS: Record<BaseLayerType, TileLayerConfig> = {
 
 /** The topo layer is only offered when a key is configured. */
 export const isTopoIgnAvailable = (): boolean =>
-  Boolean(appConfig.getConfig().IGN_API_KEY);
+  !!appConfig.getConfig().IGN_API_KEY;
 
 export const DFCI_LAYER_CONFIG: TileLayerConfig = {
   url: 'https://data.geopf.fr/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=GEOGRAPHICALGRIDSYSTEM.DFCI&STYLE=normal&FORMAT=image/png&TILEMATRIXSET=PM&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}',
