@@ -20,6 +20,9 @@ export interface AppConfigType {
   readonly USER_GUIDE_URLS: Record<string, string>;
 
   readonly HISTORY_NB_ALERTS_PER_PAGE: number;
+
+  /** IGN Géoplateforme key. Empty => public IGN layers only. */
+  readonly IGN_API_KEY: string;
 }
 
 export class AppConfig {
@@ -70,6 +73,8 @@ export class AppConfig {
       USER_GUIDE_URLS: window.AppConfig?.USER_GUIDE_URLS,
       // @ts-expect-error config is fetched from a JS file
       HISTORY_NB_ALERTS_PER_PAGE: window.AppConfig?.HISTORY_NB_ALERTS_PER_PAGE,
+      // @ts-expect-error config is fetched from a JS file
+      IGN_API_KEY: window.AppConfig?.IGN_API_KEY ?? '',
     };
   }
 }

@@ -19,6 +19,7 @@ import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/context/useAuth';
 import { usePreferences } from '@/context/usePreferences';
 import appConfig from '@/services/appConfig';
+import { type BaseLayerType, isTopoIgnAvailable } from '@/utils/useMapLayers';
 
 import { AlertVolumeToggle } from './AlertVolumeToggle';
 
@@ -43,7 +44,7 @@ export const PreferencesMenu: React.FC<PreferencesMenuProps> = ({
 
   const handleMapBaseLayerChange = (
     _: React.MouseEvent<HTMLElement>,
-    value: 'osm' | 'ign' | 'satellite' | null
+    value: BaseLayerType | null
   ) => {
     if (value !== null) {
       updatePreferences({ map: { baseLayer: value } });
@@ -87,6 +88,12 @@ export const PreferencesMenu: React.FC<PreferencesMenuProps> = ({
                 <TerrainIcon fontSize="small" sx={{ mr: 0.5 }} />
                 {t('preferences.mapIgn')}
               </ToggleButton>
+              {isTopoIgnAvailable() && (
+                <ToggleButton value="topo_ign">
+                  <TerrainIcon fontSize="small" sx={{ mr: 0.5 }} />
+                  {t('preferences.mapTopoIgn')}
+                </ToggleButton>
+              )}
               <ToggleButton value="satellite">
                 <SatelliteAltIcon fontSize="small" sx={{ mr: 0.5 }} />
                 {t('preferences.mapSatellite')}

@@ -213,6 +213,7 @@
     "mapBaseLayer": "Fond de carte",
     "mapOsm": "OpenStreetMap",
     "mapIgn": "IGN (France)",
+    "mapTopoIgn": "IGN Topo (France)",
     "mapSatellite": "Satellite",
     "enableAudioAlerts": "Activer le son des alertes",
     "userGuide": "Guide utilisateur"

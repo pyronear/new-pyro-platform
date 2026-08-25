@@ -211,6 +211,7 @@
     "mapBaseLayer": "Capa base del mapa",
     "mapOsm": "OpenStreetMap",
     "mapIgn": "IGN (Francia)",
+    "mapTopoIgn": "IGN Topo (Francia)",
     "mapSatellite": "Satélite",
     "enableAudioAlerts": "Activar el sonido de las alertas",
     "userGuide": "Guía del usuario"
