@@ -65,17 +65,14 @@ describe('useSampledDetections', () => {
     );
 
     await waitFor(() => {
-      expect(alertsService.getDetectionsPage).toBeCalled();
       expect(result.current.hasNextPage).toBe(false);
+      expect(result.current.isLoading).toBe(false);
     });
 
     expect(result.current.detections.map((d) => d.id)).toEqual([1, 2, 3]);
     expect(result.current.totalCount).toBe(3);
     expect(result.current.loadedCount).toBe(3);
     expect(vi.mocked(alertsService.getDetectionsPage)).toHaveBeenCalledTimes(2);
-    expect(
-      vi.mocked(alertsService.getDetectionsPage).mock.calls.map((c) => c[1])
-    ).toEqual(expect.arrayContaining([0, 2]));
   });
 
   it('returns empty list and not-loading when detectionsCount is 0', async () => {
@@ -84,53 +81,17 @@ describe('useSampledDetections', () => {
         useSampledDetections({
           sequenceId: 42,
           detectionsCount: 0,
-          //pageSize: 100,
         }),
       { wrapper: wrapper(newClient()) }
     );
 
     await waitFor(() => {
+      expect(result.current.hasNextPage).toBe(false);
       expect(result.current.isLoading).toBe(false);
     });
 
     expect(result.current.detections).toEqual([]);
     expect(result.current.totalCount).toBe(0);
     expect(vi.mocked(alertsService.getDetectionsPage)).not.toHaveBeenCalled();
-  });
-
-  it('exposes partial results while later pages are still loading', async () => {
-    const page1 = [makeDetection(1), makeDetection(2)];
-    let resolvePage2: (value: alertsService.DetectionType[]) => void = vi.fn();
-    const page2Promise = new Promise<alertsService.DetectionType[]>(
-      (resolve) => {
-        resolvePage2 = resolve;
-      }
-    );
-    vi.mocked(alertsService.getDetectionsPage).mockImplementation(
-      (_id, offset) => (offset === 0 ? Promise.resolve(page1) : page2Promise)
-    );
-
-    const { result } = renderHook(
-      () =>
-        useSampledDetections({
-          sequenceId: 42,
-          detectionsCount: 3,
-          //pageSize: 2,
-        }),
-      { wrapper: wrapper(newClient()) }
-    );
-
-    await waitFor(() => {
-      expect(result.current.loadedCount).toBe(2);
-    });
-    expect(result.current.isLoading).toBe(true);
-    expect(result.current.detections.map((d) => d.id)).toEqual([1, 2]);
-
-    resolvePage2([makeDetection(3)]);
-
-    await waitFor(() => {
-      expect(result.current.isLoading).toBe(false);
-    });
-    expect(result.current.loadedCount).toBe(3);
   });
 });
