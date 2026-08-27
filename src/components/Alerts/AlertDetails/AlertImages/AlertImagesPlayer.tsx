@@ -10,8 +10,13 @@ import {
   useState,
 } from 'react';
 
+import AzimuthAxis from '@/components/Common/AzimuthAxis/AzimuthAxis.tsx';
 import type { DetectionType } from '@/services/alerts';
 import appConfig from '@/services/appConfig';
+import {
+  getSequenceAzimuthAxis,
+  type SequenceWithCameraInfoType,
+} from '@/utils/alerts';
 import { convertIsoToUnix, formatIsoToTime } from '@/utils/dates';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
@@ -19,7 +24,7 @@ import { AlertOrderButton } from './AlertOrderButton';
 import { DetectionImageWithBoundingBox } from './DetectionImageWithBoundingBox';
 
 interface AlertImagesPlayerType {
-  sequenceId: number;
+  sequence: SequenceWithCameraInfoType;
   detections: DetectionType[]; // Sorted
   displayBbox: boolean;
   displayCrop: boolean;
@@ -33,7 +38,7 @@ const ALERTS_PLAYER_INTERVAL_MILLISECONDS =
   appConfig.getConfig().ALERTS_PLAYER_INTERVAL_MILLISECONDS;
 
 export const AlertImagesPlayer = ({
-  sequenceId,
+  sequence,
   detections,
   displayBbox,
   displayCrop,
@@ -42,11 +47,14 @@ export const AlertImagesPlayer = ({
   orderDetectionsByDesc,
   setOrderDetectionsByDesc,
 }: AlertImagesPlayerType) => {
+  const sequenceId = sequence.id;
   const [selectedDetection, setSelectedDetection] =
     useState<DetectionType | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const theme = useTheme();
   const { t } = useTranslationPrefix('alerts');
+
+  const azimuthAxis = getSequenceAzimuthAxis(sequence);
 
   const marks = useMemo(
     () =>
@@ -126,12 +134,29 @@ export const AlertImagesPlayer = ({
     <>
       {selectedDetection && (
         <Stack direction="column" spacing={1}>
-          <DetectionImageWithBoundingBox
-            displayBbox={displayBbox}
-            displayCrop={displayCrop}
-            sequenceId={sequenceId}
-            selectedDetection={selectedDetection}
-          />
+          {/* image is capped at 60vh, so it is often narrower than this column.
+              shrink-wrap so the axis ends land on the image, not on the column. */}
+          <Box
+            sx={{
+              alignSelf: 'flex-start',
+              width: 'fit-content',
+              maxWidth: '100%',
+            }}
+          >
+            {azimuthAxis && (
+              <AzimuthAxis
+                center={azimuthAxis.center}
+                range={azimuthAxis.range}
+                isLoading={false}
+              />
+            )}
+            <DetectionImageWithBoundingBox
+              displayBbox={displayBbox}
+              displayCrop={displayCrop}
+              sequenceId={sequenceId}
+              selectedDetection={selectedDetection}
+            />
+          </Box>
 
           <Stack direction="row" alignItems="center" spacing={2}>
             <IconButton

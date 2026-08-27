@@ -117,7 +117,7 @@ export const AlertImages = ({ sequence }: AlertImagesType) => {
           )}
           {isSuccess && (
             <AlertImagesPlayer
-              sequenceId={sequence.id}
+              sequence={sequence}
               detections={detectionsList}
               displayBbox={displayBbox}
               displayCrop={displayCrop}

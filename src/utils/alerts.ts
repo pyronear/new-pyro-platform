@@ -23,7 +23,8 @@ export interface SequenceWithCameraInfoType {
   camera: CameraType | null;
   startedAt: string | null;
   lastSeenAt: string | null;
-  azimuth: number;
+  azimuth: number; // azimuth of the smoke
+  cameraAzimuth: number | null; // azimuth at the center of the image
   coneAngle: number;
   labelWildfire: LabelWildfireValues;
 }
@@ -52,6 +53,7 @@ export const mapOneAlertApiToAlertType = (
         startedAt: sequence.started_at,
         lastSeenAt: sequence.last_seen_at,
         azimuth: sequence.sequence_azimuth,
+        cameraAzimuth: sequence.camera_azimuth ?? null,
         coneAngle: sequence.cone_angle,
         labelWildfire: (sequence.is_wildfire as LabelWildfireValues) ?? null,
       })),
@@ -72,7 +74,23 @@ export const countUnlabelledSequences = (
 ) => sequences.filter((sequence) => sequence.labelWildfire === null).length;
 
 export const formatAzimuth = (azimuth: number | null, precision = 0) => {
-  return azimuth != null ? `${azimuth.toFixed(precision)}°` : '';
+  if (azimuth == null) {
+    return '';
+  }
+  // axis ticks step around a center, so they can land outside [0, 360[.
+  // round first, else 359.8 shows up as 360°.
+  const rounded = Number(azimuth.toFixed(precision));
+  return `${(((rounded % 360) + 360) % 360).toFixed(precision)}°`;
+};
+
+// no DEFAULT_ANGLE_OF_VIEW fallback here: it is 1, which would draw a 1° ruler.
+// missing value -> null -> no axis at all.
+export const getSequenceAzimuthAxis = (
+  sequence: SequenceWithCameraInfoType
+) => {
+  const center = sequence.cameraAzimuth;
+  const range = sequence.camera?.angle_of_view;
+  return center != null && range != null ? { center, range } : null;
 };
 
 export const formatPositionWithoutTronc = (
