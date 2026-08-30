@@ -122,8 +122,8 @@
     },
     "label": {
       "wildfire": "Brandausbruch",
-      "otherSmoke": "Irrelevanter Rauch",
-      "other": "Weiteres falsch positives Ergebnis",
+      "otherSmoke": "Rauch, der nicht mit einem Brand in Zusammenhang steht (z. B. Schornstein, industrielle Aktivitäten, …)",
+      "other": "Sonstige Fehlalarme (z. B. Wolken, Lichtreflexionen, …)",
       "unset": "Zu kennzeichnen",
       "titleModal": "Wählen Sie das Label für den Alarm von ",
       "buttonCancelModal": "Abbrechen",

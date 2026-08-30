@@ -121,8 +121,8 @@
     },
     "label": {
       "wildfire": "Inicio del incendio",
-      "otherSmoke": "Humo irrelevante",
-      "other": "Otro falso positivo",
+      "otherSmoke": "Humo no relacionado con un incendio (p. ej., chimenea, actividad industrial, ...)",
+      "other": "Otro falso positivo (p. ej., nube, reflejo de luz, ...)",
       "unset": "A etiquetar",
       "titleModal": "Seleccione la etiqueta para la alerta de ",
       "buttonCancelModal": "Cancelar",

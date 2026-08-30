@@ -121,8 +121,8 @@
     },
     "label": {
       "wildfire": "Fire outbreak",
-      "otherSmoke": "Unrelated smoke",
-      "other": "Other false positive",
+      "otherSmoke": "Smoke unrelated to a fire (e.g. chimney, industrial activity, ...)",
+      "other": "Other false positive (e.g. cloud, light reflection, ...)",
       "unset": "To be labeled",
       "titleModal": "Select the label for the alert from ",
       "buttonCancelModal": "Cancel",

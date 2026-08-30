@@ -121,8 +121,8 @@
     },
     "label": {
       "wildfire": "Départ de feu",
-      "otherSmoke": "Fumée non pertinente",
-      "other": "Autre faux positif",
+      "otherSmoke": "Fumée sans lien avec un feu (ex. cheminée, activité industrielle, ...)",
+      "other": "Autre faux positif (ex. nuage, reflet lumineux, ...)",
       "unset": "À labelliser",
       "titleModal": "Sélectionnez le label de l'alerte depuis ",
       "buttonCancelModal": "Annuler",
