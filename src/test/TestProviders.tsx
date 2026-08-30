@@ -1,6 +1,6 @@
 import { ThemeProvider } from '@mui/material';
 import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter } from 'react-router';
 
 import { AuthProvider } from '../context/AuthProvider';
 import { PreferencesProvider } from '../context/PreferencesProvider';

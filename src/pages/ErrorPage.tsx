@@ -1,5 +1,5 @@
 import { Button, Stack, Typography } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 import { DEFAULT_ROUTE } from '@/App';
 import logo from '@/assets/small-logo.png';
