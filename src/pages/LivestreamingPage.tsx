@@ -5,6 +5,7 @@ import { useNavigate, useParams } from 'react-router';
 
 import { Loader } from '@/components/Common/Loader.tsx';
 import { ActionsOnCameraContextProvider } from '@/components/Live/context/ActionsOnCameraProvider.tsx';
+import { useLiveAllowed } from '@/components/Live/hooks/useLiveAllowed.tsx';
 import { LiveContainer } from '@/components/Live/LiveContainer.tsx';
 import { ForbiddenPage } from '@/pages/ForbiddenPage.tsx';
 import { getAlertById } from '@/services/alerts.ts';
@@ -19,7 +20,9 @@ import { useTranslationPrefix } from '@/utils/useTranslationPrefix.ts';
 
 const LivestreamingPage = () => {
   const navigate = useNavigate();
+  const { isLiveAuthorized } = useLiveAllowed();
   const { t } = useTranslationPrefix('live');
+
   const { cameraName, alertId } = useParams<{
     cameraName: string;
     alertId?: string;
@@ -44,7 +47,7 @@ const LivestreamingPage = () => {
 
   const isCameraAuthorized = () => {
     return (
-      // TODO : add control on profil
+      isLiveAuthorized &&
       !!cameraName &&
       (cameraList ?? []).map((camera) => camera.name).includes(cameraName)
     );

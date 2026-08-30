@@ -4,6 +4,7 @@ import { Button, Grid } from '@mui/material';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 
+import { useLiveAllowed } from '@/components/Live/hooks/useLiveAllowed.tsx';
 import {
   type AlertType,
   countUnlabelledSequences,
@@ -28,6 +29,7 @@ export const AlertActionButtons = ({
   invalidateAndRefreshData,
 }: AlertActionButtonsType) => {
   const navigate = useNavigate();
+  const { isLiveAuthorized } = useLiveAllowed();
   const { t } = useTranslationPrefix('alerts');
   const [isOcclusionModalOpen, setIsOcclusionModalOpen] = useState(false);
 
@@ -48,6 +50,7 @@ export const AlertActionButtons = ({
               onClick={startLivestreaming}
               fullWidth
               sx={{ height: '100%' }}
+              disabled={!isLiveAuthorized}
             >
               {t('buttonInvestigate')}
             </Button>
