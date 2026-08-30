@@ -18,7 +18,6 @@ import { calculateLiveStreamingUrl } from '@/utils/live';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
 import { useActionsOnCamera } from './context/useActionsOnCamera';
-import { useDataSitesLive } from './hooks/useDataSitesLive';
 import { HeadRow } from './LiveContent/HeadRow/HeadRow';
 import { LiveControlPanel } from './LiveContent/LiveControlPanel';
 import { LiveStreamPanel } from './LiveContent/LiveStreamPanel';
@@ -32,16 +31,17 @@ interface LiveContainerProps {
   onClose: () => void;
   cameraName: string;
   alert?: AlertType;
+  sites: SiteType[];
 }
 
 export const LiveContainer = ({
   onClose,
   cameraName,
   alert,
+  sites,
 }: LiveContainerProps) => {
   const queryClient = useQueryClient();
   const { t } = useTranslationPrefix('live');
-  const { statusSitesFetch, sites } = useDataSitesLive(alert);
   const { isStreamingTimeout, isOneActionLoading } = useActionsOnCamera();
   const [isStreamVideoInterrupted, setIsStreamVideoInterrupted] =
     useState<boolean>(false);
@@ -132,9 +132,7 @@ export const LiveContainer = ({
   }, [isOneActionLoading, liveAzimuth]);
 
   const isStreamingLaunched =
-    statusSitesFetch == STATUS_SUCCESS &&
-    statusCamerasFetchFromSite == STATUS_SUCCESS &&
-    isCameraSelected;
+    statusCamerasFetchFromSite == STATUS_SUCCESS && isCameraSelected;
 
   const isAzimuthLoading = isCameraMoving || liveAzimuth?.azimuth_deg == null;
 
@@ -173,16 +171,12 @@ export const LiveContainer = ({
           </Grid>
         ) : (
           <Stack m={6}>
-            {(statusSitesFetch == STATUS_LOADING ||
-              (isCameraSelected &&
-                statusCamerasFetchFromSite == STATUS_LOADING)) && <Loader />}
-            {statusSitesFetch == STATUS_ERROR && (
-              <Typography variant="body2">{t('errorFetchInfos')}</Typography>
-            )}
+            {isCameraSelected &&
+              statusCamerasFetchFromSite == STATUS_LOADING && <Loader />}
             {statusCamerasFetchFromSite == STATUS_ERROR && (
               <Typography variant="body2">{t('errorCallSite')}</Typography>
             )}
-            {statusSitesFetch == STATUS_SUCCESS && sites.length == 0 && (
+            {sites.length == 0 && (
               <Typography variant="body2">{t('errorNoAccess')}</Typography>
             )}
           </Stack>

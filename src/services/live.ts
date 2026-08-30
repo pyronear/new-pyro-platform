@@ -244,20 +244,3 @@ export const capture = async (cameraId: number): Promise<string | null> => {
       throw err;
     });
 };
-
-const apiSitesLiveAccessResponseSchema = z.record(
-  z.string(),
-  z.array(z.string())
-);
-
-export const getLiveAccess = async (username: string): Promise<string[]> => {
-  return fetch(`/config/${import.meta.env.VITE_FILE_SITES_LIVE_ACCESS}`)
-    .then((r) => r.json())
-    .then((response) => {
-      const result = apiSitesLiveAccessResponseSchema.safeParse(response);
-      if (result.success) {
-        return result.data[username] ?? [];
-      }
-      return [];
-    });
-};
