@@ -8,6 +8,9 @@ const apiSequenceResponseSchema = z.object({
   id: z.number(),
   camera_id: z.number(),
   pose_id: z.number(),
+  // center of the image, not the smoke (that one is sequence_azimuth).
+  // nullish: an older API would otherwise blank the whole alert list.
+  camera_azimuth: z.number().nullish(),
   sequence_azimuth: z.number(),
   cone_angle: z.number(),
   is_wildfire: z.nullable(z.string()),

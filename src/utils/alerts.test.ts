@@ -1,9 +1,13 @@
+import type { CameraType } from '@/services/camera';
+
 import {
   type AlertType,
   extractCameraListFromAlert,
   formatAzimuth,
   formatPosition,
+  getSequenceAzimuthAxis,
   hasNewAlertSince,
+  type SequenceWithCameraInfoType,
 } from './alerts';
 
 describe('formatConeAzimuth', () => {
@@ -19,6 +23,62 @@ describe('formatConeAzimuth', () => {
   it('should return 22.5° if a float with precision of 1', () => {
     const result = formatAzimuth(22.5, 1);
     expect(result).toBe('22.5°');
+  });
+  it('should wrap a negative azimuth back into [0, 360[', () => {
+    expect(formatAzimuth(-10)).toBe('350°');
+    expect(formatAzimuth(-370)).toBe('350°');
+  });
+  it('should wrap an azimuth greater than 360 back into [0, 360[', () => {
+    expect(formatAzimuth(365)).toBe('5°');
+    expect(formatAzimuth(360)).toBe('0°');
+  });
+  it('should round before wrapping so it never displays 360°', () => {
+    expect(formatAzimuth(359.8)).toBe('0°');
+  });
+});
+
+describe('getSequenceAzimuthAxis', () => {
+  const createSequence = (
+    cameraAzimuth: number | null,
+    angleOfView: number | null
+  ): SequenceWithCameraInfoType => ({
+    id: 1,
+    poseId: null,
+    camera: { angle_of_view: angleOfView } as CameraType,
+    startedAt: null,
+    lastSeenAt: null,
+    azimuth: 0,
+    cameraAzimuth,
+    coneAngle: 0,
+    labelWildfire: null,
+  });
+
+  it('should return the camera azimuth and its angle of view', () => {
+    expect(getSequenceAzimuthAxis(createSequence(230.4, 54.2))).toEqual({
+      center: 230.4,
+      range: 54.2,
+    });
+  });
+
+  it('should keep an azimuth of 0 (due north)', () => {
+    expect(getSequenceAzimuthAxis(createSequence(0, 54.2))).toEqual({
+      center: 0,
+      range: 54.2,
+    });
+  });
+
+  it('should return null when the camera azimuth is unknown', () => {
+    expect(getSequenceAzimuthAxis(createSequence(null, 54.2))).toBeNull();
+  });
+
+  it('should return null when the angle of view is unknown', () => {
+    expect(getSequenceAzimuthAxis(createSequence(230.4, null))).toBeNull();
+  });
+
+  it('should return null when the sequence has no camera', () => {
+    expect(
+      getSequenceAzimuthAxis({ ...createSequence(230.4, 54.2), camera: null })
+    ).toBeNull();
   });
 });
 describe('formatPosition', () => {
@@ -88,6 +148,7 @@ describe('extractCameraListFromAlert', () => {
           camera: camera1,
           lastSeenAt: null,
           azimuth: 0,
+          cameraAzimuth: null,
           coneAngle: 0,
           labelWildfire: null,
           startedAt: null,
@@ -98,6 +159,7 @@ describe('extractCameraListFromAlert', () => {
           camera: camera2,
           lastSeenAt: null,
           azimuth: 0,
+          cameraAzimuth: null,
           coneAngle: 0,
           labelWildfire: null,
           startedAt: null,

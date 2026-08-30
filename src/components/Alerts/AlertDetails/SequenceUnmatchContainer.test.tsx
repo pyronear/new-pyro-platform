@@ -18,6 +18,7 @@ const createSequence = (id: number): SequenceWithCameraInfoType => ({
   startedAt: null,
   lastSeenAt: null,
   azimuth: 0,
+  cameraAzimuth: null,
   coneAngle: 0,
   labelWildfire: null,
 });
