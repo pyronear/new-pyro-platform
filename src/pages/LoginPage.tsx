@@ -1,4 +1,4 @@
-import { Navigate } from 'react-router-dom';
+import { Navigate } from 'react-router';
 
 import { DEFAULT_ROUTE } from '../App';
 import LoginForm from '../components/Login/LoginForm';

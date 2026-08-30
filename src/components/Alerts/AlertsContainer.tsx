@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router';
 
 import { AlertsContainerForDesktop } from '@/components/Alerts/AlertsContainerForDesktop.tsx';
 import { AlertsContainerForMobile } from '@/components/Alerts/AlertsContainerForMobile.tsx';

@@ -9,11 +9,11 @@ import {
   Typography,
 } from '@mui/material';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
-import { useAuth } from '../../context/useAuth';
-import { LoginError } from '../../services/auth';
-import { useTranslationPrefix } from '../../utils/useTranslationPrefix';
+import { useAuth } from '@/context/useAuth.ts';
+import { LoginError } from '@/services/auth.ts';
+import { useTranslationPrefix } from '@/utils/useTranslationPrefix.ts';
 
 const LoginForm = () => {
   const { login } = useAuth();
