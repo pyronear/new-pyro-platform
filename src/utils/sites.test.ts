@@ -1,7 +1,10 @@
 import { expect } from 'vitest';
 
 import type { CameraType } from '@/services/camera.ts';
-import { buildSitesList } from '@/utils/sites.ts';
+import {
+  buildSitesList,
+  containsAtLeastOneCameraWithAlert,
+} from '@/utils/sites.ts';
 
 const createACamera = (id: number, name: string): CameraType => {
   return {
@@ -41,5 +44,95 @@ describe('buildSitesList', () => {
       { id: 'ytre-za', cameras: [cameraList[1], cameraList[2]] },
       { id: 'last-one', cameras: [cameraList[4]] },
     ]);
+  });
+  it('should return empty list if param is empty too', () => {
+    // given
+    const cameraList: CameraType[] = [];
+    // when
+    const sites = buildSitesList(cameraList);
+
+    // then
+    expect(sites).toHaveLength(0);
+  });
+});
+
+describe('containsAtLeastOneCameraWithAlert', () => {
+  const cameraList = [
+    createACamera(1, 'azerty-01'),
+    createACamera(4, 'azerty-02'),
+  ];
+  const site = {
+    id: 'azerty',
+    cameras: cameraList,
+  };
+  it('should return true if at leat one matching camera', () => {
+    // given
+    const alert = {
+      id: 1,
+      startedAt: null,
+      sequences: [
+        {
+          id: 1,
+          poseId: null,
+          camera: createACamera(55, 'random-01'),
+          lastSeenAt: null,
+          azimuth: 0,
+          coneAngle: 0,
+          labelWildfire: null,
+          startedAt: null,
+        },
+        {
+          id: 2,
+          poseId: null,
+          camera: cameraList[1],
+          lastSeenAt: null,
+          azimuth: 0,
+          coneAngle: 0,
+          labelWildfire: null,
+          startedAt: null,
+        },
+      ],
+    };
+
+    // when
+    const result = containsAtLeastOneCameraWithAlert(site, alert);
+
+    // then
+    expect(result).toBeTruthy();
+  });
+  it('should return false if no camera matches', () => {
+    // given
+    const alert = {
+      id: 1,
+      startedAt: null,
+      sequences: [
+        {
+          id: 1,
+          poseId: null,
+          camera: createACamera(55, 'random-01'),
+          lastSeenAt: null,
+          azimuth: 0,
+          coneAngle: 0,
+          labelWildfire: null,
+          startedAt: null,
+        },
+        {
+          id: 2,
+          poseId: null,
+          camera: createACamera(56, 'random-02'),
+          lastSeenAt: null,
+          azimuth: 0,
+          coneAngle: 0,
+          labelWildfire: null,
+          startedAt: null,
+        },
+      ],
+    };
+
+    // when
+    const result = containsAtLeastOneCameraWithAlert(site, alert);
+
+    // then
+    expect(result).toBeFalsy();
   });
 });
