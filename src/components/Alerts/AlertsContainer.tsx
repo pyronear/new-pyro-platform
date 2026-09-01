@@ -6,14 +6,11 @@ import { AlertsContainerForMobile } from '@/components/Alerts/AlertsContainerFor
 import { type AlertType, isInTheList } from '@/utils/alerts';
 import { useIsMobile } from '@/utils/useIsMobile';
 
-import { useAlertSoundToggle } from './AlertsSound/useAlertSoundToggle';
-
 interface AlertsContainerType {
   lastUpdate: number;
   isRefreshing: boolean;
   invalidateAndRefreshData: () => void;
   alertsList: AlertType[];
-  hasNewSequence: boolean;
 }
 
 export const AlertsContainer = ({
@@ -21,11 +18,9 @@ export const AlertsContainer = ({
   isRefreshing,
   invalidateAndRefreshData,
   alertsList,
-  hasNewSequence,
 }: AlertsContainerType) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const isMobile = useIsMobile();
-  const { playSound } = useAlertSoundToggle();
 
   const selectedAlert = useMemo(
     () =>
@@ -45,12 +40,6 @@ export const AlertsContainer = ({
   const resetSelectedAlert = useCallback(() => {
     setSearchParams({});
   }, [setSearchParams]);
-
-  useEffect(() => {
-    if (hasNewSequence) {
-      playSound();
-    }
-  }, [hasNewSequence, playSound]);
 
   useEffect(() => {
     // Default : initial state or if the list changes and the alert doesn't exist anymore

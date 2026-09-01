@@ -10,6 +10,7 @@ import { Stack } from '@mui/material';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router';
 
+import { AlertSoundMonitor } from './components/Alerts/AlertsSound/AlertSoundMonitor';
 import ProtectedRoute from './components/Login/ProtectedRoute';
 import { Topbar } from './components/Topbar/Topbar';
 import { AuthProvider } from './context/AuthProvider';
@@ -30,6 +31,7 @@ const App = () => {
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <PreferencesProvider>
+          <AlertSoundMonitor />
           <DateLocalizationProvider>
             <BrowserRouter>
               <Stack height={'100vh'}>

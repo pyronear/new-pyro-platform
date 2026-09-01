@@ -3,8 +3,9 @@ import {
   extractCameraListFromAlert,
   formatAzimuth,
   formatPosition,
-  hasNewAlertSince,
+  getLatestAlertStartedAt,
 } from './alerts';
+import { convertIsoToUnix } from './dates';
 
 describe('formatConeAzimuth', () => {
   it('should return empty string if is null', () => {
@@ -108,62 +109,33 @@ describe('extractCameraListFromAlert', () => {
     expect(result).toStrictEqual([camera1, camera2]);
   });
 });
-describe('hasNewSequenceSince', () => {
-  it('should return false if empty', () => {
-    const result = hasNewAlertSince([], 1740476223000); //2025-02-25T09:37:03
-    expect(result).toBeFalsy();
+describe('getLatestAlertStartedAt', () => {
+  const alert = (id: number, started_at: string) => ({
+    id,
+    started_at,
+    sequences: [],
+    organization_id: 0,
+    lat: null,
+    lon: null,
+    last_seen_at: '',
   });
 
-  it('should return false if nothing new', () => {
-    const result = hasNewAlertSince(
-      [
-        {
-          id: 1,
-          started_at: '2025-02-25T05:37:03',
-          sequences: [],
-          organization_id: 0,
-          lat: null,
-          lon: null,
-          last_seen_at: '',
-        },
-        {
-          id: 2,
-          started_at: '2025-02-25T08:37:03',
-          sequences: [],
-          organization_id: 0,
-          lat: null,
-          lon: null,
-          last_seen_at: '',
-        },
-      ],
-      1740476223000
-    ); //2025-02-25T09:37:03
-    expect(result).toBeFalsy();
+  it('should return 0 if empty', () => {
+    expect(getLatestAlertStartedAt([])).toBe(0);
   });
-  it('should return true if one new', () => {
-    const result = hasNewAlertSince(
-      [
-        {
-          id: 1,
-          started_at: '2025-02-25T05:37:03',
-          sequences: [],
-          organization_id: 0,
-          lat: null,
-          lon: null,
-          last_seen_at: '',
-        },
-        {
-          id: 2,
-          started_at: '2025-02-25T09:38:03',
-          sequences: [],
-          organization_id: 0,
-          lat: null,
-          lon: null,
-          last_seen_at: '',
-        },
-      ],
-      1740476223000
-    ); //2025-02-25T09:37:03
-    expect(result).toBeTruthy();
+
+  it('should skip alerts whose start date cannot be parsed', () => {
+    expect(getLatestAlertStartedAt([alert(1, 'not a date')])).toBe(0);
+  });
+
+  it('should return the most recent start date regardless of ordering', () => {
+    const expected = convertIsoToUnix('2025-02-25T09:38:03');
+    const alerts = [
+      alert(1, '2025-02-25T09:38:03'),
+      alert(2, '2025-02-25T05:37:03'),
+      alert(3, 'not a date'),
+    ];
+    expect(getLatestAlertStartedAt(alerts)).toBe(expected);
+    expect(getLatestAlertStartedAt([...alerts].reverse())).toBe(expected);
   });
 });
