@@ -7,6 +7,7 @@
     "showPassword": "Passwort anzeigen",
     "hidePassword": "Passwort verbergen",
     "logout": "Abmelden",
+    "sessionExpired": "Ihre Sitzung ist abgelaufen. Bitte melden Sie sich erneut an.",
     "errors": {
       "INVALID_CREDENTIALS": "Ungültiger Benutzername oder Passwort.",
       "SERVER_ERROR": "Auf unserer Seite ist etwas schief gelaufen. Bitte versuchen Sie es später erneut.",
