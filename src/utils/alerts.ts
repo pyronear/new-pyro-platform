@@ -2,7 +2,7 @@ import { DateTime } from 'luxon';
 
 import type { AlertTypeApi, SequenceTypeApi } from '../services/alerts';
 import type { CameraType } from '../services/camera';
-import { convertIsoToUnix } from './dates';
+import { convertIsoToUnix, isDateToday } from './dates';
 
 export interface AlertType {
   id: number;
@@ -66,6 +66,9 @@ export const mapListAlertApiToAlertType = (
     mapOneAlertApiToAlertType(alertDto, camerasList)
   );
 };
+
+export const filterAlertsStartedToday = (alertListDto: AlertTypeApi[]) =>
+  alertListDto.filter((alertDto) => isDateToday(alertDto.started_at));
 
 export const countUnlabelledSequences = (
   sequences: SequenceWithCameraInfoType[]
