@@ -1,6 +1,7 @@
 import { expect } from 'vitest';
 
 import type { CameraType } from '@/services/camera.ts';
+import type { AlertType } from '@/utils/alerts.ts';
 import {
   buildSitesList,
   containsAtLeastOneCameraWithAlert,
@@ -67,7 +68,7 @@ describe('containsAtLeastOneCameraWithAlert', () => {
   };
   it('should return true if at leat one matching camera', () => {
     // given
-    const alert = {
+    const alert: AlertType = {
       id: 1,
       startedAt: null,
       sequences: [
@@ -80,6 +81,7 @@ describe('containsAtLeastOneCameraWithAlert', () => {
           coneAngle: 0,
           labelWildfire: null,
           startedAt: null,
+          detectionsCount: 2,
         },
         {
           id: 2,
@@ -90,6 +92,7 @@ describe('containsAtLeastOneCameraWithAlert', () => {
           coneAngle: 0,
           labelWildfire: null,
           startedAt: null,
+          detectionsCount: 2,
         },
       ],
     };
@@ -102,7 +105,7 @@ describe('containsAtLeastOneCameraWithAlert', () => {
   });
   it('should return false if no camera matches', () => {
     // given
-    const alert = {
+    const alert: AlertType = {
       id: 1,
       startedAt: null,
       sequences: [
@@ -115,6 +118,7 @@ describe('containsAtLeastOneCameraWithAlert', () => {
           coneAngle: 0,
           labelWildfire: null,
           startedAt: null,
+          detectionsCount: 2,
         },
         {
           id: 2,
@@ -125,6 +129,7 @@ describe('containsAtLeastOneCameraWithAlert', () => {
           coneAngle: 0,
           labelWildfire: null,
           startedAt: null,
+          detectionsCount: 2,
         },
       ],
     };
