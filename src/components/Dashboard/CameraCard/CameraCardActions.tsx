@@ -11,9 +11,9 @@ import {
   Tooltip,
 } from '@mui/material';
 import { useState } from 'react';
+import { useNavigate } from 'react-router';
 
 import { ModalOcclusionMaskWrapper } from '@/components/Dashboard/OcclusionMaskModal/ModalOcclusionMaskWrapper';
-import { ModalLiveWrapper } from '@/components/Live/ModalLiveWrapper';
 import type { CameraType } from '@/services/camera';
 import { useIsMobile } from '@/utils/useIsMobile';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
@@ -28,6 +28,7 @@ export const CameraCardActions = ({
   camera,
 }: CameraCardActionsProps) => {
   const isMobile = useIsMobile();
+  const navigate = useNavigate();
   const { t } = useTranslationPrefix('dashboard');
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -37,6 +38,9 @@ export const CameraCardActions = ({
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const startLivestreaming = () =>
+    void navigate(`/dashboard/livestreaming/${camera.name}`);
 
   return (
     <>
@@ -62,20 +66,16 @@ export const CameraCardActions = ({
               },
             }}
           >
-            <ModalLiveWrapper cameraName={camera.name}>
-              {(onClick) => (
-                <MenuItem onClick={onClick} disabled={isMobile}>
-                  <ListItemIcon>
-                    <SportsEsportsIcon />
-                  </ListItemIcon>
-                  <ListItemText primary={t('liveButton')} />
-                </MenuItem>
-              )}
-            </ModalLiveWrapper>
+            <MenuItem onClick={startLivestreaming} disabled={isMobile}>
+              <ListItemIcon color="primary">
+                <SportsEsportsIcon />
+              </ListItemIcon>
+              <ListItemText primary={t('liveButton')} />
+            </MenuItem>
             <ModalOcclusionMaskWrapper camera={camera}>
               {(onClick) => (
                 <MenuItem onClick={onClick}>
-                  <ListItemIcon>
+                  <ListItemIcon color="primary">
                     <PictureInPictureAltIcon />
                   </ListItemIcon>
                   <ListItemText primary={t('maskButton')} />
@@ -86,19 +86,19 @@ export const CameraCardActions = ({
         </>
       ) : (
         <Stack spacing={1}>
-          <ModalLiveWrapper cameraName={camera.name}>
-            {(onClick) => (
-              <Tooltip title={t('liveButton')}>
-                <IconButton disabled={isMobile} onClick={onClick}>
-                  <SportsEsportsIcon />
-                </IconButton>
-              </Tooltip>
-            )}
-          </ModalLiveWrapper>
+          <Tooltip title={t('liveButton')}>
+            <IconButton
+              disabled={isMobile}
+              onClick={startLivestreaming}
+              color="primary"
+            >
+              <SportsEsportsIcon />
+            </IconButton>
+          </Tooltip>
           <ModalOcclusionMaskWrapper camera={camera}>
             {(onClick) => (
               <Tooltip title={t('maskButton')}>
-                <IconButton onClick={onClick}>
+                <IconButton onClick={onClick} color="primary">
                   <PictureInPictureAltIcon />
                 </IconButton>
               </Tooltip>
