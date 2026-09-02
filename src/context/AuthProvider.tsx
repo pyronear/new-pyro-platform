@@ -1,5 +1,7 @@
 import React, { useCallback, useMemo, useState } from 'react';
 
+import { extractAccessToken, type Profil } from '@/utils/token.ts';
+
 import { getToken } from '../services/auth';
 import { apiInstance } from '../services/axios';
 import {
@@ -26,6 +28,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
     return existingToken;
   });
+  const [profil, setProfil] = useState<Profil | null>(null);
 
   const login = useCallback(
     async (username: string, password: string) => {
@@ -35,6 +38,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       setAuthUsername(username);
       setToken(token);
       setUsername(username);
+      const scopes = extractAccessToken(token).scopes;
+      if (scopes.includes('agent')) {
+        setProfil('agent');
+      } else {
+        setProfil('user');
+      }
     },
     [setToken]
   );
@@ -46,8 +55,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   }, [setToken]);
 
   const contextValue = useMemo(
-    () => ({ token, login, logout, username }),
-    [token, login, logout, username]
+    () => ({
+      token,
+      login,
+      logout,
+      username,
+      profil,
+    }),
+    [token, login, logout, username, profil]
   );
 
   return <AuthContext value={contextValue}>{children}</AuthContext>;

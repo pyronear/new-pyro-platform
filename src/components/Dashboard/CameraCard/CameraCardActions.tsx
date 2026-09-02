@@ -14,8 +14,8 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router';
 
 import { ModalOcclusionMaskWrapper } from '@/components/Dashboard/OcclusionMaskModal/ModalOcclusionMaskWrapper';
+import { useLiveAllowed } from '@/components/Live/hooks/useLiveAllowed.tsx';
 import type { CameraType } from '@/services/camera';
-import { useIsMobile } from '@/utils/useIsMobile';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
 interface CameraCardActionsProps {
@@ -27,7 +27,7 @@ export const CameraCardActions = ({
   isOneIcon,
   camera,
 }: CameraCardActionsProps) => {
-  const isMobile = useIsMobile();
+  const { isLiveAuthorized } = useLiveAllowed();
   const navigate = useNavigate();
   const { t } = useTranslationPrefix('dashboard');
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -66,7 +66,7 @@ export const CameraCardActions = ({
               },
             }}
           >
-            <MenuItem onClick={startLivestreaming} disabled={isMobile}>
+            <MenuItem onClick={startLivestreaming} disabled={!isLiveAuthorized}>
               <ListItemIcon color="primary">
                 <SportsEsportsIcon />
               </ListItemIcon>
@@ -88,7 +88,7 @@ export const CameraCardActions = ({
         <Stack spacing={1}>
           <Tooltip title={t('liveButton')}>
             <IconButton
-              disabled={isMobile}
+              disabled={!isLiveAuthorized}
               onClick={startLivestreaming}
               color="primary"
             >
