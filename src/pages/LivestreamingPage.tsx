@@ -20,12 +20,12 @@ import { useTranslationPrefix } from '@/utils/useTranslationPrefix.ts';
 const LivestreamingPage = () => {
   const navigate = useNavigate();
   const { t } = useTranslationPrefix('live');
-
   const { cameraName, alertId } = useParams<{
     cameraName: string;
     alertId?: string;
   }>();
   const alertIdNumber = Number(alertId);
+  const withAlert = !Number.isNaN(alertIdNumber);
 
   const goBack = () => {
     void navigate(-1);
@@ -36,10 +36,10 @@ const LivestreamingPage = () => {
     queryFn: getCameraList,
   });
 
-  const { data: alertData } = useQuery({
+  const { status: statusAlert, data: alertData } = useQuery({
     queryKey: ['alert', alertIdNumber],
     queryFn: () => getAlertById(alertIdNumber),
-    enabled: !isNaN(alertIdNumber),
+    enabled: withAlert,
   });
 
   const isCameraAuthorized = () => {
@@ -70,11 +70,12 @@ const LivestreamingPage = () => {
 
   return (
     <>
-      {statusCameras == 'pending' && <Loader />}
+      {statusCameras == 'pending' || (statusAlert == 'pending' && <Loader />)}
       {statusCameras == 'error' && (
         <Typography variant="body2">{t('errorFetchInfos')}</Typography>
       )}
       {statusCameras == 'success' &&
+        (!withAlert || statusAlert != 'pending') &&
         (isCameraAuthorized() ? (
           <ActionsOnCameraContextProvider>
             {cameraName && (

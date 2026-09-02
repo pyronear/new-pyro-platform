@@ -40,7 +40,7 @@ export const CameraCardActions = ({
   };
 
   const startLivestreaming = () =>
-    void navigate(`livestreaming/${camera.name}`);
+    void navigate(`/dashboard/livestreaming/${camera.name}`);
 
   return (
     <>

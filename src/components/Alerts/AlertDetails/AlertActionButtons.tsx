@@ -32,7 +32,9 @@ export const AlertActionButtons = ({
   const [isOcclusionModalOpen, setIsOcclusionModalOpen] = useState(false);
 
   const startLivestreaming = () =>
-    void navigate(`livestreaming/${sequence.camera?.name}/alert/${alert.id}`);
+    void navigate(
+      `/alerts/livestreaming/${sequence.camera?.name}/alert/${alert.id}`
+    );
 
   return (
     <>

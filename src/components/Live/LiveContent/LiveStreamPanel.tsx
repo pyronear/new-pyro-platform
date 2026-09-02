@@ -58,7 +58,7 @@ export const LiveStreamPanel = ({
   const initialMove = useMemo(
     () => getMoveToAzimuthFromAlert(camera, alert),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
+    [alert]
   );
 
   const hasTemporaryError =
