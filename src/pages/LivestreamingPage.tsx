@@ -71,28 +71,32 @@ const LivestreamingPage = () => {
     return sites;
   }, [cameraList, alert]);
 
+  const isAlertFetching = withAlert && statusAlert == 'pending';
+
   return (
     <>
-      {statusCameras == 'pending' || (statusAlert == 'pending' && <Loader />)}
+      {(statusCameras == 'pending' || isAlertFetching) && <Loader />}
       {statusCameras == 'error' && (
         <Typography variant="body2">{t('errorFetchInfos')}</Typography>
       )}
-      {statusCameras == 'success' &&
-        (!withAlert || statusAlert != 'pending') &&
-        (isCameraAuthorized() ? (
-          <ActionsOnCameraContextProvider>
-            {cameraName && (
-              <LiveContainer
-                onClose={goBack}
-                cameraName={cameraName}
-                sites={sites}
-                alert={alert}
-              />
-            )}
-          </ActionsOnCameraContextProvider>
-        ) : (
-          <ForbiddenPage />
-        ))}
+      {statusCameras == 'success' && !isAlertFetching && (
+        <>
+          {isCameraAuthorized() ? (
+            <ActionsOnCameraContextProvider>
+              {cameraName && (
+                <LiveContainer
+                  onClose={goBack}
+                  cameraName={cameraName}
+                  sites={sites}
+                  alert={alert}
+                />
+              )}
+            </ActionsOnCameraContextProvider>
+          ) : (
+            <ForbiddenPage />
+          )}
+        </>
+      )}
     </>
   );
 };
