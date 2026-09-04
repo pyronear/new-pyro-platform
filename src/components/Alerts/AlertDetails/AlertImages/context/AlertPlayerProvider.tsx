@@ -67,11 +67,11 @@ export const AlertPlayerProvider = ({
   const marks = useMemo(
     () =>
       detections.map((d, i) => ({
-        value: convertIsoToUnix(d.created_at),
+        value: convertIsoToUnix(d.recorded_at),
         id: d.id,
         label:
           i === 0 || i === detections.length - 1
-            ? formatIsoToTime(d.created_at)
+            ? formatIsoToTime(d.recorded_at)
             : null,
       })),
     [detections]
