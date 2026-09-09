@@ -19,7 +19,10 @@ vi.mock('@/services/alerts', async () => {
   };
 });
 
-const makeDetection = (id: number): alertsService.DetectionType => ({
+const makeDetection = (
+  id: number,
+  recordedAt?: string
+): alertsService.DetectionType => ({
   id,
   camera_id: 1,
   pose_id: 1,
@@ -28,6 +31,8 @@ const makeDetection = (id: number): alertsService.DetectionType => ({
   bbox: '(0.1,0.1,0.2,0.2)',
   others_bboxes: null,
   created_at: `2025-01-01T00:00:${id.toString().padStart(2, '0')}`,
+  recorded_at:
+    recordedAt ?? `2025-01-01T00:00:${id.toString().padStart(2, '0')}`,
   url: `https://example/${id.toString()}`,
 });
 
@@ -73,6 +78,29 @@ describe('useSampledDetections', () => {
     expect(result.current.totalCount).toBe(3);
     expect(result.current.loadedCount).toBe(3);
     expect(vi.mocked(alertsService.getDetectionsPage)).toHaveBeenCalledTimes(2);
+  });
+
+  it('orders detections by capture time, not by database creation time', async () => {
+    // created_at ascending by id, recorded_at deliberately reversed
+    vi.mocked(alertsService.getDetectionsPage).mockResolvedValueOnce([
+      makeDetection(1, '2025-01-01T00:00:20'),
+      makeDetection(2, '2025-01-01T00:00:05'),
+    ]);
+
+    const { result } = renderHook(
+      () =>
+        useSampledDetections({
+          sequenceId: 42,
+          detectionsCount: 2,
+        }),
+      { wrapper: wrapper(newClient()) }
+    );
+
+    await waitFor(() => {
+      expect(result.current.isLoading).toBe(false);
+    });
+
+    expect(result.current.detections.map((d) => d.id)).toEqual([2, 1]);
   });
 
   it('returns empty list and not-loading when detectionsCount is 0', async () => {
