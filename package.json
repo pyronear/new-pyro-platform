@@ -2,7 +2,6 @@
   "name": "new-pyronear-platform",
   "private": true,
   "version": "0.2.0",
-  "packageManager": "pnpm@10.28.1",
   "type": "module",
   "scripts": {
     "dev": "vite",
