@@ -91,6 +91,3 @@ docker compose up -d
 ## Contributing
 
 The code is formatted by prettier and eslint. Please download those extensions in your IDEA to enable automatic formatting on save.
-
-
-test CI 
