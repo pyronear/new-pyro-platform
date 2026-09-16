@@ -51,6 +51,7 @@ export const AlertImagesPlayer = ({
   const [selectedDetection, setSelectedDetection] =
     useState<DetectionType | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isZoomed, setIsZoomed] = useState(false);
   const theme = useTheme();
   const { t } = useTranslationPrefix('alerts');
 
@@ -144,17 +145,22 @@ export const AlertImagesPlayer = ({
             }}
           >
             {azimuthAxis && (
-              <AzimuthAxis
-                center={azimuthAxis.center}
-                range={azimuthAxis.range}
-                isLoading={false}
-              />
+              // the axis reads the whole frame, so it lies as soon as the user
+              // zooms. hidden and not unmounted, else the image jumps 32px up.
+              <Box sx={{ visibility: isZoomed ? 'hidden' : 'visible' }}>
+                <AzimuthAxis
+                  center={azimuthAxis.center}
+                  range={azimuthAxis.range}
+                  isLoading={false}
+                />
+              </Box>
             )}
             <DetectionImageWithBoundingBox
               displayBbox={displayBbox}
               displayCrop={displayCrop}
               sequenceId={sequenceId}
               selectedDetection={selectedDetection}
+              onZoomChange={setIsZoomed}
             />
           </Box>
 

@@ -55,6 +55,7 @@ interface DetectionImageWithBoundingBoxProps {
   displayCrop: boolean;
   selectedDetection: DetectionType;
   sequenceId: number;
+  onZoomChange: (isZoomed: boolean) => void;
 }
 
 export const DetectionImageWithBoundingBox = ({
@@ -62,6 +63,7 @@ export const DetectionImageWithBoundingBox = ({
   displayCrop,
   selectedDetection,
   sequenceId,
+  onZoomChange,
 }: DetectionImageWithBoundingBoxProps) => {
   const theme = useTheme();
   const wrapperRef = useRef<ReactZoomPanPinchContentRef | null>(null);
@@ -92,6 +94,7 @@ export const DetectionImageWithBoundingBox = ({
     if (shouldResetTransform.current) {
       if (wrapperRef.current !== null) {
         wrapperRef.current.resetTransform(0);
+        onZoomChange(false);
         shouldResetTransform.current = false;
       }
     }
@@ -99,12 +102,10 @@ export const DetectionImageWithBoundingBox = ({
 
   // Do not display the mini map if the user is not zoomed in enough
   const [shouldDisplayMiniMap, setShouldDisplayMiniMap] = useState(false);
-  const updateMiniMapDisplay = () => {
-    setShouldDisplayMiniMap(
-      wrapperRef.current !== null &&
-        wrapperRef.current.instance.transformState.scale >
-          MINIMUM_ZOOM_AMOUNT_TO_DISPLAY_MINIMAP
-    );
+  const handleTransformed = () => {
+    const scale = wrapperRef.current?.instance.transformState.scale ?? 1;
+    setShouldDisplayMiniMap(scale > MINIMUM_ZOOM_AMOUNT_TO_DISPLAY_MINIMAP);
+    onZoomChange(scale > 1);
   };
 
   return (
@@ -123,7 +124,7 @@ export const DetectionImageWithBoundingBox = ({
           sizeY: 0,
         }}
         ref={wrapperRef}
-        onTransformed={updateMiniMapDisplay}
+        onTransformed={handleTransformed}
       >
         {shouldDisplayMiniMap && (
           <div

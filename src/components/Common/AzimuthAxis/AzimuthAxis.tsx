@@ -63,7 +63,6 @@ const AzimuthAxis: React.FC<AzimuthAxisProps> = ({
         height: '32px',
         userSelect: 'none',
         borderColor: color,
-        marginBottom: 2,
         paddingX:
           extraSpaceOnSides >= 0 ? convertToPercentage(extraSpaceOnSides) : 0,
       }}
