@@ -132,8 +132,8 @@ const AlertImagesActions = ({
       const blob = await response.blob();
       const extension = detection.url.split('.').pop()?.split('?')[0] ?? 'jpg';
       // Format: YYYY-MM-DDTHH-MM-SS_DETECTION_ID.extension
-      const createdAtFormatted = detection.created_at.split('.')[0];
-      const filename = `${createdAtFormatted}_${detection.id}.${extension}`;
+      const recordedAtFormatted = detection.recorded_at.split('.')[0];
+      const filename = `${recordedAtFormatted}_${detection.id}.${extension}`;
       zip.file(filename, blob);
     });
     await Promise.all(fetchPromises);
@@ -157,8 +157,8 @@ const AlertImagesActions = ({
       const blob = await response.blob();
       const extension = detection.url.split('.').pop()?.split('?')[0] ?? 'jpg';
       // Format: YYYY-MM-DDTHH-MM-SS_DETECTION_ID.extension
-      const createdAtFormatted = detection.created_at.split('.')[0];
-      const filename = `${createdAtFormatted}_${detection.id}.${extension}`;
+      const recordedAtFormatted = detection.recorded_at.split('.')[0];
+      const filename = `${recordedAtFormatted}_${detection.id}.${extension}`;
 
       const img = new Image();
       img.crossOrigin = 'anonymous';

@@ -1,5 +1,5 @@
 import { AppBar, Stack, Toolbar } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 
 import { DEFAULT_ROUTE } from '@/App';
 import logo from '@/assets/logo.svg';

@@ -51,6 +51,7 @@ describe('getSequenceAzimuthAxis', () => {
     cameraAzimuth,
     coneAngle: 0,
     labelWildfire: null,
+    detectionsCount: 0,
   });
 
   it('should return the camera azimuth and its angle of view', () => {
@@ -152,6 +153,7 @@ describe('extractCameraListFromAlert', () => {
           coneAngle: 0,
           labelWildfire: null,
           startedAt: null,
+          detectionsCount: 0,
         },
         {
           id: 2,
@@ -163,6 +165,7 @@ describe('extractCameraListFromAlert', () => {
           coneAngle: 0,
           labelWildfire: null,
           startedAt: null,
+          detectionsCount: 0,
         },
       ],
     };

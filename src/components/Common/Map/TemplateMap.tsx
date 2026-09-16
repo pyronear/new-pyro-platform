@@ -99,6 +99,7 @@ export const TemplateMap = ({
         attribution={baseTileConfig.attribution}
         url={baseTileConfig.url}
         maxZoom={baseTileConfig.maxZoom}
+        maxNativeZoom={baseTileConfig.maxNativeZoom}
       />
       <MapSizeInvalidator />
 

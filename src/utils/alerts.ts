@@ -27,6 +27,7 @@ export interface SequenceWithCameraInfoType {
   cameraAzimuth: number | null; // azimuth at the center of the image
   coneAngle: number;
   labelWildfire: LabelWildfireValues;
+  detectionsCount: number;
 }
 
 /*
@@ -56,6 +57,7 @@ export const mapOneAlertApiToAlertType = (
         cameraAzimuth: sequence.camera_azimuth ?? null,
         coneAngle: sequence.cone_angle,
         labelWildfire: (sequence.is_wildfire as LabelWildfireValues) ?? null,
+        detectionsCount: sequence.detections_count,
       })),
   };
 };
@@ -83,11 +85,16 @@ export const formatAzimuth = (azimuth: number | null, precision = 0) => {
   return `${(((rounded % 360) + 360) % 360).toFixed(precision)}°`;
 };
 
+export interface SequenceAzimuthAxis {
+  center: number;
+  range: number;
+}
+
 // no DEFAULT_ANGLE_OF_VIEW fallback here: it is 1, which would draw a 1° ruler.
 // missing value -> null -> no axis at all.
 export const getSequenceAzimuthAxis = (
   sequence: SequenceWithCameraInfoType
-) => {
+): SequenceAzimuthAxis | null => {
   const center = sequence.cameraAzimuth;
   const range = sequence.camera?.angle_of_view;
   return center != null && range != null ? { center, range } : null;

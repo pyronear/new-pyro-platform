@@ -21,6 +21,7 @@ const createSequence = (id: number): SequenceWithCameraInfoType => ({
   cameraAzimuth: null,
   coneAngle: 0,
   labelWildfire: null,
+  detectionsCount: 10,
 });
 
 const renderContainer = (

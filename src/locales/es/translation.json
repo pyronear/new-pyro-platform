@@ -78,6 +78,13 @@
     "buttonImageDownloadAllBbox": "Descargar todas las imágenes con bounding boxes",
     "buttonPlay": "Play",
     "buttonPause": "Pause",
+    "buttonStepBackward": "Imagen anterior",
+    "buttonStepForward": "Imagen siguiente",
+    "buttonJumpBackward": "Retroceder 10 imágenes",
+    "buttonJumpForward": "Avanzar 10 imágenes",
+    "buttonPlaybackSpeed": "Velocidad de reproducción",
+    "loadingProgress": "Cargando {{progress}}%",
+    "partialLoadError": "Error al cargar {{missing}} imagen(es)",
     "buttonDisplayBBox": "Mostrar la detección",
     "buttonHideBBox": "Ocultar la detección",
     "buttonDisplayCrop": "Mostrar primer plano",
@@ -121,8 +128,8 @@
     },
     "label": {
       "wildfire": "Inicio del incendio",
-      "otherSmoke": "Humo irrelevante",
-      "other": "Otro falso positivo",
+      "otherSmoke": "Humo no relacionado con un incendio (p. ej., chimenea, actividad industrial, ...)",
+      "other": "Otro falso positivo (p. ej., nube, reflejo de luz, ...)",
       "unset": "A etiquetar",
       "titleModal": "Seleccione la etiqueta para la alerta de ",
       "buttonCancelModal": "Cancelar",
@@ -151,11 +158,6 @@
       "detectionImageAlt": "Detección",
       "deleting": "Eliminando...",
       "adding": "Agregando..."
-    },
-    "detectionsOrder": {
-      "buttonLabel": "Ordenar detecciones",
-      "recentFirst": "Mostrar primero las más antiguas",
-      "latestFirst": "Mostrar primero las más recientes"
     }
   },
   "history": {
@@ -209,6 +211,7 @@
     "mapBaseLayer": "Capa base del mapa",
     "mapOsm": "OpenStreetMap",
     "mapIgn": "IGN (Francia)",
+    "mapTopoIgn": "IGN Topo (Francia)",
     "mapSatellite": "Satélite",
     "enableAudioAlerts": "Activar el sonido de las alertas",
     "userGuide": "Guía del usuario"

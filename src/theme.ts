@@ -119,6 +119,11 @@ export const theme = createTheme({
         root: {
           borderRadius: 3,
         },
+        outlinedSecondary: {
+          '&:disabled': {
+            backgroundColor: '#b3b0b0cf',
+          },
+        },
       },
     },
     MuiDrawer: {

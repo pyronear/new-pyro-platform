@@ -3,7 +3,7 @@ import Grid from '@mui/material/Grid';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { useCallback, useMemo } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router';
 
 import { DEFAULT_ROUTE } from '@/App';
 import { AlertContainer } from '@/components/Alerts/AlertDetails/AlertContainer';

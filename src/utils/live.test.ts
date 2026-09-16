@@ -94,6 +94,7 @@ describe('getMoveToAzimuthFromAlert', () => {
           poseId: null,
           coneAngle: 0,
           labelWildfire: null,
+          detectionsCount: 0,
         },
         {
           id: 18,
@@ -119,6 +120,7 @@ describe('getMoveToAzimuthFromAlert', () => {
           poseId: null,
           coneAngle: 0,
           labelWildfire: null,
+          detectionsCount: 0,
         },
       ],
       id: 1,

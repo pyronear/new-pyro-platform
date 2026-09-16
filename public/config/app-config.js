@@ -11,6 +11,7 @@ window.AppConfig = {
   MOVING_AZIMUTH_REFETCH_INTERVAL_SECONDS: 2,
   STABLE_AZIMUTH_REFETCH_INTERVAL_SECONDS: 30,
   ALERTS_PLAYER_INTERVAL_MILLISECONDS: 500,
+  ALERTS_PLAYER_BUFFER_SIZE: 20,
   ALERTS_PLAYER_CONFIDENCE_THRESHOLD: 0.15,
   ALERTS_SOUND_FILE: 'notification-alert.mp3',
   ALERTS_CAMERA_RANGE_KM: 30,
@@ -21,4 +22,10 @@ window.AppConfig = {
     es: 'https://pyronear.notion.site/Gu-a-de-uso-de-la-plataforma-Pyronear-389425b6366881e69fd6f6f1a414814d',
   },
   HISTORY_NB_ALERTS_PER_PAGE: 15,
+
+  // IGN Géoplateforme key (https://data.geopf.fr/private/wmts).
+  // If empty, the IGN Topo base layer is hidden.
+  // The key is referrer-restricted: every origin serving the app (localhost, preprod,
+  // prod) must be allow-listed in the IGN client space, or tiles come back 401.
+  IGN_API_KEY: '',
 };

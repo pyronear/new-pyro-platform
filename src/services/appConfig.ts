@@ -13,12 +13,16 @@ export interface AppConfigType {
   readonly MOVING_AZIMUTH_REFETCH_INTERVAL_SECONDS: number;
   readonly STABLE_AZIMUTH_REFETCH_INTERVAL_SECONDS: number;
   readonly ALERTS_PLAYER_INTERVAL_MILLISECONDS: number;
+  readonly ALERTS_PLAYER_BUFFER_SIZE: number;
   readonly ALERTS_PLAYER_CONFIDENCE_THRESHOLD: number;
   readonly ALERTS_SOUND_FILE: string;
   readonly ALERTS_CAMERA_RANGE_KM: number;
   readonly USER_GUIDE_URLS: Record<string, string>;
 
   readonly HISTORY_NB_ALERTS_PER_PAGE: number;
+
+  /** IGN Géoplateforme key. Empty => public IGN layers only. */
+  readonly IGN_API_KEY: string;
 }
 
 export class AppConfig {
@@ -55,6 +59,9 @@ export class AppConfig {
       ALERTS_PLAYER_INTERVAL_MILLISECONDS:
         // @ts-expect-error config is fetched from a JS file
         window.AppConfig?.ALERTS_PLAYER_INTERVAL_MILLISECONDS,
+      ALERTS_PLAYER_BUFFER_SIZE:
+        // @ts-expect-error config is fetched from a JS file
+        window.AppConfig?.ALERTS_PLAYER_BUFFER_SIZE,
       ALERTS_PLAYER_CONFIDENCE_THRESHOLD:
         // @ts-expect-error config is fetched from a JS file
         window.AppConfig?.ALERTS_PLAYER_CONFIDENCE_THRESHOLD,
@@ -66,6 +73,8 @@ export class AppConfig {
       USER_GUIDE_URLS: window.AppConfig?.USER_GUIDE_URLS,
       // @ts-expect-error config is fetched from a JS file
       HISTORY_NB_ALERTS_PER_PAGE: window.AppConfig?.HISTORY_NB_ALERTS_PER_PAGE,
+      // @ts-expect-error config is fetched from a JS file
+      IGN_API_KEY: window.AppConfig?.IGN_API_KEY ?? '',
     };
   }
 }

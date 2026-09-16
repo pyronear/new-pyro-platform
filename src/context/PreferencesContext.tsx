@@ -1,9 +1,11 @@
 import { createContext } from 'react';
 
+import type { BaseLayerType } from '@/services/preferences';
+
 export interface UserPreferences {
   language: string;
   map: {
-    baseLayer: 'osm' | 'ign' | 'satellite';
+    baseLayer: BaseLayerType;
   };
   audio: {
     alertsEnabled: boolean;

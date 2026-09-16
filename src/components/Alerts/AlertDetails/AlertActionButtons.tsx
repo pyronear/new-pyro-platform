@@ -2,8 +2,9 @@ import PictureInPictureAltIcon from '@mui/icons-material/PictureInPictureAlt';
 import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 import { Button, Grid } from '@mui/material';
 import { useState } from 'react';
+import { useNavigate } from 'react-router';
 
-import { ModalLiveWrapper } from '@/components/Live/ModalLiveWrapper';
+import { useLiveAllowed } from '@/components/Live/hooks/useLiveAllowed.tsx';
 import {
   type AlertType,
   countUnlabelledSequences,
@@ -27,28 +28,32 @@ export const AlertActionButtons = ({
   isLiveMode,
   invalidateAndRefreshData,
 }: AlertActionButtonsType) => {
+  const navigate = useNavigate();
+  const { isLiveAuthorized } = useLiveAllowed();
   const { t } = useTranslationPrefix('alerts');
   const [isOcclusionModalOpen, setIsOcclusionModalOpen] = useState(false);
+
+  const startLivestreaming = () =>
+    void navigate(
+      `/alerts/livestreaming/${sequence.camera?.name}/alert/${alert.id}`
+    );
 
   return (
     <>
       <Grid container spacing={2} direction={{ xs: 'column', lg: 'row' }}>
         {sequence.camera && (
           <Grid size={{ xs: 12, lg: 6 }}>
-            <ModalLiveWrapper cameraName={sequence.camera.name} alert={alert}>
-              {(onClick) => (
-                <Button
-                  color="secondary"
-                  variant="outlined"
-                  startIcon={<SportsEsportsIcon />}
-                  onClick={onClick}
-                  fullWidth
-                  sx={{ height: '100%' }}
-                >
-                  {t('buttonInvestigate')}
-                </Button>
-              )}
-            </ModalLiveWrapper>
+            <Button
+              color="secondary"
+              variant="outlined"
+              startIcon={<SportsEsportsIcon />}
+              onClick={startLivestreaming}
+              fullWidth
+              sx={{ height: '100%' }}
+              disabled={!isLiveAuthorized}
+            >
+              {t('buttonInvestigate')}
+            </Button>
           </Grid>
         )}
         <Grid size={{ xs: 12, lg: 6 }}>
