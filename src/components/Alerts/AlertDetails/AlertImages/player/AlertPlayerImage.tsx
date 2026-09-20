@@ -1,4 +1,4 @@
-import { useTheme } from '@mui/material';
+import { Box, useTheme } from '@mui/material';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import {
   MiniMap,
@@ -7,6 +7,8 @@ import {
   TransformWrapper,
 } from 'react-zoom-pan-pinch';
 
+import AzimuthAxis from '@/components/Common/AzimuthAxis/AzimuthAxis.tsx';
+import type { SequenceAzimuthAxis } from '@/utils/alerts';
 import {
   type BoundingBox,
   parseBboxCoords,
@@ -18,6 +20,7 @@ import { useAlertPlayer } from '../context/useAlertPlayer';
 interface AlertPlayerImageProps {
   displayBbox: boolean;
   displayCrop: boolean;
+  azimuthAxis: SequenceAzimuthAxis | null;
 }
 
 const MINIMUM_ZOOM_AMOUNT_TO_DISPLAY_MINIMAP = 1.4;
@@ -25,6 +28,7 @@ const MINIMUM_ZOOM_AMOUNT_TO_DISPLAY_MINIMAP = 1.4;
 export const AlertPlayerImage = ({
   displayBbox,
   displayCrop,
+  azimuthAxis,
 }: AlertPlayerImageProps) => {
   const { sequenceId, selectedDetection } = useAlertPlayer();
 
@@ -57,6 +61,9 @@ export const AlertPlayerImage = ({
     if (shouldResetTransform.current) {
       if (wrapperRef.current !== null) {
         wrapperRef.current.resetTransform(0);
+        // resetTransformations returns early when already at the initial
+        // transform, so onTransformed cannot be relied on here.
+        setIsZoomed(false);
         shouldResetTransform.current = false;
       }
     }
@@ -64,94 +71,110 @@ export const AlertPlayerImage = ({
 
   // Do not display the mini map if the user is not zoomed in enough
   const [shouldDisplayMiniMap, setShouldDisplayMiniMap] = useState(false);
-  const updateMiniMapDisplay = () => {
-    setShouldDisplayMiniMap(
-      wrapperRef.current !== null &&
-        wrapperRef.current.instance.transformState.scale >
-          MINIMUM_ZOOM_AMOUNT_TO_DISPLAY_MINIMAP
-    );
+  const [isZoomed, setIsZoomed] = useState(false);
+  const handleTransformed = () => {
+    const scale = wrapperRef.current?.instance.transformState.scale ?? 1;
+    setShouldDisplayMiniMap(scale > MINIMUM_ZOOM_AMOUNT_TO_DISPLAY_MINIMAP);
+    setIsZoomed(scale > 1);
   };
 
   return (
-    <div
-      style={{
-        position: 'relative',
-        display: 'inline-block',
-        justifyItems: 'center',
-      }}
+    // the image is capped at 60vh, so it is often narrower than the column.
+    // shrink-wrap so the axis ends land on the image, not on the column.
+    <Box
+      sx={{ alignSelf: 'flex-start', width: 'fit-content', maxWidth: '100%' }}
     >
-      <TransformWrapper
-        limitToBounds
-        centerZoomedOut
-        alignmentAnimation={{
-          sizeX: 0,
-          sizeY: 0,
+      {azimuthAxis && (
+        // the axis reads the whole frame, so it lies as soon as the user
+        // zooms. hidden and not unmounted, else the image jumps 32px up.
+        <Box sx={{ visibility: isZoomed ? 'hidden' : 'visible' }}>
+          <AzimuthAxis
+            center={azimuthAxis.center}
+            range={azimuthAxis.range}
+            isLoading={false}
+          />
+        </Box>
+      )}
+      <div
+        style={{
+          position: 'relative',
+          display: 'inline-block',
+          justifyItems: 'center',
         }}
-        ref={wrapperRef}
-        onTransformed={updateMiniMapDisplay}
       >
-        {shouldDisplayMiniMap && (
-          <div
-            style={{
-              position: 'absolute',
-              right: 20,
-              top: 20,
-            }}
-          >
-            <MiniMap
-              width={100}
-              height={100}
-              borderColor={theme.palette.secondary.dark}
-            >
-              <img
-                src={selectedDetection.url}
-                style={{
-                  maxWidth: '100%',
-                  opacity: 0.5,
-                }}
-              />
-            </MiniMap>
-          </div>
-        )}
-
-        {displayCrop && selectedDetection.crop_url && (
-          <img
-            src={selectedDetection.crop_url}
-            alt=""
-            style={{
-              position: 'absolute',
-              bottom: 20,
-              ...(cropOnLeft ? { left: 20 } : { right: 20 }),
-              width: 150,
-              zIndex: 2,
-              border: `2px solid ${theme.palette.secondary.dark}`,
-              borderRadius: 4,
-              boxShadow: '0 2px 6px rgba(0, 0, 0, 0.4)',
-              backgroundColor: theme.palette.background.paper,
-            }}
-          />
-        )}
-
-        <TransformComponent>
-          <img
-            ref={imgRef}
-            src={selectedDetection.url}
-            style={{ maxWidth: '100%', maxHeight: '60vh' }}
-            onLoad={handleImageLoad}
-          />
-          {displayBbox && currentBox && (
+        <TransformWrapper
+          limitToBounds
+          centerZoomedOut
+          alignmentAnimation={{
+            sizeX: 0,
+            sizeY: 0,
+          }}
+          ref={wrapperRef}
+          onTransformed={handleTransformed}
+        >
+          {shouldDisplayMiniMap && (
             <div
               style={{
                 position: 'absolute',
-                ...currentBox,
-                border: `2px solid ${theme.palette.error.main}`,
-                borderRadius: '2px',
-                boxSizing: 'content-box',
+                right: 20,
+                top: 20,
+              }}
+            >
+              <MiniMap
+                width={100}
+                height={100}
+                borderColor={theme.palette.secondary.dark}
+              >
+                <img
+                  src={selectedDetection.url}
+                  style={{
+                    maxWidth: '100%',
+                    opacity: 0.5,
+                  }}
+                />
+              </MiniMap>
+            </div>
+          )}
+
+          {displayCrop && selectedDetection.crop_url && (
+            <img
+              src={selectedDetection.crop_url}
+              alt=""
+              style={{
+                position: 'absolute',
+                bottom: 20,
+                ...(cropOnLeft ? { left: 20 } : { right: 20 }),
+                width: 150,
+                zIndex: 2,
+                border: `2px solid ${theme.palette.secondary.dark}`,
+                borderRadius: 4,
+                boxShadow: '0 2px 6px rgba(0, 0, 0, 0.4)',
+                backgroundColor: theme.palette.background.paper,
               }}
             />
           )}
-        </TransformComponent>
-      </TransformWrapper>
-    </div>
+
+          <TransformComponent>
+            <img
+              ref={imgRef}
+              src={selectedDetection.url}
+              style={{ maxWidth: '100%', maxHeight: '60vh' }}
+              onLoad={handleImageLoad}
+            />
+            {displayBbox && currentBox && (
+              <div
+                style={{
+                  position: 'absolute',
+                  ...currentBox,
+                  border: `2px solid ${theme.palette.error.main}`,
+                  borderRadius: '2px',
+                  boxSizing: 'content-box',
+                }}
+              />
+            )}
+          </TransformComponent>
+        </TransformWrapper>
+      </div>
+    </Box>
   );
 };

@@ -8,7 +8,10 @@ import { useEffect, useState } from 'react';
 
 import AlertImagesActions from '@/components/Alerts/AlertDetails/AlertImages/AlertImagesActions.tsx';
 import { type DetectionType } from '@/services/alerts';
-import type { SequenceWithCameraInfoType } from '@/utils/alerts';
+import {
+  getSequenceAzimuthAxis,
+  type SequenceWithCameraInfoType,
+} from '@/utils/alerts';
 import { formatIsoToTime, isStrictlyAfter } from '@/utils/dates';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
@@ -123,6 +126,7 @@ export const AlertImages = ({ sequence }: AlertImagesType) => {
               <AlertPlayer.Image
                 displayBbox={displayBbox}
                 displayCrop={displayCrop}
+                azimuthAxis={getSequenceAzimuthAxis(sequence)}
               />
               <AlertPlayer.Controls hasNextPage={hasNextPage} />
             </AlertPlayer>
