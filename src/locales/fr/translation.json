@@ -17,10 +17,12 @@
   "pages": {
     "dashboard": "Caméras",
     "alerts": "Alertes en cours",
-    "history": "Historique des alertes"
+    "history": "Historique des alertes",
+    "unlabeledAlertsBadge": "{{count}} à étiqueter"
   },
   "topbar": {
-    "menuLabel": "Menu"
+    "menuLabel": "Menu",
+    "menuLabelWithAlerts": "Menu, {{count}} à étiqueter"
   },
   "common": {
     "lastUpdate": "Dernière mise à jour :"

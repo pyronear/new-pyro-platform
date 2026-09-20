@@ -17,10 +17,12 @@
   "pages": {
     "dashboard": "Camera dashboard",
     "alerts": "Live alerts",
-    "history": "History alerts"
+    "history": "History alerts",
+    "unlabeledAlertsBadge": "{{count}} unlabeled"
   },
   "topbar": {
-    "menuLabel": "Menu"
+    "menuLabel": "Menu",
+    "menuLabelWithAlerts": "Menu, {{count}} unlabeled"
   },
   "common": {
     "lastUpdate": "Last update:"
