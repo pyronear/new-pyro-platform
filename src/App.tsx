@@ -18,6 +18,7 @@ import { HistoryPage } from '@/pages/HistoryPage';
 import LivestreamingPage from '@/pages/LivestreamingPage.tsx';
 import { LoginPage } from '@/pages/LoginPage';
 
+import { AlertSoundMonitor } from './components/Alerts/AlertsSound/AlertSoundMonitor';
 import ProtectedRoute from './components/Login/ProtectedRoute';
 import { Topbar } from './components/Topbar/Topbar';
 import { AuthProvider } from './context/AuthProvider';
@@ -32,6 +33,7 @@ const App = () => {
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <PreferencesProvider>
+          <AlertSoundMonitor />
           <DateLocalizationProvider>
             <BrowserRouter>
               <Stack height={'100vh'}>
