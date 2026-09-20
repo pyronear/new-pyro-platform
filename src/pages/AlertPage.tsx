@@ -9,7 +9,7 @@ import { DEFAULT_ROUTE } from '@/App';
 import { AlertContainer } from '@/components/Alerts/AlertDetails/AlertContainer';
 import { Loader } from '@/components/Common/Loader';
 import { CameraListProvider } from '@/context/CameraListProvider';
-import { getAlertById } from '@/services/alerts';
+import { getAlertById, UNLABELLED_ALERTS_QUERY_KEY } from '@/services/alerts';
 import { STATUS_ERROR, STATUS_LOADING, STATUS_SUCCESS } from '@/services/axios';
 import { getCameraList } from '@/services/camera';
 import { type AlertType, mapOneAlertApiToAlertType } from '@/utils/alerts';
@@ -49,6 +49,9 @@ export const AlertPage = () => {
 
   const invalidateAndRefreshData = useCallback(() => {
     void queryClient.invalidateQueries({ queryKey: ['alert', alertIdNumber] });
+    void queryClient.invalidateQueries({
+      queryKey: UNLABELLED_ALERTS_QUERY_KEY,
+    });
   }, [queryClient, alertIdNumber]);
 
   const status = useMemo(() => {

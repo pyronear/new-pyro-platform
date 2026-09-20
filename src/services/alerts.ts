@@ -1,7 +1,13 @@
 import type { AxiosResponse } from 'axios';
 import * as z from 'zod/v4';
 
+import appConfig from './appConfig';
 import { apiInstance } from './axios';
+
+export const UNLABELLED_ALERTS_QUERY_KEY = ['unlabelledAlerts'];
+
+export const UNLABELLED_ALERTS_STALE_TIME_MS =
+  appConfig.getConfig().ALERTS_LIST_REFRESH_INTERVAL_SECONDS * 1000;
 
 const apiSequenceResponseSchema = z.object({
   id: z.number(),
