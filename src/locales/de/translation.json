@@ -17,10 +17,12 @@
   "pages": {
     "dashboard": "Kamera-Dashboard",
     "alerts": "Live-Alarme",
-    "history": "Alarmverlauf"
+    "history": "Alarmverlauf",
+    "unlabeledAlertsBadge": "{{count}} unbeschriftet"
   },
   "topbar": {
-    "menuLabel": "Menü"
+    "menuLabel": "Menü",
+    "menuLabelWithAlerts": "Menü, {{count}} unbeschriftet"
   },
   "common": {
     "lastUpdate": "Letzte Aktualisierung:"
