@@ -57,6 +57,11 @@ const renderMobileMapView = () => {
   const markerRefs = { current: new Map() };
   const cardRefs = { current: new Map() };
 
+  Object.defineProperty(window, 'innerHeight', {
+    configurable: true,
+    value: 600,
+  });
+
   render(
     <MobileDashboardMapView
       cameraList={[camera]}
@@ -77,11 +82,6 @@ const renderMobileMapView = () => {
   if (drawer === null || mapContainer === null) {
     throw new Error('Mobile drawer was not rendered');
   }
-
-  Object.defineProperty(mapContainer, 'clientHeight', {
-    configurable: true,
-    value: 600,
-  });
 
   return { drawer, handle, onSelectCamera };
 };
