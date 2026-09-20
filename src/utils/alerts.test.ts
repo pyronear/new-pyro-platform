@@ -7,7 +7,6 @@ import {
   formatPosition,
   getLatestAlertStartedAt,
   getSequenceAzimuthAxis,
-  hasNewAlertSince,
   type SequenceWithCameraInfoType,
 } from './alerts';
 import { convertIsoToUnix } from './dates';
