@@ -5,10 +5,10 @@ import {
   extractCameraListFromAlert,
   formatAzimuth,
   formatPosition,
+  getLatestAlertStartedAt,
   getSequenceAzimuthAxis,
   hasNewAlertSince,
   type SequenceWithCameraInfoType,
-  getLatestAlertStartedAt,
 } from './alerts';
 import { convertIsoToUnix } from './dates';
 
