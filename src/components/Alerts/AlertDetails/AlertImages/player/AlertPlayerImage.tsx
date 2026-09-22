@@ -12,7 +12,8 @@ import type { SequenceAzimuthAxis } from '@/utils/alerts';
 import {
   type BoundingBox,
   parseBboxCoords,
-  parseDetectionBox,
+  parseMainDetectionBox,
+  parseOtherDetectionBoxes,
 } from '@/utils/detections.ts';
 
 import { useAlertPlayer } from '../context/useAlertPlayer';
@@ -34,7 +35,11 @@ export const AlertPlayerImage = ({
 
   const theme = useTheme();
   const wrapperRef = useRef<ReactZoomPanPinchContentRef | null>(null);
-  const [currentBox, setCurrentBox] = useState<BoundingBox | null>(null);
+  const [currentMainBoundingBox, setCurrentMainBoundingBox] =
+    useState<BoundingBox | null>(null);
+  const [currentOtherBoundingBoxes, setCurrentOtherBoundingBoxes] = useState<
+    BoundingBox[] | null
+  >(null);
   const shouldResetTransform = useRef(false);
 
   // Place the crop preview opposite the detection so it never sits on top of it
@@ -56,7 +61,8 @@ export const AlertPlayerImage = ({
   const imgRef = useRef<HTMLImageElement | null>(null);
   const handleImageLoad = () => {
     if (imgRef.current) {
-      setCurrentBox(parseDetectionBox(selectedDetection));
+      setCurrentMainBoundingBox(parseMainDetectionBox(selectedDetection));
+      setCurrentOtherBoundingBoxes(parseOtherDetectionBoxes(selectedDetection));
     }
     if (shouldResetTransform.current) {
       if (wrapperRef.current !== null) {
@@ -161,17 +167,30 @@ export const AlertPlayerImage = ({
               style={{ maxWidth: '100%', maxHeight: '60vh' }}
               onLoad={handleImageLoad}
             />
-            {displayBbox && currentBox && (
+            {displayBbox && currentMainBoundingBox && (
               <div
                 style={{
                   position: 'absolute',
-                  ...currentBox,
+                  ...currentMainBoundingBox,
                   border: `2px solid ${theme.palette.error.main}`,
                   borderRadius: '2px',
                   boxSizing: 'content-box',
                 }}
               />
             )}
+            {displayBbox &&
+              currentOtherBoundingBoxes?.map((bbox) => (
+                <div
+                  key={JSON.stringify(bbox)}
+                  style={{
+                    position: 'absolute',
+                    ...bbox,
+                    border: `2px dashed ${theme.palette.secondaryText.main}`,
+                    borderRadius: '2px',
+                    boxSizing: 'content-box',
+                  }}
+                />
+              ))}
           </TransformComponent>
         </TransformWrapper>
       </div>
