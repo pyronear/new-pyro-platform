@@ -1,18 +1,7 @@
 {
   "login": {
-    "button": "Identificarse",
-    "title": "Conexión",
-    "username": "Nombre de usuario",
-    "password": "Contraseña",
-    "showPassword": "Mostrar contraseña",
-    "hidePassword": "Ocultar contraseña",
-    "logout": "Desconectarse",
-    "errors": {
-      "INVALID_CREDENTIALS": "Nombre de usuario y/o contraseña incorrectos.",
-      "SERVER_ERROR": "Se ha producido un error. Vuelva a intentarlo más tarde.",
-      "UNKNOWN_ERROR": "Se ha producido un error inesperado.",
-      "INVALID_API_RESPONSE": "La respuesta del servidor de conexión no es válida."
-    }
+    "title": "Redirección en curso",
+    "logout": "Desconectarse"
   },
   "pages": {
     "dashboard": "Panel de cámaras",

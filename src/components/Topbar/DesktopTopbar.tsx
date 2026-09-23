@@ -1,7 +1,7 @@
 import { AppBar, Stack, Toolbar } from '@mui/material';
 import { Link } from 'react-router';
 
-import { DEFAULT_ROUTE } from '@/App';
+import { DEFAULT_ROUTE } from '@/AppRouter';
 import logo from '@/assets/logo.svg';
 import { useAuth } from '@/context/useAuth';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
@@ -13,8 +13,7 @@ import { useAlertsMenuBadge } from './useAlertsMenuBadge';
 
 export const DesktopTopbar = () => {
   const { t } = useTranslationPrefix('pages');
-  const { token } = useAuth();
-  const isLoggedIn = !!token;
+  const { isLoggedIn } = useAuth();
   const unlabelledAlertsCount = useAlertsMenuBadge(isLoggedIn);
   const alertsBadgeLabel =
     unlabelledAlertsCount > 0

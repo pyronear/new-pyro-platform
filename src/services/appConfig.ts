@@ -23,6 +23,10 @@ export interface AppConfigType {
 
   /** IGN Géoplateforme key. Empty => public IGN layers only. */
   readonly IGN_API_KEY: string;
+
+  readonly KEYCLOAK_URL: string;
+  readonly KEYCLOAK_CLIENT_ID: string;
+  readonly KEYCLOAK_REDIRECT_URI: string;
 }
 
 export class AppConfig {
@@ -75,6 +79,12 @@ export class AppConfig {
       HISTORY_NB_ALERTS_PER_PAGE: window.AppConfig?.HISTORY_NB_ALERTS_PER_PAGE,
       // @ts-expect-error config is fetched from a JS file
       IGN_API_KEY: window.AppConfig?.IGN_API_KEY ?? '',
+      // @ts-expect-error config is fetched from a JS file
+      KEYCLOAK_URL: window.AppConfig?.KEYCLOAK_URL,
+      // @ts-expect-error config is fetched from a JS file
+      KEYCLOAK_CLIENT_ID: window.AppConfig?.KEYCLOAK_CLIENT_ID,
+      // @ts-expect-error config is fetched from a JS file
+      KEYCLOAK_REDIRECT_URI: window.AppConfig?.KEYCLOAK_REDIRECT_URI,
     };
   }
 }
