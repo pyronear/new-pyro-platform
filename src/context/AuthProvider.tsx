@@ -1,3 +1,4 @@
+import { useQueryClient } from '@tanstack/react-query';
 import type { User } from 'oidc-client-ts';
 import React, { type PropsWithChildren, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -13,7 +14,6 @@ import { extractRoles, extractUsername, type Role } from '@/utils/token';
 import { resetTokenOnAxios, setTokenOnAxios } from '../services/axios';
 import { clearAuthToken, setAuthToken } from '../utils/authToken';
 import { AuthContext, type AuthContextType } from './AuthContext';
-import { useQueryClient } from '@tanstack/react-query';
 
 const oidcConfig = (locale: string): AuthProviderProps => {
   return {
@@ -22,7 +22,7 @@ const oidcConfig = (locale: string): AuthProviderProps => {
     redirect_uri: appConfig.getConfig().KEYCLOAK_REDIRECT_URI,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     onSigninCallback: (_user: User | undefined): void => {
-      // Permet de supprimer les éléments d'authent dans l'url (fausse react router)
+      // Delete unwanted params in url (prevents dysfunction in react router)
       window.history.replaceState({}, document.title, window.location.pathname);
     },
     extraQueryParams: { ui_locales: locale },
