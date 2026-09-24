@@ -1,3 +1,4 @@
+import MapIcon from '@mui/icons-material/Map';
 import OnlinePredictionIcon from '@mui/icons-material/OnlinePrediction';
 import {
   Divider,
@@ -23,6 +24,8 @@ interface AlertListType {
   lastUpdate: number;
   isRefreshing: boolean;
   invalidateAndRefreshData: () => void;
+  changeView?: () => void;
+  isDetailsView?: boolean;
 }
 
 export const AlertsList = ({
@@ -32,6 +35,8 @@ export const AlertsList = ({
   lastUpdate,
   isRefreshing,
   invalidateAndRefreshData,
+  changeView,
+  isDetailsView = true,
 }: AlertListType) => {
   const theme = useTheme();
   const { t } = useTranslationPrefix('alerts');
@@ -49,15 +54,31 @@ export const AlertsList = ({
         <Typography variant="h2">
           {`${alerts.length.toString()} ${alerts.length <= 1 ? t('titleListSimple') : t('titleListPlural')}`}
         </Typography>
-        <BlinkingWrapper hasAlert={alerts.length > 0}>
-          {(onClick) => (
-            <Tooltip title={t('blinkingMode.buttonBlinkingView')}>
-              <IconButton onClick={onClick}>
-                <OnlinePredictionIcon fontSize="large" />
-              </IconButton>
-            </Tooltip>
+        <Stack direction="row">
+          {changeView && (
+            <IconButton
+              color="primary"
+              onClick={changeView}
+              sx={{
+                ...(!isDetailsView && {
+                  backgroundColor: '#bdcdcb82',
+                  '&:hover': { backgroundColor: '#bdcdcb82' },
+                }),
+              }}
+            >
+              <MapIcon />
+            </IconButton>
           )}
-        </BlinkingWrapper>
+          <BlinkingWrapper hasAlert={alerts.length > 0}>
+            {(onClick) => (
+              <Tooltip title={t('blinkingMode.buttonBlinkingView')}>
+                <IconButton onClick={onClick} color="primary">
+                  <OnlinePredictionIcon fontSize="large" />
+                </IconButton>
+              </Tooltip>
+            )}
+          </BlinkingWrapper>
+        </Stack>
       </Stack>
       <Divider orientation="horizontal" flexItem />
       <Grid px={{ xs: 1, sm: 2 }} py={1}>
