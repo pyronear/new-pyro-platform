@@ -1,7 +1,78 @@
+import type { DetectionType } from '@/services/alerts';
 import {
   calculateDetectionsPages,
   calculateNbDetectionsToLoad,
+  parseMainDetectionBox,
+  parseOtherDetectionBoxes,
 } from '@/utils/detections.ts';
+
+const makeDetection = (
+  overrides: Partial<DetectionType> = {}
+): DetectionType => ({
+  id: 1,
+  camera_id: 1,
+  pose_id: 1,
+  sequence_id: 42,
+  bucket_key: 'key-1',
+  bbox: '(0.1,0.2,0.3,0.4,0.9)',
+  others_bboxes: null,
+  created_at: '2025-01-01T00:00:00',
+  recorded_at: '2025-01-01T00:00:00',
+  url: 'https://example/1',
+  ...overrides,
+});
+
+describe('parseMainDetectionBox', () => {
+  it('returns null when detection is null', () => {
+    expect(parseMainDetectionBox(null)).toBeNull();
+  });
+
+  it('returns null when bbox is malformed', () => {
+    expect(parseMainDetectionBox(makeDetection({ bbox: 'nope' }))).toBeNull();
+  });
+
+  it('converts bbox coords to percentages', () => {
+    expect(
+      parseMainDetectionBox(makeDetection({ bbox: '(0.1,0.2,0.3,0.4,0.9)' }))
+    ).toEqual({
+      left: '10%',
+      top: '20%',
+      width: '20%',
+      height: '20%',
+    });
+  });
+});
+
+describe('parseOtherDetectionBoxes', () => {
+  it('returns null when detection is null', () => {
+    expect(parseOtherDetectionBoxes(null)).toBeNull();
+  });
+
+  it('returns null when others_bboxes is null', () => {
+    expect(
+      parseOtherDetectionBoxes(makeDetection({ others_bboxes: null }))
+    ).toBeNull();
+  });
+
+  it('converts every other bbox to percentages', () => {
+    expect(
+      parseOtherDetectionBoxes(
+        makeDetection({
+          others_bboxes: '[(0.1,0.1,0.2,0.2,0.9),(0.5,0.5,0.75,0.65,0.4)]',
+        })
+      )
+    ).toEqual([
+      { left: '10%', top: '10%', width: '10%', height: '10%' },
+      { left: '50%', top: '50%', width: '25%', height: '15%' },
+    ]);
+  });
+
+  it('returns an empty array when others_bboxes has no tuples', () => {
+    expect(
+      parseOtherDetectionBoxes(makeDetection({ others_bboxes: '[]' }))
+    ).toEqual([]);
+  });
+});
 
 describe('calculateDetectionsPages', () => {
   it('should return no page', () => {

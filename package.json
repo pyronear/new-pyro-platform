@@ -10,7 +10,7 @@
     "preview": "vite preview",
     "format": "prettier . --write",
     "format:check": "prettier . --check",
-    "test": "vitest --passWithNoTests"
+    "test": "vitest"
   },
   "dependencies": {
     "@emotion/react": "~11.14.0",

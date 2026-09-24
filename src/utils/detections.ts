@@ -41,7 +41,24 @@ export const parseBboxCoords = (
   return { x1, y1, x2, y2 };
 };
 
-export const parseDetectionBox = (
+// Round away the float noise from subtracting coords (e.g. 0.4 - 0.2) so the
+// resulting CSS percentages are clean.
+const toPercent = (ratio: number): string =>
+  `${parseFloat((100 * ratio).toFixed(3))}%`;
+
+const toBoundingBox = (
+  x1: number,
+  y1: number,
+  x2: number,
+  y2: number
+): BoundingBox => ({
+  left: toPercent(x1),
+  top: toPercent(y1),
+  width: toPercent(x2 - x1),
+  height: toPercent(y2 - y1),
+});
+
+export const parseMainDetectionBox = (
   detection: DetectionType | null
 ): BoundingBox | null => {
   if (detection === null) {
@@ -53,13 +70,19 @@ export const parseDetectionBox = (
     return null;
   }
 
-  const { x1, y1, x2, y2 } = coords;
-  return {
-    left: `${100 * x1}%`,
-    top: `${100 * y1}%`,
-    width: `${100 * (x2 - x1)}%`,
-    height: `${100 * (y2 - y1)}%`,
-  };
+  return toBoundingBox(coords.x1, coords.y1, coords.x2, coords.y2);
+};
+
+export const parseOtherDetectionBoxes = (
+  detection: DetectionType | null
+): BoundingBox[] | null => {
+  if (detection?.others_bboxes == null) {
+    return null;
+  }
+
+  return parseBboxes(detection.others_bboxes).map(
+    ({ xmin, ymin, xmax, ymax }) => toBoundingBox(xmin, ymin, xmax, ymax)
+  );
 };
 
 export const calculateDetectionsPages = (
