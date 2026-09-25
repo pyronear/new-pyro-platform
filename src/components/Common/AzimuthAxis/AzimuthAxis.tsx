@@ -10,6 +10,7 @@ import {
 } from '@/utils/axisHelper.ts';
 
 const STEP = 5;
+export const AZIMUTH_AXIS_HEIGHT_PX = 32;
 
 const TickLine = styled('div')(
   ({ isHighlight, color }: { isHighlight: boolean; color: string }) => ({
@@ -60,7 +61,7 @@ const AzimuthAxis: React.FC<AzimuthAxisProps> = ({
         alignItems: 'flex-end',
         position: 'relative',
         width: '100%',
-        height: '32px',
+        height: `${AZIMUTH_AXIS_HEIGHT_PX}px`,
         userSelect: 'none',
         borderColor: color,
         paddingX:
