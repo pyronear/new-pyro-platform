@@ -149,19 +149,15 @@ export const LiveStreamPanel = ({
           (mediaMtx.state === StateStreaming.IS_STREAMING || hasTemporaryError)
         }
         azimuthAxis={
-          /* Streaming has been started with backendapi and mediamtx is connected */
-          statusStreamingVideo === STATUS_SUCCESS &&
-          mediaMtx.state === StateStreaming.IS_STREAMING && (
-            <AzimuthAxis
-              center={liveAzimuth?.azimuth_deg ?? 0}
-              range={
-                liveAzimuth?.h_fov_deg ??
-                camera.angle_of_view ??
-                DEFAULT_ANGLE_OF_VIEW
-              }
-              isLoading={isAzimuthLoading}
-            />
-          )
+          <AzimuthAxis
+            center={liveAzimuth?.azimuth_deg ?? 0}
+            range={
+              liveAzimuth?.h_fov_deg ??
+              camera.angle_of_view ??
+              DEFAULT_ANGLE_OF_VIEW
+            }
+            isLoading={isAzimuthLoading}
+          />
         }
       />
     </Stack>

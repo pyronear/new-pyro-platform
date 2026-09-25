@@ -1,4 +1,4 @@
-import type { SnackbarCloseReason } from '@mui/material';
+import { Box, type SnackbarCloseReason } from '@mui/material';
 import {
   type MouseEventHandler,
   type ReactNode,
@@ -27,7 +27,7 @@ interface VideoStreamProps {
   camera: CameraFullInfosType;
   hasRotation: boolean;
   ref: Ref<HTMLVideoElement>;
-  azimuthAxis?: ReactNode;
+  azimuthAxis: ReactNode;
 }
 
 export const VideoStream = ({
@@ -120,8 +120,6 @@ export const VideoStream = ({
     }
   };
 
-  const axisSpacePx = azimuthAxis ? AZIMUTH_AXIS_HEIGHT_PX + AXIS_GAP_PX : 0;
-
   return (
     <>
       {/* Available space for the axis + the video, used as a size container */}
@@ -137,13 +135,15 @@ export const VideoStream = ({
         {/* Frame as wide as the displayed image, so the axis matches its edges */}
         <div
           style={{
-            width: `min(100cqw, (100cqh - ${axisSpacePx}px) * ${videoRatio})`,
+            width: `min(100cqw, (100cqh - ${AZIMUTH_AXIS_HEIGHT_PX + AXIS_GAP_PX}px) * ${videoRatio})`,
             display: 'flex',
             flexDirection: 'column',
             gap: AXIS_GAP_PX,
           }}
         >
-          {azimuthAxis}
+          <Box sx={{ visibility: display ? 'visible' : 'hidden' }}>
+            {azimuthAxis}
+          </Box>
           <div style={{ position: 'relative', aspectRatio: videoRatio }}>
             <video
               ref={ref}
