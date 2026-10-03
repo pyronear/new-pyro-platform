@@ -18,8 +18,7 @@ import { MobileTopbarDrawer } from './MobileTopbarDrawer';
 import { useAlertsMenuBadge } from './useAlertsMenuBadge';
 
 export const MobileTopbar = () => {
-  const { token } = useAuth();
-  const isLoggedIn = !!token;
+  const { isLoggedIn } = useAuth();
   const unlabelledAlertsCount = useAlertsMenuBadge(isLoggedIn);
 
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);

@@ -1,18 +1,7 @@
 {
   "login": {
-    "button": "Anmelden",
-    "title": "Anmelden",
-    "username": "Benutzername",
-    "password": "Passwort",
-    "showPassword": "Passwort anzeigen",
-    "hidePassword": "Passwort verbergen",
-    "logout": "Abmelden",
-    "errors": {
-      "INVALID_CREDENTIALS": "Ungültiger Benutzername oder Passwort.",
-      "SERVER_ERROR": "Auf unserer Seite ist etwas schief gelaufen. Bitte versuchen Sie es später erneut.",
-      "UNKNOWN_ERROR": "Ein unerwarteter Fehler ist aufgetreten.",
-      "INVALID_API_RESPONSE": "Die Anmeldeantwort war nicht gültig."
-    }
+    "title": "Weiterleitung läuft",
+    "logout": "Abmelden"
   },
   "pages": {
     "dashboard": "Kamera-Dashboard",

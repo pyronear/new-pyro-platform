@@ -6,6 +6,7 @@ import {
   screen,
   waitFor,
 } from '@testing-library/react';
+import { User } from 'oidc-client-ts';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import {
@@ -20,9 +21,12 @@ const getUnlabelledLatestAlertsMock = vi.hoisted(() => vi.fn());
 const getCameraListMock = vi.hoisted(() => vi.fn());
 const playSoundMock = vi.hoisted(() => vi.fn());
 
-// AuthProvider decodes the stored token at mount, so it has to be a well-formed JWT.
 const AGENT_TOKEN = `header.${btoa(
-  JSON.stringify({ sub: '2', scopes: ['agent'], organization_id: 2 })
+  JSON.stringify({
+    sub: '2',
+    preferred_username: 'test77',
+    realm_access: { roles: ['F001_LIVESTREAMING', 'F002_OCCLUSION_MASK'] },
+  })
 )
   .replace(/\+/g, '-')
   .replace(/\//g, '_')
@@ -120,7 +124,23 @@ const refetchActiveAlerts = async () => {
 
 describe('audible alerts', () => {
   beforeEach(() => {
-    localStorage.setItem('auth_token', AGENT_TOKEN);
+    const expiresAt = Math.floor(Date.now() / 1000) + 3600;
+    const user = new User({
+      access_token: AGENT_TOKEN,
+      token_type: 'Bearer',
+      expires_at: expiresAt,
+      profile: {
+        sub: '2',
+        iss: 'http://localhost:9310/realms/pyronear',
+        aud: 'new-pyro-platform',
+        exp: expiresAt,
+        iat: expiresAt - 3600,
+      },
+    });
+    sessionStorage.setItem(
+      'oidc.user:http://localhost:9310/realms/pyronear:new-pyro-platform',
+      user.toStorageString()
+    );
     window.history.pushState({}, '', '/alerts');
     getUnlabelledLatestAlertsMock.mockReset();
     getCameraListMock.mockReset();
@@ -133,6 +153,7 @@ describe('audible alerts', () => {
     testState.queryClient?.clear();
     testState.queryClient = undefined;
     localStorage.clear();
+    sessionStorage.clear();
   });
 
   it('plays a sound for a new alert while the alerts page is open', async () => {

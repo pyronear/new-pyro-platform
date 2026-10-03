@@ -1,5 +1,6 @@
 import { fireEvent, screen } from '@testing-library/react';
 import { DateTime } from 'luxon';
+import type { PropsWithChildren } from 'react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import type { AlertTypeApi } from '../../services/alerts';
@@ -8,6 +9,10 @@ import { Topbar } from './Topbar';
 
 let isMobileMock = false;
 let unlabelledAlertsMock: AlertTypeApi[] = [];
+
+vi.mock('../../context/AuthProvider', () => ({
+  AuthProvider: ({ children }: PropsWithChildren) => children,
+}));
 
 vi.mock('@mui/material', async () => {
   const actual = await vi.importActual('@mui/material');
@@ -28,7 +33,11 @@ vi.mock('../../services/alerts', async () => {
 });
 
 vi.mock('../../context/useAuth', () => ({
-  useAuth: () => ({ token: 'mock-token' }),
+  useAuth: () => ({
+    isLoggedIn: true,
+    username: 'test77',
+    hasRole: () => true,
+  }),
 }));
 
 vi.mock('../../utils/useTranslationPrefix', () => ({
