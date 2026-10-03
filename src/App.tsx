@@ -17,15 +17,15 @@ const queryClient = new QueryClient();
 
 const App = () => {
   return (
-    <AuthProvider>
-      <QueryClientProvider client={queryClient}>
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
         <PreferencesProvider>
           <DateLocalizationProvider>
-            <PyroRouterProvider />;
+            <PyroRouterProvider />
           </DateLocalizationProvider>
         </PreferencesProvider>
-      </QueryClientProvider>
-    </AuthProvider>
+      </AuthProvider>
+    </QueryClientProvider>
   );
 };
 

@@ -5,7 +5,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import type { AlertTypeApi } from '@/services/alerts';
 
 const playSoundMock = vi.hoisted(() => vi.fn());
-let token: string | null;
+let username: string | null;
 let queryResult: Pick<
   UseQueryResult<AlertTypeApi[]>,
   'data' | 'isFetchedAfterMount' | 'isSuccess'
@@ -16,7 +16,7 @@ vi.mock('@tanstack/react-query', () => ({
 }));
 
 vi.mock('@/context/useAuth', () => ({
-  useAuth: () => ({ token }),
+  useAuth: () => ({ isLoggedIn: username !== null, username }),
 }));
 
 vi.mock('./useAlertSoundToggle', () => ({
@@ -43,7 +43,7 @@ const fetched = (alerts: AlertTypeApi[]) => ({
 
 describe('AlertSoundMonitor', () => {
   beforeEach(() => {
-    token = 'session-a';
+    username = 'session-a';
     playSoundMock.mockReset();
   });
 
@@ -53,10 +53,10 @@ describe('AlertSoundMonitor', () => {
 
     const { rerender } = render(<AlertSoundMonitor />);
 
-    token = null;
+    username = null;
     rerender(<AlertSoundMonitor />);
 
-    token = 'session-b';
+    username = 'session-b';
     queryResult = {
       data: [sessionAAlert],
       isFetchedAfterMount: false,
