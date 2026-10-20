@@ -1,6 +1,12 @@
 import { Box, Stack } from '@mui/material';
 import type { Map as LeafletMap, Marker as LeafletMarker } from 'leaflet';
-import { type PointerEvent, type RefObject, useRef, useState } from 'react';
+import {
+  type PointerEvent,
+  type RefObject,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 
 import type { CameraType } from '../../services/camera';
 import { useTranslationPrefix } from '../../utils/useTranslationPrefix';
@@ -73,13 +79,31 @@ export const MobileDashboardMapView = ({
     useState<MobileDrawerPosition>('half');
   const [dragHeight, setDragHeight] = useState<number | null>(null);
 
+  const [viewportHeight, setViewportHeight] = useState<number>(
+    () => window.visualViewport?.height ?? window.innerHeight
+  );
+
+  useEffect(() => {
+    const updateHeight = () => {
+      setViewportHeight(window.visualViewport?.height ?? window.innerHeight);
+    };
+
+    window.visualViewport?.addEventListener('resize', updateHeight);
+    window.addEventListener('resize', updateHeight);
+
+    return () => {
+      window.visualViewport?.removeEventListener('resize', updateHeight);
+      window.removeEventListener('resize', updateHeight);
+    };
+  }, []);
+
   const selectCamera = (cameraId: number) => {
     onSelectCamera(cameraId);
     if (drawerPosition === 'peek') setDrawerPosition('half');
   };
 
   const handleDrawerPointerDown = (event: PointerEvent<HTMLButtonElement>) => {
-    const containerHeight = mapContainerRef.current?.clientHeight ?? 0;
+    const containerHeight = viewportHeight;
     const snapHeights = getDrawerSnapHeights(containerHeight);
     const startHeight = snapHeights[drawerPosition];
 
@@ -150,6 +174,7 @@ export const MobileDashboardMapView = ({
       half: 'full',
       full: 'peek',
     };
+
     setDrawerPosition(nextPosition[drawerPosition]);
   };
 
@@ -182,7 +207,7 @@ export const MobileDashboardMapView = ({
             height: dragHeight ?? drawerHeights[drawerPosition],
             left: 0,
             overflow: 'hidden',
-            position: 'absolute',
+            position: 'fixed',
             right: 0,
             transition:
               dragHeight === null
