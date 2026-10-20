@@ -23,6 +23,9 @@ export interface AppConfigType {
 
   /** IGN Géoplateforme key. Empty => public IGN layers only. */
   readonly IGN_API_KEY: string;
+
+  /** Display the non-selected detections of a frame as dashed boxes. */
+  readonly FEATURE_DISPLAY_OTHER_BBOXES: boolean;
 }
 
 export class AppConfig {
@@ -75,6 +78,9 @@ export class AppConfig {
       HISTORY_NB_ALERTS_PER_PAGE: window.AppConfig?.HISTORY_NB_ALERTS_PER_PAGE,
       // @ts-expect-error config is fetched from a JS file
       IGN_API_KEY: window.AppConfig?.IGN_API_KEY ?? '',
+      FEATURE_DISPLAY_OTHER_BBOXES:
+        // @ts-expect-error config is fetched from a JS file
+        window.AppConfig?.FEATURE_DISPLAY_OTHER_BBOXES ?? false,
     };
   }
 }

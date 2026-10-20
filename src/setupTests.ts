@@ -21,6 +21,7 @@ appConfig.getConfig = vi.fn().mockReturnValue({
   ALERTS_SOUND_FILE: 'notification-alert.mp3',
   ALERTS_CAMERA_RANGE_KM: 30,
   HISTORY_NB_ALERTS_PER_PAGE: 15,
+  FEATURE_DISPLAY_OTHER_BBOXES: true,
   USER_GUIDE_URLS: {
     fr: 'https://pyronear.notion.site/Guide-d-utilisation-plateforme-Pyronear-376425b63668818ebd17da60b20cc770',
     en: 'https://pyronear.notion.site/Pyronear-Platform-User-Guide-389425b6366881da906ee38e93524db2',
