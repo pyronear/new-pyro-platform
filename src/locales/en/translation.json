@@ -83,6 +83,8 @@
     "buttonStepBackward": "Previous frame",
     "buttonStepForward": "Next frame",
     "buttonJumpBackward": "Back 10 frames",
+    "buttonZoomIn": "Zoom in",
+    "buttonZoomOut": "Zoom out",
     "buttonJumpForward": "Forward 10 frames",
     "buttonPlaybackSpeed": "Playback speed",
     "loadingProgress": "Loading {{progress}}%",
