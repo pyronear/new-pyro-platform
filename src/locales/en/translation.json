@@ -223,6 +223,8 @@
     "baseLayer": "Base Layer",
     "overlays": "Overlays",
     "dfciGrid": "DFCI Grid",
-    "onfForest": "ONF forest parcels"
+    "onfForest": "ONF forest parcels",
+    "measureDistance": "Measure distance",
+    "stopMeasurement": "Stop measuring"
   }
 }

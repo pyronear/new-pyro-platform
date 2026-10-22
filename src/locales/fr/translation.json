@@ -225,6 +225,8 @@
     "baseLayer": "Fond de carte",
     "overlays": "Surcouches",
     "dfciGrid": "Carroyage DFCI",
-    "onfForest": "Parcelles forestières ONF"
+    "onfForest": "Parcelles forestières ONF",
+    "measureDistance": "Mesurer une distance",
+    "stopMeasurement": "Arrêter la mesure"
   }
 }

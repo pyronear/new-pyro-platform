@@ -5,6 +5,7 @@ import { MapContainer, TileLayer, useMap } from 'react-leaflet';
 import { useMapLayers } from '@/utils/useMapLayers';
 
 import { MapLayerControl } from './MapLayerControl';
+import { MeasureControl } from './MeasureControl';
 
 interface CameraMapProps {
   children: React.ReactNode;
@@ -13,6 +14,7 @@ interface CameraMapProps {
   minHeight?: string;
   setMapRef?: (map: LeafletMap) => void;
   showLayerControl?: boolean;
+  showMeasurementControl?: boolean;
 }
 
 // Leaflet computes the map size only when its container mounts. If the container
@@ -80,6 +82,7 @@ export const TemplateMap = ({
   bounds,
   setMapRef,
   showLayerControl = false,
+  showMeasurementControl = false,
 }: CameraMapProps) => {
   const { baseTileConfig } = useMapLayers();
 
@@ -105,6 +108,8 @@ export const TemplateMap = ({
 
       {children}
 
+      {/* Before the layer control so its expanded panel renders on top */}
+      {showMeasurementControl && <MeasureControl />}
       {showLayerControl && <MapLayerControl />}
     </MapContainer>
   );

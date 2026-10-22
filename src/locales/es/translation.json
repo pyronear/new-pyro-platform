@@ -223,6 +223,8 @@
     "baseLayer": "Capa base",
     "overlays": "Superposiciones",
     "dfciGrid": "Cuadrícula DFCI",
-    "onfForest": "Parcelas forestales ONF"
+    "onfForest": "Parcelas forestales ONF",
+    "measureDistance": "Medir distancia",
+    "stopMeasurement": "Detener la medición"
   }
 }

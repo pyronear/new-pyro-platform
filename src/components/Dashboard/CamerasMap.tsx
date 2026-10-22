@@ -41,7 +41,12 @@ export const CamerasMap = ({
   }, [camerasWithPolygons]);
 
   return (
-    <TemplateMap bounds={bounds} setMapRef={setMapRef} showLayerControl>
+    <TemplateMap
+      bounds={bounds}
+      setMapRef={setMapRef}
+      showLayerControl
+      showMeasurementControl
+    >
       {camerasWithPolygons.map((camera) => (
         <Fragment key={camera.id}>
           <CameraMarker
