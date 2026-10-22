@@ -24,7 +24,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ vars.NODE_VERSION || 24}}
+          node-version-file: .nvmrc
           cache: 'pnpm'
           cache-dependency-path: pnpm-lock.yaml
 
