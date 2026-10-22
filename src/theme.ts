@@ -96,6 +96,7 @@ export const theme = createTheme({
     MuiMenuItem: {
       styleOverrides: {
         root: {
+          whiteSpace: 'normal', // MUI defaults to nowrap, which overflows on narrow screens
           '&:hover': {
             backgroundColor: '#e0e0e0',
           },
