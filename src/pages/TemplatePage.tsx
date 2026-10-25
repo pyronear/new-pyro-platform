@@ -1,8 +1,8 @@
 import { Stack } from '@mui/material';
 import { Outlet } from 'react-router';
 
-import { Topbar } from '@/components/Topbar/Topbar';
 import { AlertSoundMonitor } from '@/components/Alerts/AlertsSound/AlertSoundMonitor.tsx';
+import { Topbar } from '@/components/Topbar/Topbar';
 
 export const TemplatePage = () => {
   return (

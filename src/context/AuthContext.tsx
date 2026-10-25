@@ -1,11 +1,11 @@
 import { createContext } from 'react';
 
-import { type Role } from '@/utils/token';
+import { type Profil } from '@/utils/token';
 
 export interface AuthContextType {
   isLoggedIn: boolean;
   username: string | null;
-  hasRole: (role: Role) => boolean;
+  hasProfil: (profil: Profil) => boolean;
 }
 
 export const AuthContext = createContext<AuthContextType | undefined>(

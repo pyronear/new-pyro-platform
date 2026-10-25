@@ -9,7 +9,7 @@ import {
 } from 'react-oidc-context';
 
 import appConfig from '@/services/appConfig';
-import { extractRoles, extractUsername, type Role } from '@/utils/token';
+import { extractRoles, extractUsername, type Profil } from '@/utils/token';
 
 import { resetTokenOnAxios, setTokenOnAxios } from '../services/axios';
 import { clearAuthToken, setAuthToken } from '../utils/authToken';
@@ -46,8 +46,7 @@ const CustomAuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
     () => ({
       isLoggedIn: isLoggedIn,
       username: extractUsername(auth.user),
-      hasRole: (roleToFind: Role) =>
-        extractRoles(auth.user).includes(roleToFind),
+      hasProfil: (profil: Profil) => extractRoles(auth.user).includes(profil),
     }),
     [auth.user, isLoggedIn]
   );

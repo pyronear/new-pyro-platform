@@ -6,7 +6,10 @@ export interface PyroJwtPayload extends JwtPayload {
   roles: string[];
 }
 
-export type Role = 'F001_LIVESTREAMING' | 'F002_OCCLUSION_MASK';
+export type Profil =
+  | 'viewer' // Can only display and treats alerts
+  | 'operator' // Can manage occlusion masks and livestreaming
+  | 'admin';
 
 const extractAccessToken = (user: User) => {
   return jwtDecode<PyroJwtPayload>(user.access_token);
