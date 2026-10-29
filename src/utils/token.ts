@@ -2,7 +2,7 @@ import { jwtDecode, type JwtPayload } from 'jwt-decode';
 import type { User } from 'oidc-client-ts';
 
 export interface PyroJwtPayload extends JwtPayload {
-  username: string;
+  preferred_username: string;
   roles: string[];
 }
 
@@ -28,5 +28,5 @@ export const extractUsername = (user?: User | null): string | null => {
   if (user) {
     accessToken = extractAccessToken(user);
   }
-  return accessToken?.username ?? null;
+  return accessToken?.preferred_username ?? null;
 };
