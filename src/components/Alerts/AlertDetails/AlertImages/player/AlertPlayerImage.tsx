@@ -8,6 +8,7 @@ import {
 } from 'react-zoom-pan-pinch';
 
 import AzimuthAxis from '@/components/Common/AzimuthAxis/AzimuthAxis.tsx';
+import appConfig from '@/services/appConfig';
 import type { SequenceAzimuthAxis } from '@/utils/alerts';
 import {
   type BoundingBox,
@@ -25,6 +26,8 @@ interface AlertPlayerImageProps {
 }
 
 const MINIMUM_ZOOM_AMOUNT_TO_DISPLAY_MINIMAP = 1.4;
+const FEATURE_DISPLAY_OTHER_BBOXES =
+  appConfig.getConfig().FEATURE_DISPLAY_OTHER_BBOXES;
 
 export const AlertPlayerImage = ({
   displayBbox,
@@ -178,7 +181,8 @@ export const AlertPlayerImage = ({
                 }}
               />
             )}
-            {displayBbox &&
+            {FEATURE_DISPLAY_OTHER_BBOXES &&
+              displayBbox &&
               currentOtherBoundingBoxes?.map((bbox) => (
                 <div
                   key={JSON.stringify(bbox)}
