@@ -9,6 +9,9 @@ Settings.defaultZone = 'Europe/Paris';
 window.open = vi.fn();
 appConfig.getConfig = vi.fn().mockReturnValue({
   API_URL: 'https://example.com/api/',
+  KEYCLOAK_URL: 'https://example.com/auth',
+  KEYCLOAK_CLIENT_ID: 'pyro-platform',
+  KEYCLOAK_REDIRECT_URI: 'https://example.com/',
   LIVE_STREAMING_MEDIA_URL: '',
 
   LIVE_STREAMING_TIMEOUT_SECONDS: 30,

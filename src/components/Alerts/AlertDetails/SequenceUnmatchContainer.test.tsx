@@ -49,7 +49,7 @@ const renderContainer = (
 
 describe('SequenceUnmatchContainer', () => {
   afterEach(() => {
-    vi.resetAllMocks();
+    vi.mocked(unmatchSequenceFromAlert).mockReset();
   });
 
   it('hides the control when the alert has only one sequence', () => {

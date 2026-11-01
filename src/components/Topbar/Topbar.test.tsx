@@ -3,6 +3,7 @@ import { DateTime } from 'luxon';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import type { AlertTypeApi } from '../../services/alerts';
+import { seedOidcSession } from '../../test/oidcSession';
 import { renderWithProviders } from '../../test/renderWithProviders';
 import { Topbar } from './Topbar';
 
@@ -27,10 +28,6 @@ vi.mock('../../services/alerts', async () => {
   };
 });
 
-vi.mock('../../context/useAuth', () => ({
-  useAuth: () => ({ token: 'mock-token' }),
-}));
-
 vi.mock('../../utils/useTranslationPrefix', () => ({
   useTranslationPrefix: () => ({
     t: (key: string) => key,
@@ -41,26 +38,27 @@ describe('Topbar', () => {
   beforeEach(() => {
     isMobileMock = false;
     unlabelledAlertsMock = [];
+    seedOidcSession();
   });
 
   afterEach(() => {
+    sessionStorage.clear();
     vi.clearAllMocks();
   });
 
-  it('renders DesktopTopbar on desktop', () => {
+  it('renders DesktopTopbar on desktop', async () => {
     isMobileMock = false;
     renderWithProviders(<Topbar />);
-    expect(screen.getByText('dashboard')).toBeInTheDocument();
+    expect(await screen.findByText('dashboard')).toBeInTheDocument();
     expect(screen.queryByLabelText('menuLabel')).not.toBeInTheDocument();
   });
 
-  it('renders MobileTopbar on mobile', () => {
+  it('renders MobileTopbar on mobile', async () => {
     isMobileMock = true;
     renderWithProviders(<Topbar />);
+    const menuButton = await screen.findByLabelText('menuLabel');
     expect(screen.queryByText('dashboard')).not.toBeInTheDocument();
-    expect(screen.getByLabelText('menuLabel')).toBeInTheDocument();
 
-    const menuButton = screen.getByLabelText('menuLabel');
     fireEvent.click(menuButton);
 
     expect(screen.queryByText('dashboard')).toBeInTheDocument();
@@ -77,18 +75,18 @@ describe('Topbar', () => {
     expect(screen.getByText('2')).toBeInTheDocument();
   });
 
-  it('renders preferences button on desktop', () => {
+  it('renders preferences button on desktop', async () => {
     isMobileMock = false;
     renderWithProviders(<Topbar />);
-    const preferencesButton = screen.getByTestId('ManageAccountsIcon');
+    const preferencesButton = await screen.findByTestId('ManageAccountsIcon');
     expect(preferencesButton).toBeInTheDocument();
   });
 
-  it('opens preferences menu when settings button is clicked on desktop', () => {
+  it('opens preferences menu when settings button is clicked on desktop', async () => {
     isMobileMock = false;
     renderWithProviders(<Topbar />);
 
-    const preferencesButton = screen.getByTestId('ManageAccountsIcon');
+    const preferencesButton = await screen.findByTestId('ManageAccountsIcon');
     if (preferencesButton.parentElement) {
       fireEvent.click(preferencesButton.parentElement);
     }

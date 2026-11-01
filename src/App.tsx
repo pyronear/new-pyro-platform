@@ -21,7 +21,7 @@ const App = () => {
       <AuthProvider>
         <PreferencesProvider>
           <DateLocalizationProvider>
-            <PyroRouterProvider />;
+            <PyroRouterProvider />
           </DateLocalizationProvider>
         </PreferencesProvider>
       </AuthProvider>
