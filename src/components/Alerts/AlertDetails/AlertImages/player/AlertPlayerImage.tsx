@@ -17,6 +17,7 @@ import {
 } from '@/utils/detections.ts';
 
 import { useAlertPlayer } from '../context/useAlertPlayer';
+import { AlertPlayerZoomButtons } from './AlertPlayerZoomButtons';
 
 interface AlertPlayerImageProps {
   displayBbox: boolean;
@@ -25,6 +26,8 @@ interface AlertPlayerImageProps {
 }
 
 const MINIMUM_ZOOM_AMOUNT_TO_DISPLAY_MINIMAP = 1.4;
+// react-zoom-pan-pinch default (0.5) jumps too far on each click
+const ZOOM_BUTTON_STEP = 0.2;
 
 export const AlertPlayerImage = ({
   displayBbox,
@@ -118,6 +121,12 @@ export const AlertPlayerImage = ({
           ref={wrapperRef}
           onTransformed={handleTransformed}
         >
+          <AlertPlayerZoomButtons
+            onZoomIn={() => wrapperRef.current?.zoomIn(ZOOM_BUTTON_STEP)}
+            onZoomOut={() => wrapperRef.current?.zoomOut(ZOOM_BUTTON_STEP)}
+            isZoomOutDisabled={!isZoomed}
+          />
+
           {shouldDisplayMiniMap && (
             <div
               style={{

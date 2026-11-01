@@ -83,6 +83,8 @@
     "buttonStepBackward": "Imagen anterior",
     "buttonStepForward": "Imagen siguiente",
     "buttonJumpBackward": "Retroceder 10 imágenes",
+    "buttonZoomIn": "Acercar",
+    "buttonZoomOut": "Alejar",
     "buttonJumpForward": "Avanzar 10 imágenes",
     "buttonPlaybackSpeed": "Velocidad de reproducción",
     "loadingProgress": "Cargando {{progress}}%",
