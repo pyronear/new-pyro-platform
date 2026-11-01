@@ -1,16 +1,32 @@
 import { jwtDecode, type JwtPayload } from 'jwt-decode';
+import type { User } from 'oidc-client-ts';
 
 export interface PyroJwtPayload extends JwtPayload {
-  scopes: string[];
+  preferred_username: string;
+  roles: string[];
 }
 
-export type Profil = 'agent' | 'user';
+export type Profil =
+  | 'viewer' // Can only display and treats alerts
+  | 'operator' // Can manage occlusion masks and livestreaming
+  | 'admin';
 
-export const extractAccessToken = (token: string) => {
-  return jwtDecode<PyroJwtPayload>(token);
+const extractAccessToken = (user: User) => {
+  return jwtDecode<PyroJwtPayload>(user.access_token);
 };
 
-export const calculateProfil = (token: string): Profil => {
-  const scopes = extractAccessToken(token).scopes;
-  return scopes.includes('agent') ? 'agent' : 'user';
+export const extractRoles = (user?: User | null) => {
+  let accessToken;
+  if (user) {
+    accessToken = extractAccessToken(user);
+  }
+  return accessToken?.roles ?? [];
+};
+
+export const extractUsername = (user?: User | null): string | null => {
+  let accessToken;
+  if (user) {
+    accessToken = extractAccessToken(user);
+  }
+  return accessToken?.preferred_username ?? null;
 };

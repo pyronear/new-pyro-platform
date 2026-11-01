@@ -12,6 +12,7 @@ import {
   type AlertTypeApi,
   UNLABELLED_ALERTS_QUERY_KEY,
 } from '@/services/alerts';
+import { seedOidcSession } from '@/test/oidcSession';
 
 const testState = vi.hoisted(() => ({
   queryClient: undefined as QueryClient | undefined,
@@ -19,14 +20,6 @@ const testState = vi.hoisted(() => ({
 const getUnlabelledLatestAlertsMock = vi.hoisted(() => vi.fn());
 const getCameraListMock = vi.hoisted(() => vi.fn());
 const playSoundMock = vi.hoisted(() => vi.fn());
-
-// AuthProvider decodes the stored token at mount, so it has to be a well-formed JWT.
-const AGENT_TOKEN = `header.${btoa(
-  JSON.stringify({ sub: '2', scopes: ['agent'], organization_id: 2 })
-)
-  .replace(/\+/g, '-')
-  .replace(/\//g, '_')
-  .replace(/=+$/, '')}.signature`;
 
 vi.mock('@/services/alerts', async (importOriginal) => ({
   ...(await importOriginal<typeof import('@/services/alerts')>()),
@@ -120,7 +113,7 @@ const refetchActiveAlerts = async () => {
 
 describe('audible alerts', () => {
   beforeEach(() => {
-    localStorage.setItem('auth_token', AGENT_TOKEN);
+    seedOidcSession();
     window.history.pushState({}, '', '/alerts');
     getUnlabelledLatestAlertsMock.mockReset();
     getCameraListMock.mockReset();
@@ -132,6 +125,7 @@ describe('audible alerts', () => {
   afterEach(() => {
     testState.queryClient?.clear();
     testState.queryClient = undefined;
+    sessionStorage.clear();
     localStorage.clear();
   });
 

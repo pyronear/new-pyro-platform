@@ -5,11 +5,11 @@ import { useIsMobile } from '@/utils/useIsMobile.ts';
 
 export const useLiveAllowed = () => {
   const isMobile = useIsMobile();
-  const { profil } = useAuth();
+  const { hasProfil } = useAuth();
 
   const isLiveAuthorized = useMemo(() => {
-    return !isMobile && profil == 'agent';
-  }, [isMobile, profil]);
+    return !isMobile && hasProfil('operator');
+  }, [isMobile, hasProfil]);
 
   return { isLiveAuthorized };
 };

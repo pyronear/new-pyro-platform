@@ -16,9 +16,9 @@ const ALERTS_LIST_REFRESH_INTERVAL_SECONDS =
   appConfig.getConfig().ALERTS_LIST_REFRESH_INTERVAL_SECONDS;
 
 export const AlertSoundMonitor = () => {
-  const { token } = useAuth();
+  const { isLoggedIn } = useAuth();
 
-  return token ? <AuthenticatedAlertSoundMonitor key={token} /> : null;
+  return isLoggedIn ? <AuthenticatedAlertSoundMonitor /> : null;
 };
 
 const AuthenticatedAlertSoundMonitor = () => {
