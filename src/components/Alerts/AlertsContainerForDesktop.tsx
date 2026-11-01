@@ -1,6 +1,9 @@
+import { Stack } from '@mui/material';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
+import { useState } from 'react';
 
+import { AlertsMap } from '@/components/Alerts/AlertsMap/AlertsMap.tsx';
 import { type AlertType } from '@/utils/alerts';
 
 import { AlertContainer } from './AlertDetails/AlertContainer';
@@ -26,9 +29,15 @@ export const AlertsContainerForDesktop = ({
   setSelectedAlert,
   resetSelectedAlert,
 }: AlertsContainerType) => {
+  const [isDetailsView, setDetailsView] = useState(true);
+
+  const changeView = () => {
+    setDetailsView((prev) => !prev);
+  };
+
   return (
     <Grid container height="100%">
-      <Grid size={{ sm: 3, md: 2 }} height="100%" overflow={'auto'}>
+      <Grid size={{ sm: 3, md: 2 }} height="100%" overflow="auto">
         <AlertsList
           alerts={alertsList}
           selectedAlert={selectedAlert}
@@ -36,17 +45,12 @@ export const AlertsContainerForDesktop = ({
           lastUpdate={lastUpdate}
           isRefreshing={isRefreshing}
           invalidateAndRefreshData={invalidateAndRefreshData}
+          changeView={changeView}
+          isDetailsView={isDetailsView}
         />
       </Grid>
-      <Grid size={{ sm: 9, md: 10 }} height={'100%'} overflow={'auto'}>
-        {selectedAlert ? (
-          <AlertContainer
-            isLiveMode={true}
-            alert={selectedAlert}
-            resetAlert={resetSelectedAlert}
-            invalidateAndRefreshData={invalidateAndRefreshData}
-          />
-        ) : (
+      <Grid size={{ sm: 9, md: 10 }} height="100%" overflow="auto">
+        {alertsList.length == 0 && (
           <Box
             height="100%"
             width="100%"
@@ -58,6 +62,32 @@ export const AlertsContainerForDesktop = ({
               style={{ width: '100%', height: '100%', display: 'flex' }}
             />
           </Box>
+        )}
+        {alertsList.length != 0 && (
+          <Stack height="100%">
+            {!isDetailsView && (
+              <Box flexGrow={1} overflow="hidden">
+                <AlertsMap
+                  alertsList={alertsList}
+                  selectedAlert={selectedAlert}
+                  setSelectedAlert={setSelectedAlert}
+                  closeMap={changeView}
+                />
+              </Box>
+            )}
+            {isDetailsView && (
+              <Box flexGrow={1} overflow="hidden">
+                {selectedAlert && (
+                  <AlertContainer
+                    isLiveMode={true}
+                    alert={selectedAlert}
+                    resetAlert={resetSelectedAlert}
+                    invalidateAndRefreshData={invalidateAndRefreshData}
+                  />
+                )}
+              </Box>
+            )}
+          </Stack>
         )}
       </Grid>
     </Grid>

@@ -102,6 +102,7 @@
     "buttonTreatAlert": "Treat the alert",
     "buttonModifyAlert": "Modify the alert",
     "buttonShare": "Share",
+    "buttonDisplayDetail": "See the details",
     "shareLinkCopied": "Alert link copied to clipboard",
     "unmatch": {
       "button": "Unmatch sequence",

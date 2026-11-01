@@ -1,7 +1,8 @@
 import { Stack } from '@mui/material';
 import type { ReactNode } from 'react';
 
-import type { AlertType } from '../../../utils/alerts';
+import type { AlertType } from '@/utils/alerts';
+
 import { AlertCard } from './AlertCard';
 
 interface AlertsCardsColumnType {
