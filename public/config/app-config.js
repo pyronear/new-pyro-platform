@@ -28,4 +28,7 @@ window.AppConfig = {
   // The key is referrer-restricted: every origin serving the app (localhost, preprod,
   // prod) must be allow-listed in the IGN client space, or tiles come back 401.
   IGN_API_KEY: '',
+
+  // Feature flags
+  FEATURE_DISPLAY_OTHER_BBOXES: false,
 };
