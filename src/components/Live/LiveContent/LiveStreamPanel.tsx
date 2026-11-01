@@ -102,7 +102,7 @@ export const LiveStreamPanel = ({
   }, [mediaMtx, setIsStreamVideoInterrupted]);
 
   return (
-    <Stack spacing={1} height="100%" p={2}>
+    <Stack spacing={1} height="100%" minHeight={0} p={2}>
       {
         /* Streaming couldn't be started with backendapi : error with no retry */
         statusStreamingVideo === STATUS_ERROR && (
@@ -140,9 +140,15 @@ export const LiveStreamPanel = ({
           }
         </>
       )}
-      {/* Streaming has been started with backendapi and mediamtx is connected */}
-      {statusStreamingVideo === STATUS_SUCCESS &&
-        mediaMtx.state === StateStreaming.IS_STREAMING && (
+      <VideoStream
+        ref={refVideo}
+        camera={camera}
+        hasRotation={hasRotation}
+        display={
+          statusStreamingVideo === STATUS_SUCCESS &&
+          (mediaMtx.state === StateStreaming.IS_STREAMING || hasTemporaryError)
+        }
+        azimuthAxis={
           <AzimuthAxis
             center={liveAzimuth?.azimuth_deg ?? 0}
             range={
@@ -152,14 +158,6 @@ export const LiveStreamPanel = ({
             }
             isLoading={isAzimuthLoading}
           />
-        )}
-      <VideoStream
-        ref={refVideo}
-        camera={camera}
-        hasRotation={hasRotation}
-        display={
-          statusStreamingVideo === STATUS_SUCCESS &&
-          (mediaMtx.state === StateStreaming.IS_STREAMING || hasTemporaryError)
         }
       />
     </Stack>

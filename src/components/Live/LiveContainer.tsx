@@ -147,7 +147,7 @@ export const LiveContainer = ({
           }
         />
         {isStreamingLaunched ? (
-          <Grid container spacing={2} flexGrow={1}>
+          <Grid container spacing={2} flexGrow={1} minHeight={0}>
             <Grid size={8}>
               <LiveStreamPanel
                 urlStreaming={urlStreaming}
