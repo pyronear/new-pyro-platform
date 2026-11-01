@@ -49,7 +49,7 @@ export const HistoryPage = () => {
     refetchOnWindowFocus: false,
     initialPageParam: 0,
     getNextPageParam: (lastPage, _allPages, lastPageParam) => {
-      if (lastPage.length === 0) {
+      if (lastPage.length < HISTORY_NB_ALERTS_PER_PAGE) {
         return undefined;
       }
       return lastPageParam + 1;
