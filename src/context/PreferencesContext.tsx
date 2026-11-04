@@ -1,11 +1,12 @@
 import { createContext } from 'react';
 
-import type { BaseLayerType } from '@/services/preferences';
+import type { BaseLayerType, MapOverlays } from '@/services/preferences';
 
 export interface UserPreferences {
   language: string;
   map: {
     baseLayer: BaseLayerType;
+    overlays: MapOverlays;
   };
   audio: {
     alertsEnabled: boolean;

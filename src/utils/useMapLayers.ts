@@ -2,9 +2,9 @@ import { useMemo } from 'react';
 
 import { usePreferences } from '@/context/usePreferences';
 import appConfig from '@/services/appConfig';
-import type { BaseLayerType } from '@/services/preferences';
+import type { BaseLayerType, MapOverlays } from '@/services/preferences';
 
-export type { BaseLayerType };
+export type { BaseLayerType, MapOverlays };
 
 export interface TileLayerConfig {
   url: string;
@@ -101,13 +101,26 @@ export const useMapLayers = () => {
     return LAYER_CONFIGS[preferences.map.baseLayer];
   }, [preferences.map.baseLayer]);
 
-  const updateBaseLayer = (layer: BaseLayerType) => {
-    updatePreferences({ map: { baseLayer: layer } });
+  // updatePreferences merges shallowly: always pass the whole `map` object,
+  // or updating one field wipes the other.
+  const updateBaseLayer = (baseLayer: BaseLayerType) => {
+    updatePreferences({ map: { ...preferences.map, baseLayer } });
+  };
+
+  const updateOverlay = (overlay: keyof MapOverlays, enabled: boolean) => {
+    updatePreferences({
+      map: {
+        ...preferences.map,
+        overlays: { ...preferences.map.overlays, [overlay]: enabled },
+      },
+    });
   };
 
   return {
     baseLayer: preferences.map.baseLayer,
     baseTileConfig,
     updateBaseLayer,
+    overlays: preferences.map.overlays,
+    updateOverlay,
   };
 };

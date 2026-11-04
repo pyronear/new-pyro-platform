@@ -1,5 +1,6 @@
 import {
   clearUserPreferences,
+  DEFAULT_MAP_OVERLAYS,
   getUserPreferences,
   setUserPreferences,
   type UserPreferencesDto,
@@ -9,6 +10,7 @@ const DEFAULT_PREFERENCES: UserPreferencesDto = {
   language: 'en',
   map: {
     baseLayer: 'osm',
+    overlays: DEFAULT_MAP_OVERLAYS,
   },
   audio: {
     alertsEnabled: false,
@@ -93,6 +95,23 @@ describe('preferences utilities', () => {
         })
       );
       expect(getUserPreferences()).toBeNull();
+    });
+
+    it('should load preferences stored before map overlays existed', () => {
+      localStorage.setItem(
+        'user_preferences',
+        JSON.stringify({
+          language: 'fr',
+          map: { baseLayer: 'satellite' },
+          audio: { alertsEnabled: true },
+        })
+      );
+
+      expect(getUserPreferences()).toEqual({
+        language: 'fr',
+        map: { baseLayer: 'satellite', overlays: DEFAULT_MAP_OVERLAYS },
+        audio: { alertsEnabled: true },
+      });
     });
   });
 
