@@ -4,10 +4,25 @@ export const BASE_LAYERS = ['osm', 'ign', 'satellite', 'topo_ign'] as const;
 
 export type BaseLayerType = (typeof BASE_LAYERS)[number];
 
+const MapOverlaysSchema = z.object({
+  dfci: z.boolean(),
+  onfForest: z.boolean(),
+});
+
+export type MapOverlays = z.infer<typeof MapOverlaysSchema>;
+
+export const DEFAULT_MAP_OVERLAYS: MapOverlays = {
+  dfci: false,
+  onfForest: false,
+};
+
 export const UserPreferencesSchema = z.object({
   language: z.enum(['en', 'es', 'fr']),
   map: z.object({
     baseLayer: z.enum(BASE_LAYERS),
+    // Preferences stored before overlays existed have no `overlays` key: they
+    // must still load, otherwise every other preference falls back to default.
+    overlays: MapOverlaysSchema.default(DEFAULT_MAP_OVERLAYS),
   }),
   audio: z.object({
     alertsEnabled: z.boolean(),

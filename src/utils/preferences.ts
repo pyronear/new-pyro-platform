@@ -1,5 +1,8 @@
 import type { UserPreferences } from '@/context/PreferencesContext';
-import { getUserPreferences } from '@/services/preferences';
+import {
+  DEFAULT_MAP_OVERLAYS,
+  getUserPreferences,
+} from '@/services/preferences';
 
 export const getInitialPreferences = (
   resolvedLanguage: string | undefined
@@ -13,6 +16,7 @@ const getDefaultPreferences = (defaultLanguage: string): UserPreferences => ({
   language: defaultLanguage,
   map: {
     baseLayer: 'osm',
+    overlays: DEFAULT_MAP_OVERLAYS,
   },
   audio: {
     alertsEnabled: false,

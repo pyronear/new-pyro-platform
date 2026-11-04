@@ -19,7 +19,11 @@ import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/context/useAuth';
 import { usePreferences } from '@/context/usePreferences';
 import appConfig from '@/services/appConfig';
-import { type BaseLayerType, isTopoIgnAvailable } from '@/utils/useMapLayers';
+import {
+  type BaseLayerType,
+  isTopoIgnAvailable,
+  useMapLayers,
+} from '@/utils/useMapLayers';
 
 import { AlertVolumeToggle } from './AlertVolumeToggle';
 
@@ -34,6 +38,7 @@ export const PreferencesMenu: React.FC<PreferencesMenuProps> = ({
 }) => {
   const { t } = useTranslation();
   const { preferences, updatePreferences } = usePreferences();
+  const { updateBaseLayer } = useMapLayers();
   const { logout } = useAuth();
 
   const handleAudioAlertsToggle = () => {
@@ -47,7 +52,7 @@ export const PreferencesMenu: React.FC<PreferencesMenuProps> = ({
     value: BaseLayerType | null
   ) => {
     if (value !== null) {
-      updatePreferences({ map: { baseLayer: value } });
+      updateBaseLayer(value);
     }
   };
 

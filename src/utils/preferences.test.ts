@@ -1,4 +1,5 @@
 import {
+  DEFAULT_MAP_OVERLAYS,
   setUserPreferences,
   type UserPreferencesDto,
 } from '@/services/preferences';
@@ -9,6 +10,7 @@ const DEFAULT_PREFERENCES = {
   language: 'en',
   map: {
     baseLayer: 'osm',
+    overlays: DEFAULT_MAP_OVERLAYS,
   },
   audio: {
     alertsEnabled: false,

@@ -3,6 +3,7 @@ import { type ReactNode } from 'react';
 
 import i18n from '@/i18n';
 import {
+  DEFAULT_MAP_OVERLAYS,
   getUserPreferences,
   setUserPreferences,
   type UserPreferencesDto,
@@ -19,6 +20,7 @@ const DEFAULT_PREFERENCES = {
   language: 'en',
   map: {
     baseLayer: 'osm',
+    overlays: DEFAULT_MAP_OVERLAYS,
   },
   audio: {
     alertsEnabled: false,
@@ -47,7 +49,10 @@ describe('PreferencesProvider', () => {
       const storedPrefs = {
         ...DEFAULT_PREFERENCES,
         language: 'fr' as const,
-        map: { baseLayer: 'satellite' as const },
+        map: {
+          baseLayer: 'satellite' as const,
+          overlays: DEFAULT_MAP_OVERLAYS,
+        },
       } as UserPreferencesDto;
       setUserPreferences(storedPrefs);
 
@@ -84,7 +89,7 @@ describe('PreferencesProvider', () => {
 
       act(() => {
         result.current.updatePreferences({
-          map: { baseLayer: 'ign' },
+          map: { baseLayer: 'ign', overlays: DEFAULT_MAP_OVERLAYS },
         });
       });
 
@@ -124,7 +129,7 @@ describe('PreferencesProvider', () => {
 
       act(() => {
         result.current.updatePreferences({
-          map: { baseLayer: 'satellite' },
+          map: { baseLayer: 'satellite', overlays: DEFAULT_MAP_OVERLAYS },
         });
       });
 
