@@ -15,7 +15,8 @@ import {
   ToggleButtonGroup,
   Typography,
 } from '@mui/material';
-import { useState } from 'react';
+import L from 'leaflet';
+import { useEffect, useRef, useState } from 'react';
 
 import {
   type BaseLayerType,
@@ -54,11 +55,20 @@ export const MapLayerControl = ({
 }: MapLayerControlProps) => {
   const { t } = useTranslationPrefix('map');
   const { t: tPrefs } = useTranslationPrefix('preferences');
-  const { baseLayer, updateBaseLayer } = useMapLayers();
+  const { baseLayer, updateBaseLayer, overlays, updateOverlay } =
+    useMapLayers();
   const [expanded, setExpanded] = useState(false);
-  const [dfciEnabled, setDfciEnabled] = useState(false);
-  const [onfForestEnabled, setOnfForestEnabled] = useState(false);
   const topoIgnAvailable = isTopoIgnAvailable();
+  const controlRef = useRef<HTMLDivElement>(null);
+
+  // The control is rendered inside the Leaflet container: without this, a wheel
+  // over the panel zooms the map and a drag on it pans the map (which also
+  // prevents scrolling the panel on touch screens).
+  useEffect(() => {
+    if (!controlRef.current) return;
+    L.DomEvent.disableClickPropagation(controlRef.current);
+    L.DomEvent.disableScrollPropagation(controlRef.current);
+  }, []);
 
   const handleBaseLayerChange = (
     _: React.MouseEvent<HTMLElement>,
@@ -71,15 +81,21 @@ export const MapLayerControl = ({
 
   return (
     <>
-      <DfciGridOverlay visible={dfciEnabled} />
-      <OnfForestOverlay visible={onfForestEnabled} />
+      <DfciGridOverlay visible={overlays.dfci} />
+      <OnfForestOverlay visible={overlays.onfForest} />
 
       <Box
+        ref={controlRef}
         sx={{
           position: 'absolute',
           top: 10,
           right: 50,
           zIndex: 1000,
+          // The Leaflet container clips overflow: keep the panel inside the
+          // map and let it scroll on small maps (e.g. the alert mini-map).
+          maxHeight: 'calc(100% - 20px)',
+          display: 'flex',
+          flexDirection: 'column',
         }}
       >
         {!expanded ? (
@@ -103,6 +119,8 @@ export const MapLayerControl = ({
             sx={{
               p: 2,
               minWidth: 220,
+              minHeight: 0,
+              overflowY: 'auto',
               backgroundColor: 'white',
             }}
           >
@@ -169,8 +187,10 @@ export const MapLayerControl = ({
                     <FormControlLabel
                       control={
                         <Checkbox
-                          checked={dfciEnabled}
-                          onChange={(e) => setDfciEnabled(e.target.checked)}
+                          checked={overlays.dfci}
+                          onChange={(e) =>
+                            updateOverlay('dfci', e.target.checked)
+                          }
                           size="small"
                         />
                       }
@@ -183,9 +203,9 @@ export const MapLayerControl = ({
                     <FormControlLabel
                       control={
                         <Checkbox
-                          checked={onfForestEnabled}
+                          checked={overlays.onfForest}
                           onChange={(e) =>
-                            setOnfForestEnabled(e.target.checked)
+                            updateOverlay('onfForest', e.target.checked)
                           }
                           size="small"
                         />
