@@ -31,7 +31,7 @@
     "jszip": "^3.10.1",
     "jwt-decode": "^4.0.0",
     "leaflet": "~1.9.4",
-    "lodash": "~4.17.23",
+    "lodash": "~4.18.1",
     "luxon": "~3.7.2",
     "react": "~19.2.3",
     "react-dom": "~19.2.3",
@@ -39,7 +39,7 @@
     "react-leaflet": "~5.0.0",
     "react-router": "~7.18.3",
     "react-zoom-pan-pinch": "~3.7.0",
-    "zod": "~4.3.5"
+    "zod": "~4.6.6"
   },
   "devDependencies": {
     "@eslint/js": "~9.39.2",
