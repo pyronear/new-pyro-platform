@@ -11,6 +11,7 @@ import de from '@/assets/languages/de.svg';
 import es from '@/assets/languages/es.svg';
 import fr from '@/assets/languages/fr.svg';
 import gb from '@/assets/languages/gb.svg';
+import it from '@/assets/languages/it.svg';
 import { usePreferences } from '@/context/usePreferences';
 
 const LanguageSwitcher: React.FC = () => {
@@ -43,6 +44,9 @@ const LanguageSwitcher: React.FC = () => {
         </MenuItem>
         <MenuItem value="de">
           <StackLanguage label="DEUTSCH" icon={de} />
+        </MenuItem>
+        <MenuItem value="it">
+          <StackLanguage label="ITALIANO" icon={it} />
         </MenuItem>
       </Select>
     </FormControl>

@@ -1,5 +1,5 @@
 import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon';
-import { deDE, enUS, esES, frFR } from '@mui/x-date-pickers/locales';
+import { deDE, enUS, esES, frFR, itIT } from '@mui/x-date-pickers/locales';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -16,6 +16,9 @@ export const DateLocalizationProvider: React.FC<React.PropsWithChildren> = ({
 
       case 'de':
         return deDE.components.MuiLocalizationProvider.defaultProps.localeText;
+
+      case 'it':
+        return itIT.components.MuiLocalizationProvider.defaultProps.localeText;
 
       case 'es':
         return esES.components.MuiLocalizationProvider.defaultProps.localeText;

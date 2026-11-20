@@ -6,14 +6,16 @@ import translationDE from './locales/de/translation.json';
 import translationEN from './locales/en/translation.json';
 import translationES from './locales/es/translation.json';
 import translationFR from './locales/fr/translation.json';
+import translationIT from './locales/it/translation.json';
 
-export type SupportedLocale = 'en' | 'fr' | 'es' | 'de';
+export type SupportedLocale = 'en' | 'fr' | 'es' | 'de' | 'it';
 
 const resources = {
   en: { translation: translationEN },
   fr: { translation: translationFR },
   es: { translation: translationES },
   de: { translation: translationDE },
+  it: { translation: translationIT },
 } satisfies Record<SupportedLocale, { translation: ResourceLanguage }>;
 
 void i18n
@@ -21,7 +23,7 @@ void i18n
   .use(initReactI18next)
   .init({
     resources,
-    supportedLngs: ['en', 'fr', 'es', 'de'],
+    supportedLngs: ['en', 'fr', 'es', 'de', 'it'],
     fallbackLng: 'en',
     load: 'languageOnly',
     initAsync: true,
