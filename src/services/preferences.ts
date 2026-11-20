@@ -5,7 +5,7 @@ export const BASE_LAYERS = ['osm', 'ign', 'satellite', 'topo_ign'] as const;
 export type BaseLayerType = (typeof BASE_LAYERS)[number];
 
 export const UserPreferencesSchema = z.object({
-  language: z.enum(['en', 'es', 'fr']),
+  language: z.enum(['en', 'es', 'fr', 'de']),
   map: z.object({
     baseLayer: z.enum(BASE_LAYERS),
   }),
