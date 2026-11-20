@@ -149,6 +149,7 @@ export const VideoStream = ({
               ref={ref}
               playsInline
               autoPlay
+              muted
               onClick={hasRotation ? onClick : undefined}
               onLoadedMetadata={updateVideoRatio}
               onResize={updateVideoRatio}
