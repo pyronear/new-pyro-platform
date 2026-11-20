@@ -1,0 +1,228 @@
+{
+  "login": {
+    "button": "Accedi",
+    "title": "Accesso",
+    "username": "Nome utente",
+    "password": "Password",
+    "showPassword": "Mostra password",
+    "hidePassword": "Nascondi password",
+    "logout": "Esci",
+    "errors": {
+      "INVALID_CREDENTIALS": "Nome utente o password non validi.",
+      "SERVER_ERROR": "Si è verificato un problema da parte nostra. Riprova più tardi.",
+      "UNKNOWN_ERROR": "Si è verificato un errore imprevisto.",
+      "INVALID_API_RESPONSE": "La risposta di accesso non è valida."
+    }
+  },
+  "pages": {
+    "dashboard": "Pannello telecamere",
+    "alerts": "Allarmi in corso",
+    "history": "Storico allarmi",
+    "unlabeledAlertsBadge": "{{count}} da classificare"
+  },
+  "topbar": {
+    "menuLabel": "Menu",
+    "menuLabelWithAlerts": "Menu, {{count}} da classificare"
+  },
+  "common": {
+    "lastUpdate": "Ultimo aggiornamento:"
+  },
+  "errorPages": {
+    "title": "Ops!",
+    "notFoundMessage": "Non riusciamo a trovare la pagina che cerchi...",
+    "errorMessage": "Si è verificato un problema da parte nostra. Riprova più tardi.",
+    "forbiddenTitle": "Accesso negato",
+    "forbiddenMessage": "Non hai i permessi per accedere a questa pagina.",
+    "button": "Torna alla home"
+  },
+  "dashboard": {
+    "noCameraMessage": "Nessuna telecamera è associata al tuo account. Contatta l'amministratore",
+    "errorFetchCameraMessage": "Si è verificato un problema da parte nostra. Riprova più tardi.",
+    "titleImage": "Ultima immagine della telecamera",
+    "inactiveCameraMsg": "Telecamera inattiva",
+    "liveButton": "Avvia diretta video",
+    "maskButton": "Gestisci maschere di occlusione",
+    "drawerResizeLabel": "Ridimensiona elenco telecamere",
+    "occlusionMask": {
+      "title": "Gestisci maschere di occlusione per {{cameraName}}",
+      "selectPose": "Seleziona posizione",
+      "masksCount_one": "{{count}} maschera",
+      "masksCount_other": "{{count}} maschere",
+      "noMasks": "Nessuna maschera per questa posizione",
+      "noPoses": "Nessuna posizione disponibile per questa telecamera",
+      "noImage": "Nessuna immagine disponibile per questa posizione",
+      "infoText": "Le maschere di occlusione nascondono le zone che generano falsi allarmi ricorrenti. Clicca su una zona rossa per eliminarla.",
+      "deleteAllButton": "Elimina tutte le maschere",
+      "deleteHint": "Clicca su una maschera per eliminarla",
+      "deleteSingleTitle": "Eliminare questa maschera di occlusione?",
+      "deleteSingleMessage": "Questa azione rimuoverà definitivamente la maschera selezionata per la posizione corrente.",
+      "deleteAllTitle": "Eliminare tutte le maschere di occlusione?",
+      "deleteAllMessage": "Questa azione rimuoverà definitivamente tutte le maschere della posizione selezionata.",
+      "confirmDeleteButton": "Elimina",
+      "cancelButton": "Annulla",
+      "closeButton": "Chiudi",
+      "loading": "Caricamento...",
+      "poseImageAlt": "Immagine della posizione"
+    }
+  },
+  "alerts": {
+    "titleListSimple": "allarme da gestire",
+    "titleListPlural": "allarmi da gestire",
+    "prefixCardDetection": "Rilevato da:",
+    "noAlertsMessage": "Nessun allarme rilevato",
+    "errorFetchSequencesMessage": "Si è verificato un problema da parte nostra. Riprova più tardi.",
+    "titleSectionCamera": "Telecamera:",
+    "buttonChangeSequence": "Cambia telecamera",
+    "defaultCameraName": "Telecamera sconosciuta",
+    "buttonImageDownload": "Scarica",
+    "buttonImageDownloadOne": "Scarica l'immagine corrente",
+    "buttonImageDownloadAll": "Scarica tutte le immagini",
+    "buttonImageDownloadAllBbox": "Scarica tutte le immagini con i riquadri di rilevamento",
+    "buttonPlay": "Riproduci",
+    "buttonPause": "Pausa",
+    "buttonStepBackward": "Fotogramma precedente",
+    "buttonStepForward": "Fotogramma successivo",
+    "buttonJumpBackward": "Indietro di 10 fotogrammi",
+    "buttonJumpForward": "Avanti di 10 fotogrammi",
+    "buttonPlaybackSpeed": "Velocità di riproduzione",
+    "loadingProgress": "Caricamento {{progress}}%",
+    "partialLoadError": "Impossibile caricare {{missing}} immagine/i",
+    "buttonDisplayBBox": "Mostra il rilevamento",
+    "buttonHideBBox": "Nascondi il rilevamento",
+    "buttonDisplayCrop": "Mostra ingrandimento",
+    "buttonHideCrop": "Nascondi ingrandimento",
+    "errorFetchImagesMessage": "Si è verificato un problema da parte nostra. Riprova più tardi.",
+    "titleDetails": "Informazioni sull'allarme",
+    "titleButtonBackAlt": "Torna all'elenco allarmi",
+    "subtitleDate": "Data e ora",
+    "subtitleAzimuth": "Azimut",
+    "subtitleCameraLocalisation": "Posizione della telecamera",
+    "subtitleSmokeLocalisation": "Posizione dell'incendio",
+    "buttonInvestigate": "Avvia diretta video",
+    "buttonTreatAlert": "Gestisci l'allarme",
+    "buttonModifyAlert": "Modifica l'allarme",
+    "buttonShare": "Condividi",
+    "shareLinkCopied": "Link dell'allarme copiato negli appunti",
+    "unmatch": {
+      "button": "Scollega sequenza",
+      "title": "Scollegare la sequenza da {{cameraName}}?",
+      "description": "L'operazione non può essere annullata. La sequenza verrà rimossa da questo allarme e potrebbe generarne uno nuovo.",
+      "buttonCancel": "Annulla",
+      "buttonConfirm": "Scollega",
+      "success": "Sequenza scollegata",
+      "error": "Impossibile scollegare la sequenza. Riprova."
+    },
+    "copyText": "Copiato",
+    "blinkingMode": {
+      "buttonBlinkingView": "Passa alla vista lampeggiante",
+      "iconCloseAlt": "Esci dalla modalità lampeggiante"
+    },
+    "mapElevation": "Altitudine",
+    "mapAngleOfView": "Angolo di visuale",
+    "time": {
+      "day": "giorno",
+      "days": "giorni",
+      "hour": "ora",
+      "hours": "ore",
+      "minute": "minuto",
+      "minutes": "minuti",
+      "now": "Adesso"
+    },
+    "label": {
+      "wildfire": "Principio d'incendio",
+      "otherSmoke": "Fumo non legato a un incendio (es. camino, attività industriale, ...)",
+      "other": "Altro falso positivo (es. nuvola, riflesso di luce, ...)",
+      "unset": "Da classificare",
+      "titleModal": "Seleziona la classificazione dell'allarme da ",
+      "buttonCancelModal": "Annulla",
+      "buttonValidateModal": "Conferma",
+      "titleRadioButtonsModal": "Classificazione",
+      "modalMessage": {
+        "lastSequence": "Una volta registrata la classificazione, l'allarme viene confermato automaticamente.",
+        "multipleSequences": "Devi ancora classificare %s rilevamenti per confermare completamente l'allarme."
+      },
+      "saveSuccessMessage": {
+        "history": "L'allarme è stato classificato correttamente",
+        "lastSequence": "L'allarme è stato confermato correttamente.",
+        "multipleSequences": "Il rilevamento è classificato, gestisci gli altri rilevamenti per confermare l'allarme."
+      },
+      "saveErrorMessage": "Si è verificato un errore, riprova"
+    },
+    "occlusionMask": {
+      "title": "Gestisci maschere di occlusione",
+      "loading": "Caricamento dati del rilevamento...",
+      "confirmZoneText": "Conferma la zona di occlusione",
+      "explanationText": "Le maschere di occlusione nascondono le zone che generano falsi allarmi ricorrenti. La zona verde è la nuova maschera proposta. Le zone rosse sono le maschere esistenti.",
+      "confirmButton": "Conferma selezione",
+      "deleteAllButton": "Elimina zone di occlusione",
+      "cancelButton": "Annulla",
+      "buttonManageMasks": "Gestisci maschere di occlusione",
+      "detectionImageAlt": "Rilevamento",
+      "deleting": "Eliminazione...",
+      "adding": "Aggiunta..."
+    }
+  },
+  "history": {
+    "title": "Storico",
+    "noFilterMessage": "Seleziona una data",
+    "noAlertsMessage": "Nessun allarme trovato per questo giorno",
+    "iconAlt": "Nessun allarme da mostrare",
+    "errorFetchSequencesMessage": "Si è verificato un problema da parte nostra. Riprova più tardi.",
+    "dateField": "Data",
+    "loadMoreMessage": "Carica altri allarmi",
+    "export": {
+      "title": "Esporta",
+      "button": "Esporta allarmi",
+      "modal": {
+        "title": "Esporta allarmi",
+        "description": "Seleziona un intervallo di date per scaricare gli allarmi corrispondenti in un file CSV.",
+        "fromDate": "Dal",
+        "toDate": "Al",
+        "cancel": "Annulla",
+        "confirm": "Scarica",
+        "errorMessage": "Si è verificato un errore durante l'esportazione. Riprova."
+      }
+    }
+  },
+  "live": {
+    "clickToMoveHint": "Clicca su un punto dell'immagine per spostarvi la telecamera",
+    "errorFetchInfos": "Si è verificato un problema da parte nostra. Riprova più tardi.",
+    "errorNoAccess": "Nessun sito trovato per questo account. Contatta l'amministratore",
+    "errorCallSite": "Si è verificato un problema nel contattare il sito. Riprova più tardi.",
+    "siteField": "Sito",
+    "header": {
+      "buttonClose": "Chiudi diretta",
+      "alertMessage": "Diretta in corso: rilevamento disattivato da {{timeSpent}}",
+      "interruptedMessage": "La diretta è interrotta",
+      "loadingMessage": "Caricamento della diretta..."
+    },
+    "errorNoStreaming": "Si è verificato un problema da parte nostra. Riprova più tardi.",
+    "errorTmpMediaMtx": "Flusso video interrotto. Attendere.",
+    "errorInteruptedMediaMtx": "Flusso video interrotto.",
+    "errorFinalMediaMtx": "Il flusso video non è riuscito. Riprova più tardi.",
+    "loadingVideo": "Caricamento video...",
+    "tooltipPrerecordedAzimuths": "Azimut preimpostati della telecamera",
+    "tooltipCustomAzimuths": "Azimut personalizzato della telecamera",
+    "tooltipAutofocus": "Regola automaticamente la messa a fuoco",
+    "tooltipScreenshot": "Cattura un'immagine ad alta definizione della vista corrente",
+    "errorOnActionStreaming": "Si è verificato un errore imprevisto nel contattare la telecamera",
+    "relaunchStreamButton": "Riavvia"
+  },
+  "preferences": {
+    "iconAlt": "Preferenze utente",
+    "mapBaseLayer": "Mappa di base",
+    "mapOsm": "OpenStreetMap",
+    "mapIgn": "IGN (Francia)",
+    "mapTopoIgn": "IGN Topo (Francia)",
+    "mapSatellite": "Satellite",
+    "enableAudioAlerts": "Attiva avvisi sonori",
+    "userGuide": "Guida utente"
+  },
+  "map": {
+    "layerControl": "Livelli mappa",
+    "baseLayer": "Mappa di base",
+    "overlays": "Sovrapposizioni",
+    "dfciGrid": "Griglia DFCI",
+    "onfForest": "Particelle forestali ONF"
+  }
+}
