@@ -225,6 +225,11 @@
     "baseLayer": "Fond de carte",
     "overlays": "Surcouches",
     "dfciGrid": "Carroyage DFCI",
-    "onfForest": "Parcelles forestières ONF"
+    "onfForest": "Parcelles forestières ONF",
+    "bdForest": "Types de forêt (France)",
+    "bdForestLegend": "Types de forêt",
+    "bdForestDataAge": "Données 2006–2019 : type de végétation",
+    "showLegend": "Afficher la légende",
+    "hideLegend": "Masquer la légende"
   }
 }

@@ -12,6 +12,10 @@ export interface TileLayerConfig {
   maxZoom?: number;
   /** Deepest zoom the service actually serves; deeper zooms upscale tiles. */
   maxNativeZoom?: number;
+  /** Shallowest zoom the service actually serves; shallower zooms downscale tiles. */
+  minNativeZoom?: number;
+  /** [[south, west], [north, east]] — no tile is requested outside it. */
+  bounds?: [[number, number], [number, number]];
 }
 
 /**
@@ -65,6 +69,28 @@ export const DFCI_LAYER_CONFIG: TileLayerConfig = {
   attribution: '&copy; <a href="https://www.ign.fr/">IGN</a> DFCI',
   maxZoom: 18,
 };
+
+/**
+ * BD Forêt® V2: 32 vegetation types, mainland France + Corsica, zoom 6-16.
+ * Data was surveyed between 2006 and 2019: it shows the vegetation type, not
+ * its current state (no recent burns or clear-cuts).
+ */
+export const BD_FORET_LAYER_CONFIG: TileLayerConfig = {
+  url: 'https://data.geopf.fr/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=LANDCOVER.FORESTINVENTORY.V2&STYLE=normal&FORMAT=image/png&TILEMATRIXSET=PM_6_16&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}',
+  attribution:
+    '&copy; <a href="https://www.ign.fr/">IGN</a> / Géoplateforme — BD Forêt&reg; V2 (2006–2019)',
+  maxZoom: 19,
+  minNativeZoom: 6,
+  maxNativeZoom: 16,
+  bounds: [
+    [41.3252, -5.15047],
+    [51.0991, 9.57054],
+  ],
+};
+
+/** Ready-made legend image published by IGN (300×835, French labels). */
+export const BD_FORET_LEGEND_URL =
+  'https://data.geopf.fr/annexes/ressources/legendes/LANDCOVER.FORESTINVENTORY.V2-legend.png';
 
 export interface WmsLayerConfig {
   url: string;

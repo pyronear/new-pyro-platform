@@ -223,6 +223,11 @@
     "baseLayer": "Capa base",
     "overlays": "Superposiciones",
     "dfciGrid": "Cuadrícula DFCI",
-    "onfForest": "Parcelas forestales ONF"
+    "onfForest": "Parcelas forestales ONF",
+    "bdForest": "Tipos de bosque (Francia)",
+    "bdForestLegend": "Tipos de bosque",
+    "bdForestDataAge": "Datos de 2006–2019: tipo de vegetación",
+    "showLegend": "Mostrar la leyenda",
+    "hideLegend": "Ocultar la leyenda"
   }
 }
