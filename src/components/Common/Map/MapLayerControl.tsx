@@ -24,6 +24,8 @@ import {
 } from '@/utils/useMapLayers';
 import { useTranslationPrefix } from '@/utils/useTranslationPrefix';
 
+import { BdForetLegend } from './BdForetLegend';
+import { BdForetOverlay } from './BdForetOverlay';
 import { DfciGridOverlay } from './DfciGridOverlay';
 import { OnfForestOverlay } from './OnfForestOverlay';
 
@@ -58,6 +60,7 @@ export const MapLayerControl = ({
   const [expanded, setExpanded] = useState(false);
   const [dfciEnabled, setDfciEnabled] = useState(false);
   const [onfForestEnabled, setOnfForestEnabled] = useState(false);
+  const [bdForetEnabled, setBdForetEnabled] = useState(false);
   const topoIgnAvailable = isTopoIgnAvailable();
 
   const handleBaseLayerChange = (
@@ -73,6 +76,8 @@ export const MapLayerControl = ({
     <>
       <DfciGridOverlay visible={dfciEnabled} />
       <OnfForestOverlay visible={onfForestEnabled} />
+      <BdForetOverlay visible={bdForetEnabled} />
+      {bdForetEnabled && <BdForetLegend />}
 
       <Box
         sx={{
@@ -193,6 +198,20 @@ export const MapLayerControl = ({
                       label={
                         <Typography sx={{ m: 0 }} variant="body2">
                           {t('onfForest')}
+                        </Typography>
+                      }
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={bdForetEnabled}
+                          onChange={(e) => setBdForetEnabled(e.target.checked)}
+                          size="small"
+                        />
+                      }
+                      label={
+                        <Typography sx={{ m: 0 }} variant="body2">
+                          {t('bdForest')}
                         </Typography>
                       }
                     />
